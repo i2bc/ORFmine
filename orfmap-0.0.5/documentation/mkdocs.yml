@@ -1,0 +1,22 @@
+site_name: ORFMap Documentation
+nav:
+    - Home: index.md
+    - Understanding ORFMap:
+      - Introduction: introduction.md
+      - ORF definition: orf_def.md
+      - Overlap definition: overlap.md
+      - ORF annotation: annotation.md
+    - Installation:
+      - Install: installation.md
+    - Usage:
+      - Command line examples: usage.md
+
+theme: readthedocs
+markdown_extensions:
+    - footnotes
+    - attr_list
+    - toc:
+        permalink: "#"
+use_directory_urls: false
+#extra_css:
+#    - css/extra.css
