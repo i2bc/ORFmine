@@ -1,0 +1,29 @@
+##########################
+# Orfmap data            #
+##########################
+orfmap/data/*
+orfmap/data/scerevisiae/mapping*
+orfmap/data/scerevisiae/*/mapping*
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+
+##########################
+# Python compiled source #
+##########################
+*\.pyc
+*\.pyo
+build/
+dist/
+doc/_build/
+
+orfmap/__pycache__/
+**/lib/__pycache__/
+
+
+
+################# 
+# pycharm files #
+#################
+orfmap/.idea/
