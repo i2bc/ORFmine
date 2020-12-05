@@ -39,14 +39,14 @@ def get_args():
                         required=True, 
                         nargs="?",
                         help="The output name of your fasta")
-    parser.add_argument("-elements_include",
+    parser.add_argument("-features_include",
                         type=str,
                         action='store',
                         required=False, 
                         nargs="*",
                         default = ['all'],
                         help="Annotation elmements to be considered (By definition is all)")
-    parser.add_argument("-elements_exclude",
+    parser.add_argument("-features_exclude",
                         type=str,
                         action='store',
                         required=False, 
@@ -408,13 +408,13 @@ def main():
           Features to exclude      : {}
           Chromosome to exclude    : {}
           Sample of population     : {}
-          ''' . format(parameters.fna , parameters.gff , parameters.elements_include , parameters.elements_exclude , parameters.chr_exclude ,parameters.N))
+          ''' . format(parameters.fna , parameters.gff , parameters.features_include , parameters.features_exclude , parameters.chr_exclude ,parameters.N))
 
     genome_file = parameters.fna
     global genome
     genome  = read_genome(genome_fasta = genome_file)
 
-    elements_in = parameters.elements_include
+    elements_in = parameters.features_include
     # The output type of the sequences name (With or without the frame in the end)
     #if "CDS" in elements:
     #    type_of_data = "CDS"
@@ -428,8 +428,8 @@ def main():
     if parameters.N != False:
         print("Reading sequences and generating sample of {}".format(parameters.N))
         matches = find_matches(gff = gff_file,
-                               elements_in =parameters.elements_include,
-                               elements_out=parameters.elements_exclude )
+                               elements_in =parameters.features_include,
+                               elements_out=parameters.features_exclude )
 
         matches = sorted(random.sample(k=parameters.N , population= matches))
 
@@ -440,8 +440,8 @@ def main():
 
 
         seqs = read_gff_info(gff=gff_file,
-                             elements_in=parameters.elements_include,
-                             elements_out=parameters.elements_exclude)
+                             elements_in=parameters.features_include,
+                             elements_out=parameters.features_exclude)
 
     #outname = os.path.basename(gff_file)
     #outname = os.path.splitext(outname)[0]
