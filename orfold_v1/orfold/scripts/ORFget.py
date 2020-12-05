@@ -119,7 +119,7 @@ def read_gff_info(gff,elements_in,elements_out):
                 start  = int(line.split()[3])
                 stop   = int(line.split()[4])
                 chrom  = line.split()[0].rstrip()
-                if chrom in chomosomes_exclude:
+                if chrom in parameters.chr_exclude:
                     continue
                 info   = line.split()[8]
                 frame  = line.split()[7].rstrip()
@@ -161,8 +161,9 @@ def read_gff_info(gff,elements_in,elements_out):
                         elif start > max(dico_info[gene]['positions']):
                             dico_info[gene]['DNA_seq'] = dico_info[gene]['DNA_seq'] + str(my_seq_dna)
                         else:
+                            print(gene)
                             continue
-                            print(gene)  
+
                     
                     dico_info[gene]['positions'].append(start)
                     dico_info[gene]['positions'].append(stop)
@@ -192,8 +193,9 @@ def read_gff_info(gff,elements_in,elements_out):
                             dico_info[gene]['DNA_seq'] = str(my_seq_dna) + dico_info[gene]['DNA_seq'] 
     
                         else:
-                            continue
                             print(gene)
+                            continue
+
                     
                         dico_info[gene]['positions'].append(start)
                         dico_info[gene]['positions'].append(stop)
@@ -211,7 +213,7 @@ def read_gff_info(gff,elements_in,elements_out):
     return(dico_info)
 
 
-def write_multifastas(dico_info):
+def write_multifastas(dico_info,outname):
     names = []
     #isoforms = ["B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
 #    type_of_data = "CDS"  # JUST TO NOT BUG - I WILL FIX IT
@@ -344,8 +346,9 @@ def read_matched_gff_lines(matches , gff_file , genome):
                 elif start > max(dico_info[gene]['positions']):
                     dico_info[gene]['DNA_seq'] = dico_info[gene]['DNA_seq'] + str(my_seq_dna)
                 else:
+                    print(gene)
                     continue
-                    print(gene)  
+
             
             dico_info[gene]['positions'].append(start)
             dico_info[gene]['positions'].append(stop)
@@ -375,8 +378,9 @@ def read_matched_gff_lines(matches , gff_file , genome):
                     dico_info[gene]['DNA_seq'] = str(my_seq_dna) + dico_info[gene]['DNA_seq'] 
 
                 else:
-                    continue
                     print(gene)
+                    continue
+
             
                 dico_info[gene]['positions'].append(start)
                 dico_info[gene]['positions'].append(stop)
@@ -393,55 +397,56 @@ def read_matched_gff_lines(matches , gff_file , genome):
         
     
 
-                
-parameters = get_args()
+def main():
+    global parameters
+    parameters = get_args()
 
-print('''
-      Genome file              : {}
-      GFF file                 : {}
-      Features to keep         : {}
-      Features to exclude      : {}
-      Chromosome to exclude    : {}
-      Sample of population     : {}
-      ''' . format(parameters.fna , parameters.gff , parameters.elements_include , parameters.elements_exclude , parameters.chr_exclude ,parameters.N))
+    print('''
+          Genome file              : {}
+          GFF file                 : {}
+          Features to keep         : {}
+          Features to exclude      : {}
+          Chromosome to exclude    : {}
+          Sample of population     : {}
+          ''' . format(parameters.fna , parameters.gff , parameters.elements_include , parameters.elements_exclude , parameters.chr_exclude ,parameters.N))
 
-genome_file = parameters.fna
-genome  = read_genome(genome_fasta = genome_file)
+    genome_file = parameters.fna
+    global genome
+    genome  = read_genome(genome_fasta = genome_file)
 
-elements_in = parameters.elements_include
-# The output type of the sequences name (With or without the frame in the end)
-#if "CDS" in elements:
-#    type_of_data = "CDS"
-#else:
-#    type_of_data = "IGORF"
-    
-chomosomes_exclude = parameters.chr_exclude
+    elements_in = parameters.elements_include
+    # The output type of the sequences name (With or without the frame in the end)
+    #if "CDS" in elements:
+    #    type_of_data = "CDS"
+    #else:
+    #    type_of_data = "IGORF"
 
-gff_file = parameters.gff
+    chomosomes_exclude = parameters.chr_exclude
 
-if parameters.N != False:
-    print("Reading sequences and generating sample of {}".format(parameters.N))
-    matches = find_matches(gff = gff_file, \
-                           elements_in =parameters.elements_include, \
-                           elements_out=parameters.elements_exclude )
-        
-    matches = sorted(random.sample(k=parameters.N , population= matches))
-    
-    seqs = read_matched_gff_lines(matches , gff_file = gff_file , genome = genome)
-    
-else:
+    gff_file = parameters.gff
 
-             
+    if parameters.N != False:
+        print("Reading sequences and generating sample of {}".format(parameters.N))
+        matches = find_matches(gff = gff_file,
+                               elements_in =parameters.elements_include,
+                               elements_out=parameters.elements_exclude )
 
-    seqs = read_gff_info(gff=gff_file, \
-                     elements_in=parameters.elements_include, \
-                     elements_out=parameters.elements_exclude, \
-                     N= matches)
+        matches = sorted(random.sample(k=parameters.N , population= matches))
 
-#outname = os.path.basename(gff_file)
-#outname = os.path.splitext(outname)[0]
-#outname = outname + "_" + type_of_data
-outname  = parameters.o
+        seqs = read_matched_gff_lines(matches , gff_file = gff_file , genome = genome)
+
+    else:
 
 
-write_multifastas(dico_info = seqs)
+
+        seqs = read_gff_info(gff=gff_file,
+                             elements_in=parameters.elements_include,
+                             elements_out=parameters.elements_exclude)
+
+    #outname = os.path.basename(gff_file)
+    #outname = os.path.splitext(outname)[0]
+    #outname = outname + "_" + type_of_data
+    #outname  = parameters.o
+
+
+    write_multifastas(dico_info = seqs , outname=parameters.o)
