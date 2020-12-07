@@ -47,7 +47,7 @@ colors  = ['grey']
 #colors  = ['forestgreen','grey','mediumvioletred']
 bins    = [17]
 #bins     = [10,17,20]
-labels  = ["Foldable"]
+labels  = ["Globular"]
 #labels  = ["Disorder","Foldable","Aggregation"]
 
 
