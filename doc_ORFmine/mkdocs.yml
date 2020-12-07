@@ -1,0 +1,30 @@
+site_name: ORFmine Documentation
+nav:
+    - Home: index.md
+    - ORFmine:
+      - Overview: overview_orfmine.md
+      - Installation: installation.md
+      - Quick start: usage.md
+    - ORFmap:
+      - ORFMap presentation:
+        - Aims and general description: intro_orfmap.md
+        - ORF definition: orf_def_orfmap.md
+        - ORF annotation: annotation.md
+        - Overlap definition: overlap.md
+        - ORF extraction: orf_extraction.md
+      - Usage:
+        - Inputs: input_orfmap.md
+        - ORF annotation with ORFmap: run_orfmap.md
+        - ORF extraction with ORFget: run_orfget.md
+      - Parameters: param_orfmap.md
+    - ORFold: index.md
+
+theme: readthedocs
+markdown_extensions:
+    - footnotes
+    - attr_list
+    - toc:
+        permalink: "#"
+use_directory_urls: false
+#extra_css:
+#    - css/extra.css
