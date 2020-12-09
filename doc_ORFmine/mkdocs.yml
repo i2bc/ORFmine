@@ -2,21 +2,23 @@ site_name: ORFmine Documentation
 nav:
     - Home: index.md
     - ORFmine:
-      - Overview: overview_orfmine.md
-      - Installation: installation.md
-      - Quick start: usage.md
+      - Overview: orfmine_overview.md
+      - Installation: orfmine_installation.md
+      - Quick start: orfmine_quickstart.md
     - ORFmap:
       - ORFMap presentation:
-        - Aims and general description: intro_orfmap.md
-        - ORF definition: orf_def_orfmap.md
-        - ORF annotation: annotation.md
-        - Overlap definition: overlap.md
-        - ORF extraction: orf_extraction.md
+        - Aims and general description: orfmap_description.md
+        - ORF definition: orfmap_orfdef.md
+        - ORF annotation: orfmap_annotation.md
+        - Overlap definition: orfmap_overlap.md
+        - ORF extraction: orfmap_orf_extraction.md
       - Usage:
-        - Inputs: input_orfmap.md
-        - ORF annotation with ORFmap: run_orfmap.md
-        - ORF extraction with ORFget: run_orfget.md
-      - Parameters: param_orfmap.md
+        - Inputs: orfmap_input.md
+        - ORF annotation with ORFmap: orfmap_run.md
+        - ORF extraction with ORFget: orfget_run.md
+      - Parameters:
+        - ORFmap parameters: orfmap_param.md
+        - ORFget parameters: orfget_param.md
     - ORFold: index.md
 
 theme: readthedocs
