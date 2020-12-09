@@ -69,7 +69,8 @@ Indeed, the user can adopt different levels of annotation,
 considering all noncoding ORFs as a whole (regardless of the fact they
 overlap with a genmic feature or not) or differentiating noncoding ORFs
 from noncoding ORFs that overlap with specific genmic feature (e.g. 
-tRNA and rRNA) (see the ORFget section for more details).
+tRNA and rRNA) (see the <a href="./orfget_run.html">ORFget section</a>  
+for more details).
 
     </p>
 </div>
