@@ -12,7 +12,7 @@ import subprocess
 import argparse
 from orfold.lib.orfold_funcs import *
 from matplotlib.colors import to_hex
-import joblib
+#import joblib
 
 #from pyHCA import HCA
 #from pyHCA.core.annotateHCA import _annotation_aminoacids
@@ -195,17 +195,17 @@ def calculate_tango_one_sequence(tango_path  ,name):
 # Create the tmp directory to save tmp files  #
 # ------------------------------------------- #
 def make_tmp_directories(parameters):
-    if "I" in parameters.options:
-        try:
-            os.system("mkdir FASTA_tmp")
-        except:
-            pass
+    #if "I" in parameters.options:
+    #    try:
+    #        os.system("mkdir FASTA_tmp")
+    #    except:
+    #        pass
 
-    if "I" in parameters.keep:
-        try:
-            os.system("mkdir IUPRED")
-        except:
-            pass
+    #if "I" in parameters.keep:
+    #    try:
+    #        os.system("mkdir IUPRED")
+    #    except:
+    #        pass
 
     if "T" in parameters.keep:
         try:
@@ -336,8 +336,8 @@ def read_gff_file(gff_file):
 
 def decide_which_color(value,nb_cols,minimum,maximum):
     step = (maximum - minimum) / nb_cols
-    my_choice = round((value + (0-minimum)) / step) - 1
-    my_rgb = sns.color_palette(palette="coolwarm",n_colors=nb_cols)[int(my_choice)]
+    my_choice = round(abs(value - minimum) / step)
+    my_rgb = sns.color_palette(palette="coolwarm",n_colors=nb_cols+1)[int(my_choice)]
     my_color = to_hex(my_rgb)
     return(my_color)
 
@@ -459,6 +459,10 @@ def main():
                 gff_dico = read_gff_file(gff_file = files_associations[fasta_file])
                 if "H" in parameters.options:
                     fw_gff_H = open(name+'_HCA.gff','w')
+                if "I" in parameters.options:
+                    fw_gff_I = open(name+'_IUPRED.gff','w')
+                if "T" in parameters.options:
+                    fw_gff_T = open(name+'_TANGO.gff','w')
 
             print("\n\n")
             for i,orf in enumerate(sequences):
@@ -505,6 +509,16 @@ def main():
                         iupred_mean = round(sum(iupred_score) / len(iupred_score),2)
                     except:
                         iupred_mean,iupred_portion = "NaN","NaN"
+
+                    # If a gff file was given then we change the colour based on
+                    # the IUPRED score.
+                    if files_associations[fasta_file] != '':
+                        try:
+                            new_gff_line = change_color_in_gff_line(gff_dico = gff_dico,orf=orf,value=iupred_portion,nb_cols=20,minimum=0,maximum=1)
+                            fw_gff_I.write(new_gff_line)
+                        except:
+                            print('There is a probleme at the writing of the {}_IUPRED.gff file for the orf: {}'.format(name,orf))
+                            pass
                 else:
                     iupred_mean,iupred_portion = "NaN","NaN"
 
@@ -513,6 +527,17 @@ def main():
                 # ----------------------------------------- #
                 if "T" in parameters.options:
                     tango_portion = calculate_tango_one_sequence(tango_path = tango , name = orf)
+                    # If a gff file was given then we change the colour based on
+                    # the Tango propensity.
+                    if files_associations[fasta_file] != '':
+                        try:
+                            new_gff_line = change_color_in_gff_line(gff_dico=gff_dico, orf=orf, value=tango_portion,
+                                                                    nb_cols=20, minimum=0, maximum=1)
+                            fw_gff_T.write(new_gff_line)
+                        except:
+                            print('There is a probleme at the writing of the {}_IUPRED.gff file for the orf: {}'.format(
+                                name, orf))
+                            pass
                 else:
                     tango_portion = "NaN"
 
