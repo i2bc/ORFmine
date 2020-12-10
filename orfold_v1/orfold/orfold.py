@@ -12,7 +12,7 @@ import subprocess
 import argparse
 from orfold.lib.orfold_funcs import *
 from matplotlib.colors import to_hex
-import joblib
+#import joblib
 
 #from pyHCA import HCA
 #from pyHCA.core.annotateHCA import _annotation_aminoacids
