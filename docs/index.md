@@ -1,24 +1,17 @@
-## Table of contents
+# Welcome to MkDocs
 
-<ul>
-  <li>Understanding ORFMap
-    <ul>
-      <li><a href="introduction.html">Introduction</a></li>
-      <li><a href="orf_def.html">ORF definition</a></li>
-      <li><a href="overlap.html">Overlap definition</a></li>
-      <li><a href="annotation.html">ORF annotation</a></li>
-    </ul>
-  </li>
-  
-  <li>Installation
-    <ul>
-      <li><a href="installation.html">Install</a></li>
-    </ul>
-  </li>
-  
-  <li>Usage
-    <ul>
-      <li><a href="usage.html">Command line examples</a></li>
-    </ul>
-  </li>
-</ul>
+For full documentation visit [mkdocs.org](https://www.mkdocs.org).
+
+## Commands
+
+* `mkdocs new [dir-name]` - Create a new project.
+* `mkdocs serve` - Start the live-reloading docs server.
+* `mkdocs build` - Build the documentation site.
+* `mkdocs -h` - Print help message and exit.
+
+## Project layout
+
+    mkdocs.yml    # The configuration file.
+    docs/
+        index.md  # The documentation homepage.
+        ...       # Other markdown pages, images and other files.
