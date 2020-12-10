@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  
+  <link rel="shortcut icon" href="img/favicon.ico">
+  <title>ORF extraction with ORFget - ORFmine Documentation</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
+
+  <link rel="stylesheet" href="css/theme.css" />
+  <link rel="stylesheet" href="css/theme_extra.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" />
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "ORF extraction with ORFget";
+    var mkdocs_page_input_path = "orfget_run.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="js/jquery-2.1.1.min.js" defer></script>
+  <script src="js/modernizr-2.8.3.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+        <a href="." class="icon icon-home"> ORFmine Documentation</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="./search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="index.html">Home</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">ORFmine</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="orfmine_overview.html">Overview</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="orfmine_installation.html">Installation</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="orfmine_quickstart.html">Quick start</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">ORFmap</span></p>
+                <ul class="current">
+                    <li class="toctree-l1"><a class="reference internal" href="#">ORFMap presentation</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="orfmap_description.html">Aims and general description</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="orfmap_orfdef.html">ORF definition</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="orfmap_annotation.html">ORF annotation</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="orfmap_overlap.html">Overlap definition</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="orfmap_orf_extraction.html">ORF extraction</a>
+                </li>
+    </ul>
+                    </li>
+                    <li class="toctree-l1 current"><a class="reference internal current" href="#">Usage</a>
+    <ul class="current">
+                <li class="toctree-l2"><a class="reference internal" href="orfmap_input.html">Inputs</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="orfmap_run.html">ORF annotation with ORFmap</a>
+                </li>
+                <li class="toctree-l2 current"><a class="reference internal current" href="orfget_run.html">ORF extraction with ORFget</a>
+    <ul class="current">
+    <li class="toctree-l3"><a class="reference internal" href="#extraction-of-the-sequences-of-all-the-orfs-of-a-gff-file">Extraction of the sequences of all the ORFs of a GFF file</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#extraction-of-the-sequences-of-all-noncoding-orfs-identified-with-orfmap">Extraction of the sequences of all noncoding ORFs identified with ORFmap</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#extraction-of-the-sequences-of-a-specific-subset-of-orfs-according-to-their-annotation">Extraction of the sequences of a specific subset of ORFs according to their annotation</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#extraction-of-the-sequences-of-a-random-subset-of-orfs">Extraction of the sequences of a random subset of ORFs</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#reconstruction-of-protein-sequences">Reconstruction of protein sequences</a>
+    </li>
+    </ul>
+                </li>
+    </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="#">Parameters</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="orfmap_param.html">ORFmap parameters</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="orfget_param.html">ORFget parameters</a>
+                </li>
+    </ul>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="index.html">ORFold</a>
+                    </li>
+                </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href=".">ORFmine Documentation</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".">Docs</a> &raquo;</li>
+    
+      
+        
+          <li>Usage &raquo;</li>
+        
+      
+        
+          <li>ORFmap &raquo;</li>
+        
+      
+    
+    <li>ORF extraction with ORFget</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h2 id="extraction-and-writing-of-orf-sequences-with-orfget">Extraction and writing of ORF sequences with ORFget<a class="headerlink" href="#extraction-and-writing-of-orf-sequences-with-orfget" title="Permanent link">#</a></h2>
+<p>ORFget is a tool provided with ORFmap that allows the user to extract
+the protein or nulceotide sequences of specific subsets of ORFs 
+according to their annotation categories. ORFget deals with regular 
+expressions, thereby allowing different 
+levels of annotation in a very easy fashion.</p>
+<p>Here are presented some examples of selection of ORFs with ORFget.</p>
+<h3 id="extraction-of-the-sequences-of-all-the-orfs-of-a-gff-file">Extraction of the sequences of all the ORFs of a GFF file<a class="headerlink" href="#extraction-of-the-sequences-of-all-the-orfs-of-a-gff-file" title="Permanent link">#</a></h3>
+<p>The following command writes the protein sequences of all ORFs 
+annotated in the input GFF file.</p>
+<pre><code class="language-python">orfget   ALL SEQUENCES PROT
+
+</code></pre>
+<p>ORFget generates a FASTA file containing all the corresponding protein
+sequences. </p>
+<h3 id="extraction-of-the-sequences-of-all-noncoding-orfs-identified-with-orfmap">Extraction of the sequences of all noncoding ORFs identified with ORFmap<a class="headerlink" href="#extraction-of-the-sequences-of-all-noncoding-orfs-identified-with-orfmap" title="Permanent link">#</a></h3>
+<p>The following two commands, each enable the user to write the 
+protein sequences of all noncoding 
+ORFs no matter their status (i.e. intergenic or overlapping)
+(see <a href="orfmap_annotation.html">here</a> for a description of all ORF categories).</p>
+<pre><code class="language-python">orfget include intergenic  + nc_same_ovp + nc_opp_ovp
+
+</code></pre>
+<p>or </p>
+<pre><code class="language-python">orfget exclude c_CDS
+
+</code></pre>
+<h3 id="extraction-of-the-sequences-of-a-specific-subset-of-orfs-according-to-their-annotation">Extraction of the sequences of a specific subset of ORFs according to their annotation<a class="headerlink" href="#extraction-of-the-sequences-of-a-specific-subset-of-orfs-according-to-their-annotation" title="Permanent link">#</a></h3>
+<p>The following instruction writes the protein sequences of the ORFs
+which overlap with CDS on the same, or on the opposite strand.</p>
+<pre><code class="language-python">orfget include  nc_same_ovp_CDS + nc_opp_ovp_CDS
+
+</code></pre>
+<p>Notice that using the argument "exclude" assumes that the selection 
+operates on all genomic features except those that are excluded. 
+Consequently, if the user wants to select all noncoding sequences
+except those overlapping CDS, mRNAs, tRNAs, and rRNAs, he must 
+exclude the coding ORFs (c_CDS) as well. Otherwise, they will be
+kept.</p>
+<pre><code class="language-python">orfget exclude C_CDS nc_same_ovp_tRNA + nc_same_ovp_rRNA +nc_opp_ovp_mRNA + C_CDS nc_opp_ovp_tRNA + nc_opp_ovp_rRNA 
++nc_opp_ovp_mRNA  
+
+</code></pre>
+<h3 id="extraction-of-the-sequences-of-a-random-subset-of-orfs">Extraction of the sequences of a random subset of ORFs<a class="headerlink" href="#extraction-of-the-sequences-of-a-random-subset-of-orfs" title="Permanent link">#</a></h3>
+<p>Sometimes, for computational time or storage reasons, the user does 
+not want to deal with all the ORFs of a specific category. ORFget
+can provide the user with a subset of N (to be defined by the user)
+randomly selected ORFs from a specific ORF category. The last instruction
+writes the sequences of 10000 randomly selected noncoding 
+intergenic ORFs.</p>
+<pre><code class="language-python">orfget 10000 intergenic ORFs
+
+</code></pre>
+<h3 id="reconstruction-of-protein-sequences">Reconstruction of protein sequences<a class="headerlink" href="#reconstruction-of-protein-sequences" title="Permanent link">#</a></h3>
+<p>In addition, ORFget enables the reconstruction of all protein 
+sequences of a genome (i.e. all isoforms) according to their 
+definition in the original GFF file. The following instruction
+writes all the resulting sequences in a FASTA file.</p>
+<pre><code class="language-python">orfget build CDS
+</code></pre>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="orfmap_param.html" class="btn btn-neutral float-right" title="ORFmap parameters">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="orfmap_run.html" class="btn btn-neutral" title="ORF annotation with ORFmap"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href="orfmap_run.html" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="orfmap_param.html" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script>var base_url = '.';</script>
+    <script src="js/theme.js" defer></script>
+      <script src="search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>
