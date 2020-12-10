@@ -22,4 +22,4 @@ orfold xxxx -OVLP 90%
 ```
 
 
-![Overlap definition](./img/mapping/ovp_def.png)
+![Overlap definition](./img/mapping/orfmap_coverage.png)
