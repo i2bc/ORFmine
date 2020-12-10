@@ -19,7 +19,15 @@ nav:
       - Parameters:
         - ORFmap parameters: orfmap_param.md
         - ORFget parameters: orfget_param.md
-    - ORFold: index.md
+    - ORFold:
+      - ORFold presentation:
+        - Objective: Objective_orfold.md
+        - How it works?: How_it_works_orfold.md
+      - Usage:
+        - Basic run ORFold: Run_orfold.md
+        - Plot ORFold: Plot_orfold.md
+        - Advanced run ORFold: Run_orfold_advanced.md
+      - Parameters: parameters_orfold.md
 
 theme: readthedocs
 markdown_extensions:
