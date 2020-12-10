@@ -1,6 +1,6 @@
-#Running ORFold:
+# Running ORFold:
 
-##Basic run:
+## Basic run:
 
 For its most basic run, ORFold requires only the amino acid sequence(s) in format 
 FASTA (given with the **-fna** label). ORFold can also take as input more than one FASTA 
