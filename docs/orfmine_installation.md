@@ -4,7 +4,7 @@
 ### 1. Overview
 
 ORFmine is a package that consists of two independent programs ORFmap
-and ORFold. The setup.py program will install both ORFmap and ORFold. 
+and ORFold. The install.sh program will install both ORFmap and ORFold. 
 They can be used together or independently. 
 
 If you are not interested in the calculation of the disorder 
