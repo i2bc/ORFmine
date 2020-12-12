@@ -60,7 +60,7 @@ class Param:
         logger.info('Parameters description:')
         logger.info('- fasta filename: ' + self.fasta_fname)
         logger.info('- gff filename: ' + self.gff_fname)
-        logger.info('- chr: ' + chrid)
+        logger.info('- chr_only: ' + ', '.join(chrid))
         logger.info('- types_only: ' + ', '.join(self.types_only))
         logger.info('- types_except: ' + ', '.join(self.types_except))
         logger.info('- o_include: ' + ', '.join(self.o_include))
@@ -86,7 +86,7 @@ def get_args():
                         help="Genomic fasta file (.fna) ")
     parser.add_argument("-gff", required=True, nargs="?",
                         help="GFF annotation file (.gff)")
-    parser.add_argument("-chr", required=False, nargs="?", type=str, default=None,
+    parser.add_argument("-chr", required=False, nargs="+", type=str, default=[],
                         help="Chromosome name")
     parser.add_argument("-types_only", required=False, nargs="+", default=[],
                         help="Type feature(s) to use as reference(s) ('CDS' in included by default).")
