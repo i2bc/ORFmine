@@ -1,9 +1,12 @@
 ##########################
 # Orfmap data            #
 ##########################
-orfmap/data/*
-orfmap/data/scerevisiae/mapping*
-orfmap/data/scerevisiae/*/mapping*
+
+orfmap-*/orfmap/*
+!orfmap-*/orfmap/data/
+
+orfmap-*/orfmap/data/*
+!orfmap-*/orfmap/data/scerevisiae/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

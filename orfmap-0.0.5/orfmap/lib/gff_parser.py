@@ -203,14 +203,14 @@ class GffElement:
 
             if not is_fragment:
                 if highest_overlapping_element.strand == self.strand:
-                    self.type = 'nc_ovp_same_' + highest_overlapping_element.type
+                    self.type = 'nc_ovp_same-' + highest_overlapping_element.type
                 else:
-                    self.type = 'nc_ovp_opp_' + highest_overlapping_element.type
+                    self.type = 'nc_ovp_opp-' + highest_overlapping_element.type
             else:
                 if highest_overlapping_element.strand == self.strand:
-                    self.type += '_ovp_same_' + highest_overlapping_element.type
+                    self.type += '_ovp_same-' + highest_overlapping_element.type
                 else:
-                    self.type += '_ovp_opp_' + highest_overlapping_element.type
+                    self.type += '_ovp_opp-' + highest_overlapping_element.type
         else:
             if not is_fragment:
                 self.type = 'nc_intergenic'
@@ -225,15 +225,15 @@ class GffElement:
 
     def set_color(self):
         if self.type == 'c_CDS':
-            self.color = '#ff4d00'  # ff4d4d
+            self.color = '#DF7D2E'  # ff4d4d
         else:
             if self.type == 'nc_intergenic':
-                self.color = '#005073'
+                self.color = '#5E5E5E'
             else:
                 if 'opp' in self.type:
-                    self.color = '#71c7ec'
+                    self.color = '#009051'
                 else:
-                    self.color = '#2935d6'
+                    self.color = '#2657AF'
 
     def set_status(self):
         if self.ovp_phased:
