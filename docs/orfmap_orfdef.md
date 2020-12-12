@@ -11,13 +11,13 @@ An ORF:
  * is at least 60 nucleotides long (3' STOP codon included)
 
 The minimal length of an ORF can be nevertheless modified by the user with
-the XXXX parameter (notice that the ORF length includes the 3'
+the **-orf_len** parameter (notice that the ORF length includes the 3'
 STOP codon). The following instruction extracts all ORFs of at least 
 100 amino acids: 
 
 
-``` python
-orfold xxxx -ORF_length 303 
+``` bash
+orfmap -fna genome.fasta -gff genome.gff -orf_len 303 
 ```
 
 

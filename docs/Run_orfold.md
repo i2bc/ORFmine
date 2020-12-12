@@ -23,17 +23,39 @@ There are three methods implemented in ORFold:
 </pre>
 
 Use the initial of each method (as given above) without any space (like a single word).     
-Based on the methods you want to use, the **-options** can be:
 
-|         Methods         	|         Option            	|
-|:------------------------:	|:----------------------------:	|
-| &nbsp;&nbsp;&nbsp; HCA **&** IUPred **&** TANGO &nbsp;&nbsp;&nbsp;&nbsp;	| &nbsp;&nbsp;&nbsp; HIT or HTI or IHT or ITH or THI or TIH &nbsp;&nbsp;&nbsp; 	|
-| &nbsp;&nbsp;&nbsp; HCA **&** IUPred &nbsp;&nbsp;&nbsp;   	|       HI or IH            	|
-| &nbsp;&nbsp;&nbsp; HCA **&** TANGO &nbsp;&nbsp;&nbsp;     	|   	HT or TH            	|
-| &nbsp;&nbsp;&nbsp; IUPred **&**TANGO &nbsp;&nbsp;&nbsp;    	|       IT or TI            	|
 
-<p></p>
-
+<div class="admonition note">
+    <p class="first admonition-title">
+        Note
+    </p>
+    <p class="last">
+Based on the methods you want to use, the <b>-options</b> can be:
+<br><br>
+<table>
+ <tr>
+    <th><b>Methods</b></th> 
+    <th><b>Options</b></th>
+ </tr>
+ <tr>
+     <th> &nbsp;&nbsp;&nbsp; HCA <b>&</b> IUPred <b>&</b> Tango &nbsp;&nbsp;&nbsp; </th>
+     <th> &nbsp;&nbsp;&nbsp; HIT or HTI or IHT or ITH or THI or TIH &nbsp;&nbsp;&nbsp;</th>
+ </tr>
+ <tr>
+     <th> &nbsp;&nbsp;&nbsp; HCA <b>&</b> IUPred &nbsp;&nbsp;&nbsp; </th>
+     <th> &nbsp;&nbsp;&nbsp; HI or IH &nbsp;&nbsp;&nbsp;</th>
+ </tr>
+ <tr>
+     <th> &nbsp;&nbsp;&nbsp; HCA <b>&</b> Tango &nbsp;&nbsp;&nbsp; </th>
+     <th> &nbsp;&nbsp;&nbsp; HT or TH &nbsp;&nbsp;&nbsp;</th>
+ </tr>
+ <tr>
+     <th> &nbsp;&nbsp;&nbsp; IUPred <b>&</b> Tango &nbsp;&nbsp;&nbsp; </th>
+     <th> &nbsp;&nbsp;&nbsp; IT or TI &nbsp;&nbsp;&nbsp;</th>
+ </tr>
+</table>
+</p>
+</div>
 For calculating the foldability potentail of one given fasta file with all the three methods, type:
 
 ```{python}
