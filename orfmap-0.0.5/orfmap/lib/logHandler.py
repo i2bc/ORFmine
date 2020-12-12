@@ -104,7 +104,7 @@ def get_config(outpath='./'):
 
       "root": {
         "level": "NOTSET",
-        "handlers": ["console", "info_handler", "summary_handler"],
+        "handlers": ["console", "info_handler"],
         "propagate": False
       }
   }
