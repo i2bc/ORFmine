@@ -226,10 +226,10 @@ def write_multifastas(dico_info,outname):
 #    type_of_data = "CDS"  # JUST TO NOT BUG - I WILL FIX IT
 
     if parameters.type == "prot" or parameters.type == "both":
-        fwp = open(outname + '.pmultifasta', 'w')
+        fwp = open(outname + '.pfasta', 'w')
 
     if parameters.type == "nucl" or parameters.type == "both":
-        fwn = open(outname + '.nmultifasta', 'w')
+        fwn = open(outname + '.nfasta', 'w')
 
     for gene in dico_info:
         # Here is a check point for sequences that have * in the middle
