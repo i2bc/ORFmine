@@ -203,14 +203,14 @@ class GffElement:
 
             if not is_fragment:
                 if highest_overlapping_element.strand == self.strand:
-                    self.type = 'nc_ovp_same_' + highest_overlapping_element.type
+                    self.type = 'nc_ovp_same-' + highest_overlapping_element.type
                 else:
-                    self.type = 'nc_ovp_opp_' + highest_overlapping_element.type
+                    self.type = 'nc_ovp_opp-' + highest_overlapping_element.type
             else:
                 if highest_overlapping_element.strand == self.strand:
-                    self.type += '_ovp_same_' + highest_overlapping_element.type
+                    self.type += '_ovp_same-' + highest_overlapping_element.type
                 else:
-                    self.type += '_ovp_opp_' + highest_overlapping_element.type
+                    self.type += '_ovp_opp-' + highest_overlapping_element.type
         else:
             if not is_fragment:
                 self.type = 'nc_intergenic'
@@ -225,15 +225,15 @@ class GffElement:
 
     def set_color(self):
         if self.type == 'c_CDS':
-            self.color = '#ff4d00'  # ff4d4d
+            self.color = '#DF7D2E'  # ff4d4d
         else:
             if self.type == 'nc_intergenic':
-                self.color = '#005073'
+                self.color = '#5E5E5E'
             else:
                 if 'opp' in self.type:
-                    self.color = '#71c7ec'
+                    self.color = '#009051'
                 else:
-                    self.color = '#2935d6'
+                    self.color = '#2657AF'
 
     def set_status(self):
         if self.ovp_phased:
@@ -537,24 +537,47 @@ def set_gff_descr(gff_fname):
             line = gff_file.readline()
 
 
-def parse(param=None, fasta_hash=None, chr_id=None):
+def parse(param=None, fasta_hash=None, chr_asked=None, chr_exclude=None):
+    """
+    @param fasta_hash:
+    @param param:
+    @type chr_exclude: list
+    @type chr_asked: list
+    """
     logger.title('# Parsing GFF file')
-
     gff_fname = param.gff_fname
     fasta_hash = fasta_hash
-    chr_id = chr_id
+    chr_asked = chr_asked if chr_asked else []
+    chr_exclude = chr_exclude if chr_exclude else []
 
     if not GFF_DESCR:
         set_gff_descr(gff_fname)
 
     logger.info('Checking chromosome IDs consistency between GFF and fasta file...')
     logger.info('')
+
+    # Get chromosomes present both in the GFF file and the fasta file
     chrs_common = inspect.check_chrids(chrs_gff=sorted(GFF_DESCR), chrs_fasta=sorted(fasta_hash))
-    chr_ids = sorted(chrs_common) if not chr_id else [chr_id]
-    if chr_id and chr_id not in chrs_common:
-        logger.error('Error: wrong chromosome ID')
-        logger.error('')
-        sys.exit(1)
+
+    # Get chromosomes to be treated
+    if not chr_asked:
+        chr_ids = sorted([x for x in chrs_common if x not in chr_exclude])
+    else:
+        chr_ids = sorted([x for x in chr_asked if x not in chr_exclude])
+
+    # If chr_asked, check that asked chromosomes are valid (i.e. present in gff and fasta files)
+    if chr_ids == chr_asked:
+        invalid_chrs = []
+        for _chr in chr_ids:
+            if _chr not in chrs_common:
+                invalid_chrs.append(_chr)
+
+        if invalid_chrs:
+            logger.error('Error: wrong chromosome ID have been asked:')
+            for invalid in invalid_chrs:
+                logger.error(' - {}'.format(invalid))
+                logger.error('')
+            sys.exit(1)
 
     gff_data = {}
     with open(gff_fname, 'r') as gff_file:
@@ -588,6 +611,7 @@ def parse(param=None, fasta_hash=None, chr_id=None):
                 else:
                     chr_name = line.split('\t')[0]
 
+    # Assign an index to CDS to facilitate their fusion into protein
     for chr_name in sorted(gff_data):
         gff_data[chr_name].index_cds()
 
