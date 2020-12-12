@@ -171,3 +171,45 @@ def is_orf_include(orf=None, include=None):
 
 def is_orf_exclude(orf=None, exclude=None):
     return True in [x in [orf.type, orf.status] for x in exclude]
+
+
+def summary(gff_outfile: str):
+    dict_summary = {}
+    orfs_len = []
+    with open(gff_outfile, 'r') as _file:
+        for line in _file:
+            if not line.startswith('#'):
+                seqid = line.split('\t')[0]
+                orf_type = line.split('\t')[2]
+                orf_len = (int(line.split('\t')[4]) - int(line.split('\t')[3]) + 1) / 3.0
+
+                if seqid not in dict_summary:
+                    dict_summary[seqid] = {}
+
+                if orf_type not in dict_summary[seqid]:
+                    dict_summary[seqid][orf_type] = {'quantity': 1, 'orf_len': [orf_len]}
+                else:
+                    dict_summary[seqid][orf_type]['quantity'] += 1
+                    dict_summary[seqid][orf_type]['orf_len'].append(orf_len)
+
+                if orf_type == 'nc_intergenic':
+                    orfs_len.append(orf_len)
+
+    if dict_summary:
+        row_format = '{:<48}{:<20}{:<12}'
+        header = row_format.format('ORF type', 'Quantity', 'Average length (aa)')
+        logger.title('Summary')
+        for seqid in sorted(dict_summary):
+            logger.info('')
+            logger.info('')
+            logger.info('# {}'.format(seqid))
+            logger.info('')
+            logger.info(header)
+            logger.info(row_format.format('-' * len('ORF type'), '-' * len('Quantity'), '-' * len('Average length (aa)')))
+            for orf_type in sorted(dict_summary[seqid]):
+                avg_orf_len = sum(dict_summary[seqid][orf_type]['orf_len']) / len(dict_summary[seqid][orf_type]['orf_len'])
+                logger.info(row_format.format(orf_type,
+                                              dict_summary[seqid][orf_type]['quantity'],
+                                              round(avg_orf_len, 2)))
+
+        logger.info('')

@@ -45,7 +45,10 @@ def main():
     logger.title('# Mapping ORFs (stop-to-stop codons) #')
     orfmap.mapping(gff_data=gff_data, param=param)
 
-    logger.info("-- Execution time: {} seconds --".format((time.time() - start_time)))
+    # Print a brief summary of ORFs mapping
+    orfmap.summary(gff_outfile=param.outfile+'.gff')
+
+    logger.title("-- Execution time: {} seconds --".format(round((time.time() - start_time), 2)))
 
 
 def logo(logger):
