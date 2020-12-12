@@ -1,10 +1,37 @@
 ## Extraction and writing of ORF sequences with ORFget
 
 ORFget is a tool provided with ORFmap that allows the user to extract
-the protein or nulceotide sequences of specific subsets of ORFs 
+the protein and/or nulceotide sequences of specific subsets of ORFs 
 according to their annotation categories. ORFget deals with regular 
-expressions, thereby allowing different 
-levels of annotation in a very easy fashion.
+expressions, thereby allowing different levels of annotation in a 
+very easy fashion.
+
+ORFget has two principal options:
+
+* **-features_include** : List of motifs to match at GFF features column and keep the sequence  
+* **-features_exclude** : List of motifs to match at GFF features column and eliminate the sequence
+
+The motifs can be explicit (for detailed selection) or more implicit (for general selection).<br><br>
+For example, the motif **"nc"** appears in the features: **nc**_intergenic, **nc**_ovp_same-mRNA, **nc**_ovp_opp-mRNA and **nc**_ovp_same-tRNA.
+As a result the option ```-feature_include nc``` will keep all the four feature categories. 
+<br><br>
+The option ```-feature_include nc_ovp``` will keep:
+	
+* **nc_ovp**_same-mRNA
+* **nc_ovp**_opp-mRNA
+* **nc_ovp**_same-tRNA
+
+The option ```-feature_include nc_ovp_same``` will keep:
+
+* **nc_ovp_same**-mRNA
+* **nc_ovp_same**-tRNA
+
+The option ```-feature_include mRNA``` will keep: 
+
+* nc_ovp_same-**mRNA**
+* nc_ovp_opp-**mRNA**
+
+etc... 
 
 Here are presented some examples of selection of ORFs with ORFget.
 
@@ -16,8 +43,7 @@ annotated in the input GFF file.
 
 
 ``` python
-orfget   ALL SEQUENCES PROT
-
+orfget -fna genome.fasta -gff mapping_orf_genome.gff
 ```
 ORFget generates a FASTA file containing all the corresponding protein
 sequences. 
@@ -26,19 +52,21 @@ sequences.
 
 ### Extraction of the sequences of all noncoding ORFs identified with ORFmap
 
-The following two commands, each enable the user to write the 
+The following commands, each enable the user to write the 
 protein sequences of all noncoding 
 ORFs no matter their status (i.e. intergenic or overlapping)
 (see [here](./orfmap_annotation.md) for a description of all ORF categories).
 
-``` python
-orfget include intergenic  + nc_same_ovp + nc_opp_ovp
-
+``` bash
+orfget -fna genome.fasta -gff mapping_orf_genome -features_include nc
 ```
 or 
-``` python
-orfget exclude c_CDS
-
+``` bash
+orfget -fna genome.fasta -gff mapping_orf_genome -features_include nc_intergenic nc_ovp
+```
+or
+``` bash
+orfget -fna genome.fasta -gff mapping_orf_genome -features_exclude c_CDS
 ```
 
 ### Extraction of the sequences of a specific subset of ORFs according to their annotation
@@ -46,13 +74,12 @@ orfget exclude c_CDS
 The following instruction writes the protein sequences of the ORFs
 which overlap with CDS on the same, or on the opposite strand.
 
-``` python
-orfget include  nc_same_ovp_CDS + nc_opp_ovp_CDS
-
+``` bash
+orfget -fna genome.fasta -gff mapping_orf_genome -features_include nc_ovp_same_CDS nc_ovp_opp_CDS
 ```
 
 
-Notice that using the argument "exclude" assumes that the selection 
+Notice that using the argument "features_exclude" assumes that the selection 
 operates on all genomic features except those that are excluded. 
 Consequently, if the user wants to select all noncoding sequences
 except those overlapping CDS, mRNAs, tRNAs, and rRNAs, he must 
@@ -60,10 +87,8 @@ exclude the coding ORFs (c_CDS) as well. Otherwise, they will be
 kept.
 
 
-``` python
-orfget exclude C_CDS nc_same_ovp_tRNA + nc_same_ovp_rRNA +nc_opp_ovp_mRNA + C_CDS nc_opp_ovp_tRNA + nc_opp_ovp_rRNA 
-+nc_opp_ovp_mRNA  
-
+``` bash
+orfget -fna genome.fasta -gff mapping_orf_genome -features_exclude c_CDS nc_same_ovp_tRNA nc_same_ovp_rRNA nc_opp_ovp_mRNA nc_opp_ovp_tRNA nc_opp_ovp_rRNA nc_opp_ovp_mRNA  
 ```
 
 ### Extraction of the sequences of a random subset of ORFs 
@@ -77,9 +102,9 @@ intergenic ORFs.
 
 
 ``` python
-orfget 10000 intergenic ORFs
-
+orfget -fna genome.fasta -gff mapping_orf_genome.gff -features_include nc_intergenic -n 10000
 ```
+
 ### Reconstruction of protein sequences
 In addition, ORFget enables the reconstruction of all protein 
 sequences of a genome (i.e. all isoforms) according to their 
@@ -88,5 +113,5 @@ writes all the resulting sequences in a FASTA file.
 
 
 ``` python
-orfget build CDS
+orfget -fna genome.fasta -gff genome.gff -features_include CDS
 ```
