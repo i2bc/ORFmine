@@ -1,0 +1,122 @@
+
+   ___    ___   ___   __  __               
+  / _ \  | _ \ | __| |  \/  |  __ _   _ __ 
+ | (_) | |   / | _|  | |\/| | / _` | | 
+  \___/  |_|_\ |_|   |_|  |_| \__,_| | .__/
+                                     |
+
+Parameters description:
+- fasta filename: GCF_000146045.2_R64_genomic.fna
+- gff filename: GCF_000146045.2_R64_genomic.gff
+- chr: None
+- types_only: 
+- types_except: gene, exon
+- o_include: all
+- o_exclude: 
+- orf_len: 60
+- co_ovp : 0.7
+- outfile: ./mapping_orf_GCF_000146045.2_R64_genomic
+- bool_types: False
+- bool_chrs: False
+- isfrag: False
+- ofasta: False
+
+
+
+
+# PARSING GFF AND FASTA INPUT FILES #
+-------------------------------------
+
+
+
+
+# PARSING FASTA FILE
+--------------------
+
+
+
+
+# PARSING GFF FILE
+------------------
+
+Checking chromosome IDs consistency between GFF and fasta file...
+
+      Chromosome ids              in GFF            in fasta
+------------------------------------------------------------
+         NC_001133.9                   X                   X
+         NC_001134.8                   X                   X
+         NC_001135.5                   X                   X
+        NC_001136.10                   X                   X
+         NC_001137.3                   X                   X
+         NC_001138.5                   X                   X
+         NC_001139.9                   X                   X
+         NC_001140.6                   X                   X
+         NC_001141.2                   X                   X
+         NC_001142.9                   X                   X
+         NC_001143.9                   X                   X
+         NC_001144.5                   X                   X
+         NC_001145.3                   X                   X
+         NC_001146.8                   X                   X
+         NC_001147.6                   X                   X
+         NC_001148.4                   X                   X
+         NC_001224.1                   X                   X
+
+All chromosomes are shared between GFF and fasta files.
+
+
+
+# MAPPING ORFS (STOP-TO-STOP CODONS) #
+--------------------------------------
+
+Reading chromosome NC_001133.9 ...
+ - ORF mapping and assignment
+
+Reading chromosome NC_001134.8 ...
+ - ORF mapping and assignment
+
+Reading chromosome NC_001135.5 ...
+ - ORF mapping and assignment
+
+Reading chromosome NC_001136.10 ...
+ - ORF mapping and assignment
+
+Reading chromosome NC_001137.3 ...
+ - ORF mapping and assignment
+
+Reading chromosome NC_001138.5 ...
+ - ORF mapping and assignment
+
+Reading chromosome NC_001139.9 ...
+ - ORF mapping and assignment
+
+Reading chromosome NC_001140.6 ...
+ - ORF mapping and assignment
+
+Reading chromosome NC_001141.2 ...
+ - ORF mapping and assignment
+
+Reading chromosome NC_001142.9 ...
+ - ORF mapping and assignment
+
+Reading chromosome NC_001143.9 ...
+ - ORF mapping and assignment
+
+Reading chromosome NC_001144.5 ...
+ - ORF mapping and assignment
+
+Reading chromosome NC_001145.3 ...
+ - ORF mapping and assignment
+
+Reading chromosome NC_001146.8 ...
+ - ORF mapping and assignment
+
+Reading chromosome NC_001147.6 ...
+ - ORF mapping and assignment
+
+Reading chromosome NC_001148.4 ...
+ - ORF mapping and assignment
+
+Reading chromosome NC_001224.1 ...
+ - ORF mapping and assignment
+
+-- Execution time: 35.289560317993164 seconds --
