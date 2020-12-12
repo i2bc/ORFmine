@@ -76,6 +76,16 @@ def get_config(outpath='./'):
           "mode": "w+",
           "encoding": "utf8",
           "delay": False
+        },
+
+        "summary_handler": {
+          "class": "logging.FileHandler",
+          "level": "INFO",
+          "formatter": "simple",
+          "filename": outpath+"summary.log",
+              "mode": "w+",
+          "encoding": "utf8",
+          "delay": False
         }
       },
 
@@ -84,12 +94,17 @@ def get_config(outpath='./'):
           "level": "DEBUG",
           "handlers": ["console", "info_handler"],
           "propagate": False
-        }
+        },
+        "summary": {
+          "level": "INFO",
+          "handlers": ["console", "summary_handler"],
+          "propagate": False
+      }
       },
 
       "root": {
         "level": "NOTSET",
-        "handlers": ["console", "info_handler"],
+        "handlers": ["console", "info_handler", "summary_handler"],
         "propagate": False
       }
   }
