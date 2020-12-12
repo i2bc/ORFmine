@@ -16,7 +16,7 @@ ORFmap and ORFold that can be used together or independently
 (see [here](./orfmine_quickstart.md) for an example of 
 application).
 
-ORFMap searches for all possible ORFs in the six frames of an input
+ORFMap searches for all possible ORFs longer than 60 nucleotides in the six frames of an input
 genome, and annotate them according to a set of genomic features 
 (e.g. noncoding intergenic ORFs, coding ORFs, noncoding ORFs 
 that overlap with a specific genomic feature...). It provides
