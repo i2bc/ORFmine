@@ -26,47 +26,54 @@ def get_args():
                         #action='store',
                         required=True, 
                         nargs="?",
-                        help="Genomic fasta file(s) (.fna) ")
+                        help="Genomic fasta file (.fna) ")
     parser.add_argument("-gff",
                         type=str,
                         #action='store',
                         required=True, 
                         nargs="?",
-                        help="Annotation file(s) (.gff) ")
+                        help="Annotation file (.gff) ")
     parser.add_argument("-o",
                         type=str,
                         #action='store',
                         required=True, 
                         nargs="?",
-                        help="The output name of your fasta")
+                        help="Output name of fasta file(s)")
     parser.add_argument("-features_include",
                         type=str,
                         action='store',
                         required=False, 
                         nargs="*",
                         default = ['all'],
-                        help="Annotation elmements to be considered (By definition is all)")
+                        help="Annotation features to be considered (By definition is all)")
     parser.add_argument("-features_exclude",
                         type=str,
                         action='store',
                         required=False, 
                         nargs="*",
                         default = ["None"],
-                        help="Annotation elmements not to be considered (By definition is None)")
+                        help="Annotation features not to be considered (By definition is None)")
     parser.add_argument("-chr_exclude",
                         type=str,
                         action='store',
                         required=False, 
                         nargs="?",
                         default = [],
-                        help="Exclude chromosomes that do not interest you (mitochondrial for example)")
+                        help="Chromosomes to be excluded")
     parser.add_argument("-N",
                         type=int,
                         #action='store',
                         required=False, 
                         nargs="?",
                         default = False,
-                        help="The size of the sample to be generated")
+                        help="Size of the sample to be generated")
+    parser.add_argument("-type",
+                        type=str,
+                        #action='store',
+                        required=False,
+                        nargs="?",
+                        default = "prot",
+                        help="Size of the sample to be generated")
 
     args = parser.parse_args()
     return args
@@ -217,59 +224,48 @@ def write_multifastas(dico_info,outname):
     names = []
     #isoforms = ["B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
 #    type_of_data = "CDS"  # JUST TO NOT BUG - I WILL FIX IT
-    with open(outname+'.nmultifasta','w') as fwn,open(outname+'.pmultifasta','w') as fwp:
-        for gene in dico_info:
-            # Name the sequences:
-#            if type_of_data == 'CDS':
-#                name = str(dico_info[gene]['chrom'])  +'_'+\
-#                       str(dico_info[gene]['strand']) +'_'+\
-#                       str(min(dico_info[gene]['positions']))+'-'+\
-#                       str(max(dico_info[gene]['positions']))
-#            elif type_of_data == 'IGORF':
-#                if dico_info[gene]['strand'] == '+':
-#                    name = str(dico_info[gene]['chrom'])  +'_'+\
-#                       str(dico_info[gene]['strand']) +'_'+\
-#                       str(min(dico_info[gene]['positions']))+'-'+\
-#                       str(max(dico_info[gene]['positions']))+'_'+\
-#                       str(dico_info[gene]['frame'])
-#                elif dico_info[gene]['strand'] == '-':
-#                    name = str(dico_info[gene]['chrom'])  +'_'+\
-#                       str(dico_info[gene]['strand']) +'_'+\
-#                       str(max(dico_info[gene]['positions']))+'-'+\
-#                       str(min(dico_info[gene]['positions']))+'_'+\
-#                       str(dico_info[gene]['frame'])
-                       
 
-            
-#            if name not in names:
-#                isoform_count = 0
-#                names.append(name)
-#            elif name in names:
-#                isoform_count += 1
-#                name = name + '_iso' +str(isoform_count)
-                
-            # -------------------------------------------------------- #
-            
-            # Here is a check point for sequences that have * in the middle
-            aa_seq = dico_info[gene]['AA_seq']
-            aa_seq = aa_seq.replace("*","X")
-            if aa_seq[-1] == "X":
-                aa_seq = aa_seq[:-1] + "*"
-            else:
-                # Here we do not keep genes that did not stop to STOP coddon
-                # Probably the sequence stops abruptly
-                continue
-            
+    if parameters.type == "prot" or parameters.type == "both":
+        fwp = open(outname + '.pmultifasta', 'w')
+
+    if parameters.type == "nucl" or parameters.type == "both":
+        fwn = open(outname + '.nmultifasta', 'w')
+
+    for gene in dico_info:
+        # Here is a check point for sequences that have * in the middle
+        aa_seq = dico_info[gene]['AA_seq']
+        aa_seq = aa_seq.replace("*","X")
+        if aa_seq[-1] == "X":
+            aa_seq = aa_seq[:-1] + "*"
+        else:
+            # Here we do not keep genes that did not stop to STOP coddon
+            # Probably the sequence stops abruptly
+            continue
+
+        try:
             if dico_info[gene]['DNA_seq'] != '' and dico_info[gene]['DNA_seq'][-3:] in ["TAG","TGA","TAA"]:
                 fwn.write('>'+gene+'\n')
                 #fwn.write('>'+gene+'\n')
                 fwn.write(dico_info[gene]['DNA_seq']+'\n')
-            
+        except:
+            pass
+
+        try:
             if dico_info[gene]['AA_seq'] != '' and dico_info[gene]['AA_seq'][-1] == "*":
                 fwp.write('>'+gene+'\n')
                 #fwp.write(dico_info[gene]['AA_seq']+'\n')
                 fwp.write(aa_seq+'\n')
-                
+        except:
+            pass
+
+    try:
+        fwn.close()
+    except:
+        pass
+    try:
+        fwp.close()
+    except:
+        pass
 
 def find_matches(gff , elements_in , elements_out):
     elements_in = "(" + ")|(".join(elements_in) + ")"
