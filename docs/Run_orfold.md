@@ -1,10 +1,12 @@
-# Running ORFold:
+## Running ORFold:
 
-## Basic run:
 
-For its most basic run, ORFold requires only the amino acid sequence(s) in format 
-FASTA (given with the **-fna** label). ORFold can also take as input more than one FASTA 
-files and will treat them the one after the other independently.
+### Inputs
+For its most basic run, ORFold requires only a FASTA file containing the amino acid sequences 
+to treat (given with the **-fna** label). ORFold can handle several FASTA files at the same
+time. In this case, it will treat them independently and will generate as many 
+outputs as entered FASTA files.
+
  <p> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
  FASTA file example:
 ```{}
@@ -14,24 +16,29 @@ AGNVCFGGRTYMPDFDGMSCVNWQERT
 MPDFMPCNVSDRTEEEPMSPARTYDFGHKLCVSDFTPMLKKPERT
 ```
 </p>
-ORFold requires also the calculation method(s) to perform (given with the **-options** label).
-There are three methods implemented in ORFold: 
+
+### How to estimate the fold potential and/or disorder and aggregation propensities
+By default, ORFold only estimates the fold potential of the input sequences. 
+The disorder and aggregation propensities can be however calculated as well.
+The user can specify which calculation methods are to be launched with 
+the **-options** argument. 
+
+Each method used by ORFold is referred by its initial: 
 <pre>
    HCA     : H
    IUPred  : I
    TANGO   : T 
 </pre>
 
-Use the initial of each method (as given above) without any space (like a single word).     
+The user must specify the combination of methods he wants to apply
+on the input sequences giving their initials with the **-options** argument without any space.
 
 
 <div class="admonition note">
     <p class="first admonition-title">
-        Note
     </p>
     <p class="last">
-Based on the methods you want to use, the <b>-options</b> can be:
-<br><br>
+
 <table>
  <tr>
     <th><b>Methods</b></th> 
@@ -56,7 +63,10 @@ Based on the methods you want to use, the <b>-options</b> can be:
 </table>
 </p>
 </div>
-For calculating the foldability potentail of one given fasta file with all the three methods, type:
+
+### Basic run
+The following instructions estimates the fold potential, and the disorder and aggregation propensities of
+all amino acid sequences contained in the input fASTA file:
 
 ```{python}
 orfold -fna sequences.fasta -options HIT
@@ -64,7 +74,8 @@ orfold -fna sequences.fasta -options HIT
 
 <p></p>
 
-It's important to mention that **IUPred** and **Tango** are proposed as complementary to the **HCA** methods and they will slow down dramatically ORFold. 
+It's important to mention that **IUPred** and **Tango** are proposed as 
+complementary to the **HCA** methods and they will slow down dramatically ORFold. 
 If you wish to calculate only the foldability with HCA you can simply type:
 ```{python}
 orfold -fna sequences.fasta -options H

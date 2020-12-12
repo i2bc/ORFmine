@@ -2,16 +2,22 @@
 
 ORFget is a tool provided with ORFmap that allows the user to extract
 the protein and/or nulceotide sequences of specific subsets of ORFs 
-according to their annotation categories. ORFget deals with regular 
+according to their annotation categories
+(see [here](./orfmap_annotation.md) 
+for a description of all ORF categories). ORFget deals with regular 
 expressions, thereby allowing different levels of annotation in a 
 very easy fashion.
 
 ORFget has two principal options:
 
-* ```-features_include``` : List of motifs to match at GFF features column and keep the sequence  
-* ```-features_exclude``` : List of motifs to match at GFF features column and eliminate the sequence
-
-The motifs can be explicit (for detailed selection) or more implicit (for general selection).<br><br>
+* ```-features_include```: list of motifs to match to be included in the FASTA 
+  output. Sequences whose annotations include these patterns will 
+  be retained in the output FASTA file 
+* ```-features_exclude```: list of motifs to match to be excluded in the FASTA 
+  output. The sequences whose annotations include these patterns 
+  will not be written in the output FASTA file
+  
+The searched patterns can be specific (for a finer selection) or more general.<br><br>
 
 <div class="admonition note">
     <p class="first admonition-title">
@@ -60,7 +66,7 @@ annotated in the input GFF file.
 ``` python
 orfget -fna genome.fasta -gff mapping_orf_genome.gff
 ```
-ORFget generates a FASTA file containing all the corresponding protein
+ORFget generates a FASTA file containing all the corresponding amino acid
 sequences. 
 
 
@@ -68,29 +74,29 @@ sequences.
 ### Extraction of the sequences of all noncoding ORFs identified with ORFmap
 
 The following commands, each enable the user to write the 
-protein sequences of all noncoding 
+amino acid sequences of all noncoding 
 ORFs no matter their status (i.e. intergenic or overlapping)
 (see [here](./orfmap_annotation.md) for a description of all ORF categories).
 
 ``` bash
-orfget -fna genome.fasta -gff mapping_orf_genome -features_include nc
+orfget -fna genome.fasta -gff mapping_orf_genome.gff -features_include nc
 ```
 or 
 ``` bash
-orfget -fna genome.fasta -gff mapping_orf_genome -features_include nc_intergenic nc_ovp
+orfget -fna genome.fasta -gff mapping_orf_genome.gff -features_include nc_intergenic nc_ovp
 ```
 or
 ``` bash
-orfget -fna genome.fasta -gff mapping_orf_genome -features_exclude c_CDS
+orfget -fna genome.fasta -gff mapping_orf_genome.gff -features_exclude c_CDS
 ```
 
 ### Extraction of the sequences of a specific subset of ORFs according to their annotation
 
-The following instruction writes the protein sequences of the ORFs
+The following instruction writes the amino acid sequences of the ORFs
 which overlap with CDS on the same, or on the opposite strand.
 
 ``` bash
-orfget -fna genome.fasta -gff mapping_orf_genome -features_include nc_ovp_same_CDS nc_ovp_opp_CDS
+orfget -fna genome.fasta -gff mapping_orf_genome.gff -features_include nc_ovp_same-CDS nc_ovp_opp-CDS
 ```
 
 
@@ -103,7 +109,7 @@ kept.
 
 
 ``` bash
-orfget -fna genome.fasta -gff mapping_orf_genome -features_exclude c_CDS nc_same_ovp_tRNA nc_same_ovp_rRNA nc_opp_ovp_mRNA nc_opp_ovp_tRNA nc_opp_ovp_rRNA nc_opp_ovp_mRNA  
+orfget -fna genome.fasta -gff mapping_orf_genome.gff -features_exclude c_CDS nc_same_ovp-tRNA nc_same_ovp-rRNA nc_opp_ovp-mRNA nc_opp_ovp-tRNA nc_opp_ovp-rRNA nc_opp_ovp-mRNA  
 ```
 
 ### Extraction of the sequences of a random subset of ORFs 
@@ -131,9 +137,11 @@ writes all the resulting sequences in a FASTA file.
 orfget -fna genome.fasta -gff genome.gff -features_include CDS
 ```
 
-
-By default, orfget will generate an amino acids fasta file of the sequences
-with the extension **.pmultifasta**. If the user wishes to generate the nucleotide
-or even both nucleotide and amino acids fasta files, he has to use the option
-```-type nucl``` and ```-type both```,respectivelly.
+### Writing amino acid or nucleotide sequences
+By default, ORFget will generate the amino acid sequences of the 
+desired ORFs in a FASTA file 
+with the extension **.pfasta**. If the user wishes to generate the nucleotide
+or even both nucleotide and amino acids sequences, he must use the 
+option
+```-type nucl``` and ```-type both```, respectively.
 
