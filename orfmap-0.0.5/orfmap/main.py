@@ -18,7 +18,6 @@ import time
 def main():
     # gets arguments
     start_time = time.time()
-    print('coucou')
     param = parameters.Param(args=parameters.get_args())
 
     if param.bool_chrs:
