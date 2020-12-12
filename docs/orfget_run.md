@@ -8,31 +8,46 @@ very easy fashion.
 
 ORFget has two principal options:
 
-* **-features_include** : List of motifs to match at GFF features column and keep the sequence  
-* **-features_exclude** : List of motifs to match at GFF features column and eliminate the sequence
+* ```-features_include``` : List of motifs to match at GFF features column and keep the sequence  
+* ```-features_exclude``` : List of motifs to match at GFF features column and eliminate the sequence
 
 The motifs can be explicit (for detailed selection) or more implicit (for general selection).<br><br>
-For example, the motif **"nc"** appears in the features: **nc**_intergenic, **nc**_ovp_same-mRNA, **nc**_ovp_opp-mRNA and **nc**_ovp_same-tRNA.
-As a result the option ```-feature_include nc``` will keep all the four feature categories. 
+
+<div class="admonition note">
+    <p class="first admonition-title">
+        Note
+    </p>
+    <p class="last">
+For example, the motif <b>"nc"</b> appears in the features: <b>nc</b>_intergenic, <b>nc</b>_ovp_same-mRNA, <b>nc</b>_ovp_opp-mRNA and <b>nc</b>_ovp_same-tRNA.
+As a result the option <code>-feature_include nc</code> will keep all the four feature categories. 
 <br><br>
-The option ```-feature_include nc_ovp``` will keep:
-	
-* **nc_ovp**_same-mRNA
-* **nc_ovp**_opp-mRNA
-* **nc_ovp**_same-tRNA
+The option <code>-feature_include nc_ovp</code> will keep:
+<ul>	
+ <li><b>nc_ovp</b>_same-mRNA</li>
+ <li><b>nc_ovp</b>_opp-mRNA</li>
+ <li><b>nc_ovp</b>_same-tRNA</li>
+</ul>
 
-The option ```-feature_include nc_ovp_same``` will keep:
+The option <code>-feature_include nc_ovp_same</code> will keep:
+<ul>
+ <li><b>nc_ovp_same</b>-mRNA</li>
+ <li><b>nc_ovp_same</b>-tRNA</li>
+</ul>
 
-* **nc_ovp_same**-mRNA
-* **nc_ovp_same**-tRNA
+The option <code>-feature_include mRNA</code> will keep: 
+<ul>
+ <li>nc_ovp_same-<b>mRNA</b></li>
+ <li>nc_ovp_opp-<b>mRNA</b></li>
+</ul>
 
-The option ```-feature_include mRNA``` will keep: 
-
-* nc_ovp_same-**mRNA**
-* nc_ovp_opp-**mRNA**
-
+The option <code>-feature_exclude opp</code> will eliminate the nc_ovp_<b>opp</b>-mRNA and will keep:
+<ul>
+ <li>nc_intergenic</li>
+ <li>nc_ovp_same-mRNA</li>
+ <li>nc_ovp_same-tRNA</li>
 etc... 
-
+</p>
+</div>
 Here are presented some examples of selection of ORFs with ORFget.
 
 

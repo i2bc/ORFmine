@@ -7,7 +7,7 @@ pseudogenes...). ORFs are subsequently assigned as coding (c_CDS)
 (if it includes in the same frame a CDS or an exon for multiexonic 
 genes) or noncoding (nc). Noncoding ORFs are then subdivided into 
 noncoding intergenic ORFs (nc_intergenic) or noncoding overlapping
-ORFs (nc_ovlp_x with x refering to the overlapping genomic feature)
+ORFs (nc_ovp_x with x refering to the overlapping genomic feature)
 (see [here](./orfmap_overlap.md) for the definition of an overlap).
 The former correspond to ORFs which do not overlap with any 
 genomic feature. The latter consist of ORFs
@@ -15,9 +15,15 @@ which overlap with a non-phased genomic feature (i.e. non coding)
 on the same or the opposite
 strand or which overlap with a CDS or an exon in another frame. 
 Depending on the localization of the overlapping feature (same or
-opposite strand), the ORFs are annotated as nc_same_ovlp_x or 
-nc_opp_ovlp_x respectively.
+opposite strand), the ORFs are annotated as nc_ovp_same_x or 
+nc_ovp_opp_x respectively.
 
+
+<div class="admonition note">
+    <p class="first admonition-title">
+        Note
+    </p>
+    <p class="last">
 Notice that the ORFmap annotation adopts/has a particular point of
 view on the genome which is centered on the identification and
 annotation of a genome's ORFs rather than the annotation of 
@@ -25,8 +31,8 @@ real biological objets (e.g. tRNA, rRNA or lncRNA for example).
 ORFmap looks at the genome with a protein perspective where
 the ORFs of a genome can be seen as its potential for novel peptides or 
 proteins upon the pervasive translation of their corresponding RNAs.
-
-
+</p>
+</div>
 
 
 ### Annotation rules
@@ -37,9 +43,9 @@ ORFs can be annotated according to four different categories:
 * (1) `c_CDS` ORFs which include in the same frame a CDS or an exon for 
   multiexonic genes 
 * (2) `nc_intergenic` ORFs which do not overlap any genomic feature 
-* (3) `nc_same_ovlp_x` ORFs which overlap on the same strand, with a genetic feature no matter 
+* (3) `nc_ovp_same_x` ORFs which overlap on the same strand, with a genetic feature no matter 
   its type
-* (4) `nc_opp_ovlp_x` ORFs which overlap on the opposite strand, with a genetic feature no matter 
+* (4) `nc_ovp_opp_x` ORFs which overlap on the opposite strand, with a genetic feature no matter 
   its type
   
 See examples of each type in Figure 1.
@@ -85,7 +91,7 @@ it will be annotated according to the following priority rules:
     feature, the CDS has priority over the other annotated features
     no matter the CDS is located on the same or the opposite strand.
     The ORF will be annotated as a noncoding ORF overlapping with 
-    a CDS (e.g. nc_(same/opp)_ovp_CDS).
+    a CDS (e.g. nc_ovp_(same/opp)_CDS).
     
 
 
@@ -94,12 +100,12 @@ it will be annotated according to the following priority rules:
    strand (except CDS), the annotated feature located on the same strand
    has priority over the other features on the opposite
    strand. The ORF will be annotated as a noncoding ORF overlapping 
-   with the feature on the same strand (e.g. nc_ovlp_same_x).
+   with the feature on the same strand (e.g. nc_ovp_same_x).
 
 3. if the noncoding ORF overlaps with multiple annotated features
    located on the same strand, the feature with the larger overlap
    with the ORF to be annotated has priority over the other features
-   (e.g. nc_ovlp_(same/opp)_x).
+   (e.g. nc_ovp_(same/opp)_x).
    
 4. if the noncoding ORF overlaps with multiple features located on the 
 same strand and that cover the same fraction of the ORF to be 
@@ -117,7 +123,7 @@ match at the same time the features "gene" and "mRNA" are annotated
 as nc_same/opp_ovp_mRNA (see Figure 2), while those that match a CDS
 and its corresponding exon, will be annotated as c_CDS (i.e. coding 
    ORFs). Finally, noncoding ORFs that overlap in another frame with 
-   a CDS, and an exon will be annotated as nc_same/opp_ovp_CDS.
+   a CDS, and an exon will be annotated as nc_ovp_same/opp_CDS.
    
 
 
@@ -132,6 +138,6 @@ The two ORFs indicated with brackets do not overlap with the CDS
  of the gene are subsequently annotated as noncoding. However,
  they overlap with the gene and its corresponding mRNA. As the mRNA has priority
 over the gene feature, the two ORFs are annotated as noncoding ORF
-overlapping with a mRNA (nc_same_ovp_mRNA).
+overlapping with a mRNA (nc_ovp_same_mRNA).
  </em>
 
