@@ -6,7 +6,6 @@ logger = logHandler.Logger(name=__name__)
 
 
 def mapping(gff_data, param):
-
     if os.path.exists(param.outfile + '.gff'):
         os.remove(param.outfile + '.gff')
     if os.path.exists(param.outfile + '.faa'):
@@ -49,8 +48,8 @@ def get_orfs(gff_chr, param, outfiles: list):
 
     # loops on each possible frame (the negative frame is defined in "frame_rev")
     for frame in range(3):
-        subsequences = (gff_chr.sequence(start=i, end=i+max_subsequence_length) for i in
-                        range(1+frame, gff_chr.end, max_subsequence_length))
+        subsequences = (gff_chr.sequence(start=i, end=i + max_subsequence_length) for i in
+                        range(1 + frame, gff_chr.end, max_subsequence_length))
 
         frame_rev = (gff_chr.end % 3 - frame) % 3
         start_pos = None
@@ -64,13 +63,14 @@ def get_orfs(gff_chr, param, outfiles: list):
 
             start_pos = start_pos if start_pos else frame + 1
 
-            for pos, codon in enumerate(codons, start=int(n*max_subsequence_length/3)):
+            for pos, codon in enumerate(codons, start=int(n * max_subsequence_length / 3)):
                 if codon in ['TAG', 'TGA', 'TAA']:
                     end_pos = pos * 3 + 1 + 2 + frame
                     if end_pos - start_pos + 1 >= orf_len:
                         orf = build_orf(gff_chr=gff_chr, strand='+', frame=frame, coors=(start_pos, end_pos),
                                         param=param)
-                        write_outputs(out_fasta=out_fasta, out_gff=out_gff, out_nucleic=out_nucleic, orf=orf, param=param)
+                        write_outputs(out_fasta=out_fasta, out_gff=out_gff, out_nucleic=out_nucleic, orf=orf,
+                                      param=param)
 
                     start_pos = end_pos - 2
 
@@ -80,9 +80,11 @@ def get_orfs(gff_chr, param, outfiles: list):
                     else:
                         end_pos_rev = pos * 3 + 1 + 2 + frame
                         if end_pos_rev - start_pos_rev + 1 >= orf_len:
-                            orf = build_orf(gff_chr=gff_chr, strand='-', frame=frame_rev, coors=(start_pos_rev, end_pos_rev),
+                            orf = build_orf(gff_chr=gff_chr, strand='-', frame=frame_rev,
+                                            coors=(start_pos_rev, end_pos_rev),
                                             param=param)
-                            write_outputs(out_fasta=out_fasta, out_gff=out_gff, out_nucleic=out_nucleic, orf=orf, param=param)
+                            write_outputs(out_fasta=out_fasta, out_gff=out_gff, out_nucleic=out_nucleic, orf=orf,
+                                          param=param)
 
                         start_pos_rev = end_pos_rev - 2
 
@@ -171,3 +173,50 @@ def is_orf_include(orf=None, include=None):
 
 def is_orf_exclude(orf=None, exclude=None):
     return True in [x in [orf.type, orf.status] for x in exclude]
+
+
+def summary(gff_outfile: str):
+    summary_logger = logHandler.Logger(name='summary')
+
+    dict_summary = {}
+    orfs_len = []
+    with open(gff_outfile, 'r') as _file:
+        for line in _file:
+            if not line.startswith('#'):
+                seqid = line.split('\t')[0]
+                orf_type = line.split('\t')[2]
+                orf_len = (int(line.split('\t')[4]) - int(line.split('\t')[3]) + 1) / 3.0
+
+                if seqid not in dict_summary:
+                    dict_summary[seqid] = {}
+
+                if orf_type not in dict_summary[seqid]:
+                    dict_summary[seqid][orf_type] = {'quantity': 1, 'orf_len': [orf_len]}
+                else:
+                    dict_summary[seqid][orf_type]['quantity'] += 1
+                    dict_summary[seqid][orf_type]['orf_len'].append(orf_len)
+
+                if orf_type == 'nc_intergenic':
+                    orfs_len.append(orf_len)
+
+    if dict_summary:
+        row_format = '{:<48}{:<20}{:<12}'
+        header = row_format.format('ORF type', 'Quantity', 'Average length (aa)')
+        summary_logger.info('Summary')
+        summary_logger.info('-' * len('summary'))
+        for seqid in sorted(dict_summary):
+            summary_logger.info('')
+            summary_logger.info('')
+            summary_logger.info('# {}'.format(seqid))
+            summary_logger.info('')
+            summary_logger.info(header)
+            summary_logger.info(
+                row_format.format('-' * len('ORF type'), '-' * len('Quantity'), '-' * len('Average length (aa)')))
+            for orf_type in sorted(dict_summary[seqid]):
+                avg_orf_len = sum(dict_summary[seqid][orf_type]['orf_len']) / len(
+                    dict_summary[seqid][orf_type]['orf_len'])
+                summary_logger.info(row_format.format(orf_type,
+                                                      dict_summary[seqid][orf_type]['quantity'],
+                                                      round(avg_orf_len, 2)))
+
+        summary_logger.info('')

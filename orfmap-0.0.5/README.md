@@ -119,7 +119,8 @@ run_orfmap -h
 
 This command will show:
 
-<pre>usage: run_orfmap [-h] -fna [FNA] -gff [GFF] [-chr [CHR]] [-types_only TYPES_ONLY [TYPES_ONLY ...]]
+<pre>
+usage: run_orfmap [-h] -fna [FNA] -gff [GFF] [-chr [CHR]] [-types_only TYPES_ONLY [TYPES_ONLY ...]]
                   [-types_except TYPES_EXCEPT [TYPES_EXCEPT ...]] [-o_include O_INCLUDE [O_INCLUDE ...]] [-o_exclude O_EXCLUDE [O_EXCLUDE ...]]
                   [-orf_len [ORF_LEN]] [-co_ovp [CO_OVP]] [-out [OUT]] [--show-types] [--show-chrs]
 
