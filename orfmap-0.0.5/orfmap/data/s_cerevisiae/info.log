@@ -8,9 +8,9 @@
 Parameters description:
 - fasta filename: GCF_000146045.2_R64_genomic.fna
 - gff filename: GCF_000146045.2_R64_genomic.gff
-- chr: None
+- chr_only: NC_001148.4, NC_001224.1
 - types_only: 
-- types_except: gene, exon
+- types_except: exon, gene
 - o_include: all
 - o_exclude: 
 - orf_len: 60
@@ -68,55 +68,10 @@ All chromosomes are shared between GFF and fasta files.
 # MAPPING ORFS (STOP-TO-STOP CODONS) #
 --------------------------------------
 
-Reading chromosome NC_001133.9 ...
- - ORF mapping and assignment
-
-Reading chromosome NC_001134.8 ...
- - ORF mapping and assignment
-
-Reading chromosome NC_001135.5 ...
- - ORF mapping and assignment
-
-Reading chromosome NC_001136.10 ...
- - ORF mapping and assignment
-
-Reading chromosome NC_001137.3 ...
- - ORF mapping and assignment
-
-Reading chromosome NC_001138.5 ...
- - ORF mapping and assignment
-
-Reading chromosome NC_001139.9 ...
- - ORF mapping and assignment
-
-Reading chromosome NC_001140.6 ...
- - ORF mapping and assignment
-
-Reading chromosome NC_001141.2 ...
- - ORF mapping and assignment
-
-Reading chromosome NC_001142.9 ...
- - ORF mapping and assignment
-
-Reading chromosome NC_001143.9 ...
- - ORF mapping and assignment
-
-Reading chromosome NC_001144.5 ...
- - ORF mapping and assignment
-
-Reading chromosome NC_001145.3 ...
- - ORF mapping and assignment
-
-Reading chromosome NC_001146.8 ...
- - ORF mapping and assignment
-
-Reading chromosome NC_001147.6 ...
- - ORF mapping and assignment
-
 Reading chromosome NC_001148.4 ...
  - ORF mapping and assignment
 
 Reading chromosome NC_001224.1 ...
  - ORF mapping and assignment
 
--- Execution time: 35.289560317993164 seconds --
+-- Execution time: 3.039484739303589 seconds --

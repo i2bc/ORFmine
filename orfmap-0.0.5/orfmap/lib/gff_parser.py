@@ -537,24 +537,37 @@ def set_gff_descr(gff_fname):
             line = gff_file.readline()
 
 
-def parse(param=None, fasta_hash=None, chr_id=None):
+def parse(param=None, fasta_hash=None, chr_asked: list = None):
     logger.title('# Parsing GFF file')
-
     gff_fname = param.gff_fname
     fasta_hash = fasta_hash
-    chr_id = chr_id
+    chr_asked = chr_asked
 
     if not GFF_DESCR:
         set_gff_descr(gff_fname)
 
     logger.info('Checking chromosome IDs consistency between GFF and fasta file...')
     logger.info('')
+
+    # Get chromosomes present both in the GFF file and the fasta file
     chrs_common = inspect.check_chrids(chrs_gff=sorted(GFF_DESCR), chrs_fasta=sorted(fasta_hash))
-    chr_ids = sorted(chrs_common) if not chr_id else [chr_id]
-    if chr_id and chr_id not in chrs_common:
-        logger.error('Error: wrong chromosome ID')
-        logger.error('')
-        sys.exit(1)
+
+    # Get chromosomes to be treated
+    chr_ids = sorted(chrs_common) if not chr_asked else chr_asked
+
+    # If chr_asked, check that asked chromosomes are valid (i.e. present in gff and fasta files)
+    if chr_ids == chr_asked:
+        invalid_chrs = []
+        for _chr in chr_ids:
+            if _chr not in chrs_common:
+                invalid_chrs.append(_chr)
+
+        if invalid_chrs:
+            logger.error('Error: wrong chromosome ID have been asked:')
+            for invalid in invalid_chrs:
+                logger.error(' - {}'.format(invalid))
+                logger.error('')
+            sys.exit(1)
 
     gff_data = {}
     with open(gff_fname, 'r') as gff_file:
@@ -588,6 +601,7 @@ def parse(param=None, fasta_hash=None, chr_id=None):
                 else:
                     chr_name = line.split('\t')[0]
 
+    # Assign an index to CDS to facilitate their fusion into protein
     for chr_name in sorted(gff_data):
         gff_data[chr_name].index_cds()
 

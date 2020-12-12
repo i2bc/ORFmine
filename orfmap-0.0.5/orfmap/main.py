@@ -33,15 +33,12 @@ def main():
     logo(logger)
     param.description()
 
-    # sys.exit(0)
-
     # parses fasta & gff by chromosomes
     logger.title('# Parsing GFF and fasta input files #')
     fasta_hash = fasta_parser.parse(fasta_filename=param.fasta_fname)
-    gff_data = gff_parser.parse(param=param, fasta_hash=fasta_hash, chr_id=param.chr)
+    gff_data = gff_parser.parse(param=param, fasta_hash=fasta_hash, chr_asked=param.chr)
 
-    # checking if type(s) given in argument is(are) valid
-    # inspect.check_types(gff_data=gff_data, types=param.types)
+    # sys.exit(0)
 
     # ORFs mapping (scans genome for stop-to-stop sequences and assigns them a status)
     logger.title('# Mapping ORFs (stop-to-stop codons) #')
