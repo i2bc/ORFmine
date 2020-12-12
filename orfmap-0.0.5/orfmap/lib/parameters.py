@@ -19,7 +19,13 @@ class Param:
     def __init__(self, args):
         self.fasta_fname = args.fna
         self.gff_fname = args.gff
-        self.chr = args.chr
+
+        self.chr = []
+        self.chr_exclude = []
+        if args.chr:
+            self.chr = list(set(args.chr))
+        if args.chr_exclude:
+            self.chr_exclude = list(set(args.chr_exclude))
 
         self.types_only = []
         self.types_except = []
@@ -55,12 +61,14 @@ class Param:
             object: str
 
         """
-        chrid = 'None' if not self.chr else self.chr
+        chr_asked = 'None' if not self.chr else ', '.join(self.chr)
+        chr_exclude = 'None' if not self.chr_exclude else ', '.join(self.chr_exclude)
         logger.info('')
         logger.info('Parameters description:')
         logger.info('- fasta filename: ' + self.fasta_fname)
         logger.info('- gff filename: ' + self.gff_fname)
-        logger.info('- chr: ' + chrid)
+        logger.info('- chr: ' + chr_asked)
+        logger.info('- chr_exclude: ' + chr_exclude)
         logger.info('- types_only: ' + ', '.join(self.types_only))
         logger.info('- types_except: ' + ', '.join(self.types_except))
         logger.info('- o_include: ' + ', '.join(self.o_include))
@@ -82,43 +90,50 @@ def get_args():
     """
 
     parser = argparse.ArgumentParser(description='Genomic mapping of pseudo-ORF')
-    parser.add_argument("-fna", required=True, nargs="?",
+    parser._action_groups.pop()  # Remove original optional argument group
+
+    mandatory_arguments = parser.add_argument_group('Mandatory arguments')
+    optional_arguments = parser.add_argument_group('Optional arguments')
+
+    mandatory_arguments.add_argument("-fna", required=True, nargs="?",
                         help="Genomic fasta file (.fna) ")
-    parser.add_argument("-gff", required=True, nargs="?",
+    mandatory_arguments.add_argument("-gff", required=True, nargs="?",
                         help="GFF annotation file (.gff)")
-    parser.add_argument("-chr", required=False, nargs="?", type=str, default=None,
+
+    optional_arguments.add_argument("-chr", required=False, nargs="+", type=str, default=[],
                         help="Chromosome name")
-    parser.add_argument("-types_only", required=False, nargs="+", default=[],
+    optional_arguments.add_argument("-chr_exclude", required=False, nargs="+", type=str, default=[],
+                        help="Chromosome ID you want to exclude (None by default.)")
+    optional_arguments.add_argument("-types_only", required=False, nargs="+", default=[],
                         help="Type feature(s) to use as reference(s) ('CDS' in included by default).")
-    parser.add_argument("-types_except", required=False, nargs="+", default=['gene', 'exon'],
+    optional_arguments.add_argument("-types_except", required=False, nargs="+", default=['gene', 'exon'],
                         help="Type feature(s) to not consider as reference(s) ('gene' and 'exon' by default).")
-    parser.add_argument("-o_include", required=False, nargs="+", default=['all'],
+    optional_arguments.add_argument("-o_include", required=False, nargs="+", default=['all'],
                         help="Type feature(s) and/or Status attribute(s) desired to be written in the output (all by default).")
-    parser.add_argument("-o_exclude", required=False, nargs="+", default=[],
+    optional_arguments.add_argument("-o_exclude", required=False, nargs="+", default=[],
                         help="Type feature(s) and/or Status attribute(s) desired to be excluded (None by default).")
-    parser.add_argument("-orf_len", required=False, nargs="?", default=60, type=int,
+    optional_arguments.add_argument("-orf_len", required=False, nargs="?", default=60, type=int,
                         help="Minimum number of coding nucleotides required to define a sequence between two consecutive stop codons\
                          as an ORF sequence (60 nucleotides by default).")
-    parser.add_argument("-co_ovp", required=False, nargs="?", default=0.7, type=float,
+    optional_arguments.add_argument("-co_ovp", required=False, nargs="?", default=0.7, type=float,
                         help="Cutoff defining the minimum CDS overlapping ORF fraction required to label on ORF as a CDS.\
                              By default, an ORF sequence will be tagged as a CDS if at least 70 per cent of its sequence overlap\
                              with the CDS sequence.")
-    parser.add_argument("-out", required=False, nargs="?", default='./', type=str,
+    optional_arguments.add_argument("-out", required=False, nargs="?", default='./', type=str,
                         help="Output directory")
 
-    parser.add_argument('--show-types', action='store_true', default=False,
+    optional_arguments.add_argument('--show-types', action='store_true', default=False,
                         dest='bool_types',
                         help='Print all type features')
-    parser.add_argument('--show-chrs', action='store_true', default=False,
+    optional_arguments.add_argument('--show-chrs', action='store_true', default=False,
                         dest='bool_chrs',
                         help='Print all chromosome names')
-    parser.add_argument('--frag-cds', action='store_true', default=False,
+    optional_arguments.add_argument('--frag-cds', action='store_true', default=False,
                         dest='bool_isfrag',
                         help='Generates fragments for CDS extremities that respect orf_len parameter.')
-    parser.add_argument('--ofasta', action='store_true', default=False,
+    optional_arguments.add_argument('--ofasta', action='store_true', default=False,
                         dest='bool_ofasta',
                         help='Writes amino acid and nucleic fasta files for ORFs')
-
     args = parser.parse_args()
     
     return args

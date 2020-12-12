@@ -1,11 +1,10 @@
 import sys
 from orfmap.lib import logHandler
-from orfmap.lib import inspect
 
 logger = logHandler.Logger(name=__name__)
 
 
-def check_types(gff_data=None, types=[]):
+def check_types(gff_data=None, types=None):
     unconsistent_types = []
     all_types = get_types(gff_data)
 
@@ -27,19 +26,20 @@ def check_types(gff_data=None, types=[]):
 
 
 def get_types(gff_data):
-    all_types_2d = [ gff_data[x].get_types() for x in (sorted(gff_data)) ]
+    all_types_2d = (gff_data[x].get_types() for x in (sorted(gff_data)))
     all_types_flatten = (sorted(set([val for sublist in all_types_2d for val in sublist])))
 
     return all_types_flatten
 
-def check_chrids(chrs_gff=[], chrs_fasta=[]):
+
+def check_chrids(chrs_gff: list = None, chrs_fasta: list = None):
     chr_common = set(chrs_gff).intersection(chrs_fasta)
 
     if chr_common:
         if len(chr_common) != len(chrs_fasta):
             table_chrs(chrs_gff, chrs_fasta)
             warning_log = 'All chromosomes are not shared between GFF and fasta files.' + \
-                           'The process will continue with shared chromosome IDs only.'
+                          'The process will continue with shared chromosome IDs only.'
             logger.warning(warning_log)
         else:
             table_chrs(chrs_gff, chrs_fasta)
@@ -50,24 +50,21 @@ def check_chrids(chrs_gff=[], chrs_fasta=[]):
         logger.error('Chromosomes are not consistent between GFF and fasta files.')
         sys.exit(1)
 
+
 def table_chrs(chrs_gff, chrs_fasta):
     table_header = ["Chromosome ids", "in GFF", "in fasta"]
     spacer_len = 20
     table_border = spacer_len * len(table_header) * '-'
-    row_format = ('{:>'+str(spacer_len)+'}') * (len(table_header))
+    row_format = ('{:>' + str(spacer_len) + '}') * (len(table_header))
     logger.info(row_format.format(*table_header))
     logger.info(table_border)
 
     all_chrs = sorted(set(chrs_gff + chrs_fasta))
-    for chr in all_chrs:
-        if chr in chrs_gff and chr in chrs_fasta:
-            logger.info(row_format.format(chr, 'X', 'X'))
-        elif chr in chrs_gff and chr not in chrs_fasta:
+    for chromosome in all_chrs:
+        if chromosome in chrs_gff and chromosome in chrs_fasta:
+            logger.info(row_format.format(chromosome, 'X', 'X'))
+        elif chromosome in chrs_gff and chromosome not in chrs_fasta:
             logger.info(row_format.format(chr, 'X', '-'))
-        elif chr in chrs_fasta and chr not in chrs_gff:
-            logger.info(row_format.format(chr, '-', 'X'))
+        elif chromosome in chrs_fasta and chromosome not in chrs_gff:
+            logger.info(row_format.format(chromosome, '-', 'X'))
     logger.info('')
-
-
-
-
