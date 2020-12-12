@@ -202,7 +202,8 @@ def summary(gff_outfile: str):
     if dict_summary:
         row_format = '{:<48}{:<20}{:<12}'
         header = row_format.format('ORF type', 'Quantity', 'Average length (aa)')
-        summary_logger.title('Summary')
+        summary_logger.info('Summary')
+        summary_logger.info('-' * len('summary'))
         for seqid in sorted(dict_summary):
             summary_logger.info('')
             summary_logger.info('')
