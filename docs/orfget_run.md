@@ -115,3 +115,10 @@ writes all the resulting sequences in a FASTA file.
 ``` python
 orfget -fna genome.fasta -gff genome.gff -features_include CDS
 ```
+
+
+By default, orfget will generate an amino acids fasta file of the sequences
+with the extension **.pmultifasta**. If the user wishes to generate the nucleotide
+or even both nucleotide and amino acids fasta files, he has to use the option
+```-type nucl``` and ```-type both```,respectivelly.
+
