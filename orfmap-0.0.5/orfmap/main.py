@@ -11,7 +11,6 @@ from orfmap.lib import logHandler
 from orfmap.lib import fasta_parser
 from orfmap.lib import gff_parser
 from orfmap.lib import parameters
-# from orfmap.lib import inspect
 from orfmap.lib import tools
 import time
 
@@ -33,10 +32,12 @@ def main():
     logo(logger)
     param.description()
 
+    # sys.exit(0)
+
     # parses fasta & gff by chromosomes
     logger.title('# Parsing GFF and fasta input files #')
     fasta_hash = fasta_parser.parse(fasta_filename=param.fasta_fname)
-    gff_data = gff_parser.parse(param=param, fasta_hash=fasta_hash, chr_asked=param.chr)
+    gff_data = gff_parser.parse(param=param, fasta_hash=fasta_hash, chr_asked=param.chr, chr_exclude=param.chr_exclude)
 
     # sys.exit(0)
 
