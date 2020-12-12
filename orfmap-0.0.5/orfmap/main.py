@@ -17,8 +17,6 @@ import time
 
 def main():
     # gets arguments
-    start_time = time.time()
-    print('coucou')
     param = parameters.Param(args=parameters.get_args())
 
     if param.bool_chrs:
@@ -48,7 +46,6 @@ def main():
     # Print a brief summary of ORFs mapping
     orfmap.summary(gff_outfile=param.outfile+'.gff')
 
-    logger.title("-- Execution time: {} seconds --".format(round((time.time() - start_time), 2)))
 
 
 def logo(logger):
