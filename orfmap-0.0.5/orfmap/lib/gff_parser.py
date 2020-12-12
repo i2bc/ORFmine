@@ -537,11 +537,18 @@ def set_gff_descr(gff_fname):
             line = gff_file.readline()
 
 
-def parse(param=None, fasta_hash=None, chr_asked: list = None):
+def parse(param=None, fasta_hash=None, chr_asked=None, chr_exclude=None):
+    """
+    @param fasta_hash:
+    @param param:
+    @type chr_exclude: list
+    @type chr_asked: list
+    """
     logger.title('# Parsing GFF file')
     gff_fname = param.gff_fname
     fasta_hash = fasta_hash
-    chr_asked = chr_asked
+    chr_asked = chr_asked if chr_asked else []
+    chr_exclude = chr_exclude if chr_exclude else []
 
     if not GFF_DESCR:
         set_gff_descr(gff_fname)
@@ -553,7 +560,10 @@ def parse(param=None, fasta_hash=None, chr_asked: list = None):
     chrs_common = inspect.check_chrids(chrs_gff=sorted(GFF_DESCR), chrs_fasta=sorted(fasta_hash))
 
     # Get chromosomes to be treated
-    chr_ids = sorted(chrs_common) if not chr_asked else chr_asked
+    if not chr_asked:
+        chr_ids = sorted([x for x in chrs_common if x not in chr_exclude])
+    else:
+        chr_ids = sorted([x for x in chr_asked if x not in chr_exclude])
 
     # If chr_asked, check that asked chromosomes are valid (i.e. present in gff and fasta files)
     if chr_ids == chr_asked:
