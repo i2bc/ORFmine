@@ -7,7 +7,7 @@ input genome.
 
 
 ``` python
-orfmap   orfmap -fna genome.fasta -gff genome.gff
+orfmap -fna genome.fasta -gff genome.gff
 
 ```
 Depending on the size of the genome, ORFmap takes a few minutes to
@@ -23,7 +23,7 @@ instruction:
 
 
 ``` python
-orfmap   orfmap -fna genome.fasta -gff genome.gff  CHR XXXXX
+orfmap -fna genome.fasta -gff genome.gff  -chr CHR3
 
 ```
 This can be very useful if the user wants to run ORFmap on several 
@@ -31,7 +31,7 @@ CPUs. Also, it can be launched on a subset of chromosomes as follows:
 
 
 ``` python
-orfmap   orfmap -fna genome.fasta -gff genome.gff  CHR1 CHR2 CHR3
+orfmap -fna genome.fasta -gff genome.gff  -chr CHR1 CHR2 CHR3
 
 ```
 
