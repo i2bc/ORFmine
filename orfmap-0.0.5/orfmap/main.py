@@ -28,7 +28,7 @@ def main():
         tools.get_infos(_input=param.gff_fname, option='types')
         sys.exit(0)
 
-    logger = logHandler.Logger(name='main', outpath=param.outpath)
+    logger = logHandler.Logger(name=__name__, outpath=param.outpath)
     logo(logger)
     param.description()
 
