@@ -25,7 +25,7 @@ def get_args():
                         action='store',
                         required=True, 
                         nargs="*",
-                        help="Tables of foldability calculated by orfold")
+                        help="Tables of foldability calculated by ORFold")
     parser.add_argument("-names",
                         type=str,
                         action='store',
