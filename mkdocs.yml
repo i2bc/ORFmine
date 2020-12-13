@@ -25,10 +25,11 @@ nav:
         - How it works?: How_it_works_orfold.md
       - Usage:
         - Basic run ORFold: Run_orfold.md
-        - Plot ORFold: Plot_orfold.md
+        - Plots with ORFplot: Plot_orfold.md
         - Advanced run ORFold: Run_orfold_advanced.md
-      - Parameters: parameters_orfold.md
-
+      - Parameters:
+        - ORFold parameters: parameters_orfold.md
+        - ORFplot parameters: parameters_orfplot.md
 theme: readthedocs
 markdown_extensions:
     - footnotes

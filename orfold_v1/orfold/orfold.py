@@ -22,7 +22,7 @@ from matplotlib.colors import to_hex
 # -------------- # ========================================================= #
 # Paths to set:  #
 # -------------- # 
-softwares_path="/Users/christospapadopoulos/Documents/de_novo/ORFmine/orfold_v1"
+softwares_path="/Users/christospapadopoulos/Documents/de_novo/project_orfmine/orfold_v1"
 #  1. IUPRED
 #  The python script of iupred
 #iupred      = '/Users/christospapadopoulos/Documents/de_novo/iupred/iupred2a.py'
@@ -61,7 +61,7 @@ def get_args():
                         action='store',
                         required=True, 
                         nargs="*",
-                        help="Genomic fasta file(s) (.fna) ")
+                        help="FASTA file containing the amino acid sequences to treat")
     
     parser.add_argument("-gff", 
                         required=False, 
@@ -69,14 +69,19 @@ def get_args():
                         action='store',
                         nargs="*",
                         default=[],
-                        help="GFF annotation file (.gff)")
+                        help="GFF annotation file")
     
     parser.add_argument("-options",
                         type=list,
                         #action='store',
                         required=True, 
                         nargs="?",
-                        help="Which analyses you want to perform?")
+                        default=["H"],
+                        help=
+                        '''Which properties are to be calculated. 
+                             H for HCA (Default)
+                             I for IUPred
+                             T for Tango''')
     
     parser.add_argument("-plot", 
                         required=False, 
@@ -84,21 +89,21 @@ def get_args():
                         action='store',
                         nargs="*",
                         default=False,
-                        help="GFF annotation file (.gff)")
+                        help="Generate a foldability plot")
     parser.add_argument("-keep", 
                         required=False, 
                         type=list,
                         #action='store',
                         nargs="?",
                         default=[],
-                        help="Option for keeping the IUPRED & TANGO output files")
+                        help="Option for keeping the Tango output files")
     parser.add_argument("-N", 
                         required=False, 
                         type=str,
                         action='store',
                         nargs="*",
                         default=["all"],
-                        help="Size of sample(s) per fasta file")
+                        help="Size of sample(s) per FASTA file")
     
     args = parser.parse_args()
     return args

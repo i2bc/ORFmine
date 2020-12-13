@@ -20,6 +20,6 @@ st.setup(name='orfold',
          				   'seaborn==0.11.0',
          				   'matplotlib==3.3.3'],
          entry_points={'console_scripts': ['orfold=orfold.orfold:main',
-                                           'orfget=orfold.scripts.ORFget:main',
-                                           'plot_orfold=orfold.scripts.plot_orfold:main']}
+                                           #'orfget=orfold.scripts.ORFget:main',
+                                           'orfplot=orfold.scripts.plot_orfold:main']}
          )

@@ -23,7 +23,7 @@
                         ID must be separated by a space: -chr NC_001148.4 NC_001139.3   
 In this case, ORFmap will not treat the entire genome, but
 the following seqID NC_001148.4 NC_001139.3. We recommend using this option 
-when dealing with large genomes, in order to distribute the calculations on 
+when dealing with large genomes in order to distribute the calculations on 
 several CPUs (one per (subset of) seqID).
 
 

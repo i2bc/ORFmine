@@ -73,7 +73,7 @@ def get_args():
                         required=False,
                         nargs="?",
                         default = "prot",
-                        help="Size of the sample to be generated")
+                        help="Sequences type of output [prot (default) / nucl / both];")
 
     args = parser.parse_args()
     return args

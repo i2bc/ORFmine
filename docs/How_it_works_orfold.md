@@ -2,7 +2,8 @@
 
 ORFold is a tool developed in python3 which aims at 
 characterizing the fold potential of a set of amino acid sequences with no 
-knowledge of their 3D structures. The fold potential of a sequence is 
+knowledge of their 3D structures nor evolutionary information (orphan sequences can be treated). 
+The fold potential of a sequence is 
 calculated with the HCA 
 method [REF]. Also ORFold can estimate the disorder, 
 and the aggregation propensities of the input sequences with IUPred

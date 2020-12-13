@@ -2,34 +2,67 @@
 
 ## Advanced run:
 
-### Map the three methods along the genome of an organism
+### Mapping of the fold potential and the disorder and aggregation propensities along the genome of an organism
 
-In the previous section we presented how to launch ORFold on one FASTA file of amino acid sequences. This is a simple example where the user has some sequences and wants to characterize their foldability potential. However, ORFold contains some more advanced options which are usefull in the case that these sequences are extracted by a genome wide analysis and the user posseses a GFF file of their genome localisation. In this case the user can get new GFF file(s) which will map the method(s) (HCA, IUPred or Tango) asked by the user (with the **-options** label) along the organism's genome.
+In the previous section we presented how to launch ORFold on a set
+of amino acid sequences stored in a FASTA file. However, 
+the originality of ORFold relies on the fact that the user can manually 
+inspect the distribution of the properties estimated with ORFold (fold potential,
+and disorder and aggregation propensities) along a genome of interest. 
+In this case, the user must provide the genome annotation file (GFF) along with 
+the input FASTA file. ORFold will return new GFF files (one per studied property)
+that contain for the ORFs provided in the input FASTA file, their corresponding 
+property (fold potential, disorder or aggregation propensities). The 
+values are stored in the column #9 of the output GFF files. The GFF files can be subsequently
+uploaded on a genome viewer such as IGV [REF].
 
-The user can pass this GFF file (with the **-gff** label) and ORFold will generate new GFF file(s), identical with the initail one but which will contain the information of the method(s) asked with the **-options** label.  
+The input GFF file must be given with the **-gff** option as follows:
 
-To do so, the user has to type the following command:
 ```{}
 orfold -fna sequences.fasta -options HIT -gff sequences.gff 
 ```
 
-This command will generate the **sequences.tab** file already seen in the basic run section and additionally will generate three new files:
+ORFold generates a **sequences.tab** file containing the fold potential, and the 
+disorder and aggregation propensities of each sequence present in the input FASTA file.
+Additionally, ORFold produces three new GFF files:
 
  1. sequences_HCA.gff
  2. sequences_IUPRED.gff
  3. sequences_TANGO.gff
 
-These GFF files are identical as the one provided by the user with the difference that the sequences are colored based on their HCA score, disorder propensity and aggregation propensity respectivelly. Blue color indicates low values while red color indicate high values of each method. These GFF files can be visualized on genome visualisation tools (such as IGV) and can give a visual mapping of these three methods along the genome of an organism. 
+The output GFF files are identical to the one provided by the user except that for the sequences present
+at the same time in the FASTA and the GFF files that were given as inputs, the column #9
+is now replaced by the fold potential, or the disorder or aggregation propensities estimated by ORFold.
+That way, the corresponding sequences can be colored according to these values on
+a genome viewer, thereby enabling the visual inspection of these properties along
+the input genome. Notice that on IGV, blue indicates low values (for all mapped properties) 
+while red indicates high values. 
 
-### Multiple files handle:
+<div class="admonition note">
+    <p class="first admonition-title">
+        Note
+    </p>
+    <p class="last">
 
-ORFold can handle multiple input files (FASTA and GFF) and will try to associate them based on the following rules:
+Notice that the ID 
+of the sequences given in the FASTA file (i.e. annotation after the ">" in 
+the FASTA file) must be strictly identical to those of the corresponding sequences 
+in the GFF file (i.e. ID indicated in the column #3 of the GFF file).  
+         
+    </p>
+</div>
 
-1. If the user provides the same number of FASTA and GFF files, ORFold will try to associate them based on their root name, nomatter the order of the files.
+### Dealing with multiple files at the same time:
+
+ORFold can handle multiple input files (FASTA and GFF) and will associate 
+the FASTA and GFF files according to the following rules:
+
+1. If the user provides the same number of FASTA and GFF files, ORFold associates them 
+   based on their root name, no matter the order of the files.
 
 		orfold -fna sequences_Y.fasta sequences_X.fasta -options H -gff sequences_X.gff sequences_Y.gff
 	
-	In this case will associate:
+	In this case, ORFold associates:
 
 	* sequence_Y.fasta with sequence_Y.gff
 	* sequence_X.fasta with sequence_X.gff 
@@ -37,11 +70,13 @@ ORFold can handle multiple input files (FASTA and GFF) and will try to associate
 	&nbsp;
 	
 
-2. I If the user provides the same number of FASTA and GFF files and their root names are not identical, then ORFold will associate them based on the order the files are given.
+2. I If the user provides the same number of FASTA and GFF files,
+   but their root names are not identical, ORFold associates them 
+   according to the order of the files in the command line.
 
 		orfold -fna sequences_Y.fasta sequences_X.fasta -options H -gff sequences_A.gff sequences_B.gff
 
-	In this case will associate:
+	In this case, ORFold associates:
 
 	* sequence_Y.fasta with sequence_A.gff
 	* sequence_X.fasta with sequence_B.gff
@@ -50,33 +85,40 @@ ORFold can handle multiple input files (FASTA and GFF) and will try to associate
 
 3. If the user provides multiple FASTA files and only one GFF file, then:
 
-	* If the name of the GFF file matches with the name of one of the FASTA files then they are associated and the rest of the FASTA files stay with no association.
+	* If the name of the GFF file matches with the name of one of the FASTA files,
+	  the two files are associated, while the other FASTA files are not associated
+	  to the input GFF file.
 		
 			orfold -fna sequences_Y.fasta sequences_X.fasta -options H -gff sequences_X.gff
 
-		ORFold will associate:
+		ORFold associates:
 	
-		* sequences_X.fasta with sequnces_X.gff
+		* sequences_X.fasta with sequences_X.gff
 		* sequences_Y.fasta with **nothing**
 		
 		&nbsp;
 
-	* If the name of the GFF file does not match with any name of the FASTA files, then the GFF file will be associated with all the FASTA files considering that the FASTA files correspond to different subgroups of the same dataset.
+	* If the name of the GFF file does not match with any of the names of 
+	  the FASTA files, then the GFF file will be associated with all the FASTA
+	  files, considering that the FASTA files correspond to different 
+	  subgroups of the same dataset.
 			
 			orfold -fna sequences_Y.fasta sequences_X.fasta -options H -gff sequences_B.gff
 
-		ORFold will associate:
+		ORFold associates:
 
 		* sequences_Y.fasta with sequences_B.gff
 		* sequences_X.fasta with sequences_B.gff
 		
 		&nbsp;
 
-4. If the user provides multiple FASTA and GFF files (but not the same number), then all the GFF files must have a FASTA file with the corresponding root name. Otherwise ORFold does not know how to associate the files and gives an ERROR message. 
+4. If the user provides multiple FASTA and GFF files (but not the same number)
+   , all GFF files must have a corresponding FASTA file with the same root name. 
+   Otherwise, ORFold will give an ERROR message. 
 
 		orfold -fna sequences_Y.fasta sequences_X.fasta sequences_Z.fasta -options H -gff sequences_Z.fasta sequences_Y.gff
 
-	ORFold will associate:
+	ORFold associates:
 
 	* sequences_Y.fasta with sequences_Y.gff
 	* sequences_Z.fasta with sequences_Z.gff
@@ -88,14 +130,25 @@ ORFold can handle multiple input files (FASTA and GFF) and will try to associate
 
 	ORFold will give the following error message:
 		
-		Oups! You provided GFF file(s) which has no correspodance to FASTA
+		Oups! You provided GFF file(s) which has/have no correspondance to the input FASTA files
 
-### Random sample of sequences 
-Working with total genomes could eventually generate big amounts of sequences which will need an important excecution time for ORFold. If the user does not want to calculate the foldability of all the sequences but mostly prefers to have an indication based on a representative sample of sequences, he can create a random sample of the size of his preference. To do so, he must use the **-N** label and pass the size of sample he wishes to generate.
+###  Running ORFold on subsets of randomly selected sequences 
+Working with complete genomes could generate big amounts of sequences 
+which can dramatically increase the computational time of ORFold when dealing with
+large genomes (especially if the estimation of the disorder and aggregation propensities are
+activated). If the user does not want to treat all 
+the sequences, he can create a random sample of the input sequences, large enough
+ to have an estimation of the distribution of the studied properties of its 
+dataset from a representative sample of the input sequences. To do so, 
+the user must indicate the number of sequences that are to be randomly selected
+with the **-N** option. For a representative dataset, we recommend selecting at least
+10000 sequences.
 
-	orfold -fna sequences.fasta -options HIT -gff sequences.gff -N 3000
+	orfold -fna sequences.fasta -options HIT -gff sequences.gff -N 10000
 
-In this example, ORFold will calculate the three methods (HCA, IUPred and Tango) on a sample of 3000 sequences extracted randomly from the initial **sequences.fasta** file.    
+In this example, ORFold will estimate the fold potential, and the disorder and 
+aggregation propensities on a sample of 10000 sequences extracted randomly 
+from the initial **sequences.fasta** file.    
 
 
 
