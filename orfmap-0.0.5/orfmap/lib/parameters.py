@@ -101,36 +101,52 @@ def get_args():
                         help="GFF annotation file (.gff)")
 
     optional_arguments.add_argument("-chr", required=False, nargs="+", type=str, default=[],
-                        help="Chromosome name")
+                        help="List of seqID(s) - 1st column in the GFF file, generally chromosome or contig ID - \
+                          to be treated by ORFmap (all seqIDs are treated by default). \
+                          The seqIDs must be separated by a space: -chr NC_001148.4 NC_001139.3")
+
     optional_arguments.add_argument("-chr_exclude", required=False, nargs="+", type=str, default=[],
-                        help="Chromosome ID you want to exclude (None by default.)")
+                        help="List of seqID(s) you want to exclude (None by default.)")
     optional_arguments.add_argument("-types_only", required=False, nargs="+", default=[],
-                        help="Type feature(s) to use as reference(s) ('CDS' in included by default).")
+                        help="List of feature type(s) to use as reference(s) ('CDS' in included by default).")
     optional_arguments.add_argument("-types_except", required=False, nargs="+", default=['gene', 'exon'],
-                        help="Type feature(s) to not consider as reference(s) ('gene' and 'exon' by default).")
+                        help="List of feature type(s) to not consider as reference(s) ('gene' and 'exon' by default).")
+
+    # optional_arguments.add_argument("-o_include", required=False, nargs="+", default=['all'],
+    #                     help="Type feature(s) and/or Status attribute(s) desired to be written in the output (all by default).")
     optional_arguments.add_argument("-o_include", required=False, nargs="+", default=['all'],
-                        help="Type feature(s) and/or Status attribute(s) desired to be written in the output (all by default).")
+                        help=argparse.SUPPRESS)
+    # optional_arguments.add_argument("-o_exclude", required=False, nargs="+", default=[],
+    #                     help="Type feature(s) and/or Status attribute(s) desired to be excluded (None by default).")
     optional_arguments.add_argument("-o_exclude", required=False, nargs="+", default=[],
-                        help="Type feature(s) and/or Status attribute(s) desired to be excluded (None by default).")
+                        help=argparse.SUPPRESS)
+
     optional_arguments.add_argument("-orf_len", required=False, nargs="?", default=60, type=int,
                         help="Minimum number of coding nucleotides required to define a sequence between two consecutive stop codons\
-                         as an ORF sequence (60 nucleotides by default).")
+                         as an ORF sequence (60 coding nucleotides by default).")
     optional_arguments.add_argument("-co_ovp", required=False, nargs="?", default=0.7, type=float,
-                        help="Cutoff defining the minimum CDS overlapping ORF fraction required to label on ORF as a CDS.\
-                             By default, an ORF sequence will be tagged as a CDS if at least 70 per cent of its sequence overlap\
-                             with the CDS sequence.")
+                        help="Overlapping cutoff definition. An ORF sequence is considered overlapping with a genomic feature if \
+                         its sequence overlaps with a fraction equals or above co_ovp (By default, co_ovp=0.7).")
+
+    'Cutoff defining the minimum ORF sequence fraction'
     optional_arguments.add_argument("-out", required=False, nargs="?", default='./', type=str,
                         help="Output directory")
 
     optional_arguments.add_argument('--show-types', action='store_true', default=False,
                         dest='bool_types',
-                        help='Print all type features')
+                        help='Print all feature types by seqIDs')
     optional_arguments.add_argument('--show-chrs', action='store_true', default=False,
                         dest='bool_chrs',
-                        help='Print all chromosome names')
+                        help='Print all seqIDs')
+
+    # optional_arguments.add_argument('--frag-cds', action='store_true', default=False,
+    #                     dest='bool_isfrag',
+    #                     help='Generates fragments for CDS extremities that respect orf_len parameter.')
     optional_arguments.add_argument('--frag-cds', action='store_true', default=False,
                         dest='bool_isfrag',
-                        help='Generates fragments for CDS extremities that respect orf_len parameter.')
+                        help=argparse.SUPPRESS)
+
+
     optional_arguments.add_argument('--ofasta', action='store_true', default=False,
                         dest='bool_ofasta',
                         help='Writes amino acid and nucleic fasta files for ORFs')
