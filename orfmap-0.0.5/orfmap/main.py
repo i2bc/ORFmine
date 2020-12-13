@@ -17,7 +17,7 @@ import time
 
 def main():
     # gets arguments
-    start_time = time.time()
+    # start_time = time.time()
 
     param = parameters.Param(args=parameters.get_args())
 
@@ -48,7 +48,7 @@ def main():
     # Print a brief summary of ORFs mapping
     orfmap.summary(gff_outfile=param.outfile+'.gff')
 
-    logger.title("-- Execution time: {} seconds --".format(round((time.time() - start_time), 2)))
+    # logger.title("-- Execution time: {} seconds --".format(round((time.time() - start_time), 2)))
 
 
 def logo(logger):
