@@ -35,7 +35,7 @@ on the input sequences giving their initials with the **-options** argument
 without any space: -options HIT for running the 3 programs or -options HT 
 if the user wants to run only HCA and Tango for example. 
 The order of the letters has no importance, 
-"-options HIT" and "-options THI" will lead to the same result.
+```-options HIT``` and ```-options THI``` will lead to the same result.
 
 
 ### Basic run
