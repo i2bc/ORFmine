@@ -31,38 +31,12 @@ Each method used by ORFold is referred by its initial:
 </pre>
 
 The user must specify the combination of methods he wants to apply
-on the input sequences giving their initials with the **-options** argument without any space.
+on the input sequences giving their initials with the **-options** argument
+without any space: -options HIT for running the 3 programs or -options HT 
+if the user wants to run only HCA and Tango for example. 
+The order of the letters has no importance, 
+"-options HIT" and "-options THI" will lead to the same result.
 
-
-<div class="admonition note">
-    <p class="first admonition-title">
-    </p>
-    <p class="last">
-
-<table>
- <tr>
-    <th><b>Methods</b></th> 
-    <th><b>Options</b></th>
- </tr>
- <tr>
-     <th> &nbsp;&nbsp;&nbsp; HCA <b>&</b> IUPred <b>&</b> Tango &nbsp;&nbsp;&nbsp; </th>
-     <th> &nbsp;&nbsp;&nbsp; HIT or HTI or IHT or ITH or THI or TIH &nbsp;&nbsp;&nbsp;</th>
- </tr>
- <tr>
-     <th> &nbsp;&nbsp;&nbsp; HCA <b>&</b> IUPred &nbsp;&nbsp;&nbsp; </th>
-     <th> &nbsp;&nbsp;&nbsp; HI or IH &nbsp;&nbsp;&nbsp;</th>
- </tr>
- <tr>
-     <th> &nbsp;&nbsp;&nbsp; HCA <b>&</b> Tango &nbsp;&nbsp;&nbsp; </th>
-     <th> &nbsp;&nbsp;&nbsp; HT or TH &nbsp;&nbsp;&nbsp;</th>
- </tr>
- <tr>
-     <th> &nbsp;&nbsp;&nbsp; IUPred <b>&</b> Tango &nbsp;&nbsp;&nbsp; </th>
-     <th> &nbsp;&nbsp;&nbsp; IT or TI &nbsp;&nbsp;&nbsp;</th>
- </tr>
-</table>
-</p>
-</div>
 
 ### Basic run
 The following instruction estimates the fold potential, and the disorder and aggregation propensities of
@@ -90,7 +64,7 @@ aggregation propensities).
 
 
 
- Output file example with -option HIT (fold potential, disorder and aggregation
+ Output file example with -options HIT (fold potential, disorder and aggregation
  propensities estimated from HCA, IUPred and Tango, see [here](./How_it_works_orfold.md) for more details):
 
 ```{}
@@ -99,7 +73,7 @@ aminoacid_sequence_1	1.340	0.000	0.230
 aminoacid_sequence_2	-0.230	0.120	0.012	
 ```
 
-Output file example with -option H (fold potential estimated with HCA, see [here](./How_it_works_orfold.md) for more details):
+Output file example with -options H (fold potential estimated with HCA, see [here](./How_it_works_orfold.md) for more details):
 ```{}
 Seq_ID                  HCA     Disord  Aggreg
 aminoacid_sequence_1    1.340   nan     nan

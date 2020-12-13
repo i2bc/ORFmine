@@ -1,22 +1,46 @@
-#Parameters of ORFold:
-####-keep
-ORFold uses IUPRED and TANGO for predicting the Disorder and Aggregation prone regions on each sequence.
-By default, ORFold does NOT save the output files of these two methods for memory reasons. 
-If the user wants to keep the IUPRED & TANGO output files he/she can activate this option through the label -keep. 
-As for the -options label, TI or IT will save both files for IUPRED and TANGO while I or T will save only the IUPRED or TANGO (respectively) output files. The outputs are stored in the directories called IUPRED & TANGO, respectively.  
+## ORFfold parameters
 
-####-plot
-By default, there are three reference datasets for evaluating the HCA score.
-Disorder regions, Globular proteins and transmebrane helices. (Papadopoulos et al. 202?)
-The user can project the foldability HCA scores of the sequences in the FASTA file(s) by activating the option -plot (type -plot True).
 
-####-gff
-This option is more advanced. 
-The user can also give GFF file(s) which must correspond to the amino-acid sequences in the FASTA file(s). 
-The name of each sequence must be identical with the "ID" label in the GFF file. 
-This option gives a supplementary output which is a new GFF file of the sequences but this time colored based on their Score HCA (Foldability potential).
-Blue for low Score and Red for high Score. 
-This GFF can be visualized to adequate softwares (such as IGV) and map the foldability HCA score throughout the whole genome.  
-This option can be perfectly used with the output FASTA and GFF files of the ORFmap tool for mapping the foldability potential of the non coding ORFs on the genome.
+<b>Mandatory</b>
 
+  ```-fna ```                 FASTA file containing the amino acid sequences to treat 
+
+
+
+
+<b>Optional</b>
+
+
+  ```-h, --help ```           shows this help message and exits
+
+
+ ```-gff```                  GFF annotation file. The ID (i.e. annotation) of the 
+ sequences given in the input FASTA file sequence must be identical to the ID label 
+ in the GFF file (column #3). ORFold generates as many GFF
+files as studied properties (fold potential, disorder and/or aggregation 
+ propensities), each containing for the sequences provided in the input FASTA file, 
+ their corresponding property values (fold potential, disorder or aggregation 
+ propensities). The values are stored in the column #9 of the output GFF files
+ that can be subsequently uploaded on a genome viewer (see [here](./Run_orfold_advanced.md) 
+ examples on the use of this option). 
+
+
+
+
+ ``` -options ```     indicates which properties are to be calculated. H for 
+estimating the fold potential with HCA, I for the estimation of the disorder 
+ propensity with IUPred and T for the aggregation propensity with Tango. Combinations
+of letters are accepted if the user wants to calculate several properties at the
+same time (-options HIT will estimate the three properties)(default: H).
+
+
+
+```-keep``` ORFold uses IUPred and Tango for the prediction of the disorder 
+and aggregation propensities. For storage reasons, by default, ORFold does not save the output 
+files of these two methods. Nevertheless, the user can keep the IUPred & Tango
+output files through the option **-keep**. 
+**-keep** TI or **-keep** IT will save both IUPred and Tango output files,
+while **-keep** I and **-keep** T will save only the IUPred and Tango output
+files respectively. The outputs are stored in the IUPRED & TANGO directories
+respectively.  
 
