@@ -6,6 +6,7 @@ orfmap.egg-info/PKG-INFO
 orfmap.egg-info/SOURCES.txt
 orfmap.egg-info/dependency_links.txt
 orfmap.egg-info/entry_points.txt
+orfmap.egg-info/requires.txt
 orfmap.egg-info/top_level.txt
 orfmap/lib/__init__.py
 orfmap/lib/fasta_parser.py
@@ -16,5 +17,6 @@ orfmap/lib/orfmap.py
 orfmap/lib/parameters.py
 orfmap/lib/seqio.py
 orfmap/lib/tools.py
+orfmap/scripts/ORFget.py
 orfmap/scripts/__init__.py
 orfmap/scripts/gff2prot.py

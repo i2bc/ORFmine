@@ -1,4 +1,4 @@
 [console_scripts]
-gff2prot = orfmap.scripts.gff2prot:main
+orfget = orfmap.scripts.ORFget:main
 orfmap = orfmap.main:main
 
