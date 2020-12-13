@@ -27,7 +27,7 @@ in a FASTA file (for more details, see the complete
 documentation of ORFmap).
 
 ORFold probes the fold potential and the disorder and aggregation 
-propensities of a set of amino acid sequences.
+propensities of a set of amino acid sequences (all ORFs annotated by ORFmap for example).
 The fold potential is estimated with the HCA method [REF], while the
 disorder and aggregation propensities are calculated with IUPRred, and
 TANGO respectively [REFiupred REFtango]. The specificity of ORFold lies
@@ -36,7 +36,7 @@ with their corresponding annotations in a GFF file. In this
 case, ORFold produces new GFF files, each containing for each annotated
 sequence, their fold potential, disorder and aggregation propensities 
 respectively, thereby enabling the manual inspection of these 
-properties for all genomic features in a genome viewer
+properties along a genome in a genome viewer
 (for more details, see the complete 
 documentation of ORFold).
 
