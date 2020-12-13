@@ -13,6 +13,7 @@ st.setup(name='orfmap',
          python_requires='>=3',
          version='0.0',
          packages=packages,
+	 install_requires=['biopython==1.78'],
          entry_points={'console_scripts': ['orfmap=orfmap.main:main',
-                                           'gff2prot=orfmap.scripts.gff2prot:main']}
+                                           'orfget=orfmap.scripts.ORFget:main']}
          )

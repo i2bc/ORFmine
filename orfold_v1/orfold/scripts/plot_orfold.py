@@ -38,7 +38,7 @@ def get_args():
 
 
 
-glo_ref_path="/Users/christospapadopoulos/Documents/de_novo/ORFmine/orfold_v1"
+glo_ref_path="/Users/christospapadopoulos/Documents/de_novo/project_orfmine/orfold_v1"
 glo_ref_hca , glo_ref_iupred , glo_ref_tango = parse_orfold_tab(tab = glo_ref_path+'/orfold/data/globular.tab')
 #tra_ref_hca , tra_ref_iupred , tra_ref_tango = parse_orfold_tab(tab = '/Users/christospapadopoulos/Documents/de_novo/Project_Nicolas/Transmembrane_helices_20_nonreduntant.tab')
 to_plot = [glo_ref_hca]
