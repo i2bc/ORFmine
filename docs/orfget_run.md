@@ -4,16 +4,18 @@ ORFget is a tool provided with ORFmap that allows the user to extract
 the protein and/or nulceotide sequences of specific subsets of ORFs 
 according to their annotation categories
 (see [here](./orfmap_annotation.md) 
-for a description of all ORF categories). ORFget deals with regular 
-expressions, thereby allowing different levels of annotation in a 
+for a description of all ORF categories). ORFget deals with annotation 
+patterns, thereby allowing different levels of annotation in a 
 very easy fashion.
 
 ORFget has two principal options:
 
-* ```-features_include```: list of motifs to match to be included in the FASTA 
-  output. Sequences whose annotations include these patterns will 
+* ```-features_include```: list of motifs that will be used to define the 
+  ORFs that will be included in the FASTA 
+  output. The sequences whose annotations include these patterns will 
   be retained in the output FASTA file 
-* ```-features_exclude```: list of motifs to match to be excluded in the FASTA 
+* ```-features_exclude```: list of motifs that will be used to define the 
+  ORFs that will be excluded in the FASTA 
   output. The sequences whose annotations include these patterns 
   will not be written in the output FASTA file
   
@@ -25,7 +27,8 @@ The searched patterns can be specific (for a finer selection) or more general.<b
     </p>
     <p class="last">
 For example, the motif <b>"nc"</b> appears in the features: <b>nc</b>_intergenic, <b>nc</b>_ovp_same-mRNA, <b>nc</b>_ovp_opp-mRNA and <b>nc</b>_ovp_same-tRNA.
-As a result the option <code>-feature_include nc</code> will keep all the four feature categories. 
+As a result, the option <code>-feature_include nc</code> will keep all the four
+feature categories. 
 <br><br>
 The option <code>-feature_include nc_ovp</code> will keep:
 <ul>	
@@ -59,7 +62,7 @@ Here are presented some examples of selection of ORFs with ORFget.
 
 ### Extraction of the sequences of all the ORFs of a GFF file
 
-The following command writes the protein sequences of all ORFs 
+The following command writes the amino acid sequences of all ORFs 
 annotated in the input GFF file.
 
 
