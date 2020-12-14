@@ -7,6 +7,12 @@
 
 
 
+ ``` -options ```     indicates which properties are to be calculated. H for
+estimating the fold potential with HCA, I for the estimation of the disorder
+ propensity with IUPred and T for the aggregation propensity with Tango. Combinations
+of letters are accepted if the user wants to calculate several properties at the
+same time (-options HIT will estimate the three properties)(default: H).
+
 
 <b>Optional</b>
 
@@ -26,21 +32,15 @@ files as studied properties (fold potential, disorder and/or aggregation
 
 
 
-
- ``` -options ```     indicates which properties are to be calculated. H for 
-estimating the fold potential with HCA, I for the estimation of the disorder 
- propensity with IUPred and T for the aggregation propensity with Tango. Combinations
-of letters are accepted if the user wants to calculate several properties at the
-same time (-options HIT will estimate the three properties)(default: H).
-
-
-
 ```-keep``` ORFold uses IUPred and Tango for the prediction of the disorder 
 and aggregation propensities. For storage reasons, by default, ORFold does not save the output 
-files of these two methods. Nevertheless, the user can keep the IUPred & Tango
+files of these two methods. Nevertheless, the user can keep the Tango
 output files through the option **-keep**. 
-**-keep** TI or **-keep** IT will save both IUPred and Tango output files,
-while **-keep** I and **-keep** T will save only the IUPred and Tango output
-files respectively. The outputs are stored in the IUPRED & TANGO directories
-respectively.  
+**-keep** T will save Tango output files in the TANGO directory.
+
+
+```-N``` Working with large genomes can eventually generate quite big files. For
+that reason, ORFold has also the option to generate a sample of the initial dataset 
+and perform the calculation only on this specific subset of the population. With this
+option the user passes the size of the sample to be extracted.
 
