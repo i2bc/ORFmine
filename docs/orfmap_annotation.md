@@ -118,8 +118,8 @@ same strand and that cover the same fraction of the ORF to be
    (e.g. a gene includes
    one or several mRNAs which in turn include exons and CDS). By default, 
 the features "gene" and "exon" are not considered. ORFs that
-match at the same time the features "gene" and "mRNA" are annotated
-as nc_(same/opp)\_ovp-mRNA (see Figure 2), while those that match a CDS
+match at the same time with the features "gene" and "mRNA" are annotated
+as nc_(same/opp)\_ovp-mRNA (see Figure 2), while those that match with a CDS
 and its corresponding exon, will be annotated as c_CDS (i.e. coding 
    ORFs). Finally, noncoding ORFs that overlap in another frame with 
    a CDS, and an exon will be annotated as nc_(same/opp)\_ovp-CDS.
