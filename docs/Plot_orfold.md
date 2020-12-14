@@ -12,13 +12,13 @@ However, the user can write his own names in the legend
 with the **-names** option. The names must be given in the same order 
 as the table files. 
 
-	plot_orfold -tab sequences_Y.tab sequences_X.tab sequences_Z.tab
+	orfplot -tab sequences_Y.tab sequences_X.tab sequences_Z.tab
 
 This example will generate the HCA score distributions of the sequences 
 stored in the sequences_Y.tab, sequences_X.tab and sequences_Z.tab files. 
 The resulting legend will be sequences_Y, sequences_X, and sequences_Z respectively. 
 
-	plot_orfold -tab sequences_Y.tab sequences_X.tab sequences_Z.tab -names Noncoding Coding Translated
+	orfplot -tab sequences_Y.tab sequences_X.tab sequences_Z.tab -names Noncoding Coding Translated
 
 This example will generate the HCA score distributions of the sequences 
 stored in the sequences_Y.tab, sequences_X.tab and sequences_Z.tab files.
@@ -35,7 +35,7 @@ wishes to use multiple words in the legend labels (ie Noncoding sequences -
 Homo sapiens , Coding sequences - Homo sapiens, Translated sequences - 
 Homo sapiens) they must be enclosed in double quotes. 
 ```{}
-	plot_orfold -tab sequences_Y.tab sequences_X.tab sequences_Z.tab -names "Noncoding sequences - Homo sapiens" "Coding sequences - Homo sapiens" "Translated sequences - Homo sapiens"
+	orfplot -tab sequences_Y.tab sequences_X.tab sequences_Z.tab -names "Noncoding sequences - Homo sapiens" "Coding sequences - Homo sapiens" "Translated sequences - Homo sapiens"
 ```
     </p>
 </div>
