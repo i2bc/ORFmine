@@ -103,7 +103,7 @@ orfplot xxxx
 ```
 
 The output graphic is generated in PNG and PDF formats (see 
-[here](./orfplot_run.md) for other examples of use of ORFplot). Each
+[here](./Plot_orfold.md) for other examples of use of ORFplot). Each
 distribution is compared with the one of the globular protein dataset
 with a Kolmogorov Smirnov test. Asterisks on the plot denote level 
 of significance: * < 0.05, \**\** < 0.01, *** < 0.001.
