@@ -5,13 +5,13 @@ characterizing the fold potential of a set of amino acid sequences with no
 knowledge of their 3D structures nor evolutionary information (orphan sequences can be treated). 
 The fold potential of a sequence is 
 calculated with the HCA 
-method [REF]. Also ORFold can estimate the disorder, 
+method. Also ORFold can estimate the disorder, 
 and the aggregation propensities of the input sequences with IUPred
 and Tango respectively.    
 
 
 ## Hydrophobic Clusters Analysis (HCA)
-**HCA**[REF] aims as delineating in an amino acid sequence, regions enriched in 
+**HCA**[1] aims as delineating in an amino acid sequence, regions enriched in 
 strong hydrophobic residues (HCA clusters) and regions 
 of at least four consecutive non-hydrophobic residues (HCA linkers). 
 The patterns of hydrophobic residues can be associated with specific regular 
@@ -35,7 +35,7 @@ following the instructions of its developers: <https://github.com/T-B-F/pyHCA>
 
 
 ## Tango
-**Tango**[REF] is a method which aims at predicting aggregation nucleating regions
+**Tango**[5][6][7] is a method which aims at predicting aggregation nucleating regions
 in protein sequences. 
 If specified by the user, ORFold can calculate and add the aggregation propensity 
 of a sequence in the output. 
@@ -51,7 +51,7 @@ Then, the aggregation propensity of each sequence is defined as the
 fraction of residues predicted in aggregation prone segments. 
 
 ## IUPred
-**IUPred2A**[REF] is one of the best methods for the prediction of 
+**IUPred2A**[2][3][4] is one of the best methods for the prediction of 
 Intrinsically Disordered Proteins (IDPs) and can be used as a 
 complement to the HCA score prediction. 
 If specified by the user, ORFold can calculate and add the disorder propensity 
@@ -66,3 +66,16 @@ regions on the protein sequence that present at least five consecutive
 residues with a disorder probability higher than 0.5. 
 The disorder propensity of each sequence is defined as the fraction 
 of residues predicted as located in a highly disordered segment.    
+
+
+
+<br><br><br>
+#### References
+
+1. Bitard-Feildel, T. & Callebaut, I. HCAtk and pyHCA: A Toolkit and Python API for the Hydrophobic Cluster Analysis of Protein Sequences. bioRxiv 249995 (2018).
+2. Dosztanyi, Z., Csizmok, V., Tompa, P. & Simon, I. The pairwise energy content estimated from amino acid composition discriminates between folded and intrinsically unstructured proteins. Journal of molecular biology 347, 827–839 (2005).
+3. Dosztányi, Z. Prediction of protein disorder based on IUPred. Protein Science 27, 331– 340 (2018).
+4. Mészáros, B., Erdős, G. & Dosztányi, Z. IUPred2A: context-dependent prediction of protein disorder as a function of redox state and protein binding. Nucleic acids research 46, W329–W337 (2018).
+5. Fernandez-Escamilla, A.-M., Rousseau, F., Schymkowitz, J. & Serrano, L. Prediction of sequence-dependent and mutational effects on the aggregation of peptides and proteins. Nature biotechnology 22, 1302–1306 (2004).
+6. Linding, R., Schymkowitz, J., Rousseau, F., Diella, F. & Serrano, L. A comparative study of the relationship between protein structure and β-aggregation in globular and intrinsically disordered proteins. Journal of molecular biology 342, 345–353 (2004).
+7. Rousseau, F., Schymkowitz, J. & Serrano, L. Protein aggregation and amyloidosis: confusion of the kinds? Current opinion in structural biology 16, 118–126 (2006).
