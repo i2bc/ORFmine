@@ -28,9 +28,9 @@ documentation of ORFmap).
 
 ORFold probes the fold potential and the disorder and aggregation 
 propensities of a set of amino acid sequences (all ORFs annotated by ORFmap for example).
-The fold potential is estimated with the HCA method [REF], while the
-disorder and aggregation propensities are calculated with IUPRred, and
-TANGO respectively [REFiupred REFtango]. The specificity of ORFold lies
+The fold potential is estimated with the HCA method [1], while the
+disorder and aggregation propensities are calculated with IUPRred[2][3][4], and
+TANGO[5][6][7] respectively. The specificity of ORFold lies
 in the fact that the user can provide the amino acid sequences along 
 with their corresponding annotations in a GFF file. In this
 case, ORFold produces new GFF files, each containing for each annotated
@@ -40,3 +40,15 @@ properties along a genome in a genome viewer
 (for more details, see the complete 
 documentation of ORFold).
 
+
+
+<br><br><br>
+#### References
+
+1. Bitard-Feildel, T. & Callebaut, I. HCAtk and pyHCA: A Toolkit and Python API for the Hydrophobic Cluster Analysis of Protein Sequences. bioRxiv 249995 (2018).
+2. Dosztanyi, Z., Csizmok, V., Tompa, P. & Simon, I. The pairwise energy content estimated from amino acid composition discriminates between folded and intrinsically unstructured proteins. Journal of molecular biology 347, 827–839 (2005).
+3. Dosztányi, Z. Prediction of protein disorder based on IUPred. Protein Science 27, 331– 340 (2018).
+4. Mészáros, B., Erdős, G. & Dosztányi, Z. IUPred2A: context-dependent prediction of protein disorder as a function of redox state and protein binding. Nucleic acids research 46, W329–W337 (2018).
+5. Fernandez-Escamilla, A.-M., Rousseau, F., Schymkowitz, J. & Serrano, L. Prediction of sequence-dependent and mutational effects on the aggregation of peptides and proteins. Nature biotechnology 22, 1302–1306 (2004).
+6. Linding, R., Schymkowitz, J., Rousseau, F., Diella, F. & Serrano, L. A comparative study of the relationship between protein structure and β-aggregation in globular and intrinsically disordered proteins. Journal of molecular biology 342, 345–353 (2004).
+7. Rousseau, F., Schymkowitz, J. & Serrano, L. Protein aggregation and amyloidosis: confusion of the kinds? Current opinion in structural biology 16, 118–126 (2006).

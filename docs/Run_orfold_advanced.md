@@ -38,6 +38,10 @@ a genome viewer, thereby enabling the visual inspection of these properties alon
 the input genome. Notice that on IGV, blue indicates low values (for all mapped properties) 
 while red indicates high values. 
 
+ ![HCA Scale](./img/mapping/Scale.pdf)<br>
+<em>Figure 1: Color scale for the HCA score values 
+</em>
+
 <div class="admonition note">
     <p class="first admonition-title">
         Note
