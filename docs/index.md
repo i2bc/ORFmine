@@ -1,4 +1,4 @@
-![LOGO_ORFmine](./img/icons/Logo_ORFmine.eps){ width=70% }
+![LOGO_ORFmine](./img/icons/Logo_ORFmine.eps){ width=60% }
 
 
 # Welcome to ORFmine
