@@ -89,7 +89,7 @@ def get_args():
                         action='store',
                         nargs="*",
                         default=False,
-                        help="Generate a foldability plot")
+                        help=argparse.SUPPRESS)
     parser.add_argument("-keep", 
                         required=False, 
                         type=list,
