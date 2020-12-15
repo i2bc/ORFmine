@@ -1,3 +1,4 @@
+![LOGO_ORFmap](./img/icons/Logo_ORFmap.eps){ width=30% }
 ## Aims and general description
 
 ORFMap scans a given genome in the six frames, and searches for 
