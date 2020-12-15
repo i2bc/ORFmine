@@ -9,15 +9,14 @@
  ```-gff```                  GFF annotation file
 
 
+  ````-o````                 root name of the output fasta
+
 <b>Optional</b>
 
 
   ```-h, --help ```           shows this help message and exits
 
  
-  ````-o````               name of the output fasta
-
-
   ```-features_include```  genomic features or annotation patterns 
                            to be searched for the ORF selection.
 ORFs whose annotations match the entered patterns or genomic features 
