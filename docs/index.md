@@ -5,9 +5,9 @@
 
 Authors : Chris Papadopoulos, Nicolas Chevrolier, Anne Lopes
 
-![LOGO_ORFmine](./img/icons/Logo_ORFmine.eps){ width=20% }
-BLAH BLAH BLAH <br>
-![LOGO_ORFmap](./img/icons/Logo_ORFmap.eps){ width=20% } 
-BLAH BLAH BLAH <br>
-![LOGO_ORFold](./img/icons/Logo_ORFold.eps){ width=20% }
-BLAH BLAH BLAH <br>
+
+[ ![](./img/icons/Logo_ORFmap.eps){ width=20% }](./orfmap_description.md) <br><br>
+ORFmap is one tool blah blah blah 
+<br><br><br>
+[![](./img/icons/Logo_ORFold.eps){ width=20% }](./Objective_orfold.md) <br><br>
+ORFold BLAH BLAH BLAH 
