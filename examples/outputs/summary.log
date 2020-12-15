@@ -1,0 +1,30 @@
+Summary
+-------
+
+
+# NC_000913.3
+
+ORF type                                        Quantity            Average length (aa)
+--------                                        --------            -------------------
+c_CDS                                           4460                320.28      
+nc_intergenic                                   18318               41.49       
+nc_ovp_opp-CDS                                  62354               51.03       
+nc_ovp_opp-mobile_genetic_element               87                  39.92       
+nc_ovp_opp-ncRNA                                130                 45.38       
+nc_ovp_opp-origin_of_replication                4                   41.0        
+nc_ovp_opp-pseudogene                           109                 43.89       
+nc_ovp_opp-rRNA                                 528                 52.31       
+nc_ovp_opp-recombination_feature                2                   62.5        
+nc_ovp_opp-repeat_region                        545                 42.88       
+nc_ovp_opp-sequence_feature                     566                 40.68       
+nc_ovp_opp-tRNA                                 114                 60.07       
+nc_ovp_same-CDS                                 45053               39.06       
+nc_ovp_same-mobile_genetic_element              77                  36.47       
+nc_ovp_same-ncRNA                               140                 43.22       
+nc_ovp_same-origin_of_replication               3                   38.67       
+nc_ovp_same-pseudogene                          119                 49.82       
+nc_ovp_same-rRNA                                607                 36.67       
+nc_ovp_same-repeat_region                       1136                53.74       
+nc_ovp_same-sequence_feature                    626                 41.29       
+nc_ovp_same-tRNA                                119                 48.71       
+
