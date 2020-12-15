@@ -1,3 +1,4 @@
+![LOGO_ORFold](./img/icons/Logo_ORFold.eps){ width=30% }
 # Aims and general description of ORFold
 
 ORFold aims at estimating the fold potential of a set of amino acid sequences
