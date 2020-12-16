@@ -97,7 +97,7 @@ ORFplot enables the visualization of the distribution of the fold
 potential of the noncoding ORFs and protein sequences along with the one of a reference dataset
 of globular proteins taken from XXXX.
 
-``` python
+``` 
 orfplot -tab E_coli_CDS.tab E_coli_noncoding.tab -names "E. coli coding" "E. coli noncoding"
 ```
 
