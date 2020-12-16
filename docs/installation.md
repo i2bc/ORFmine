@@ -1,3 +1,0 @@
-# Installation
-
-## Installing ORFmine package
