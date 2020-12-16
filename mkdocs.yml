@@ -2,9 +2,9 @@ site_name: ORFmine Documentation
 nav:
     - Home: index.md
     - ORFmine:
-      - Overview: orfmine_overview.md
       - Installation: orfmine_installation.md
       - Quick start: orfmine_quickstart.md
+      - Citations: orfmine_citations.md
     - ORFmap:
       - ORFMap presentation:
         - Aims and general description: orfmap_description.md
