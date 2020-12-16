@@ -3,7 +3,7 @@
 
 # Welcome to ORFmine
 
-Authors : Chris Papadopoulos, Nicolas Chevrolier, Anne Lopes
+Authors : Chris Papadopoulos, Nicolas Chevrollier, Anne Lopes
 
 
 [ ![](./img/icons/Logo_ORFmap.eps){ width=20% }](./orfmap_description.md) <br><br>
