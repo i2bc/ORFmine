@@ -154,5 +154,35 @@ In this example, ORFold will estimate the fold potential, and the disorder and
 aggregation propensities on a sample of 10000 sequences extracted randomly 
 from the initial **sequences.fasta** file.    
 
+<div class="admonition note">
+    <p class="first admonition-title">
+        Note
+    </p>
+    <p class="last">
+	
+	If the user works with more than one FASTA file and wishes to create 
+	random samples for all the input sequence files, he has to indicate in 
+	the -N option the size for each input file explicitly (in the same order 
+	as the inputs passed in the -fna option).
+	<br>
+```{}
+orfold -fna sequences_X.pfasta sequences_Y.pfasta -options H -N 1500 3000
+```	
+even if is the same sample size it has to be explicit for every input
+```{}
+orfold -fna sequences_X.pfasta sequences_Y.pfasta -options H -N 1500 1500
+```
+	If the user whishes to calculate the fold potential of all the sequences 
+	in one of the given inputs, he has to write in the order of this file
+	the word "all"
+```{}
+orfold -fna sequences_X.pfasta sequences_Y.pfasta -options H -N all 3000
+```
+In this case, ORFold will calculate the fold potential for <b>all</b> the sequences 
+in the sequences_X file while will generate a random sample of 3000 sequences for the 
+sequences_Y file.   
+	
+    </p>
+</div>
 
 
