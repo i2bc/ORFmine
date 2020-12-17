@@ -1,4 +1,0 @@
-[console_scripts]
-orfget = orfmap.scripts.ORFget:main
-orfmap = orfmap.main:main
-
