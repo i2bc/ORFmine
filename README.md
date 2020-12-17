@@ -11,16 +11,18 @@ They can be used together or independently.
 
 ### 2. Download and uncompress the latest release archive
 
-##### Download the latest release
-Here: [ ![](img/icons/download_16x16.png "Click to download the latest release")](https://github.com/i2bc/ORFmine/releases/latest/)
-<br> or simply clone our github repository called [project_orfmine](https://github.com/i2bc/ORFmine)
+Click [here](https://github.com/i2bc/ORFmine/releases/latest/) to access the last release.
 
-##### Uncompress the archive
-If you downloaded:
-
+Then uncompress the archive. If you downloaded:
 * the *.zip* file: ```unzip orfmine-x.x.x.zip```
 * the *.tar.gz* file: ```tar xzvf orfmine-x.x.x.tar.gz```
 
+<br>
+
+Alternatively, you can also clone the whole project:
+``` 
+git clone https://github.com/i2bc/ORFmine.git
+```
 
 ### 3. Create an isolated environment
 Although not strictly necessary, this step is highly recommended 
