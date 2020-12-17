@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  
+  <link rel="shortcut icon" href="img/favicon.ico">
+  <title>Quick start - ORFmine Documentation</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
+
+  <link rel="stylesheet" href="css/theme.css" />
+  <link rel="stylesheet" href="css/theme_extra.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" />
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Quick start";
+    var mkdocs_page_input_path = "orfmine_quickstart.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="js/jquery-2.1.1.min.js" defer></script>
+  <script src="js/modernizr-2.8.3.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+        <a href="." class="icon icon-home"> ORFmine Documentation</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="./search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="index.html">Home</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">ORFmine</span></p>
+                <ul class="current">
+                    <li class="toctree-l1"><a class="reference internal" href="orfmine_installation.html">Installation</a>
+                    </li>
+                    <li class="toctree-l1 current"><a class="reference internal current" href="orfmine_quickstart.html">Quick start</a>
+    <ul class="current">
+    </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="orfmine_citations.html">Citations</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">ORFmap</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="#">ORFMap presentation</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="orfmap_description.html">Aims and general description</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="orfmap_orfdef.html">ORF definition</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="orfmap_annotation.html">ORF annotation</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="orfmap_overlap.html">Overlap definition</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="orfmap_orf_extraction.html">ORF extraction</a>
+                </li>
+    </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="#">Usage</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="orfmap_input.html">Inputs</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="orfmap_run.html">ORF annotation with ORFmap</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="orfget_run.html">ORF extraction with ORFget</a>
+                </li>
+    </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="#">Parameters</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="orfmap_param.html">ORFmap parameters</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="orfget_param.html">ORFget parameters</a>
+                </li>
+    </ul>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">ORFold</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="#">ORFold presentation</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="Objective_orfold.html">Objective</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="How_it_works_orfold.html">How it works?</a>
+                </li>
+    </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="#">Usage</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="Run_orfold.html">Basic run ORFold</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="Plot_orfold.html">Plots with ORFplot</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="Run_orfold_advanced.html">Advanced run ORFold</a>
+                </li>
+    </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="#">Parameters</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="parameters_orfold.html">ORFold parameters</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="parameters_orfplot.html">ORFplot parameters</a>
+                </li>
+    </ul>
+                    </li>
+                </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href=".">ORFmine Documentation</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".">Docs</a> &raquo;</li>
+    
+      
+        
+          <li>ORFmine &raquo;</li>
+        
+      
+    
+    <li>Quick start</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h2 id="usage">Usage<a class="headerlink" href="#usage" title="Permanent link">#</a></h2>
+<p>Here is presented an example of the use of ORFmap with ORFold 
+to annotate all the ORFs of a genome, and to characterize their fold potential
+and disorder and aggregation propensities.</p>
+<p>The inputs used in this example and the resulting outputs are 
+available in the ORFmine/examples/ folder.</p>
+<h2 id="annotation-and-extraction-of-orfs-with-orfmap">Annotation and extraction of ORFs with ORfmap<a class="headerlink" href="#annotation-and-extraction-of-orfs-with-orfmap" title="Permanent link">#</a></h2>
+<h3 id="annotation-of-orfs">Annotation of ORFs<a class="headerlink" href="#annotation-of-orfs" title="Permanent link">#</a></h3>
+<p>ORFmap takes as input (i) a FASTA file containing the nucleotide
+sequences of all chromosomes or contigs, and (ii) their corresponding 
+annotations in a GFF file (see 
+<a href="https://github.com/The-Sequence-Ontology/Specifications/blob/master/gff3.md">the GFF3 documentation</a>
+for more details on the GFF3 format). 
+The following command runs ORFmap on the complete genome of Escherichia
+coli (<em>E. coli</em>) available in the "examples" folder:</p>
+<pre><code class="language-bash">orfmap -fna E_coli.fna -gff E_coli.gff
+</code></pre>
+<p>ORFmap generates a novel GFF file (available in 
+ORFmine/examples/outputs/mapping_orf_E_coli.gff)
+containing the annotations of all identified ORFs. </p>
+<h3 id="extraction-of-noncoding-orfs-in-a-fasta-file">Extraction of noncoding ORFs in a FASTA file<a class="headerlink" href="#extraction-of-noncoding-orfs-in-a-fasta-file" title="Permanent link">#</a></h3>
+<p>The amino acid sequences of 
+all annotated ORFs or specific subsets of ORFs (i.e. only noncoding 
+intergenic ORFs for example) can be extracted and written in a 
+FASTA file with ORFget, a tool provided with ORFmap. The following 
+instruction writes the amino acid sequences of all noncoding ORFs (including 
+noncoding intergenic ORFs and those that overlap with a genomic feature) 
+of <em>E. coli</em> in a FASTA file.</p>
+<pre><code class="language-python">orfget -fna E_coli.fna -gff mapping_orf_E_coli.gff -features_include nc -o E_coli_noncoding
+</code></pre>
+<p>ORFget produces a FASTA file (E_coli_noncoding.pfasta) containing the amino acid sequences
+of all noncoding ORFs annotated by ORFmap (see <a href="orfget_run.html">here</a> for more examples 
+on the use of ORFget). </p>
+<h3 id="extraction-of-protein-sequences-of-e-coli-in-a-fasta-file">Extraction of protein sequences of <em>E. coli</em> in a FASTA file<a class="headerlink" href="#extraction-of-protein-sequences-of-e-coli-in-a-fasta-file" title="Permanent link">#</a></h3>
+<p>In addition, ORFget enables the reconstruction of all protein 
+sequences of <em>E. coli</em> according to their definition in the <strong>original</strong>
+GFF file.</p>
+<pre><code class="language-python">orfget -fna E_coli.fna -gff E_coli.gff -features_include CDS -o E_coli_CDS
+</code></pre>
+<h2 id="characterization-of-the-fold-potential-and-disorder-and-aggregation-propensities-of-the-noncoding-orfs-with-orfold">Characterization of the fold potential and disorder and aggregation propensities of the noncoding ORFs with ORFold<a class="headerlink" href="#characterization-of-the-fold-potential-and-disorder-and-aggregation-propensities-of-the-noncoding-orfs-with-orfold" title="Permanent link">#</a></h2>
+<h3 id="running-orfold">Running ORFold<a class="headerlink" href="#running-orfold" title="Permanent link">#</a></h3>
+<p>ORFold only needs a FASTA file containing the amino acid
+sequences to characterize. That said, a GFF 
+file containing the annotation of the input sequences can be provided
+as well. In the latter case, ORFold writes the fold potential
+and disorder and aggregation propensities in three GFF files respectively.
+The latter can be subsequently uploaded on a genome viewer for a 
+visual inspection of the distribution of these properties along
+the genome. </p>
+<p>The following instruction enables the user to probe the fold 
+potential and disorder and aggregation propensities of all noncoding
+ORFs annotated by ORFmap along with those of the protein sequences
+of <em>E. coli</em>. The GFF file generated by ORFmap is given as well in order
+to manually inspect with a genome viewer, the distribution of
+the structural properties of the noncoding ORFs along the genome of <em>E. coli</em>.</p>
+<pre><code class="language-python">orfold -fna E_coli_noncoding.pfasta E_coli_CDS.pfasta -options HIT -gff mapping_orf_E_coli.gff E_coli.gff
+</code></pre>
+<p>ORFold provides two tables (one per dataset) available in
+ORFmine/examples/outputs/. Each table contains for each input 
+sequence, the fold potential, disorder and aggregation propensities
+based on HCA [1], IUPred [2][3][4] and TANGO [5][6][7], respectively 
+(see <a href="How_it_works_orfold.html">here</a> for more details on the calculation of these scores).
+ORFold also generates three new GFF files containing for each
+ORF present at the same time in the input FASTA and GFF files, 
+its fold potential
+and disorder and aggregation propensities respectively. The output
+GFF files can be subsequently uploaded on a genome viewer.</p>
+<h3 id="visualization-of-the-distribution-of-the-fold-potential-with-orfplot">Visualization of the distribution of the fold potential with ORFplot<a class="headerlink" href="#visualization-of-the-distribution-of-the-fold-potential-with-orfplot" title="Permanent link">#</a></h3>
+<p>ORFplot enables the visualization of the distribution of the fold
+potential of the noncoding ORFs and protein sequences along with the one of a reference dataset
+of globular proteins taken from XXXX.</p>
+<pre><code>orfplot -tab E_coli_CDS.tab E_coli_noncoding.tab -names &quot;E. coli coding&quot; &quot;E. coli noncoding&quot;
+</code></pre>
+<p>The output graphic is generated in PNG and PDF formats (see 
+<a href="Plot_orfold.html">here</a> for other examples of use of ORFplot). Each
+distribution is compared with the one of the globular protein dataset
+with a Kolmogorov Smirnov test. Asterisks on the plot denote level 
+of significance: * &lt; 0.05, *<em>*</em> &lt; 0.01, *** &lt; 0.001.</p>
+<div class="admonition note">
+    <p class="first admonition-title">
+        Note
+    </p>
+    <p class="last">
+        This section implies that IUPred and TANGO have been downloaded 
+and that their paths have been correctly defined during the installation 
+procedure. 
+    </p>
+</div>
+
+<p><br><br><br></p>
+<h4 id="references">References<a class="headerlink" href="#references" title="Permanent link">#</a></h4>
+<ol>
+<li>Bitard-Feildel, T. &amp; Callebaut, I. HCAtk and pyHCA: A Toolkit and Python API for the Hydrophobic Cluster Analysis of Protein Sequences. bioRxiv 249995 (2018).</li>
+<li>Dosztanyi, Z., Csizmok, V., Tompa, P. &amp; Simon, I. The pairwise energy content estimated from amino acid composition discriminates between folded and intrinsically unstructured proteins. Journal of molecular biology 347, 827–839 (2005).</li>
+<li>Dosztányi, Z. Prediction of protein disorder based on IUPred. Protein Science 27, 331– 340 (2018).</li>
+<li>Mészáros, B., Erdős, G. &amp; Dosztányi, Z. IUPred2A: context-dependent prediction of protein disorder as a function of redox state and protein binding. Nucleic acids research 46, W329–W337 (2018).</li>
+<li>Fernandez-Escamilla, A.-M., Rousseau, F., Schymkowitz, J. &amp; Serrano, L. Prediction of sequence-dependent and mutational effects on the aggregation of peptides and proteins. Nature biotechnology 22, 1302–1306 (2004).</li>
+<li>Linding, R., Schymkowitz, J., Rousseau, F., Diella, F. &amp; Serrano, L. A comparative study of the relationship between protein structure and β-aggregation in globular and intrinsically disordered proteins. Journal of molecular biology 342, 345–353 (2004).</li>
+<li>Rousseau, F., Schymkowitz, J. &amp; Serrano, L. Protein aggregation and amyloidosis: confusion of the kinds? Current opinion in structural biology 16, 118–126 (2006).</li>
+</ol>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="orfmine_citations.html" class="btn btn-neutral float-right" title="Citations">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="orfmine_installation.html" class="btn btn-neutral" title="Installation"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href="orfmine_installation.html" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="orfmine_citations.html" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script>var base_url = '.';</script>
+    <script src="js/theme.js" defer></script>
+      <script src="search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>
