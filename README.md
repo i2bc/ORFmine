@@ -1,7 +1,4 @@
-## Installation
-
-
-### 1. Overview
+## Overview
 
 ORFmine is a package that consists of two independent tools ORFmap and ORFold. 
 Both these tools have been developed in python3 (version >= 3.6).
@@ -9,7 +6,9 @@ The install.sh  script will install both ORFmap and ORFold with their dependanci
 They can be used together or independently. 
 
 
-### 2. Download and uncompress the latest release archive
+## Installation
+
+### 1. Download and uncompress the latest release archive
 
 Click [here](https://github.com/i2bc/ORFmine/releases/latest/) to access the last release.
 
@@ -24,7 +23,7 @@ Alternatively, you can also clone the whole project:
 git clone https://github.com/i2bc/ORFmine.git
 ```
 
-### 3. Create an isolated environment
+### 2. Create an isolated environment
 Although not strictly necessary, this step is highly recommended 
 (it will allow you to work on different projects without having any conflicting library versions).
 If you do not want to create a virtual environment, please go directly to the [install section](#general_install).
@@ -77,7 +76,7 @@ simply type `deactivate` to exit the environment.
 
 <a name="general_install"></a>
 
-### 4. Install ORFMine 
+### 3. Install ORFMine 
 
 #### Preparation before the Installation
 
@@ -168,11 +167,11 @@ re-install it. In addition, it will install all the dependency packages needed f
 ORFmap and ORFold.   
 
 
-### Documentation
+## Documentation
 You will find complete documentation on [https://i2bc.github.io/ORFmine/](https://i2bc.github.io/ORFmine/)
 
 
-### References
+## References
 
 1. Bitard-Feildel, T. & Callebaut, I. HCAtk and pyHCA: A Toolkit and Python API for the Hydrophobic Cluster Analysis of Protein Sequences. bioRxiv 249995 (2018).
 2. Dosztanyi, Z., Csizmok, V., Tompa, P. & Simon, I. The pairwise energy content estimated from amino acid composition discriminates between folded and intrinsically unstructured proteins. Journal of molecular biology 347, 827–839 (2005).
