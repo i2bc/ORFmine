@@ -167,8 +167,6 @@ This script will first uninstall ORFmine if it was already installed and will
 re-install it. In addition, it will install all the dependency packages needed for 
 ORFmap and ORFold.   
 
-<br><br><br>
-
 
 ### Documentation
 You will find complete documentation on [https://i2bc.github.io/ORFmine/](https://i2bc.github.io/ORFmine/)
