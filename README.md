@@ -15,8 +15,8 @@ You will find complete documentation on [https://i2bc.github.io/ORFmine/](https:
 Click [here](https://github.com/i2bc/ORFmine/releases/latest/) to access the last release.
 
 Then uncompress the archive. If you downloaded:
-* the *.zip* file: ```unzip orfmine-x.x.x.zip```
-* the *.tar.gz* file: ```tar xzvf orfmine-x.x.x.tar.gz```
+* the *.zip* file: ```unzip ORFmine-x.x.x.zip```
+* the *.tar.gz* file: ```tar xzvf ORFmine-x.x.x.tar.gz```
 
 <br>
 
@@ -110,13 +110,13 @@ to their programs. These two softwares are not freely available for
 non-academic users.
 
 Once you have access to the IUPred and Tango you have to place them in a directory
-called ```softwares``` placed in the path: ```ORFmine/orfold_v1/orfold/```. To do so:
+called ```softwares``` placed in the path: ```ORFmine-x.x.x/orfold_v1/orfold/```. To do so:
 
 
 * First create the ```softwares``` directory if not already created:
 
 ```bash
-mkdir project_orfmap/orfold_v1/orfold/softwares
+mkdir ORFmine-x.x.x/orfold_v1/orfold/softwares
 ```
 
 * Move the IUPred source code and data (provided by the developer):
@@ -159,7 +159,7 @@ Then, in any case, follow the procedure described below:
 
  
 ```bash
-cd ORFmine
+cd ORFmine-x.x.x
 chmod u+x install.sh
 ./install.sh
 ```
