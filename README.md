@@ -168,7 +168,13 @@ re-install it. In addition, it will install all the dependency packages needed f
 ORFmap and ORFold.   
 
 <br><br><br>
-#### References
+
+
+### Documentation
+You will find complete documentation on [https://i2bc.github.io/ORFmine/](https://i2bc.github.io/ORFmine/)
+
+
+### References
 
 1. Bitard-Feildel, T. & Callebaut, I. HCAtk and pyHCA: A Toolkit and Python API for the Hydrophobic Cluster Analysis of Protein Sequences. bioRxiv 249995 (2018).
 2. Dosztanyi, Z., Csizmok, V., Tompa, P. & Simon, I. The pairwise energy content estimated from amino acid composition discriminates between folded and intrinsically unstructured proteins. Journal of molecular biology 347, 827–839 (2005).
