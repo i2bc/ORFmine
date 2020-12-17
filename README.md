@@ -1,250 +1,178 @@
-# ORFMap
-ORFMap - A tool aimed at scanning a genome for stop-codons delimited sequences (ORFs) and annotating them.
-
-## Summary
-* <p><a href="#descr">Description</a></p>
-* <p><a href="#installation">Installation</a></p>
-* <p><a href="#usage_descr">Usage description</a></p>
-* <p><a href="#usage_ex">Some usage examples</a></p>
-
-<h2><a name="descr">Description</a></h2>
-
-From a genomic fasta file and its associated GFF, the program first scans the genome to retrieve all sequences
-delimited by stop codons. Only sequences of at least 60 nucleotides long are kept by default.
-
-Those so-called ORF sequences are then annotated depending upon GFF element type(s) used as a reference.
-The CDS element type is always used as a reference but others can be added.
-
-By default an ORF sequence has 5 possible annotations:
-
-| ORF annotation | Condition |
-| --- | --- |
-| c_CDS |if the ORF overlap with a CDS in the same phase |
-| nc_5-CDS | if the 5' extremity of the c_CDS is at least 60 nucleotides long |
-| nc_3-CDS | if the 3' extremity of the c_CDS is at least 60 nucleotides long |
-| nc_ovp-CDS | if the ORF overlap with a CDS in a different phase |
-| nc_intergenic | if the ORF do not overlap with anything |
- 
-**Note:** 
-If an ORF sequence is tagged as 'c_CDS', this sequence is further processed to be cut at its 5' and 3' extremities that do not overlap with the CDS. If their length is above or equal to 60 nucleotides, then those subsequences can be assigned as nc_5-CDS and/or nc_3-CDS.
- <br></br>
- <br></br>
- 
-The user can also specify what GFF element type(s) can be used as reference(s) to annotate ORF sequences in addition to the CDS type. For instance, if the user adds the tRNA element type, ORF sequences could now be assigned as nc_ovp-tRNA if they overlap with a tRNA. Thus 6 assignments would now be possible for an ORF sequence:
-
-| ORF annotation | Condition |
-| --- | --- |
-| c_CDS |if the ORF overlap with a CDS in the same phase |
-| nc_5-CDS | if the 5' extremity of the c_CDS is at least 60 nucleotides long |
-| nc_3-CDS | if the 3' extremity of the c_CDS is at least 60 nucleotides long |
-| nc_ovp-CDS | if the ORF overlap with a CDS in a different phase |
-| nc_ovp-tRNA | if the ORF overlap with a tRNA |
-| nc_intergenic | if the ORF do not overlap with anything |
-
-**Note on default parameters**:
-* CDS is the only element type used as a reference to annotate ORF sequences.
-* the minimum nucleotide number required to consider an ORF sequence is set at 60 nucleotides
-* an ORF sequence is considered as overlapping with an element (e.g. CDS) if at least 70 % of its sequence overlap with the element or if this element is totally included within the ORF sequence
+## Installation
 
 
-<h2><a name="installation">Installation</a></h2>
+### 1. Overview
 
-### 1. Download and uncompress the latest release archive
+ORFmine is a package that consists of two independent tools ORFmap and ORFold. 
+Both these tools have been developed in python3 (version >= 3.6).
+The install.sh  script will install both ORFmap and ORFold with their dependancies.
+They can be used together or independently. 
 
-#### Download the latest release
-Latest release: 
-[ ![](./documentation/images/download-flat/16x16.png "Click to download the latest release")](https://github.com/nchenche/orfmap/releases/latest/)
 
-#### Uncompress the archive
+### 2. Download and uncompress the latest release archive
+
+##### Download the latest release
+Here: [ ![](img/icons/download_16x16.png "Click to download the latest release")](https://github.com/i2bc/ORFmine/releases/latest/)
+<br> or simply clone our github repository called [project_orfmine](https://github.com/i2bc/ORFmine)
+
+##### Uncompress the archive
 If you downloaded:
-* the *.zip* file: ```unzip orfmap-x.x.x.zip```
-* the *.tar.gz* file: ```tar xzvf orfmap-x.x.x.tar.gz```
+
+* the *.zip* file: ```unzip orfmine-x.x.x.zip```
+* the *.tar.gz* file: ```tar xzvf orfmine-x.x.x.tar.gz```
 
 
-### 2. Create an isolated environment
-Although not strictly necessary, this step is highly recommended (it will allow you to work on different projects without having
-any conflicting library versions).
+### 3. Create an isolated environment
+Although not strictly necessary, this step is highly recommended 
+(it will allow you to work on different projects without having any conflicting library versions).
+If you do not want to create a virtual environment, please go directly to the [install section](#general_install).
  
 #### Install virtualenv
 ``` python
 python3 -m pip install virtualenv
 ```
 
-#### Create a virtual python3 environment
+#### Create a virtual environment
 ```bash
-virtualenv -p python3 my_env
+virtualenv -p python3 orfmine_env
 ```
 
 #### Activate the created environment
 ```bash
-source my_env/bin/activate
+source orfmine_env/bin/activate
 ```
 
-Once activated, any python library you'll install using pip will be installed solely in this isolated environment.
-Every time you'll need to work with libraries installed in this environment (i.e. work on your project), you'll have
-to activate it. 
+Once activated, any python library you will install using pip 
+will be installed solely in this isolated environment.
+You must activate this environment any time you need libraries installed 
+in this environment. 
 
-Once you're done working on your project, simply type `deactivate` to exit the environment.
+Once you are done working on your project, 
+simply type `deactivate` to exit the environment.
 
 
-### 3. Install ORFMap in your isolated environment
+<div class="admonition note">
+    <p class="first admonition-title">
+        Note
+    </p>
+    <p class="last">
+        To delete definitely your virutal environment, you can simply
+        remove the directory with the following instruction:
+        <code>rm -r orfmine_env/</code>
+    </p>
+</div>
 
-Be sure you're virtual environment is activated, and then follow the procedure described below.
+<div class="admonition note">
+    <p class="first admonition-title">
+        Note
+    </p>
+    <p class="last">
+        We remind to the user that some external packages used in ORFmine 
+	(such as Biopython) require python version >= 3.6. Before creating 
+	your virtual environment make sure that your python version is up-to-date. 
+    </p>
+</div>
 
-#### Go to the ORFMap directory
+<a name="general_install"></a>
+
+### 4. Install ORFMine 
+
+#### Preparation before the Installation
+
+If you just want to use **ORFmap** in order to annotate all
+the possible ORFs of a genome, you have no other dependencies 
+to install, and you simply have to **Launch the Installation** 
+presented [below](#launch_install). 
+
+The installation of **ORFold** becomes a bit more demanding as
+there are some external tools to be downloaded and/or installed 
+before launching the installation.
+
+Firstly, **ORFold** is based on the HCA method for the calcluation of the
+fold potential. As a result [pyHCA](https://github.com/T-B-F/pyHCA) 
+[[1](https://www.biorxiv.org/content/10.1101/249995v1)]
+is essential to be pre-installed in your machine before installing 
+**ORFold**. You can [download](https://github.com/T-B-F/pyHCA)  for free and install **pyHCA** using 
+the instructions of the developers.  
+<br>
+If you are not interested in the calculation of the disorder
+and/or aggregation propensities with **ORFold** and you already
+have installed pyHCA, you can simply launch the installation
+presented [below](#launch_install).
+
+However, in the case you want to use [IUPred](https://iupred2a.elte.hu) 
+[2][3][4] and/or [Tango](http://tango.crg.es) [5][6][7] with **ORFold** you have to 
+first contact their developers through the respective links and have access 
+to their programs. These two softwares are not freely available for 
+non-academic users.
+
+Once you have access to the IUPred and Tango you have to place them in a directory
+called ```softwares``` placed in the path: ```ORFmine/orfold_v1/orfold/```. To do so:
+
+
+* First create the ```softwares``` directory if not already created:
+
+```bash
+mkdir project_orfmap/orfold_v1/orfold/softwares
+```
+
+* Move the IUPred source code and data (provided by the developer):
+	
+		mv iupred2a.py project_orfmap/orfold_v1/orfold/softwares
+		mv data project_orfmap/orfold_v1/orfold/softwares
+	
+* Move Tango source code:
+	* For MacOS:
+		
+			mv tango2_3_1 project_orfmap/orfold_v1/orfold/softwares
+
+	* For linux:
+
+			mv tango_x86_64_release project_orfmap/orfold_v1/orfold/softwares
+
+	* For windows:
+		
+			mv Tango.exe project_orfmap/orfold_v1/orfold/softwares
+
+<div class="admonition note">
+    <p class="first admonition-title">
+        Note
+    </p>
+    <p class="last">
+        The calculation of the disorder or aggregation propensities  are both optional and 
+	complementary to the HCA score. As a result, IUPred and 
+	Tango tools are not mandatory for the installation of ORFold. In addition,
+	they are not necessarily coupled together. ORFold will properly be 
+	installed without them or even with only one of them.    
+    </p>
+</div>
+<a name="launch_install"></a>
+
+
+#### Installation
+
+If you use a virtual environment, be sure that your virtual environment is activated.
+Then, in any case, follow the procedure described below:
+
  
 ```bash
-cd orfmap-x.x.x/
+cd ORFmine
+chmod u+x install.sh
+./install.sh
 ```
 
-#### Install 
+This script will first uninstall ORFmine if it was already installed and will
+re-install it. In addition, it will install all the dependency packages needed for 
+ORFmap and ORFold.   
 
-```python
-python setup.py install
-```
+<br><br><br>
+#### References
 
-or 
-```python
-pip install .
-```
-
-
-<h2><a name="usage_descr">Usage description</a></h2>
-
-To see all options available:
-
-```
-run_orfmap -h
-```
-
-This command will show:
-
-<pre>
-usage: run_orfmap [-h] -fna [FNA] -gff [GFF] [-chr [CHR]] [-types_only TYPES_ONLY [TYPES_ONLY ...]]
-                  [-types_except TYPES_EXCEPT [TYPES_EXCEPT ...]] [-o_include O_INCLUDE [O_INCLUDE ...]] [-o_exclude O_EXCLUDE [O_EXCLUDE ...]]
-                  [-orf_len [ORF_LEN]] [-co_ovp [CO_OVP]] [-out [OUT]] [--show-types] [--show-chrs]
-
-Genomic mapping of pseudo-ORF
-
-optional arguments:
-  -h, --help            show this help message and exit
-  -fna [FNA]            Genomic fasta file (.fna)
-  -gff [GFF]            GFF annotation file (.gff)
-  -chr [CHR]            Chromosome name
-  -types_only TYPES_ONLY [TYPES_ONLY ...]
-                        Type feature(s) to use as reference(s) (&apos;CDS&apos; in included by default).
-  -types_except TYPES_EXCEPT [TYPES_EXCEPT ...]
-                        Type feature(s) to not consider as reference(s) (None by default).
-  -o_include O_INCLUDE [O_INCLUDE ...]
-                        Type feature(s) and/or Status attribute(s) desired to be written in the output (all by default).
-  -o_exclude O_EXCLUDE [O_EXCLUDE ...]
-                        Type feature(s) and/or Status attribute(s) desired to be excluded (None by default).
-  -orf_len [ORF_LEN]    Minimum number of nucleotides required to define a sequence between two consecutive stop codons as an ORF sequence (60
-                        nucleotides by default).
-  -co_ovp [CO_OVP]      Cutoff defining the minimum CDS overlapping ORF fraction required to label on ORF as a CDS. By default, an ORF sequence
-                        will be tagged as a CDS if at least 70 per cent of its sequence overlap with the CDS sequence.
-  -out [OUT]            Output directory
-  --show-types          Print all type features
-  --show-chrs           Print all chromosome names
-</pre>
-
-Except -fna and -gff arguments that are mandatory, all others are optional.
-
-
-### Basic run
-
-ORFMap requires two input files: 
-* a genomic fasta file (-fna)
-* its associated GFF file (-gff).
-
-
-The most basic run can be executed by typing:
-
-```
-run_orfmap -fna mygenome.fna -gff mygenome.gff
-```
-
-All of the ORF sequences are annotated relative to the CDS element type only. Thus 5 possible annotations are possible:
-
-| ORF annotation | Condition |
-| --- | --- |
-| c_CDS |if the ORF overlap with a CDS in the same phase |
-| nc_5-CDS | if the 5' extremity of the c_CDS is at least 60 nucleotides long |
-| nc_3-CDS | if the 3' extremity of the c_CDS is at least 60 nucleotides long |
-| nc_ovp-CDS | if the ORF overlap with a CDS in a different phase |
-| nc_intergenic | if the ORF do not overlap with anything |
-
-
-The output will be two separated files with the prefix "mapping_orf_":
-* mapping_orf_mygenome.fa: 	a proteic fasta file of all the ORFs sequences found
-* mapping_orf_mygenome.gff:	A GFF file describing all the ORFs sequences found
-  
-By default, the two output files will contain all possible 5 annotations mentionned above.
-
-
-<h2><a name="usage_ex">Some usage examples</a></h2>
-
-By default, all element types (except 'region' and 'chromosome') found in the GFF file are used as reference
-to annotate ORF sequences. If an ORF sequence overlaps with more than 2 elements, then the ORF sequence will be assigned
-according to the element with which it overlaps the most. For instance, let's say an ORF sequence overlaps at 85% with
-a tRNA and at 90% with a sRNA, then the ORF will be assigned as nc-ovp_sRNA.
-Note that the CDS element type always has the priority relative to any other element types. Therefore, if an ORF 
-sequence overlaps at 72% with a CDS and at 95% with an other element that is not a CDS, then the ORF will be assigned as
-c_CDS. When an ORF sequence entirely overlaps with multiple elements, then the choice for its  assignment is quite
-arbitrary : the ORF will be assigned depending on the first element met in the GFF. That case could appear for 
-intrinsically related elements such as gene, exon and mRNA. For example, let's say an ORF sequence equally overlaps with
-an exon and a gene region (but there's no overlap with the CDS part). Since the gene normally appears firt in the GFF 
-file, the ORF will be assigned as nc-ovp_gene. In order to avoid those special cases, an option allows the user specify 
-element types that should not be considered as reference for the ORF assignment. 
-
-
-
-
-In the case where an ORF sequence overlaps 
-
-##### Use tRNA and snRNA element as a reference to annotate ORF sequences:
-```
-run_orfmap -fna mygenome.fna -gff mygenome.gff -types_only tRNA snRNA -out myResults
-```
-
-
-
-##### Use tRNA and snRNA element as a reference to annotate ORF sequences:
-```
-run_orfmap -fna mygenome.fna -gff mygenome.gff -types_only tRNA snRNA -out myResults
-```
-
-##### Write in output files only ORF sequences mapped as nc_ovp-tRNA and nc_ovp-snRNA:
-```
-run_orfmap -fna mygenome.fna -gff mygenome.gff -types_only tRNA snRNA -o_include nc_ovp-tRNA nc_ovp-snRNA -out myResults
-```
-
-##### Write in output files all ORF sequences except those mapped as c_CDS:
-```
-run_orfmap -fna mygenome.fna -gff mygenome.gff -type tRNA snRNA -o_exclude c_CDS -out myResults
-```
-
-##### or:
-```
-run_orfmap -fna mygenome.fna -gff mygenome.gff -type tRNA snRNA -o_exclude coding -out myResults
-```
-
-<em>Note</em>:
-<p>
--o_include and -o_exclude take either feature types or a status attribute as arguments.
-Feature types have to be amongst the possible annotations for ORF sequences (e.g. c_CDS, nc_5-CDS, nc_intergenic...)
- while status attribute is either 'coding' or 'non-coding' ('coding' refers to c_CDS and 'non-coding' refers to the other ones).
- </p>
-
-
-##### Assign ORF seqences if stop-to-stop length is at least 50 nucleotides:
-```
-run_orfmap -fna mygenome.fna -gff mygenome.gff -orf_len 50
-```
-
-##### Consider an ORF sequence as overlapping with any element if at least 60 % of its sequence overlap with the element:
-```
-run_orfmap -fna mygenome.fna -gff mygenome.gff -co_ovp 0.6
-```
-
+1. Bitard-Feildel, T. & Callebaut, I. HCAtk and pyHCA: A Toolkit and Python API for the Hydrophobic Cluster Analysis of Protein Sequences. bioRxiv 249995 (2018).
+2. Dosztanyi, Z., Csizmok, V., Tompa, P. & Simon, I. The pairwise energy content estimated from amino acid composition discriminates between folded and intrinsically unstructured proteins. Journal of molecular biology 347, 827–839 (2005).
+3. Dosztányi, Z. Prediction of protein disorder based on IUPred. Protein Science 27, 331– 340 (2018).
+4. Mészáros, B., Erdős, G. & Dosztányi, Z. IUPred2A: context-dependent prediction of protein disorder as a function of redox state and protein binding. Nucleic acids research 46, W329–W337 (2018).
+5. Fernandez-Escamilla, A.-M., Rousseau, F., Schymkowitz, J. & Serrano, L. Prediction of sequence-dependent and mutational effects on the aggregation of peptides and proteins. Nature biotechnology 22, 1302–1306 (2004).
+6. Linding, R., Schymkowitz, J., Rousseau, F., Diella, F. & Serrano, L. A comparative study of the relationship between protein structure and β-aggregation in globular and intrinsically disordered proteins. Journal of molecular biology 342, 345–353 (2004). 
+7. Rousseau, F., Schymkowitz, J. & Serrano, L. Protein aggregation and amyloidosis: confusion of the kinds? Current opinion in structural biology 16, 118–126 (2006).
 
