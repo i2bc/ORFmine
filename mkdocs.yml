@@ -37,5 +37,5 @@ markdown_extensions:
     - toc:
         permalink: "#"
 use_directory_urls: false
-#extra_css:
-#    - css/extra.css
+extra_css:
+    - css/extra.css
