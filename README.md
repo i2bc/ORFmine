@@ -121,21 +121,22 @@ mkdir ORFmine-x.x.x/orfold_v1/orfold/softwares
 
 * Move the IUPred source code and data (provided by the developer):
 	
-		mv iupred2a.py project_orfmap/orfold_v1/orfold/softwares
-		mv data project_orfmap/orfold_v1/orfold/softwares
+		mv iupred2a.py ORFmine-x.x.x/orfold_v1/orfold/softwares
+		mv iupred2a.py ORFmine-x.x.x/orfold_v1/orfold/softwares
+		mv data ORFmine-x.x.x/orfold_v1/orfold/softwares
 	
 * Move Tango source code:
 	* For MacOS:
 		
-			mv tango2_3_1 project_orfmap/orfold_v1/orfold/softwares
+			mv tango2_3_1 ORFmine-x.x.x/orfold_v1/orfold/softwares
 
 	* For linux:
 
-			mv tango_x86_64_release project_orfmap/orfold_v1/orfold/softwares
+			mv tango_x86_64_release ORFmine-x.x.x/orfold_v1/orfold/softwares
 
 	* For windows:
 		
-			mv Tango.exe project_orfmap/orfold_v1/orfold/softwares
+			mv Tango.exe ORFmine-x.x.x/orfold_v1/orfold/softwares
 
 <div class="admonition note">
     <p class="first admonition-title">
