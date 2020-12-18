@@ -1,6 +1,9 @@
 ## Overview
 
-ORFmine is a package that consists of two independent tools ORFmap and ORFold. 
+Recent studies attribute a new role to the noncoding genome in the production of novel peptides. The widespread transcription of noncoding regions and the pervasive translation of the resulting RNAs offer a vast reservoir of novel peptides to the organisms.
+
+ORFmine is an open-source package that aims at extracting, annotating, and characterizing the fold potential and the structural properties of all Open Reading Frames (ORF) encoded in a genome (including coding and noncoding sequences). ORFmine consists of two independent programs, ORFmap and ORFold that can be used together or independently (see here for an example of application).
+ 
 Both these tools have been developed in python3 (version >= 3.6).
 The install.sh  script will install both ORFmap and ORFold with their dependancies.
 They can be used together or independently. 
