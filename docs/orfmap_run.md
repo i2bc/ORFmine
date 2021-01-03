@@ -17,20 +17,20 @@ a new GFF file containing the annotation of all the identified ORFs
 
 ### Running ORFmap on a single chromosome or a subset of chromosomes
 
-ORFmap can be launched on a single chromosome (e.g. chromosome ID XXX) 
-with the following 
-instruction:
+ORFmap can be launched on a single seqID (usually chromosome or contig indicated in the first 
+column of the inout GFF)(e.g. chromosome seqID: XXX) 
+with the following instruction:
 
 
 ``` bash
-orfmap -fna genome.fasta -gff genome.gff  -chr chr_ID XXXX
+orfmap -fna genome.fasta -gff genome.gff  -chr chr_ID_XXXX
 ```
 This can be very useful if the user wants to run ORFmap on several 
-CPUs. Also, it can be launched on a subset of chromosomes as follows:
+CPUs. Also, it can be launched on a subset of seqIDs as follows:
 
 
 ``` bash
-orfmap -fna genome.fasta -gff genome.gff  -chr CHR1_ID CHR2_ID2 CHR3_ID3
+orfmap -fna genome.fasta -gff genome.gff  -chr seqID1 seqID2 seqIDx
 ```
 
 

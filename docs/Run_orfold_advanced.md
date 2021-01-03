@@ -14,7 +14,7 @@ the input FASTA file. ORFold will return new GFF files (one per studied property
 that contain for the ORFs provided in the input FASTA file, their corresponding 
 property (fold potential, disorder or aggregation propensities). The 
 values are stored in the column #9 of the output GFF files. The GFF files can be subsequently
-uploaded on a genome viewer such as IGV [REF].
+uploaded on a genome viewer such as IGV [1].
 
 The input GFF file must be given with the **-gff** option as follows:
 
@@ -38,7 +38,7 @@ a genome viewer, thereby enabling the visual inspection of these properties alon
 the input genome. Notice that on IGV, blue indicates low values (for all mapped properties) 
 while red indicates high values. 
 
- ![HCA Scale](./img/mapping/Scale.pdf)<br>
+ ![HCA Scale](./img/mapping/Scale.png)<br>
 <em>Figure 1: Color scale for the HCA score values 
 </em>
 
@@ -168,13 +168,13 @@ from the initial **sequences.fasta** file.
 ```{}
 orfold -fna sequences_X.pfasta sequences_Y.pfasta -options H -N 1500 3000
 ```	
-even if is the same sample size it has to be explicit for every input
+Also, if the user wants to sample two subsets of same sizes, he has to indicate the subset sizes explicitly for each input
 ```{}
 orfold -fna sequences_X.pfasta sequences_Y.pfasta -options H -N 1500 1500
 ```
 	If the user whishes to calculate the fold potential of all the sequences 
-	in one of the given inputs, he has to write in the order of this file
-	the word "all"
+	of one of the given inputs, he has to indicate it with the "all" flag (again with respect to
+    the order of input files)
 ```{}
 orfold -fna sequences_X.pfasta sequences_Y.pfasta -options H -N all 3000
 ```
@@ -186,3 +186,7 @@ sequences_Y file.
 </div>
 
 
+References
+
+1. Robinson JT, Thorvaldsdóttir H, Winckler W, et al (2011)
+   Integrative genomics viewer. Nature biotechnology 29:24–26

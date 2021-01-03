@@ -95,7 +95,7 @@ GFF files can be subsequently uploaded on a genome viewer.
 
 ORFplot enables the visualization of the distribution of the fold
 potential of the noncoding ORFs and protein sequences along with the one of a reference dataset
-of globular proteins taken from XXXX.
+of globular proteins taken from Mészáros et al.[8].
 
 ``` 
 orfplot -tab E_coli_CDS.tab E_coli_noncoding.tab -names "E. coli coding" "E. coli noncoding"
@@ -113,7 +113,7 @@ of significance: * < 0.05, \**\** < 0.01, *** < 0.001.
         Note
     </p>
     <p class="last">
-        This section implies that IUPred and TANGO have been downloaded 
+        This section implies that IUPred and Tango have been downloaded 
 and that their paths have been correctly defined during the installation 
 procedure. 
     </p>
@@ -129,3 +129,4 @@ procedure.
 5. Fernandez-Escamilla, A.-M., Rousseau, F., Schymkowitz, J. & Serrano, L. Prediction of sequence-dependent and mutational effects on the aggregation of peptides and proteins. Nature biotechnology 22, 1302–1306 (2004).
 6. Linding, R., Schymkowitz, J., Rousseau, F., Diella, F. & Serrano, L. A comparative study of the relationship between protein structure and β-aggregation in globular and intrinsically disordered proteins. Journal of molecular biology 342, 345–353 (2004).
 7. Rousseau, F., Schymkowitz, J. & Serrano, L. Protein aggregation and amyloidosis: confusion of the kinds? Current opinion in structural biology 16, 118–126 (2006).
+8. Mészáros B, Erdős G, Dosztányi Z (2018) IUPred2A: context-dependent prediction of protein disorder as a function of redox state and protein binding. Nucleic acids research 46:W329–W337

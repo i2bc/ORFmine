@@ -5,7 +5,7 @@ characterizing the fold potential of a set of amino acid sequences with no
 knowledge of their 3D structures nor evolutionary information (orphan sequences can be treated). 
 The fold potential of a sequence is 
 calculated with the HCA 
-method. Also ORFold can estimate the disorder, 
+method. Also, ORFold can estimate the disorder, 
 and the aggregation propensities of the input sequences with IUPred
 and Tango respectively.    
 
@@ -43,10 +43,9 @@ Tango is not freely available software, and the user of ORFold should
 first contact the Tango developers to have access to the source code: <http://tango.crg.es>
 
 For the aggregation propensity estimation, according to the protocol
-proposed by XXX et al[REF], a residue is considered as
-participating in an aggregation prone region if it is located in a segment 
-of at least five consecutive residues which were predicted as populating 
-a b-aggregated conformation for more than 5%. 
+proposed by Linding et al.[6], a sequence segment is considered as aggregation prone
+if it is composed of at least five consecutive residues predicted as 
+populating a b-aggregated conformation with a percentage occupancy greater than 5%. 
 Then, the aggregation propensity of each sequence is defined as the 
 fraction of residues predicted in aggregation prone segments. 
 

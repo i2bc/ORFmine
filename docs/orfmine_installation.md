@@ -12,8 +12,8 @@ They can be used together or independently.
 ### 2. Download and uncompress the latest release archive
 
 ##### Download the latest release
-Here: [ ![](img/icons/download_16x16.png "Click to download the latest release")](https://github.com/nchenche/orfmap/releases/latest/)
-<br> or simply clone our github repository called [project_orfmine](https://github.com/cgpapado/project_orfmine)
+Here: [ ![](img/icons/download_16x16.png "Click to download the latest release")](https://github.com/i2bc/ORFmine/releases/tag/v0.0.3)
+<br> or simply clone our github repository called [ORFmine](https://github.com/i2bc/ORFmine/)
 
 ##### Uncompress the archive
 If you downloaded:
@@ -56,7 +56,7 @@ simply type `deactivate` to exit the environment.
         Note
     </p>
     <p class="last">
-        To delete definitively your virutal environment, you can simply
+        To delete definitively your virtual environment, you can simply
         remove the directory with the following instruction:
         <code>rm -r my_env/</code>
     </p>
@@ -88,7 +88,7 @@ The installation of **ORFold** becomes a bit more demanding as
 there are some external tools to be downloaded and/or installed 
 before launching the installation.
 
-Firstly, **ORFold** is based on the HCA method for the calcluation of the
+Firstly, **ORFold** is based on the HCA method for the calculation of the
 fold potential. As a result [pyHCA](https://github.com/T-B-F/pyHCA) 
 [[1](https://www.biorxiv.org/content/10.1101/249995v1)]
 is essential to be pre-installed in your machine before installing 
@@ -113,33 +113,33 @@ called ```softwares``` placed in the path: ```ORFmine/orfold_v1/orfold/```. To d
 * First create the ```softwares``` directory if not already created:
 
 ```bash
-mkdir project_orfmap/orfold_v1/orfold/softwares
+mkdir ORFmine/orfold_v1/orfold/softwares
 ```
 
 * Move the IUPred source code and data (provided by the developer):
 	
-		mv iupred2a.py project_orfmap/orfold_v1/orfold/softwares
-		mv data project_orfmap/orfold_v1/orfold/softwares
+		mv iupred2a.py ORFmine/orfold_v1/orfold/softwares
+		mv data ORFmine/orfold_v1/orfold/softwares
 	
 * Move Tango source code:
 	* For MacOS:
 		
-			mv tango2_3_1 project_orfmap/orfold_v1/orfold/softwares
+			mv tango2_3_1 ORFmine/orfold_v1/orfold/softwares
 
 	* For linux:
 
-			mv tango_x86_64_release project_orfmap/orfold_v1/orfold/softwares
+			mv tango_x86_64_release ORFmine/orfold_v1/orfold/softwares
 
 	* For windows:
 		
-			mv Tango.exe project_orfmap/orfold_v1/orfold/softwares
+			mv Tango.exe ORFmine/orfold_v1/orfold/softwares
 
 <div class="admonition note">
     <p class="first admonition-title">
         Note
     </p>
     <p class="last">
-        The calculation of the disorder or aggregation propensities  are both optional and 
+        The calculation of the disorder or aggregation propensities are both optional and 
 	complementary to the HCA score. As a result, IUPred and 
 	Tango tools are not mandatory for the installation of ORFold. In addition,
 	they are not necessarily coupled together. ORFold will properly be 
