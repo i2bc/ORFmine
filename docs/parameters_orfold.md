@@ -41,6 +41,6 @@ output files through the option **-keep**.
 
 ```-N``` Working with large genomes can eventually generate quite big files. For
 that reason, ORFold has also the option to generate a sample of the initial dataset 
-and perform the calculation only on this specific subset of the population. With this
-option the user passes the size of the sample to be extracted.
+and perform the calculation only on this specific subset of the population. This
+option enables the user to indicate the number of randomly selected sequences to be treated by ORFold.
 
