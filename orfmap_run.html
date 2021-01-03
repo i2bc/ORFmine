@@ -182,14 +182,14 @@ several hours to annotate all the ORFs of a genome. It returns
 a new GFF file containing the annotation of all the identified ORFs 
 (including coding and noncoding ORFs). </p>
 <h3 id="running-orfmap-on-a-single-chromosome-or-a-subset-of-chromosomes">Running ORFmap on a single chromosome or a subset of chromosomes<a class="headerlink" href="#running-orfmap-on-a-single-chromosome-or-a-subset-of-chromosomes" title="Permanent link">#</a></h3>
-<p>ORFmap can be launched on a single chromosome (e.g. chromosome ID XXX) 
-with the following 
-instruction:</p>
-<pre><code class="language-bash">orfmap -fna genome.fasta -gff genome.gff  -chr chr_ID XXXX
+<p>ORFmap can be launched on a single seqID (usually chromosome or contig indicated in the first 
+column of the inout GFF)(e.g. chromosome seqID: XXX) 
+with the following instruction:</p>
+<pre><code class="language-bash">orfmap -fna genome.fasta -gff genome.gff  -chr chr_ID_XXXX
 </code></pre>
 <p>This can be very useful if the user wants to run ORFmap on several 
-CPUs. Also, it can be launched on a subset of chromosomes as follows:</p>
-<pre><code class="language-bash">orfmap -fna genome.fasta -gff genome.gff  -chr CHR1_ID CHR2_ID2 CHR3_ID3
+CPUs. Also, it can be launched on a subset of seqIDs as follows:</p>
+<pre><code class="language-bash">orfmap -fna genome.fasta -gff genome.gff  -chr seqID1 seqID2 seqIDx
 </code></pre>
               
             </div>

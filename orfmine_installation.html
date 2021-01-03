@@ -201,8 +201,8 @@ The install.sh  script will install both ORFmap and ORFold with their dependanci
 They can be used together or independently. </p>
 <h3 id="2-download-and-uncompress-the-latest-release-archive">2. Download and uncompress the latest release archive<a class="headerlink" href="#2-download-and-uncompress-the-latest-release-archive" title="Permanent link">#</a></h3>
 <h5 id="download-the-latest-release">Download the latest release<a class="headerlink" href="#download-the-latest-release" title="Permanent link">#</a></h5>
-<p>Here: <a href="https://github.com/nchenche/orfmap/releases/latest/"> <img alt="" src="img/icons/download_16x16.png" title="Click to download the latest release" /></a>
-<br> or simply clone our github repository called <a href="https://github.com/cgpapado/project_orfmine">project_orfmine</a></p>
+<p>Here: <a href="https://github.com/i2bc/ORFmine/releases/tag/v0.0.3"> <img alt="" src="img/icons/download_16x16.png" title="Click to download the latest release" /></a>
+<br> or simply clone our github repository called <a href="https://github.com/i2bc/ORFmine/">ORFmine</a></p>
 <h5 id="uncompress-the-archive">Uncompress the archive<a class="headerlink" href="#uncompress-the-archive" title="Permanent link">#</a></h5>
 <p>If you downloaded:</p>
 <ul>
@@ -233,7 +233,7 @@ simply type <code>deactivate</code> to exit the environment.</p>
         Note
     </p>
     <p class="last">
-        To delete definitively your virutal environment, you can simply
+        To delete definitively your virtual environment, you can simply
         remove the directory with the following instruction:
         <code>rm -r my_env/</code>
     </p>
@@ -260,7 +260,7 @@ presented <a href="#launch_install">below</a>. </p>
 <p>The installation of <strong>ORFold</strong> becomes a bit more demanding as
 there are some external tools to be downloaded and/or installed 
 before launching the installation.</p>
-<p>Firstly, <strong>ORFold</strong> is based on the HCA method for the calcluation of the
+<p>Firstly, <strong>ORFold</strong> is based on the HCA method for the calculation of the
 fold potential. As a result <a href="https://github.com/T-B-F/pyHCA">pyHCA</a> 
 [<a href="https://www.biorxiv.org/content/10.1101/249995v1">1</a>]
 is essential to be pre-installed in your machine before installing 
@@ -281,13 +281,13 @@ called <code>softwares</code> placed in the path: <code>ORFmine/orfold_v1/orfold
 <ul>
 <li>First create the <code>softwares</code> directory if not already created:</li>
 </ul>
-<pre><code class="language-bash">mkdir project_orfmap/orfold_v1/orfold/softwares
+<pre><code class="language-bash">mkdir ORFmine/orfold_v1/orfold/softwares
 </code></pre>
 <ul>
 <li>
 <p>Move the IUPred source code and data (provided by the developer):</p>
-<pre><code>mv iupred2a.py project_orfmap/orfold_v1/orfold/softwares
-mv data project_orfmap/orfold_v1/orfold/softwares
+<pre><code>mv iupred2a.py ORFmine/orfold_v1/orfold/softwares
+mv data ORFmine/orfold_v1/orfold/softwares
 </code></pre>
 </li>
 <li>
@@ -295,17 +295,17 @@ mv data project_orfmap/orfold_v1/orfold/softwares
 <ul>
 <li>
 <p>For MacOS:</p>
-<pre><code>mv tango2_3_1 project_orfmap/orfold_v1/orfold/softwares
+<pre><code>mv tango2_3_1 ORFmine/orfold_v1/orfold/softwares
 </code></pre>
 </li>
 <li>
 <p>For linux:</p>
-<pre><code>mv tango_x86_64_release project_orfmap/orfold_v1/orfold/softwares
+<pre><code>mv tango_x86_64_release ORFmine/orfold_v1/orfold/softwares
 </code></pre>
 </li>
 <li>
 <p>For windows:</p>
-<pre><code>mv Tango.exe project_orfmap/orfold_v1/orfold/softwares
+<pre><code>mv Tango.exe ORFmine/orfold_v1/orfold/softwares
 </code></pre>
 </li>
 </ul>
@@ -316,7 +316,7 @@ mv data project_orfmap/orfold_v1/orfold/softwares
         Note
     </p>
     <p class="last">
-        The calculation of the disorder or aggregation propensities  are both optional and 
+        The calculation of the disorder or aggregation propensities are both optional and 
     complementary to the HCA score. As a result, IUPred and 
     Tango tools are not mandatory for the installation of ORFold. In addition,
     they are not necessarily coupled together. ORFold will properly be 
