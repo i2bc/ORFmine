@@ -30,7 +30,7 @@ They are mostly associated with intermediate HCA score values.
  
 
 The HCA score is calculated using the freely available 
-software **pyHCA** which can be downloaded and installed 
+softwares **pyHCA** which can be downloaded and installed 
 following the instructions of its developers: <https://github.com/T-B-F/pyHCA>
 
 
