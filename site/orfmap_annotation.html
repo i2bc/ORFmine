@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  
+  <link rel="shortcut icon" href="img/favicon.ico">
+  <title>ORF annotation - ORFmine Documentation</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
+
+  <link rel="stylesheet" href="css/theme.css" />
+  <link rel="stylesheet" href="css/theme_extra.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" />
+  <link href="css/extra.css" rel="stylesheet" />
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "ORF annotation";
+    var mkdocs_page_input_path = "orfmap_annotation.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="js/jquery-2.1.1.min.js" defer></script>
+  <script src="js/modernizr-2.8.3.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+        <a href="." class="icon icon-home"> ORFmine Documentation</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="./search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="index.html">Home</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">ORFmine</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="orfmine_installation.html">Installation</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="orfmine_quickstart.html">Quick start</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="orfmine_citations.html">Citations</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">ORFmap</span></p>
+                <ul class="current">
+                    <li class="toctree-l1 current"><a class="reference internal current" href="#">ORFMap presentation</a>
+    <ul class="current">
+                <li class="toctree-l2"><a class="reference internal" href="orfmap_description.html">Aims and general description</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="orfmap_orfdef.html">ORF definition</a>
+                </li>
+                <li class="toctree-l2 current"><a class="reference internal current" href="orfmap_annotation.html">ORF annotation</a>
+    <ul class="current">
+    <li class="toctree-l3"><a class="reference internal" href="#annotation-rules">Annotation rules</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#orf-categories">ORF categories</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#priority-rules">Priority rules</a>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="orfmap_overlap.html">Overlap definition</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="orfmap_orf_extraction.html">ORF extraction</a>
+                </li>
+    </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="#">Usage</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="orfmap_input.html">Inputs</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="orfmap_run.html">ORF annotation with ORFmap</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="orfget_run.html">ORF extraction with ORFget</a>
+                </li>
+    </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="#">Parameters</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="orfmap_param.html">ORFmap parameters</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="orfget_param.html">ORFget parameters</a>
+                </li>
+    </ul>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">ORFold</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="#">ORFold presentation</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="Objective_orfold.html">Objective</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="How_it_works_orfold.html">How it works?</a>
+                </li>
+    </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="#">Usage</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="Run_orfold.html">Basic run ORFold</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="Plot_orfold.html">Plots with ORFplot</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="Run_orfold_advanced.html">Advanced run ORFold</a>
+                </li>
+    </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="#">Parameters</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="parameters_orfold.html">ORFold parameters</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="parameters_orfplot.html">ORFplot parameters</a>
+                </li>
+    </ul>
+                    </li>
+                </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href=".">ORFmine Documentation</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".">Docs</a> &raquo;</li>
+    
+      
+        
+          <li>ORFMap presentation &raquo;</li>
+        
+      
+        
+          <li>ORFmap &raquo;</li>
+        
+      
+    
+    <li>ORF annotation</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h2 id="orf-annotation">ORF annotation<a class="headerlink" href="#orf-annotation" title="Permanent link">#</a></h2>
+<p>The ORF annotation relies on the comparison of their localization
+with those of all the genomic features annotated in the input GFF 
+file (e.g. coding sequences (CDS), tRNA, lncRNA, snoRNA, 
+pseudogenes...). ORFs are subsequently assigned as coding (c_CDS)
+(if they include in the same frame a CDS) or noncoding (nc). 
+Noncoding ORFs are then subdivided into 
+noncoding intergenic ORFs (nc_intergenic) or noncoding overlapping
+ORFs (nc_ovp-x with x refering to the overlapping genomic feature)
+(see <a href="orfmap_overlap.html">here</a> for the definition of an overlap).
+The former correspond to ORFs which do not overlap any 
+genomic feature. The latter consist of ORFs
+which overlap a non-phased genomic feature (i.e. non coding) 
+on the same or the opposite
+strand or which overlap a CDS in another frame. 
+Depending on the localization of the overlapping feature (same or
+opposite strand), the ORFs are annotated as nc_ovp_same-x or 
+nc_ovp_opp-x respectively.</p>
+<div class="admonition note">
+    <p class="first admonition-title">
+        Note
+    </p>
+    <p class="last">
+Notice that the ORFmap annotation has a particular point of
+view on the genome which is centered on the identification and
+annotation of a genome's ORFs rather than the annotation of 
+real biological objets (e.g. tRNA, rRNA or lncRNA for example). 
+ORFmap looks at the genome with a protein perspective where
+the ORFs of a genome can be seen as its potential for novel peptides or 
+proteins upon the pervasive translation of their corresponding RNAs.
+</p>
+</div>
+
+<h3 id="annotation-rules">Annotation rules<a class="headerlink" href="#annotation-rules" title="Permanent link">#</a></h3>
+<h4 id="orf-categories">ORF categories<a class="headerlink" href="#orf-categories" title="Permanent link">#</a></h4>
+<p>ORFs can be annotated according to four different categories:</p>
+<ul>
+<li>(1) <code>c_CDS</code> ORFs which include in the same frame a CDS </li>
+<li>(2) <code>nc_intergenic</code> ORFs which do not overlap any genomic feature </li>
+<li>(3) <code>nc_ovp_same-x</code> ORFs which overlap on the same strand, a genetic feature no matter 
+  its type</li>
+<li>(4) <code>nc_ovp_opp-x</code> ORFs which overlap on the opposite strand, a genetic feature no matter 
+  its type</li>
+</ul>
+<p>See examples of each type in Figure 1.</p>
+<p><img alt="Examples_of_ORFs" src="img/mapping/orf_annotation.png" /><br>
+<em>Figure 1: representation of the six frames of a DNA section. STOP codons
+are represented with red stars, CDS with orange boxes and 
+ the localization of the non-phased genomic features 
+ (e.g. tRNA, lncRNA) are represented with green boxes. </em></p>
+<div class="admonition note">
+    <p class="first admonition-title">
+        Note
+    </p>
+    <p class="last">
+       Notice that a noncoding ORF which overlaps a tRNA is not 
+considered as a tRNA and will not be annotated as tRNA, but rather
+as an ORF that overlaps a tRNA. Indeed a tRNA is a RNA 
+molecule that does not follow the ORF definition (not bounded by STOP 
+codons, whose sequence length is not necessarily a multiple of 3...).
+Here ORFs are seen as potential peptides or proteins that could be 
+produced upon the pervasive translation of their corresponding RNA.
+Annotating all ORFs with the genomic feature they overlap 
+enables their analysis in a very flexible fashion.
+Indeed, the user can adopt different levels of annotation, 
+considering all noncoding ORFs as a whole (i.e. regardless of the fact they
+overlap a genomic feature or not) or differentiating noncoding ORFs
+from noncoding ORFs that overlap specific genomic features (e.g. 
+tRNA and rRNA) (see the <a href="./orfget_run.html">ORFget section</a>  
+for more details).
+
+    </p>
+</div>
+
+<h4 id="priority-rules">Priority rules<a class="headerlink" href="#priority-rules" title="Permanent link">#</a></h4>
+<p>If a noncoding ORF overlaps multiple genomic features, 
+it will be annotated according to the following priority rules:</p>
+<ol>
+<li>
+<p>if the noncoding ORF overlaps a CDS and another annotated 
+    feature, the CDS has priority over the other annotated features
+    no matter the CDS is located on the same or the opposite strand.
+    The ORF will be annotated as a noncoding ORF overlapping 
+    a CDS (e.g. nc_ovp_(same/opp)-CDS).</p>
+</li>
+<li>
+<p>if the noncoding ORF overlaps an annotated feature on the 
+   same strand and another annotated feature on the opposite 
+   strand (except CDS), the annotated feature located on the same strand
+   has priority over the other features on the opposite
+   strand. The ORF will be annotated as a noncoding ORF overlapping 
+   the feature on the same strand (e.g. nc_ovp_same-x).</p>
+</li>
+<li>
+<p>if the noncoding ORF overlaps multiple annotated features
+   located on the same strand, the feature with the larger overlap
+   with the ORF to be annotated has priority over the other features
+   (e.g. nc_ovp_(same/opp)-x).</p>
+</li>
+<li>
+<p>if the noncoding ORF overlaps multiple features located on the 
+same strand and that cover the same fraction of the ORF to be 
+   annotated, the feature which first appears in the GFF file has
+   priority over the others. This case occurs with large annotated 
+   features that embed smaller elements. </p>
+</li>
+</ol>
+<p>Particular case of genes and exons. Notice that many genomic 
+   features overlap together or can be intertwined with each other 
+   (e.g. a gene includes
+   one or several mRNAs which in turn include exons and CDS). By default, 
+the features "gene" and "exon" are not considered. ORFs that
+match at the same time with the features "gene" and "mRNA" are annotated
+as nc_(same/opp)_ovp-mRNA (see Figure 2), while those that match with a CDS
+and its corresponding exon, will be annotated as c_CDS (i.e. coding 
+   ORFs). Finally, noncoding ORFs that overlap in another frame 
+   a CDS, and an exon will be annotated as nc_(same/opp)_ovp-CDS.</p>
+<p><img alt="priority_gene_vs_mRNA" src="img/mapping/priority_gene_vs_mRNA.png" /><br>
+<em>Figure 2: representation of the three frames of a DNA strand section 
+ containing a protein coding gene. 
+ STOP codons are represented with red stars, 
+ the two CDS of the multiexonic gene with orange boxes, while 
+ the protein coding gene and its corresponding mRNA are 
+ represented with light and dark grey boxes respectively.
+The two ORFs indicated with brackets do not overlap the CDS
+ of the gene and are subsequently annotated as noncoding. However,
+ they overlap the gene and its corresponding mRNA. As the mRNA has priority
+over the gene feature, the two ORFs are annotated as noncoding ORF
+overlapping a mRNA (nc_ovp_same-mRNA).
+ </em></p>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="orfmap_overlap.html" class="btn btn-neutral float-right" title="Overlap definition">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="orfmap_orfdef.html" class="btn btn-neutral" title="ORF definition"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href="orfmap_orfdef.html" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="orfmap_overlap.html" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script>var base_url = '.';</script>
+    <script src="js/theme.js" defer></script>
+      <script src="search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>
