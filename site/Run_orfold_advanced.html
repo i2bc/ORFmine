@@ -190,7 +190,7 @@ the input FASTA file. ORFold will return new GFF files (one per studied property
 that contain for the ORFs provided in the input FASTA file, their corresponding 
 property (fold potential, disorder or aggregation propensities). The 
 values are stored in the column #9 of the output GFF files. The GFF files can be subsequently
-uploaded on a genome viewer such as IGV [REF].</p>
+uploaded on a genome viewer such as IGV [1].</p>
 <p>The input GFF file must be given with the <strong>-gff</strong> option as follows:</p>
 <pre><code>orfold -fna sequences.fasta -options HIT -gff sequences.gff 
 </code></pre>
@@ -209,7 +209,7 @@ That way, the corresponding sequences can be colored according to these values o
 a genome viewer, thereby enabling the visual inspection of these properties along
 the input genome. Notice that on IGV, blue indicates low values (for all mapped properties) 
 while red indicates high values. </p>
-<p><img alt="HCA Scale" src="img/mapping/Scale.pdf" /><br>
+<p><img alt="HCA Scale" src="img/mapping/Scale.png" /><br>
 <em>Figure 1: Color scale for the HCA score values 
 </em></p>
 <div class="admonition note">
@@ -338,14 +338,14 @@ from the initial <strong>sequences.fasta</strong> file.    </p>
 <pre><code>orfold -fna sequences_X.pfasta sequences_Y.pfasta -options H -N 1500 3000
 </code></pre>
 
-even if is the same sample size it has to be explicit for every input
+Also, if the user wants to sample two subsets of same sizes, he has to indicate the subset sizes explicitly for each input
 
 <pre><code>orfold -fna sequences_X.pfasta sequences_Y.pfasta -options H -N 1500 1500
 </code></pre>
 
     If the user whishes to calculate the fold potential of all the sequences 
-    in one of the given inputs, he has to write in the order of this file
-    the word "all"
+    of one of the given inputs, he has to indicate it with the "all" flag (again with respect to
+    the order of input files)
 
 <pre><code>orfold -fna sequences_X.pfasta sequences_Y.pfasta -options H -N all 3000
 </code></pre>
@@ -356,6 +356,12 @@ sequences_Y file.
 
     </p>
 </div>
+
+<p>References</p>
+<ol>
+<li>Robinson JT, Thorvaldsdóttir H, Winckler W, et al (2011)
+   Integrative genomics viewer. Nature biotechnology 29:24–26</li>
+</ol>
               
             </div>
           </div>
