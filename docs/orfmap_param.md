@@ -1,4 +1,4 @@
-## ORFmap parameters
+## ORFtrack parameters
 
 
 <b>Mandatory</b>
@@ -18,10 +18,10 @@
   ```--show-chrs ```          prints all the seqID (usually corresponding to chromosome or contig ID) present in the input GFF file
 
 
- ```` -chr````                  list of seqID to be treated by ORFmap (i.e. column #1 
+ ```` -chr````                  list of seqID to be treated by ORFtrack (i.e. column #1 
                         of the GFF file - generally chromosome or contig ID). 
                         ID must be separated by a space: -chr NC_001148.4 NC_001139.3   
-In this case, ORFmap will not treat the entire genome, but
+In this case, ORFtrack will not treat the entire genome, but
 the following seqID NC_001148.4 NC_001139.3. We recommend using this option 
 when dealing with large genomes in order to distribute the calculations on 
 several CPUs (one per (subset of) seqID).
@@ -30,11 +30,11 @@ several CPUs (one per (subset of) seqID).
 
   ```-orf_len ```  Minimal number of nucleotides between two 
   consecutive STOP codons to define an ORF (default: 60 nucleotides) 
-(see the [ORF definition section](./orfmap_orfdef.md) for more details).
+(see the [ORF definition section](./orftrack_orfdef.md) for more details).
 
  ```` -co_ovp````  Minimal fraction of the ORF length that overlaps a genomic feature
  to annotate the ORF as overlapping it 
- (default: 70%). (see the [Overlap section](./orfmap_overlap.md) for more details).
+ (default: 70%). (see the [Overlap section](./orftrack_overlap.md) for more details).
 
 
   ```-out```           Output directory

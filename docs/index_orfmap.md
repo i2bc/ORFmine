@@ -1,7 +1,7 @@
 ## Table of contents
 
 <ul>
-  <li>Understanding ORFMap
+  <li>Understanding ORFtrack
     <ul>
       <li><a href="introduction.html">Introduction</a></li>
       <li><a href="orf_def.html">ORF definition</a></li>

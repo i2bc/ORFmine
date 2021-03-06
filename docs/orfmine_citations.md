@@ -1,6 +1,6 @@
 ## How to cite us and others
 
-### If you use only ORFmap
+### If you use only ORFtrack
 
 please cite:
 

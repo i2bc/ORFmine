@@ -14,16 +14,16 @@ ORFmine is an open-source package that aims at extracting, annotating,
 and characterizing the fold potential and the structural properties of
 all Open Reading Frames (ORF) encoded in a genome (including coding and
 noncoding sequences). ORFmine consists of two independent programs, 
-<b>ORFmap</b> and <b>ORFold</b> that can be used together or independently
+<b>ORFtrack</b> and <b>ORFold</b> that can be used together or independently
 (see [here](./orfmine_quickstart.md) for an example of 
 application).
 
 
 
 <br><br>
-[ ![](./img/icons/Logo_ORFmap.png){ width=30% }](./orfmap_description.md) <br>
+[ ![](./img/icons/Logo_ORFtrack.png){ width=30% }](./orftrack_description.md) <br>
 
-ORFMap searches for all possible ORFs longer than 60 nucleotides in the six frames of an input
+ORFtrack searches for all possible ORFs longer than 60 nucleotides in the six frames of an input
 genome, and annotate them according to a set of genomic features 
 (e.g. noncoding intergenic ORFs, coding ORFs, noncoding ORFs 
 that overlap with a specific genomic feature...). It provides
@@ -31,13 +31,13 @@ the user with a GFF file containing the annotations of all identified ORFs
 that can be directly uploaded on a genome viewer for a visual inspection.
 In addition, their amino acid and/or nucleotide sequences can be extracted 
 in a FASTA file (for more details, see the complete 
-documentation of ORFmap).
+documentation of ORFtrack).
 
 <br><br>
 [![](./img/icons/Logo_ORFold.png){ width=30% }](./Objective_orfold.md) <br>
 
 ORFold probes the fold potential and the disorder and aggregation 
-propensities of a set of amino acid sequences (all ORFs annotated by ORFmap for example).
+propensities of a set of amino acid sequences (all ORFs annotated by ORFtrack for example).
 The fold potential is estimated with the HCA method [1], while the
 disorder and aggregation propensities are calculated with IUPRred[2][3][4], and
 TANGO[5][6][7] respectively. The specificity of ORFold lies

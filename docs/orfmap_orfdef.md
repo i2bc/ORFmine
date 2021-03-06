@@ -10,7 +10,7 @@ An ORF:
  * is bounded by stop codons
  * is at least 60 nucleotides long (STOP codons excluded)
 
-![orf_definition](img/mapping/orfmap_orfdef.png)
+![orf_definition](img/mapping/orftrack_orfdef.png)
 
 
 The minimal length of an ORF can be nevertheless modified by the user with
@@ -22,7 +22,7 @@ STOP codons). The following instruction extracts all ORFs of at least
 
 
 ``` bash
-orfmap -fna genome.fasta -gff genome.gff -orf_len 300 
+orftrack -fna genome.fasta -gff genome.gff -orf_len 300 
 ```
 
 

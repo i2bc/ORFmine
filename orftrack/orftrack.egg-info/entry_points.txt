@@ -1,0 +1,4 @@
+[console_scripts]
+orfget = orftrack.scripts.ORFget:main
+orftrack = orftrack.main:main
+

@@ -5,19 +5,19 @@ nav:
       - Installation: orfmine_installation.md
       - Quick start: orfmine_quickstart.md
       - Citations: orfmine_citations.md
-    - ORFmap:
-      - ORFMap presentation:
-        - Aims and general description: orfmap_description.md
-        - ORF definition: orfmap_orfdef.md
-        - ORF annotation: orfmap_annotation.md
-        - Overlap definition: orfmap_overlap.md
-        - ORF extraction: orfmap_orf_extraction.md
+    - ORFtrack:
+      - ORFtrack presentation:
+        - Aims and general description: orftrack_description.md
+        - ORF definition: orftrack_orfdef.md
+        - ORF annotation: orftrack_annotation.md
+        - Overlap definition: orftrack_overlap.md
+        - ORF extraction: orftrack_orf_extraction.md
       - Usage:
-        - Inputs: orfmap_input.md
-        - ORF annotation with ORFmap: orfmap_run.md
+        - Inputs: orftrack_input.md
+        - ORF annotation with ORFtrack: orftrack_run.md
         - ORF extraction with ORFget: orfget_run.md
       - Parameters:
-        - ORFmap parameters: orfmap_param.md
+        - ORFtrack parameters: orftrack_param.md
         - ORFget parameters: orfget_param.md
     - ORFold:
       - ORFold presentation:
