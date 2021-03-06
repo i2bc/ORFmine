@@ -63,27 +63,27 @@
                     <li class="toctree-l1"><a class="reference internal" href="orfmine_citations.html">Citations</a>
                     </li>
                 </ul>
-                <p class="caption"><span class="caption-text">ORFmap</span></p>
+                <p class="caption"><span class="caption-text">ORFtrack</span></p>
                 <ul>
-                    <li class="toctree-l1"><a class="reference internal" href="#">ORFMap presentation</a>
+                    <li class="toctree-l1"><a class="reference internal" href="#">ORFtrack presentation</a>
     <ul>
-                <li class="toctree-l2"><a class="reference internal" href="orfmap_description.html">Aims and general description</a>
+                <li class="toctree-l2"><a class="reference internal" href="orftrack_description.html">Aims and general description</a>
                 </li>
-                <li class="toctree-l2"><a class="reference internal" href="orfmap_orfdef.html">ORF definition</a>
+                <li class="toctree-l2"><a class="reference internal" href="orftrack_orfdef.html">ORF definition</a>
                 </li>
-                <li class="toctree-l2"><a class="reference internal" href="orfmap_annotation.html">ORF annotation</a>
+                <li class="toctree-l2"><a class="reference internal" href="orftrack_annotation.html">ORF annotation</a>
                 </li>
-                <li class="toctree-l2"><a class="reference internal" href="orfmap_overlap.html">Overlap definition</a>
+                <li class="toctree-l2"><a class="reference internal" href="orftrack_overlap.html">Overlap definition</a>
                 </li>
-                <li class="toctree-l2"><a class="reference internal" href="orfmap_orf_extraction.html">ORF extraction</a>
+                <li class="toctree-l2"><a class="reference internal" href="orftrack_orf_extraction.html">ORF extraction</a>
                 </li>
     </ul>
                     </li>
                     <li class="toctree-l1"><a class="reference internal" href="#">Usage</a>
     <ul>
-                <li class="toctree-l2"><a class="reference internal" href="orfmap_input.html">Inputs</a>
+                <li class="toctree-l2"><a class="reference internal" href="orftrack_input.html">Inputs</a>
                 </li>
-                <li class="toctree-l2"><a class="reference internal" href="orfmap_run.html">ORF annotation with ORFmap</a>
+                <li class="toctree-l2"><a class="reference internal" href="orftrack_run.html">ORF annotation with ORFtrack</a>
                 </li>
                 <li class="toctree-l2"><a class="reference internal" href="orfget_run.html">ORF extraction with ORFget</a>
                 </li>
@@ -91,7 +91,7 @@
                     </li>
                     <li class="toctree-l1"><a class="reference internal" href="#">Parameters</a>
     <ul>
-                <li class="toctree-l2"><a class="reference internal" href="orfmap_param.html">ORFmap parameters</a>
+                <li class="toctree-l2"><a class="reference internal" href="orftrack_param.html">ORFtrack parameters</a>
                 </li>
                 <li class="toctree-l2"><a class="reference internal" href="orfget_param.html">ORFget parameters</a>
                 </li>
@@ -164,37 +164,37 @@
             <div class="section">
               
                 <h2 id="usage">Usage<a class="headerlink" href="#usage" title="Permanent link">#</a></h2>
-<p>Here is presented an example of the use of ORFmap with ORFold 
+<p>Here is presented an example of the use of ORFtrack with ORFold 
 to annotate all the ORFs of a genome, and to characterize their fold potential
 and disorder and aggregation propensities.</p>
 <p>The inputs used in this example and the resulting outputs are 
 available in the ORFmine/examples/ folder.</p>
-<h2 id="annotation-and-extraction-of-orfs-with-orfmap">Annotation and extraction of ORFs with ORfmap<a class="headerlink" href="#annotation-and-extraction-of-orfs-with-orfmap" title="Permanent link">#</a></h2>
+<h2 id="annotation-and-extraction-of-orfs-with-orftrack">Annotation and extraction of ORFs with ORFtrack<a class="headerlink" href="#annotation-and-extraction-of-orfs-with-orftrack" title="Permanent link">#</a></h2>
 <h3 id="annotation-of-orfs">Annotation of ORFs<a class="headerlink" href="#annotation-of-orfs" title="Permanent link">#</a></h3>
-<p>ORFmap takes as input (i) a FASTA file containing the nucleotide
+<p>ORFtrack takes as input (i) a FASTA file containing the nucleotide
 sequences of all chromosomes or contigs, and (ii) their corresponding 
 annotations in a GFF file (see 
 <a href="https://github.com/The-Sequence-Ontology/Specifications/blob/master/gff3.md">the GFF3 documentation</a>
 for more details on the GFF3 format). 
-The following command runs ORFmap on the complete genome of Escherichia
+The following command runs ORFtrack on the complete genome of Escherichia
 coli (<em>E. coli</em>) available in the "examples" folder:</p>
-<pre><code class="language-bash">orfmap -fna E_coli.fna -gff E_coli.gff
+<pre><code class="language-bash">orftrack -fna E_coli.fna -gff E_coli.gff
 </code></pre>
-<p>ORFmap generates a novel GFF file (available in 
+<p>ORFtrack generates a novel GFF file (available in 
 ORFmine/examples/outputs/mapping_orf_E_coli.gff)
 containing the annotations of all identified ORFs. </p>
 <h3 id="extraction-of-noncoding-orfs-in-a-fasta-file">Extraction of noncoding ORFs in a FASTA file<a class="headerlink" href="#extraction-of-noncoding-orfs-in-a-fasta-file" title="Permanent link">#</a></h3>
 <p>The amino acid sequences of 
 all annotated ORFs or specific subsets of ORFs (i.e. only noncoding 
 intergenic ORFs for example) can be extracted and written in a 
-FASTA file with ORFget, a tool provided with ORFmap. The following 
+FASTA file with ORFget, a tool provided with ORFtrack. The following 
 instruction writes the amino acid sequences of all noncoding ORFs (including 
 noncoding intergenic ORFs and those that overlap with a genomic feature) 
 of <em>E. coli</em> in a FASTA file.</p>
 <pre><code class="language-python">orfget -fna E_coli.fna -gff mapping_orf_E_coli.gff -features_include nc -o E_coli_noncoding
 </code></pre>
 <p>ORFget produces a FASTA file (E_coli_noncoding.pfasta) containing the amino acid sequences
-of all noncoding ORFs annotated by ORFmap (see <a href="orfget_run.html">here</a> for more examples 
+of all noncoding ORFs annotated by ORFtrack (see <a href="orfget_run.html">here</a> for more examples 
 on the use of ORFget). </p>
 <h3 id="extraction-of-protein-sequences-of-e-coli-in-a-fasta-file">Extraction of protein sequences of <em>E. coli</em> in a FASTA file<a class="headerlink" href="#extraction-of-protein-sequences-of-e-coli-in-a-fasta-file" title="Permanent link">#</a></h3>
 <p>In addition, ORFget enables the reconstruction of all protein 
@@ -214,8 +214,8 @@ visual inspection of the distribution of these properties along
 the genome. </p>
 <p>The following instruction enables the user to probe the fold 
 potential and disorder and aggregation propensities of all noncoding
-ORFs annotated by ORFmap along with those of the protein sequences
-of <em>E. coli</em>. The GFF file generated by ORFmap is given as well in order
+ORFs annotated by ORFtrack along with those of the protein sequences
+of <em>E. coli</em>. The GFF file generated by ORFtrack is given as well in order
 to manually inspect with a genome viewer, the distribution of
 the structural properties of the noncoding ORFs along the genome of <em>E. coli</em>.</p>
 <pre><code class="language-python">orfold -fna E_coli_noncoding.pfasta E_coli_CDS.pfasta -options HIT -gff mapping_orf_E_coli.gff E_coli.gff

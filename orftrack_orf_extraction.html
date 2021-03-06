@@ -9,7 +9,7 @@
   
   
   <link rel="shortcut icon" href="img/favicon.ico">
-  <title>ORF definition - ORFmine Documentation</title>
+  <title>ORF extraction - ORFmine Documentation</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
 
   <link rel="stylesheet" href="css/theme.css" />
@@ -19,8 +19,8 @@
   
   <script>
     // Current page data
-    var mkdocs_page_name = "ORF definition";
-    var mkdocs_page_input_path = "orfmap_orfdef.md";
+    var mkdocs_page_name = "ORF extraction";
+    var mkdocs_page_input_path = "orftrack_orf_extraction.md";
     var mkdocs_page_url = null;
   </script>
   
@@ -61,29 +61,29 @@
                     <li class="toctree-l1"><a class="reference internal" href="orfmine_citations.html">Citations</a>
                     </li>
                 </ul>
-                <p class="caption"><span class="caption-text">ORFmap</span></p>
+                <p class="caption"><span class="caption-text">ORFtrack</span></p>
                 <ul class="current">
-                    <li class="toctree-l1 current"><a class="reference internal current" href="#">ORFMap presentation</a>
+                    <li class="toctree-l1 current"><a class="reference internal current" href="#">ORFtrack presentation</a>
     <ul class="current">
-                <li class="toctree-l2"><a class="reference internal" href="orfmap_description.html">Aims and general description</a>
+                <li class="toctree-l2"><a class="reference internal" href="orftrack_description.html">Aims and general description</a>
                 </li>
-                <li class="toctree-l2 current"><a class="reference internal current" href="orfmap_orfdef.html">ORF definition</a>
+                <li class="toctree-l2"><a class="reference internal" href="orftrack_orfdef.html">ORF definition</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="orftrack_annotation.html">ORF annotation</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="orftrack_overlap.html">Overlap definition</a>
+                </li>
+                <li class="toctree-l2 current"><a class="reference internal current" href="orftrack_orf_extraction.html">ORF extraction</a>
     <ul class="current">
     </ul>
-                </li>
-                <li class="toctree-l2"><a class="reference internal" href="orfmap_annotation.html">ORF annotation</a>
-                </li>
-                <li class="toctree-l2"><a class="reference internal" href="orfmap_overlap.html">Overlap definition</a>
-                </li>
-                <li class="toctree-l2"><a class="reference internal" href="orfmap_orf_extraction.html">ORF extraction</a>
                 </li>
     </ul>
                     </li>
                     <li class="toctree-l1"><a class="reference internal" href="#">Usage</a>
     <ul>
-                <li class="toctree-l2"><a class="reference internal" href="orfmap_input.html">Inputs</a>
+                <li class="toctree-l2"><a class="reference internal" href="orftrack_input.html">Inputs</a>
                 </li>
-                <li class="toctree-l2"><a class="reference internal" href="orfmap_run.html">ORF annotation with ORFmap</a>
+                <li class="toctree-l2"><a class="reference internal" href="orftrack_run.html">ORF annotation with ORFtrack</a>
                 </li>
                 <li class="toctree-l2"><a class="reference internal" href="orfget_run.html">ORF extraction with ORFget</a>
                 </li>
@@ -91,7 +91,7 @@
                     </li>
                     <li class="toctree-l1"><a class="reference internal" href="#">Parameters</a>
     <ul>
-                <li class="toctree-l2"><a class="reference internal" href="orfmap_param.html">ORFmap parameters</a>
+                <li class="toctree-l2"><a class="reference internal" href="orftrack_param.html">ORFtrack parameters</a>
                 </li>
                 <li class="toctree-l2"><a class="reference internal" href="orfget_param.html">ORFget parameters</a>
                 </li>
@@ -148,15 +148,15 @@
     
       
         
-          <li>ORFMap presentation &raquo;</li>
+          <li>ORFtrack presentation &raquo;</li>
         
       
         
-          <li>ORFmap &raquo;</li>
+          <li>ORFtrack &raquo;</li>
         
       
     
-    <li>ORF definition</li>
+    <li>ORF extraction</li>
     <li class="wy-breadcrumbs-aside">
       
     </li>
@@ -167,24 +167,16 @@
           <div role="main">
             <div class="section">
               
-                <h2 id="orf-defintion">ORF defintion<a class="headerlink" href="#orf-defintion" title="Permanent link">#</a></h2>
-<p>ORFs are defined according to the recent definition proposed
-by <a href="https://doi.org/10.1016/j.tig.2017.12.009">Sieber et al, </a> in 
-2018.</p>
-<p>An ORF:</p>
-<ul>
-<li>has a length divisible by 3</li>
-<li>is bounded by stop codons</li>
-<li>is at least 60 nucleotides long (STOP codons excluded)</li>
-</ul>
-<p><img alt="orf_definition" src="img/mapping/orfmap_orfdef.png" /></p>
-<p>The minimal length of an ORF can be nevertheless modified by the user with
-the <strong>-orf_len</strong> parameter (notice that the ORF length does not
-include the
-STOP codons). The following instruction extracts all ORFs of at least 
-100 amino acids: </p>
-<pre><code class="language-bash">orfmap -fna genome.fasta -gff genome.gff -orf_len 300 
-</code></pre>
+                <h2 id="orf-extraction">ORF extraction<a class="headerlink" href="#orf-extraction" title="Permanent link">#</a></h2>
+<p>The amino acid and nucleotide sequences of all ORFs identified 
+with ORFtrack can be extracted easily with ORFget, a tool provided with
+ORFtrack. Particularly, ORFget enables the user to extract the 
+sequences of all identified ORFs (c_CDS, noncoding intergenic,
+or noncoding overlapping ORFs), but also, those of a specific ORF
+category (e.g. only noncoding intergenic ORFs) or a combination 
+of ORFs according to their annotations (e.g. noncoding intergenic
+ORFs and noncoding ORFs that overlap lncRNAs...). Different 
+examples are detailed in the <a href="orfget_run.html">ORFget section</a>.</p>
               
             </div>
           </div>
@@ -192,10 +184,10 @@ STOP codons). The following instruction extracts all ORFs of at least
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="orfmap_annotation.html" class="btn btn-neutral float-right" title="ORF annotation">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="orftrack_input.html" class="btn btn-neutral float-right" title="Inputs">Next <span class="icon icon-circle-arrow-right"></span></a>
       
       
-        <a href="orfmap_description.html" class="btn btn-neutral" title="Aims and general description"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="orftrack_overlap.html" class="btn btn-neutral" title="Overlap definition"><span class="icon icon-circle-arrow-left"></span> Previous</a>
       
     </div>
   
@@ -221,10 +213,10 @@ STOP codons). The following instruction extracts all ORFs of at least
     <span class="rst-current-version" data-toggle="rst-current-version">
       
       
-        <span><a href="orfmap_description.html" style="color: #fcfcfc;">&laquo; Previous</a></span>
+        <span><a href="orftrack_overlap.html" style="color: #fcfcfc;">&laquo; Previous</a></span>
       
       
-        <span style="margin-left: 15px"><a href="orfmap_annotation.html" style="color: #fcfcfc">Next &raquo;</a></span>
+        <span style="margin-left: 15px"><a href="orftrack_input.html" style="color: #fcfcfc">Next &raquo;</a></span>
       
     </span>
 </div>

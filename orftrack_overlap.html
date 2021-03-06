@@ -9,7 +9,7 @@
   
   
   <link rel="shortcut icon" href="img/favicon.ico">
-  <title>ORF annotation with ORFmap - ORFmine Documentation</title>
+  <title>Overlap definition - ORFmine Documentation</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
 
   <link rel="stylesheet" href="css/theme.css" />
@@ -19,8 +19,8 @@
   
   <script>
     // Current page data
-    var mkdocs_page_name = "ORF annotation with ORFmap";
-    var mkdocs_page_input_path = "orfmap_run.md";
+    var mkdocs_page_name = "Overlap definition";
+    var mkdocs_page_input_path = "orftrack_overlap.md";
     var mkdocs_page_url = null;
   </script>
   
@@ -61,33 +61,29 @@
                     <li class="toctree-l1"><a class="reference internal" href="orfmine_citations.html">Citations</a>
                     </li>
                 </ul>
-                <p class="caption"><span class="caption-text">ORFmap</span></p>
+                <p class="caption"><span class="caption-text">ORFtrack</span></p>
                 <ul class="current">
-                    <li class="toctree-l1"><a class="reference internal" href="#">ORFMap presentation</a>
-    <ul>
-                <li class="toctree-l2"><a class="reference internal" href="orfmap_description.html">Aims and general description</a>
+                    <li class="toctree-l1 current"><a class="reference internal current" href="#">ORFtrack presentation</a>
+    <ul class="current">
+                <li class="toctree-l2"><a class="reference internal" href="orftrack_description.html">Aims and general description</a>
                 </li>
-                <li class="toctree-l2"><a class="reference internal" href="orfmap_orfdef.html">ORF definition</a>
+                <li class="toctree-l2"><a class="reference internal" href="orftrack_orfdef.html">ORF definition</a>
                 </li>
-                <li class="toctree-l2"><a class="reference internal" href="orfmap_annotation.html">ORF annotation</a>
+                <li class="toctree-l2"><a class="reference internal" href="orftrack_annotation.html">ORF annotation</a>
                 </li>
-                <li class="toctree-l2"><a class="reference internal" href="orfmap_overlap.html">Overlap definition</a>
+                <li class="toctree-l2 current"><a class="reference internal current" href="orftrack_overlap.html">Overlap definition</a>
+    <ul class="current">
+    </ul>
                 </li>
-                <li class="toctree-l2"><a class="reference internal" href="orfmap_orf_extraction.html">ORF extraction</a>
+                <li class="toctree-l2"><a class="reference internal" href="orftrack_orf_extraction.html">ORF extraction</a>
                 </li>
     </ul>
                     </li>
-                    <li class="toctree-l1 current"><a class="reference internal current" href="#">Usage</a>
-    <ul class="current">
-                <li class="toctree-l2"><a class="reference internal" href="orfmap_input.html">Inputs</a>
+                    <li class="toctree-l1"><a class="reference internal" href="#">Usage</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="orftrack_input.html">Inputs</a>
                 </li>
-                <li class="toctree-l2 current"><a class="reference internal current" href="orfmap_run.html">ORF annotation with ORFmap</a>
-    <ul class="current">
-    <li class="toctree-l3"><a class="reference internal" href="#running-orfmap-on-a-complete-genome">Running ORFmap on a complete genome</a>
-    </li>
-    <li class="toctree-l3"><a class="reference internal" href="#running-orfmap-on-a-single-chromosome-or-a-subset-of-chromosomes">Running ORFmap on a single chromosome or a subset of chromosomes</a>
-    </li>
-    </ul>
+                <li class="toctree-l2"><a class="reference internal" href="orftrack_run.html">ORF annotation with ORFtrack</a>
                 </li>
                 <li class="toctree-l2"><a class="reference internal" href="orfget_run.html">ORF extraction with ORFget</a>
                 </li>
@@ -95,7 +91,7 @@
                     </li>
                     <li class="toctree-l1"><a class="reference internal" href="#">Parameters</a>
     <ul>
-                <li class="toctree-l2"><a class="reference internal" href="orfmap_param.html">ORFmap parameters</a>
+                <li class="toctree-l2"><a class="reference internal" href="orftrack_param.html">ORFtrack parameters</a>
                 </li>
                 <li class="toctree-l2"><a class="reference internal" href="orfget_param.html">ORFget parameters</a>
                 </li>
@@ -152,15 +148,15 @@
     
       
         
-          <li>Usage &raquo;</li>
+          <li>ORFtrack presentation &raquo;</li>
         
       
         
-          <li>ORFmap &raquo;</li>
+          <li>ORFtrack &raquo;</li>
         
       
     
-    <li>ORF annotation with ORFmap</li>
+    <li>Overlap definition</li>
     <li class="wy-breadcrumbs-aside">
       
     </li>
@@ -171,25 +167,26 @@
           <div role="main">
             <div class="section">
               
-                <h2 id="annotation-of-orfs-with-orfmap">Annotation of ORFs with ORFmap<a class="headerlink" href="#annotation-of-orfs-with-orfmap" title="Permanent link">#</a></h2>
-<h3 id="running-orfmap-on-a-complete-genome">Running ORFmap on a complete genome<a class="headerlink" href="#running-orfmap-on-a-complete-genome" title="Permanent link">#</a></h3>
-<p>The following instruction annotates all the possible ORFs of the
-input genome.</p>
-<pre><code class="language-bash">orfmap -fna genome.fasta -gff genome.gff
-</code></pre>
-<p>Depending on the size of the genome, ORFmap takes a few minutes to
-several hours to annotate all the ORFs of a genome. It returns 
-a new GFF file containing the annotation of all the identified ORFs 
-(including coding and noncoding ORFs). </p>
-<h3 id="running-orfmap-on-a-single-chromosome-or-a-subset-of-chromosomes">Running ORFmap on a single chromosome or a subset of chromosomes<a class="headerlink" href="#running-orfmap-on-a-single-chromosome-or-a-subset-of-chromosomes" title="Permanent link">#</a></h3>
-<p>ORFmap can be launched on a single seqID (usually chromosome or contig indicated in the first 
-column of the inout GFF)(e.g. chromosome seqID: XXX) 
-with the following instruction:</p>
-<pre><code class="language-bash">orfmap -fna genome.fasta -gff genome.gff  -chr chr_ID_XXXX
-</code></pre>
-<p>This can be very useful if the user wants to run ORFmap on several 
-CPUs. Also, it can be launched on a subset of seqIDs as follows:</p>
-<pre><code class="language-bash">orfmap -fna genome.fasta -gff genome.gff  -chr seqID1 seqID2 seqIDx
+                <h2 id="overlap-definition">Overlap definition<a class="headerlink" href="#overlap-definition" title="Permanent link">#</a></h2>
+<p>Calculation of the overlap:</p>
+<ul>
+<li>
+<p>An ORF is considered as overlapping with a given genomic feature
+  if the latter covers at least 70% of the ORF sequence.</p>
+</li>
+<li>
+<p>If less than 70% of an ORF sequence overlaps a genomic
+   feature,
+   but the latter is totally included in the ORF sequence, 
+   then the ORF is also considered as overlapping it.</p>
+</li>
+</ul>
+<p><img alt="Overlap definition" src="img/mapping/orftrack_coverage.png" /></p>
+<p>Notice that the overlap threshold can be modified with the <strong>-co_ovp</strong>
+parameter. With the following instruction, an ORF is annotated 
+as overlapping a given genomic feature if the latter covers at least 
+90% of the considered ORF.</p>
+<pre><code class="language-bash">orftrack -fna genome.fasta -gff genome.gff -co_ovp 90 
 </code></pre>
               
             </div>
@@ -198,10 +195,10 @@ CPUs. Also, it can be launched on a subset of seqIDs as follows:</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="orfget_run.html" class="btn btn-neutral float-right" title="ORF extraction with ORFget">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="orftrack_orf_extraction.html" class="btn btn-neutral float-right" title="ORF extraction">Next <span class="icon icon-circle-arrow-right"></span></a>
       
       
-        <a href="orfmap_input.html" class="btn btn-neutral" title="Inputs"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="orftrack_annotation.html" class="btn btn-neutral" title="ORF annotation"><span class="icon icon-circle-arrow-left"></span> Previous</a>
       
     </div>
   
@@ -227,10 +224,10 @@ CPUs. Also, it can be launched on a subset of seqIDs as follows:</p>
     <span class="rst-current-version" data-toggle="rst-current-version">
       
       
-        <span><a href="orfmap_input.html" style="color: #fcfcfc;">&laquo; Previous</a></span>
+        <span><a href="orftrack_annotation.html" style="color: #fcfcfc;">&laquo; Previous</a></span>
       
       
-        <span style="margin-left: 15px"><a href="orfget_run.html" style="color: #fcfcfc">Next &raquo;</a></span>
+        <span style="margin-left: 15px"><a href="orftrack_orf_extraction.html" style="color: #fcfcfc">Next &raquo;</a></span>
       
     </span>
 </div>
