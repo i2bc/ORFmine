@@ -1,15 +1,15 @@
 #!/bin/bash
 
-# We enter in the ORFmap directory
-cd orfmap-0.0.5
+# We enter in the ORFtrack directory
+cd orftrack
 
-# We uninstall the previous ORFmap
-pip uninstall orfmap
+# We uninstall the previous ORFtrack
+pip uninstall orftrack
 
-# We install ORfmap
+# We install ORFtrack
 python setup.py install
 
-# We leave ORFmap directory
+# We leave ORFtrack directory
 cd ..
 
 #We enter in the ORFold directory

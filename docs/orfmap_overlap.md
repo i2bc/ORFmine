@@ -10,7 +10,7 @@ Calculation of the overlap:
    but the latter is totally included in the ORF sequence, 
    then the ORF is also considered as overlapping it.
 
-![Overlap definition](./img/mapping/orfmap_coverage.png)
+![Overlap definition](./img/mapping/orftrack_coverage.png)
 
 Notice that the overlap threshold can be modified with the **-co_ovp**
 parameter. With the following instruction, an ORF is annotated 
@@ -19,6 +19,6 @@ as overlapping a given genomic feature if the latter covers at least
 
 
 ``` bash
-orfmap -fna genome.fasta -gff genome.gff -co_ovp 90 
+orftrack -fna genome.fasta -gff genome.gff -co_ovp 90 
 ```
 

@@ -8,7 +8,7 @@ pseudogenes...). ORFs are subsequently assigned as coding (c_CDS)
 Noncoding ORFs are then subdivided into 
 noncoding intergenic ORFs (nc_intergenic) or noncoding overlapping
 ORFs (nc_ovp-x with x refering to the overlapping genomic feature)
-(see [here](./orfmap_overlap.md) for the definition of an overlap).
+(see [here](./orftrack_overlap.md) for the definition of an overlap).
 The former correspond to ORFs which do not overlap any 
 genomic feature. The latter consist of ORFs
 which overlap a non-phased genomic feature (i.e. non coding) 
@@ -24,11 +24,11 @@ nc_ovp_opp-x respectively.
         Note
     </p>
     <p class="last">
-Notice that the ORFmap annotation has a particular point of
+Notice that the ORFtrack annotation has a particular point of
 view on the genome which is centered on the identification and
 annotation of a genome's ORFs rather than the annotation of 
 real biological objets (e.g. tRNA, rRNA or lncRNA for example). 
-ORFmap looks at the genome with a protein perspective where
+ORFtrack looks at the genome with a protein perspective where
 the ORFs of a genome can be seen as its potential for novel peptides or 
 proteins upon the pervasive translation of their corresponding RNAs.
 </p>

@@ -1,12 +1,12 @@
 ##########################
-# Orfmap data            #
+# orftrack data            #
 ##########################
 
-orfmap-*/orfmap/*
-!orfmap-*/orfmap/data/
+orftrack-*/orftrack/*
+!orftrack-*/orftrack/data/
 
-orfmap-*/orfmap/data/*
-!orfmap-*/orfmap/data/scerevisiae/
+orftrack-*/orftrack/data/*
+!orftrack-*/orftrack/data/scerevisiae/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -21,7 +21,7 @@ build/
 dist/
 doc/_build/
 
-orfmap/__pycache__/
+orftrack/__pycache__/
 **/lib/__pycache__/
 
 
@@ -29,4 +29,4 @@ orfmap/__pycache__/
 ################# 
 # pycharm files #
 #################
-orfmap/.idea/
+orftrack/.idea/

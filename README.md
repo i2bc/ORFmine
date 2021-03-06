@@ -2,10 +2,10 @@
 
 Recent studies attribute a new role to the noncoding genome in the production of novel peptides. The widespread transcription of noncoding regions and the pervasive translation of the resulting RNAs offer a vast reservoir of novel peptides to the organisms.
 
-ORFmine is an open-source package that aims at extracting, annotating, and characterizing the fold potential and the structural properties of all Open Reading Frames (ORF) encoded in a genome (including coding and noncoding sequences). ORFmine consists of two independent programs, ORFmap and ORFold that can be used together or independently (see here for an example of application).
+ORFmine is an open-source package that aims at extracting, annotating, and characterizing the fold potential and the structural properties of all Open Reading Frames (ORF) encoded in a genome (including coding and noncoding sequences). ORFmine consists of two independent programs, ORFtrack and ORFold that can be used together or independently (see here for an example of application).
  
 Both these tools have been developed in python3 (version >= 3.6).
-The install.sh  script will install both ORFmap and ORFold with their dependancies.
+The install.sh  script will install both ORFtrack and ORFold with their dependancies.
 They can be used together or independently. 
 
 ## Documentation
@@ -85,7 +85,7 @@ simply type `deactivate` to exit the environment.
 
 #### Preparation before the Installation
 
-If you just want to use **ORFmap** in order to annotate all
+If you just want to use **ORFtrack** in order to annotate all
 the possible ORFs of a genome, you have no other dependencies 
 to install, and you simply have to **Launch the Installation** 
 presented [below](#launch_install). 
@@ -170,7 +170,7 @@ chmod u+x install.sh
 
 This script will first uninstall ORFmine if it was already installed and will
 re-install it. In addition, it will install all the dependency packages needed for 
-ORFmap and ORFold.   
+ORFtrack and ORFold.   
 
 
 ## References

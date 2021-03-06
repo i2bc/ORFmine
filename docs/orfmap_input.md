@@ -1,6 +1,6 @@
-## ORFmap inputs
+## ORFtrack inputs
 
-ORFmap takes as inputs:
+ORFtrack takes as inputs:
 
  * a FASTA file containing the nucleotide sequences
 of the chromosomes or contigs of a genome

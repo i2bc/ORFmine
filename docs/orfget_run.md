@@ -1,9 +1,9 @@
 ## Extraction and writing of ORF sequences with ORFget
 
-ORFget is a tool provided with ORFmap that allows the user to extract
+ORFget is a tool provided with ORFtrack that allows the user to extract
 the protein and/or nulceotide sequences of specific subsets of ORFs 
 according to their annotation categories
-(see [here](./orfmap_annotation.md) 
+(see [here](./orftrack_annotation.md) 
 for a description of all ORF categories). ORFget deals with annotation 
 patterns, thereby allowing different levels of annotation in a 
 very easy fashion.
@@ -74,12 +74,12 @@ sequences.
 
 
 
-### Extraction of the sequences of all noncoding ORFs identified with ORFmap
+### Extraction of the sequences of all noncoding ORFs identified with ORFtrack
 
 The following commands, each enable the user to write the 
 amino acid sequences of all noncoding 
 ORFs no matter their status (i.e. intergenic or overlapping)
-(see [here](./orfmap_annotation.md) for a description of all ORF categories).
+(see [here](./orftrack_annotation.md) for a description of all ORF categories).
 
 ``` bash
 orfget -fna genome.fasta -gff mapping_orf_genome.gff -features_include nc

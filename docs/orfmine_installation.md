@@ -3,9 +3,9 @@
 
 ### 1. Overview
 
-ORFmine is a package that consists of two independent tools ORFmap and ORFold. 
+ORFmine is a package that consists of two independent tools ORFtrack and ORFold. 
 Both these tools have been developed in python3 (version >= 3.6).
-The install.sh  script will install both ORFmap and ORFold with their dependancies.
+The install.sh  script will install both ORFtrack and ORFold with their dependancies.
 They can be used together or independently. 
 
 
@@ -79,7 +79,7 @@ simply type `deactivate` to exit the environment.
 
 #### Preparation before the Installation
 
-If you just want to use **ORFmap** in order to annotate all
+If you just want to use **ORFtrack** in order to annotate all
 the possible ORFs of a genome, you have no other dependencies 
 to install, and you simply have to **Launch the Installation** 
 presented [below](#launch_install). 
@@ -163,7 +163,7 @@ chmod u+x install.sh
 
 This script will first uninstall ORFmine if it was already installed and will
 re-install it. In addition, it will install all the dependency packages needed for 
-ORFmap and ORFold.   
+ORFtrack and ORFold.   
 
 <br><br><br>
 #### References
