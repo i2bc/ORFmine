@@ -13,7 +13,6 @@ packages = ['orfold', 'orfold.lib', 'orfold.scripts','orfold.softwares']
 
 st.setup(name='orfold',
          python_requires='>=3.6',
-         version='0.0',
          packages=packages,
          install_requires=['biopython==1.78',
          				   'scipy==1.5.4',
