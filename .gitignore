@@ -1,6 +1,7 @@
 ##########################
 # orftrack data            #
 ##########################
+**.pyc
 **env_test/
 orftrack-*/orftrack/*
 !orftrack-*/orftrack/data/
