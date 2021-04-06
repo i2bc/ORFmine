@@ -22,7 +22,7 @@ from matplotlib.colors import to_hex
 # -------------- # ========================================================= #
 # Paths to set:  #
 # -------------- # 
-softwares_path="/Users/christospapadopoulos/Documents/de_novo/project_orfmine/orfold_v1"
+softwares_path="/Users/christospapadopoulos/Documents/de_novo/ORFmine/orfold_v1"
 #  1. IUPRED
 #  The python script of iupred
 #iupred      = '/Users/christospapadopoulos/Documents/de_novo/iupred/iupred2a.py'
@@ -90,6 +90,15 @@ def get_args():
                         nargs="*",
                         default=False,
                         help=argparse.SUPPRESS)
+    
+    parser.add_argument("-barcodes", 
+                        required=False, 
+                        type=str,
+                        #action='store',
+                        nargs="?",
+                        default=False,
+                        help=argparse.SUPPRESS)
+    
     parser.add_argument("-keep", 
                         required=False, 
                         type=list,
@@ -97,6 +106,7 @@ def get_args():
                         nargs="?",
                         default=[],
                         help="Option for keeping the Tango output files")
+    
     parser.add_argument("-N", 
                         required=False, 
                         type=str,
@@ -121,6 +131,7 @@ def calculate_HCA_barcodes(sequences):
     """
     We get the Barcode sequences of HCA for all the sequences
     """
+    from pyHCA import HCA
     hca = HCA(seq=list(sequences.values()),querynames=list(sequences.keys()))
     # You can get the barcode sequence of ONE sequnce using the module get_hca_barcode
     # If you want to take the barcode of all the sequnces do a loop like:
@@ -445,6 +456,18 @@ def main():
             sequences = d.copy()
             del(d)
 
+
+        #@TODO To be integrated later!!!
+        if "H" in parameters.options and parameters.barcodes == 'True':
+            # First we calculate ALL the Barcodes at ones:
+            print("Calculating the HCA barcodes ... ")
+            barcodes = calculate_HCA_barcodes(sequences = sequences)
+            print("Barcodes calculation : DONE")
+            print("\n")
+            with open(name+".barcodes","w") as barcw:
+                for i in barcodes:
+                    barcw.write(">{}\n{}\n".format(i,barcodes[i]))
+                    
         # Just some formating options for making beautiful the output file
         max_name = len(max(list(sequences.keys()), key=len))
         formating_a = "{:"+str(max_name+2)+"s}\t{:7s}\t{:7s}\t{:7s}\n"
@@ -453,11 +476,6 @@ def main():
         with open(name+".tab","w") as fw_output:
             # We write the title in the output table
             fw_output.write(formating_a.format("Seq_ID","HCA","Disord","Aggreg"))
-
-            #@TODO To be integrated later!!!
-            #if "H" in parameters.options:
-                # First we calculate ALL the Barcodes at ones:
-            #    barcodes = calculate_HCA_barcodes(sequences = sequences)
 
 
             if files_associations[fasta_file] != '':

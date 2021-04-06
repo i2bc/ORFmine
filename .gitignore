@@ -1,7 +1,7 @@
 ##########################
 # orftrack data            #
 ##########################
-
+**env_test/
 orftrack-*/orftrack/*
 !orftrack-*/orftrack/data/
 

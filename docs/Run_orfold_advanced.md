@@ -175,7 +175,7 @@ orfold -fna sequences_X.pfasta sequences_Y.pfasta -options H -N 1500 1500
 	If the user whishes to calculate the fold potential of all the sequences 
 	of one of the given inputs, he has to indicate it with the "all" flag (again with respect to
     the order of input files)
-```{}
+```bash
 orfold -fna sequences_X.pfasta sequences_Y.pfasta -options H -N all 3000
 ```
 In this case, ORFold will calculate the fold potential for <b>all</b> the sequences 
@@ -184,7 +184,6 @@ sequences_Y file.
 	
     </p>
 </div>
-
 
 References
 
