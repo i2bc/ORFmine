@@ -139,7 +139,7 @@ mkdir ORFmine/orfold_v1/orfold/softwares
         Note
     </p>
     <p class="last">
-        The calculation of the disorder or aggregation propensities are both optional and 
+    The calculation of the disorder or aggregation propensities are both optional and 
 	complementary to the HCA score. As a result, IUPred and 
 	Tango tools are not mandatory for the installation of ORFold. In addition,
 	they are not necessarily coupled together. ORFold will properly be 
