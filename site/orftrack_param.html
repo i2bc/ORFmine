@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  
+  <link rel="shortcut icon" href="img/favicon.ico">
+  <title>ORFtrack parameters - ORFmine Documentation</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
+
+  <link rel="stylesheet" href="css/theme.css" />
+  <link rel="stylesheet" href="css/theme_extra.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" />
+  <link href="css/extra.css" rel="stylesheet" />
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "ORFtrack parameters";
+    var mkdocs_page_input_path = "orftrack_param.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="js/jquery-2.1.1.min.js" defer></script>
+  <script src="js/modernizr-2.8.3.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+        <a href="." class="icon icon-home"> ORFmine Documentation</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="./search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="index.html">Home</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">ORFmine</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="orfmine_installation.html">Installation</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="orfmine_quickstart.html">Quick start</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="orfmine_citations.html">Citations</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">ORFtrack</span></p>
+                <ul class="current">
+                    <li class="toctree-l1"><a class="reference internal" href="#">ORFtrack presentation</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="orftrack_description.html">Aims and general description</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="orftrack_orfdef.html">ORF definition</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="orftrack_annotation.html">ORF annotation</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="orftrack_overlap.html">Overlap definition</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="orftrack_orf_extraction.html">ORF extraction</a>
+                </li>
+    </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="#">Usage</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="orftrack_input.html">Inputs</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="orftrack_run.html">ORF annotation with ORFtrack</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="orfget_run.html">ORF extraction with ORFget</a>
+                </li>
+    </ul>
+                    </li>
+                    <li class="toctree-l1 current"><a class="reference internal current" href="#">Parameters</a>
+    <ul class="current">
+                <li class="toctree-l2 current"><a class="reference internal current" href="orftrack_param.html">ORFtrack parameters</a>
+    <ul class="current">
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="orfget_param.html">ORFget parameters</a>
+                </li>
+    </ul>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">ORFold</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="#">ORFold presentation</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="Objective_orfold.html">Objective</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="How_it_works_orfold.html">How it works?</a>
+                </li>
+    </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="#">Usage</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="Run_orfold.html">Basic run ORFold</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="Plot_orfold.html">Plots with ORFplot</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="Run_orfold_advanced.html">Advanced run ORFold</a>
+                </li>
+    </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="#">Parameters</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="parameters_orfold.html">ORFold parameters</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="parameters_orfplot.html">ORFplot parameters</a>
+                </li>
+    </ul>
+                    </li>
+                </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href=".">ORFmine Documentation</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".">Docs</a> &raquo;</li>
+    
+      
+        
+          <li>Parameters &raquo;</li>
+        
+      
+        
+          <li>ORFtrack &raquo;</li>
+        
+      
+    
+    <li>ORFtrack parameters</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h2 id="orftrack-parameters">ORFtrack parameters<a class="headerlink" href="#orftrack-parameters" title="Permanent link">#</a></h2>
+<p><b>Mandatory</b></p>
+<p><code>-fna</code>                 nucleotide fasta file of the genome whose ORFs are to annotate</p>
+<p><code>-gff</code>                  GFF annotation file</p>
+<p><b>Optional</b></p>
+<p><code>-h, --help</code>            shows the help and exits</p>
+<p><code>--show-types</code>       prints all genomic features annotated in the input GFF file</p>
+<p><code>--show-chrs</code>          prints all the seqID (usually corresponding to chromosome or contig ID) present in the input GFF file</p>
+<p><code>-chr</code>                  list of seqID to be treated by ORFtrack (i.e. column #1 
+                        of the GFF file - generally chromosome or contig ID). 
+                        ID must be separated by a space: -chr NC_001148.4 NC_001139.3 <br />
+In this case, ORFtrack will not treat the entire genome, but
+the following seqID NC_001148.4 NC_001139.3. We recommend using this option 
+when dealing with large genomes in order to distribute the calculations on 
+several CPUs (one per (subset of) seqID).</p>
+<p><code>-orf_len</code>  Minimal number of nucleotides between two 
+  consecutive STOP codons to define an ORF (default: 60 nucleotides) 
+(see the <a href="orftrack_orfdef.html">ORF definition section</a> for more details).</p>
+<p><code>-co_ovp</code>  Minimal fraction of the ORF length that overlaps a genomic feature
+ to annotate the ORF as overlapping it 
+ (default: 70%). (see the <a href="orftrack_overlap.html">Overlap section</a> for more details).</p>
+<p><code>-out</code>           Output directory</p>
+<p><code>-types_only</code> Genomic feature(s) considered for the annotation step ('CDS' is
+                        included by default). If there are several genomic features
+  to be considered, they must be given separated by a space. Noncoding ORFs are annotated as
+intergenic (when they do not overlap any feature) or overlapping (when 
+  they overlap a given genomic feature). The "overlapping" status 
+directly derives from the genomic features considered for the annotation
+step. For example, if the user specifies with the "types_only" option, the features
+"tRNA" and "rRNA" (CDS are included by default), all ORFs that overlap another
+  genomic feature (i.e. different from tRNA, rRNA, or CDS) will be annotated as 
+  noncoding intergenic ORFs. If no genomic feature is indicated, noncoding ORFs that overlap 
+  any genomic feature annotated in the original GFF file will be annotated 
+ as noncoding ORF overlapping the corresponding genomic feature. Nevertheless,
+the resulting ORFs can be treated specifically (grouped according to their annotation
+  for example) with ORFget afterwards
+  (see the <a href="orfget_run.html">ORFget section</a> for more details).</p>
+<p><code>-types_except</code>   Genomic feature(s) not to be considered for the annotation step 
+                        ('gene' and 'exon' not considered by default). If there are several genomic features
+  to be considered, they must be given separated by a space. Noncoding ORFs are annotated as
+intergenic (when they do not overlap any feature) or overlapping (when 
+  they overlap a given genomic feature). The "overlapping" status 
+directly derives from the genomic features considered for the annotation
+step. For example, when specifying with the "types_except" option, 
+  the features "telomer" and "centromer" ('gene' and 'exon' not considered by 
+  default), if an ORF overlaps a "telomer", "centromer", "gene" and/or "exon", 
+the overlap will not be considered and the ORF will be annotated as intergenic or 
+  overalapping another genomic feature if there is another genomic feature 
+in the same region (e.g. an ORF that overlaps at the same time a gene and a 
+  tRNA will be annotated as overlapping a tRNA since the gene is not considered
+  for the ORF annotation). If no genomic feature is indicated, noncoding ORFs that overlap 
+  any genomic feature annotated in the original GFF file will be annotated 
+ as noncoding ORF overlapping the corresponding genomic feature. Nevertheless,
+the resulting ORFs can be treated specifically (grouped according to their annotation
+  for example) with ORFget afterwards
+  (see the <a href="orfget_run.html">ORFget section</a> for more details).</p>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="orfget_param.html" class="btn btn-neutral float-right" title="ORFget parameters">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="orfget_run.html" class="btn btn-neutral" title="ORF extraction with ORFget"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href="orfget_run.html" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="orfget_param.html" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script>var base_url = '.';</script>
+    <script src="js/theme.js" defer></script>
+      <script src="search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>
