@@ -25,7 +25,7 @@ doc/_build/
 orftrack/__pycache__/
 **/lib/__pycache__/
 
-
+site/
 
 ################# 
 # pycharm files #
