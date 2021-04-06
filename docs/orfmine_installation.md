@@ -12,7 +12,7 @@ They can be used together or independently.
 ### 2. Download and uncompress the latest release archive
 
 ##### Download the latest release
-Here: [ ![](img/icons/download_16x16.png "Click to download the latest release")](https://github.com/i2bc/ORFmine/releases/tag/v0.0.3)
+Here: [ ![](img/icons/download_16x16.png "Click to download the latest release")](https://github.com/i2bc/ORFmine/releases/latest/)
 <br> or simply clone our github repository called [ORFmine](https://github.com/i2bc/ORFmine/)
 
 ##### Uncompress the archive
