@@ -41,7 +41,7 @@ elif sys.platform == "win32":
     tango       = softwares_path + '/orfold/softwares/Tango.exe'
 #  If system is Linux
 elif sys.platform == "linux" or sys.platform == "linux2":
-    tango       = softwares_path + '/softwares/tango_x86_64_release'
+    tango       = softwares_path + '/orfold/softwares/tango_x86_64_release'
 # ========================================================================== #
 
 
