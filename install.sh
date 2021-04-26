@@ -17,8 +17,15 @@ cd orfold_v1
 
 # First we change the path of the softwares in the orfold script
 courent_path=$(pwd)
-sed -i '' "s|.*softwares_path=.*|softwares_path=\"${courent_path}\"|g" ./orfold/orfold.py
-
+if [ $(uname -s) == "Darwin" ]
+  then
+  sed -i '' "s|.*softwares_path=.*|softwares_path=\"${courent_path}\"|g" ./orfold/orfold.py
+elif [ $(uname -s) == "Linux" ]
+  then
+  sed -i "s|.*softwares_path=.*|softwares_path=\"${courent_path}\"|g" ./orfold/orfold.py
+ fi
+ 
+ 
 # Second we change the path of the data in the plot_orfold script
 sed -i '' "s|.*glo_ref_path=.*|glo_ref_path=\"${courent_path}\"|g" ./orfold/scripts/plot_orfold.py
 
