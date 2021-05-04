@@ -1,7 +1,8 @@
 ##########################
 # orftrack data            #
 ##########################
-**.pyc
+*.egg-info/
+*.egg**.pyc
 **env_test/
 orftrack-*/orftrack/*
 !orftrack-*/orftrack/data/

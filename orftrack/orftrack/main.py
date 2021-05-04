@@ -53,12 +53,13 @@ def main():
 
 def logo(logger):
     logger.info('')
-    logger.info('   ___    ___   ___   __  __               ')
-    logger.info('  / _ \  | _ \ | __| |  \/  |  __ _   _ __ ')
-    logger.info(' | (_) | |   / | _|  | |\/| | / _` | | ')
-    logger.info('  \___/  |_|_\ |_|   |_|  |_| \__,_| | .__/')
-    logger.info('                                     |')
-
+    logger.info('   ___    ____    _____   _                           _     ')
+    logger.info('  / _ \  |  _ \  |  ___| | |_   _ __    __ _    ___  | | __ ')
+    logger.info(' | | | | | |_) | | |_    | __| | \'__|  / _` |  / __| | |/ / ')
+    logger.info(' | |_| | |  _ <  |  _|   | |_  | |    | (_| | | (__  |   <  ')
+    logger.info('  \___/  |_| \_\ |_|      \__| |_|     \__,_|  \___| |_|\_\ ')
+    logger.info('')
+                                                            
 
 if __name__ == '__main__':
 
