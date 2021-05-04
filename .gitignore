@@ -31,3 +31,11 @@ site/
 # pycharm files #
 #################
 orftrack/.idea/
+
+
+####################
+# ORFold softwares #
+####################
+orfold_v1/orfold/softwares/*
+
+
