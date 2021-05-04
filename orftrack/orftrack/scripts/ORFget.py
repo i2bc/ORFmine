@@ -411,11 +411,6 @@ def main():
     genome  = read_genome(genome_fasta = genome_file)
 
     elements_in = parameters.features_include
-    # The output type of the sequences name (With or without the frame in the end)
-    #if "CDS" in elements:
-    #    type_of_data = "CDS"
-    #else:
-    #    type_of_data = "IGORF"
 
     chomosomes_exclude = parameters.chr_exclude
 
