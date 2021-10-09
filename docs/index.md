@@ -1,14 +1,32 @@
-<div style="text-align:center; margin-bottom: 30px;">
+<div style="text-align:center;">
 <img src="./img/icons/Logo_ORFmine.png" width="70%"/>
-<p style="margin-top: 5px">
-Authors: Chris Papadopoulos<sup>1</sup>, Nicolas Chevrollier, Anne Lopes<sup>1</sup>
-</p>
+<div style="margin-top: 5px; margin-bottom: 5px;">
+Chris Papadopoulos<sup>1</sup>, Nicolas Chevrollier<sup>2</sup>, Anne Lopes<sup>1</sup>
 </div>
+</div>
+
+<div type="button" class="collapsible"><span class="arrow-down"></span>Affiliations</div>
+<div class="content">
+    <div class="affiliation">
+        <div>
+            <sup>1</sup> Université Paris-Saclay, CEA, CNRS, Institute for Integrative Biology of the Cell (I2BC), 91198, Gif-sur-Yvette, France, <a href=mailto:anne.lopes@i2bc.paris-saclay.fr>anne.lopes@i2bc.paris-saclay.fr</a>, 
+            <a href=mailto:cgpapado.bio@gmail.com>cgpapado.bio@gmail.com</a>.
+        </div>
+        <div style="margin-top: 6px;">
+            <sup>2</sup> Independent bio-informatician, Paris, France, <a href=mailto:nicolas.chevrollier@laposte.net>nicolas.chevrollier@laposte.net</a>.
+        </div>
+    </div>
+    
+
+</div>
+
+<div style="margin-top: 30px;"></div>
 
 Recent studies attribute a new role to the noncoding genome in
 the production of novel peptides. The widespread transcription
 of noncoding regions and the pervasive translation of the resulting
 RNAs offer a vast reservoir of novel peptides to the organisms.
+
 
 ORFmine is an open-source package that aims at extracting, annotating,
 and characterizing the fold potential and the structural properties of
@@ -20,7 +38,7 @@ application).
 
 
 
-<br><br>
+<br>
 [ ![](./img/icons/Logo_ORFtrack.png){ width=30% }](./orftrack_description.md) <br>
 
 ORFtrack searches for all possible ORFs longer than 60 nucleotides in the six frames of an input
@@ -33,7 +51,7 @@ In addition, their amino acid and/or nucleotide sequences can be extracted
 in a FASTA file (for more details, see the complete 
 documentation of ORFtrack).
 
-<br><br>
+<br>
 [![](./img/icons/Logo_ORFold.png){ width=30% }](./Objective_orfold.md) <br>
 
 ORFold probes the fold potential and the disorder and aggregation 
@@ -51,7 +69,7 @@ properties along a genome in a genome viewer
 documentation of ORFold).
 
 
-<br><br><br>
+<br>
 #### References
 
 1. Bitard-Feildel, T. & Callebaut, I. HCAtk and pyHCA: A Toolkit and Python API for the Hydrophobic Cluster Analysis of Protein Sequences. bioRxiv 249995 (2018).
