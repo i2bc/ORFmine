@@ -4,6 +4,7 @@
 *.egg-info/
 *.egg**.pyc
 **env_test/
+**.env*
 orftrack-*/orftrack/*
 !orftrack-*/orftrack/data/
 
