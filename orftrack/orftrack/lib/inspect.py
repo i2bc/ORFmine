@@ -64,7 +64,7 @@ def table_chrs(chrs_gff, chrs_fasta):
         if chromosome in chrs_gff and chromosome in chrs_fasta:
             logger.info(row_format.format(chromosome, 'X', 'X'))
         elif chromosome in chrs_gff and chromosome not in chrs_fasta:
-            logger.info(row_format.format(chr, 'X', '-'))
+            logger.info(row_format.format(chromosome, 'X', '-'))
         elif chromosome in chrs_fasta and chromosome not in chrs_gff:
             logger.info(row_format.format(chromosome, '-', 'X'))
     logger.info('')
