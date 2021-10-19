@@ -128,6 +128,8 @@ def read_gff_info(gff,elements_in,elements_out):
                 chrom  = line.split()[0].rstrip()
                 if chrom in parameters.chr_exclude:
                     continue
+                if chrom not in chromosomes_include:
+                    continue
                 info   = line.split()[8]
                 frame  = line.split()[7].rstrip()
                 gene   = info.split(';')[0].split('=')[1].rstrip()
@@ -413,6 +415,8 @@ def main():
     elements_in = parameters.features_include
 
     chomosomes_exclude = parameters.chr_exclude
+    global chromosomes_include
+    chromosomes_include = genome.keys(
 
     gff_file = parameters.gff
 
