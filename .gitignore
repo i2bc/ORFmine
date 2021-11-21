@@ -1,15 +1,12 @@
 ##########################
-# orftrack data            #
+# Orfmap data            #
 ##########################
-*.egg-info/
-*.egg**.pyc
-**env_test/
-**.env*
-orftrack-*/orftrack/*
-!orftrack-*/orftrack/data/
 
-orftrack-*/orftrack/data/*
-!orftrack-*/orftrack/data/scerevisiae/
+orfmap-*/orfmap/*
+!orfmap-*/orfmap/data/
+
+orfmap-*/orfmap/data/*
+!orfmap-*/orfmap/data/scerevisiae/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -24,20 +21,19 @@ build/
 dist/
 doc/_build/
 
-orftrack/__pycache__/
+orfmap/__pycache__/
 **/lib/__pycache__/
 
-site/
 
-################# 
+
+#################
 # pycharm files #
 #################
-orftrack/.idea/
+**.idea/
 
 
-####################
-# ORFold softwares #
-####################
+
+##############################
+# ORFold softwares directory #
+##############################
 orfold_v1/orfold/softwares/
-
-
