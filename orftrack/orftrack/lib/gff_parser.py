@@ -594,7 +594,7 @@ def parse(param=None, fasta_hash=None, chr_asked=None, chr_exclude=None):
                     chromosome.source = line.split('\t')[1]
 
                 element_type = line.split('\t')[2]
-                if element_type not in ['chromosome', 'region']:
+                if element_type not in ['chromosome', 'region', 'match']:
                     if not param.types_except and not param.types_only:
                         chromosome.add(gff_element=GffElement(gff_line=line, fasta_chr=fasta_hash[chr_id]))
                     else:
