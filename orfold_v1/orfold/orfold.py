@@ -12,6 +12,7 @@ import subprocess
 import argparse
 from orfold.lib.orfold_funcs import *
 from matplotlib.colors import to_hex
+from pathlib import Path
 #import joblib
 
 #from pyHCA import HCA
@@ -21,8 +22,10 @@ from matplotlib.colors import to_hex
 
 # -------------- # ========================================================= #
 # Paths to set:  #
-# -------------- # 
-softwares_path="/home/nicolas/ORFmine/orfold_v1"
+# -------------- #
+
+softwares_path = str(Path(__file__).parent.parent.resolve())
+# softwares_path="/home/nicolas/ORFmine/orfold_v1"
 #  1. IUPRED
 #  The python script of iupred
 #iupred      = '/Users/christospapadopoulos/Documents/de_novo/iupred/iupred2a.py'

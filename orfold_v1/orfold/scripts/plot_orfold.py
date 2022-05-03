@@ -12,6 +12,7 @@ import matplotlib as mpl
 import seaborn as sns
 import random
 from orfold.lib.orfold_funcs import parse_orfold_tab,generate_the_plot
+from pathlib import Path
 
 
 def get_args():
@@ -37,9 +38,10 @@ def get_args():
     return args
 
 
+glo_ref_path = Path(__file__).parent.parent.resolve()
 
-glo_ref_path="/Users/christospapadopoulos/Documents/de_novo/ORFmine/orfold_v1"
-glo_ref_hca , glo_ref_iupred , glo_ref_tango = parse_orfold_tab(tab = glo_ref_path+'/orfold/data/globular.tab')
+# glo_ref_path="/Users/christospapadopoulos/Documents/de_novo/ORFmine/orfold_v1"
+glo_ref_hca , glo_ref_iupred , glo_ref_tango = parse_orfold_tab(tab = glo_ref_path / 'data' / 'globular.tab' )
 #tra_ref_hca , tra_ref_iupred , tra_ref_tango = parse_orfold_tab(tab = '/Users/christospapadopoulos/Documents/de_novo/Project_Nicolas/Transmembrane_helices_20_nonreduntant.tab')
 to_plot = [glo_ref_hca]
 #to_plot = [dis_ref_hca , glo_ref_hca ,tra_ref_hca]

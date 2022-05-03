@@ -9,6 +9,7 @@ pip uninstall orftrack
 # We install ORFtrack
 python setup.py install
 
+
 # We leave ORFtrack directory
 cd ..
 
@@ -19,18 +20,18 @@ cd orfold_v1
 mkdir orfold/softwares 
 
 # First we change the path of the softwares in the orfold script
-courent_path=$(pwd)
-if [ $(uname -s) == "Darwin" ]
-  then
-  sed -i '' "s|.*softwares_path=.*|softwares_path=\"${courent_path}\"|g" ./orfold/orfold.py
-elif [ $(uname -s) == "Linux" ]
-  then
-  sed -i "s|.*softwares_path=.*|softwares_path=\"${courent_path}\"|g" ./orfold/orfold.py
- fi
+# courent_path=$(pwd)
+# if [ $(uname -s) == "Darwin" ]
+#   then
+#   sed -i '' "s|.*softwares_path=.*|softwares_path=\"${courent_path}\"|g" ./orfold/orfold.py
+# elif [ $(uname -s) == "Linux" ]
+#   then
+#   sed -i "s|.*softwares_path=.*|softwares_path=\"${courent_path}\"|g" ./orfold/orfold.py
+#  fi
  
  
 # Second we change the path of the data in the plot_orfold script
-sed -i '' "s|.*glo_ref_path=.*|glo_ref_path=\"${courent_path}\"|g" ./orfold/scripts/plot_orfold.py
+# sed -i '' "s|.*glo_ref_path=.*|glo_ref_path=\"${courent_path}\"|g" ./orfold/scripts/plot_orfold.py
 
 # Then we extract the iupred functions from the iupred code
 if [ -f ./orfold/softwares/iupred2a.py ]
@@ -42,6 +43,6 @@ fi
 pip uninstall orfold
 
 # And reinstall the new one
-pip install .
+pip install -e .
 
 
