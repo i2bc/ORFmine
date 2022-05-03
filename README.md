@@ -13,9 +13,15 @@ You will find complete documentation on [https://i2bc.github.io/ORFmine/](https:
 
 ## Installation
 
-### 1. Download and uncompress the latest release archive
+### 1. Download and uncompress the latest release
 
-Click [here](https://github.com/i2bc/ORFmine/releases/latest/) to access the last release.
+
+You can clone the whole project with the following command:
+``` 
+git clone https://github.com/i2bc/ORFmine.git
+```
+
+Alternatively, you can click [here](https://github.com/i2bc/ORFmine/releases/latest/) to access the latest release.
 
 Then uncompress the archive. If you downloaded:
 * the *.zip* file: ```unzip ORFmine-x.x.x.zip```
@@ -23,10 +29,6 @@ Then uncompress the archive. If you downloaded:
 
 <br>
 
-Alternatively, you can also clone the whole project:
-``` 
-git clone https://github.com/i2bc/ORFmine.git
-```
 
 ### 2. Create an isolated environment
 Although not strictly necessary, this step is highly recommended 
@@ -84,6 +86,9 @@ simply type `deactivate` to exit the environment.
 ### 3. Install ORFMine 
 
 #### Preparation before the Installation
+
+Please note that we will refer below to the root directory of ORFmine as ORFmine-x-x-x where x-x-x refers to the version downloaded from an archive file (either .zip or .tar.gz).
+If you just cloned the project, the root directory of ORFmine will be ORFmine instead.
 
 If you just want to use **ORFtrack** in order to annotate all
 the possible ORFs of a genome, you have no other dependencies 
