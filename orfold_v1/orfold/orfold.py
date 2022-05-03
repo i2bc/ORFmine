@@ -22,7 +22,7 @@ from matplotlib.colors import to_hex
 # -------------- # ========================================================= #
 # Paths to set:  #
 # -------------- # 
-softwares_path="/Users/christospapadopoulos/Documents/de_novo/ORFmine/orfold_v1"
+softwares_path="/home/nicolas/ORFmine/orfold_v1"
 #  1. IUPRED
 #  The python script of iupred
 #iupred      = '/Users/christospapadopoulos/Documents/de_novo/iupred/iupred2a.py'

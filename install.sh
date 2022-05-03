@@ -15,6 +15,9 @@ cd ..
 #We enter in the ORFold directory
 cd orfold_v1
 
+# create softwares directory for orfold 
+mkdir orfold/softwares 
+
 # First we change the path of the softwares in the orfold script
 courent_path=$(pwd)
 if [ $(uname -s) == "Darwin" ]
