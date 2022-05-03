@@ -108,7 +108,7 @@ def get_args():
     optional_arguments.add_argument("-chr_exclude", required=False, nargs="+", type=str, default=[],
                         help="List of seqID(s) you want to exclude (None by default.)")
     optional_arguments.add_argument("-types_only", required=False, nargs="+", default=[],
-                        help="List of feature type(s) to use as reference(s) ('CDS' in included by default).")
+                        help="List of feature type(s) to use as reference(s) ('CDS' is included by default).")
     optional_arguments.add_argument("-types_except", required=False, nargs="+", default=['gene', 'exon'],
                         help="List of feature type(s) to not consider as reference(s) ('gene' and 'exon' by default).")
 
