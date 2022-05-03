@@ -32,14 +32,11 @@ def main():
     logo(logger)
     param.description()
 
-    # sys.exit(0)
 
     # parses fasta & gff by chromosomes
     logger.title('# Parsing GFF and fasta input files #')
     fasta_hash = fasta_parser.parse(fasta_filename=param.fasta_fname)
     gff_data = gff_parser.parse(param=param, fasta_hash=fasta_hash, chr_asked=param.chr, chr_exclude=param.chr_exclude)
-
-    # sys.exit(0)
 
     # ORFs mapping (scans genome for stop-to-stop sequences and assigns them a status)
     logger.title('# Mapping ORFs (stop-to-stop codons) #')
@@ -53,12 +50,13 @@ def main():
 
 def logo(logger):
     logger.info('')
-    logger.info('   ___    ___   ___   __  __               ')
-    logger.info('  / _ \  | _ \ | __| |  \/  |  __ _   _ __ ')
-    logger.info(' | (_) | |   / | _|  | |\/| | / _` | | ')
-    logger.info('  \___/  |_|_\ |_|   |_|  |_| \__,_| | .__/')
-    logger.info('                                     |')
-
+    logger.info('   ___    ____    _____   _                           _     ')
+    logger.info('  / _ \  |  _ \  |  ___| | |_   _ __    __ _    ___  | | __ ')
+    logger.info(' | | | | | |_) | | |_    | __| | \'__|  / _` |  / __| | |/ / ')
+    logger.info(' | |_| | |  _ <  |  _|   | |_  | |    | (_| | | (__  |   <  ')
+    logger.info('  \___/  |_| \_\ |_|      \__| |_|     \__,_|  \___| |_|\_\ ')
+    logger.info('')
+                                                            
 
 if __name__ == '__main__':
 

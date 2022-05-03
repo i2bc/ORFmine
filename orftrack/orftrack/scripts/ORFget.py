@@ -74,6 +74,13 @@ def get_args():
                         nargs="?",
                         default = "prot",
                         help="Sequences type of output [prot (default) / nucl / both];")
+    parser.add_argument("-table",
+                    type=str,
+                    #action='store',
+                    required=False,
+                    nargs="?",
+                    default = "Standard",
+                    help='Which codon table to use?  This can be either a name (string), an NCBI identifier (integer), or a CodonTable  object (useful for non-standard genetic codes). This defaults to the "Standard" table.')
 
     args = parser.parse_args()
     return args
@@ -128,6 +135,10 @@ def read_gff_info(gff,elements_in,elements_out):
                 chrom  = line.split()[0].rstrip()
                 if chrom in parameters.chr_exclude:
                     continue
+
+                if chrom not in chromosomes_include:
+                    continue
+                
                 info   = line.split()[8]
                 frame  = line.split()[7].rstrip()
                 gene   = info.split(';')[0].split('=')[1].rstrip()
@@ -156,7 +167,6 @@ def read_gff_info(gff,elements_in,elements_out):
                     seq_dna = genome[chrom][start-1:stop]
                     #my_seq_dna = Seq(seq_dna.upper(), IUPAC.unambiguous_dna)
                     my_seq_dna = Seq(seq_dna.upper())
-    
                     
                     if gene_seen == False:
                         dico_info[gene]['DNA_seq'] = dico_info[gene]['DNA_seq'] + str(my_seq_dna)
@@ -177,12 +187,13 @@ def read_gff_info(gff,elements_in,elements_out):
                     
                     try:
                         #dico_info[gene]['AA_seq']  = str(Seq.translate(Seq(dico_info[gene]['DNA_seq'], IUPAC.unambiguous_dna)))#.replace('*','')
-                        dico_info[gene]['AA_seq']  = str(Seq.translate(Seq(dico_info[gene]['DNA_seq'])))#.replace('*','')
+                        dico_info[gene]['AA_seq']  = str(Seq.translate(Seq(dico_info[gene]['DNA_seq']), table=parameters.table))#.replace('*','')
     
                     except:
                         dico_info[gene]['AA_seq']  = ''
                 
                 elif strand == '-':
+
                     seq_dna = genome[chrom][start-1:stop]
                     #my_seq_dna = Seq(seq_dna.upper(), IUPAC.unambiguous_dna)
                     my_seq_dna = Seq(seq_dna.upper())
@@ -190,6 +201,7 @@ def read_gff_info(gff,elements_in,elements_out):
                     #######dico_info[gene]['DNA_seq'] = dico_info[gene]['DNA_seq'] + str(my_seq_dna)
                     dico_info[gene]["DNA_parts"].append(my_seq_dna)
                     
+
                     if gene_seen == False:
                         dico_info[gene]['DNA_seq'] = dico_info[gene]['DNA_seq'] + str(my_seq_dna)
                     elif gene_seen == True:
@@ -210,7 +222,7 @@ def read_gff_info(gff,elements_in,elements_out):
                     
                     try:
     #                        dico_info[gene]['AA_seq']  = str(Seq.translate(Seq(dico_info[gene]['DNA_seq'], IUPAC.unambiguous_dna)))#.replace('*','')
-                        dico_info[gene]['AA_seq']  = str(Seq.translate(Seq(dico_info[gene]['DNA_seq'])))#.replace('*','')
+                        dico_info[gene]['AA_seq']  = str(Seq.translate(Seq(dico_info[gene]['DNA_seq']), table=parameters.table))#.replace('*','')
     
                     except:
                         dico_info[gene]['AA_seq']  = ''
@@ -351,7 +363,7 @@ def read_matched_gff_lines(matches , gff_file , genome):
             
             try:
                 #dico_info[gene]['AA_seq']  = str(Seq.translate(Seq(dico_info[gene]['DNA_seq'], IUPAC.unambiguous_dna)))#.replace('*','')
-                dico_info[gene]['AA_seq']  = str(Seq.translate(Seq(dico_info[gene]['DNA_seq'])))#.replace('*','')
+                dico_info[gene]['AA_seq']  = str(Seq.translate(Seq(dico_info[gene]['DNA_seq']), table=parameters.table))#.replace('*','')
 
             except:
                 dico_info[gene]['AA_seq']  = ''
@@ -384,7 +396,7 @@ def read_matched_gff_lines(matches , gff_file , genome):
             
             try:
 #                        dico_info[gene]['AA_seq']  = str(Seq.translate(Seq(dico_info[gene]['DNA_seq'], IUPAC.unambiguous_dna)))#.replace('*','')
-                dico_info[gene]['AA_seq']  = str(Seq.translate(Seq(dico_info[gene]['DNA_seq'])))#.replace('*','')
+                dico_info[gene]['AA_seq']  = str(Seq.translate(Seq(dico_info[gene]['DNA_seq']), table=parameters.table))#.replace('*','')
 
             except:
                 dico_info[gene]['AA_seq']  = ''
@@ -418,6 +430,8 @@ def main():
     #    type_of_data = "IGORF"
 
     chomosomes_exclude = parameters.chr_exclude
+    global chromosomes_include
+    chromosomes_include = genome.keys()
 
     gff_file = parameters.gff
 
@@ -433,11 +447,9 @@ def main():
 
     else:
 
-
-
         seqs = read_gff_info(gff=gff_file,
-                             elements_in=parameters.features_include,
-                             elements_out=parameters.features_exclude)
+                              elements_in=parameters.features_include,
+                              elements_out=parameters.features_exclude)
 
     #outname = os.path.basename(gff_file)
     #outname = os.path.splitext(outname)[0]
