@@ -520,7 +520,6 @@ def get_overlap(orf_coors=(), other_coors=None):
 
 GFF_DESCR = {}
 
-
 def set_gff_descr(gff_fname):
     global GFF_DESCR
     GFF_DESCR = {}
