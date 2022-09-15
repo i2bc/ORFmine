@@ -146,7 +146,7 @@ class GffElement:
             elif self.ovp_unphased:
                 gff_line += ';Ovp_with=' + '|'.join([x.name for x in self.ovp_unphased])
 
-            return gff_line + '\n'
+            return gff_line.strip() + '\n'  #  @BUG added strip() to prevent extra '\n', but dont know yet where it comes from - to identify
 
     def run_assignment(self, elements, param, is_fragment=False):
         self.set_ovp_elements(elements=elements, co_ovp=param.co_ovp)

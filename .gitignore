@@ -24,8 +24,7 @@ doc/_build/
 orfmap/__pycache__/
 **/lib/__pycache__/
 
-
-
+examples/tests
 #################
 # pycharm files #
 #################
