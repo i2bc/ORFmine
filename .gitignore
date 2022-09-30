@@ -24,12 +24,22 @@ doc/_build/
 orfmap/__pycache__/
 **/lib/__pycache__/
 
+**egg-*
+**/*egg-*
+
 examples/tests
 #################
 # pycharm files #
 #################
 **.idea/
 
+#################
+# python virtual envs#
+#################
+**.env
+**env
+**.venv
+**venv
 
 
 ##############################
