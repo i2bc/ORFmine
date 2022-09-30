@@ -524,8 +524,8 @@ def set_gff_descr(gff_fname):
     global GFF_DESCR
     GFF_DESCR = {}
     
-    with open(gff_fname, 'r') as gff_file:
-        line = gff_file.readline()
+    with open(gff_fname, 'rb') as gff_file:
+        line = gff_file.readline().decode(encoding='utf-8')
         while line:
             if not line.startswith('#'):
                 name = line.split('\t')[0]
@@ -533,7 +533,7 @@ def set_gff_descr(gff_fname):
                 if name not in GFF_DESCR:
                     GFF_DESCR[name] = pos_chr
                 
-            line = gff_file.readline()
+            line = gff_file.readline().decode(encoding='utf-8')
 
 
 def parse(param=None, fasta_hash=None, chr_asked=None, chr_exclude=None):

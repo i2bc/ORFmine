@@ -12,7 +12,7 @@ Parameters description:
 - chr: None
 - chr_exclude: None
 - types_only: 
-- types_except: exon, gene
+- types_except: gene, exon
 - o_include: all
 - o_exclude: 
 - orf_len: 60
@@ -60,6 +60,6 @@ Reading chromosome NC_000913.3 ...
 
 
 
--- EXECUTION TIME: 19.02 SECONDS --
------------------------------------
+-- EXECUTION TIME: 17.7 SECONDS --
+----------------------------------
 
