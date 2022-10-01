@@ -2,6 +2,8 @@
 # Orfmap data            #
 ##########################
 
+examples/tests
+
 orfmap-*/orfmap/*
 !orfmap-*/orfmap/data/
 

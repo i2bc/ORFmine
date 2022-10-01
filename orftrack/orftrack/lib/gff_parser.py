@@ -523,7 +523,7 @@ GFF_DESCR = {}
 def set_gff_descr(gff_fname):
     global GFF_DESCR
     GFF_DESCR = {}
-    
+        
     with open(gff_fname, 'rb') as gff_file:
         line = gff_file.readline().decode(encoding='utf-8')
         while line:
@@ -603,8 +603,12 @@ def parse(param=None, fasta_hash=None, chr_asked=None, chr_exclude=None):
                         elif param.types_only:
                             if element_type in param.types_only:
                                 chromosome.add(gff_element=GffElement(gff_line=line, fasta_chr=fasta_hash[chr_id]))
+                
+                while True:
+                    line = gff_file.readline()
+                    if not line.startswith("#"):
+                        break
 
-                line = gff_file.readline()
                 if gff_file.tell() == eof:
                     break
                 else:
@@ -613,6 +617,11 @@ def parse(param=None, fasta_hash=None, chr_asked=None, chr_exclude=None):
     # Assign an index to CDS to facilitate their fusion into protein
     for chr_name in sorted(gff_data):
         gff_data[chr_name].index_cds()
+
+    # output all proteins (even reconstructed) in info.log 
+    # for chr_name in sorted(gff_data):
+    #     for pfasta in gff_data[chr_name].proteins_fasta():
+    #         logger.info(pfasta)
 
     return gff_data
 
