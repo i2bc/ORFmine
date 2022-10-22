@@ -2,6 +2,8 @@
 # Orfmap data            #
 ##########################
 
+**.idea/
+
 examples/tests
 
 orfmap-*/orfmap/*
