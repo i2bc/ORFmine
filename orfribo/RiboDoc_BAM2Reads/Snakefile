@@ -545,7 +545,7 @@ rule Bam2Reads_exome:
 rule ORFstats:
     input:
         psite_table = local_path + "RESULTS/ORFribo/riboWaltz/psite_offset.csv",
-        reads = local_path + "RESULTS/ORFribo/Bam2Reads_exome_output/{sample}_{length}/exome_reads.tab"
+        reads = local_path + "RESULTS/ORFribo/Bam2Reads_exome_output/{sample}_{length}/exome_reads" + frag_length_L + ".tab"
     output:
         stats = local_path + "RESULTS/ORFribo/Bam2Reads_exome_output/{sample}_{length}/exome_reads.stats"
     log:
