@@ -1,48 +1,41 @@
 #!/bin/bash
 
 # We enter in the ORFtrack directory
-cd orftrack
+cd /ORFmine/orftrack/
 
-# We uninstall the previous ORFtrack
-pip uninstall orftrack
+# # We uninstall the previous ORFtrack
+# /bin/miniconda3/envs/ORFmine_env/bin/pip uninstall orftrack
 
 # We install ORFtrack
-python setup.py install
+/bin/miniconda3/envs/$1/bin/pip install -e .
 
 
-# We leave ORFtrack directory
-cd ..
+# We leave ORFtrack directory and enter in the ORFold directory
+cd /ORFmine/orfold_v1/
 
-#We enter in the ORFold directory
-cd orfold_v1
-
-# create softwares directory for orfold 
-mkdir orfold/softwares 
-
-# First we change the path of the softwares in the orfold script
-# courent_path=$(pwd)
-# if [ $(uname -s) == "Darwin" ]
-#   then
-#   sed -i '' "s|.*softwares_path=.*|softwares_path=\"${courent_path}\"|g" ./orfold/orfold.py
-# elif [ $(uname -s) == "Linux" ]
-#   then
-#   sed -i "s|.*softwares_path=.*|softwares_path=\"${courent_path}\"|g" ./orfold/orfold.py
-#  fi
- 
- 
-# Second we change the path of the data in the plot_orfold script
-# sed -i '' "s|.*glo_ref_path=.*|glo_ref_path=\"${courent_path}\"|g" ./orfold/scripts/plot_orfold.py
+# # We uninstall the previous orfold
+# /bin/miniconda3/envs/ORFmine_env/bin/pip uninstall orfold
 
 # Then we extract the iupred functions from the iupred code
 if [ -f ./orfold/softwares/iupred2a.py ]
 then
-python extract_iupred_functions.py
+    /bin/miniconda3/envs/$1/bin/python3 /ORFmine/orfold_v1/extract_iupred_functions.py
 fi
 
-# We uninstall the previous orfold
-pip uninstall orfold
+# Install pyHCA for ORFold
+/bin/miniconda3/envs/$1/bin/pip install -e /ORFmine/orfold_v1/orfold/pyHCA/
 
-# And reinstall the new one
-pip install -e .
+# And reinstall orfold
+/bin/miniconda3/envs/$1/bin/pip install -e .
 
+# We enter in the ORFdate directory
+cd /ORFmine/orfdate/
 
+# # We uninstall the previous ORFdate
+# /bin/miniconda3/envs/ORFmine_env/bin/pip uninstall orfdate
+
+# We install ORFdate
+/bin/miniconda3/envs/$1/bin/pip install -e .
+
+# Back to root directory
+cd /

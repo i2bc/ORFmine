@@ -1,3 +1,4 @@
+#!/bin/miniconda3/envs/ORFmine_env/bin/python3
 # -*- coding: utf-8 -*-
 """
 Created on Sun Jul 12 16:52:13 2020
@@ -56,7 +57,7 @@ def logo(logger):
     logger.info(' | |_| | |  _ <  |  _|   | |_  | |    | (_| | | (__  |   <  ')
     logger.info('  \___/  |_| \_\ |_|      \__| |_|     \__,_|  \___| |_|\_\ ')
     logger.info('')
-                                                            
+
 
 if __name__ == '__main__':
 

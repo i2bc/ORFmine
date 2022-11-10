@@ -1,0 +1,70 @@
+language: python
+python:
+    - 3.5
+    - 3.6
+
+    
+before_install:
+    - sudo mkdir -p /downloads
+    - sudo chmod a+rw /downloads
+    - curl -L http://sourceforge.net/projects/pyqt/files/sip/sip-4.16.5/sip-4.16.5.tar.gz -o /downloads/sip.tar.gz 
+    - curl -L http://sourceforge.net/projects/pyqt/files/PyQt4/PyQt-4.11.3/PyQt-x11-gpl-4.11.3.tar.gz -o /downloads/pyqt4.tar.gz
+    # Builds
+    - sudo mkdir -p /builds
+    - sudo chmod a+rw /builds
+
+install:
+    ######## stackoverflow
+    #- echo $TRAVIS_PYTHON_VERSION
+    #- export DISPLAY=:99.0
+    #- sh -e /etc/init.d/xvfb start
+    #- sudo apt-get install -y libqt4-dev
+    #- sudo apt-get install -y mesa-common-dev libgl1-mesa-dev libglu1-mesa-dev
+##    - sudo apt-get install -y python3-sip python3-sip-dev python3-pyqt4 cmake
+    ## Qt4
+    #- pushd /builds
+    ## SIP
+    #- tar xzf /downloads/sip.tar.gz --keep-newer-files
+    #- pushd sip-4.16.5
+    #- python configure.py
+    #- make
+    #- sudo make install
+    #- popd
+    ## PyQt4
+    #- tar xzf /downloads/pyqt4.tar.gz --keep-newer-files
+    #- pushd PyQt-x11-gpl-4.11.3
+    #- python configure.py -c --confirm-license --no-designer-plugin -e QtCore -e QtGui -e QtTest
+    #- make
+    #- sudo make install
+    #- popd
+    ## Builds Complete
+    #- popd
+    ######### conda version
+    #- sudo apt-get update
+    # We do this conditionally because it saves us some downloading if the
+    # version is the same.
+    - wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh;
+    - bash miniconda.sh -b -p $HOME/miniconda
+    - export PATH="$HOME/miniconda/bin:$PATH"
+    - hash -r
+    - conda config --set always_yes yes --set changeps1 no
+    - conda config --add channels defaults
+    - conda config --add channels bioconda
+    - conda config --add channels conda-forge
+    - conda update -q conda
+
+    # Useful for debugging any issues with conda
+    - conda info -a
+
+    # Replace dep1 dep2 ... with your dependencies
+    - conda create -q -n test-environment python=$TRAVIS_PYTHON_VERSION pip
+    - source activate test-environment
+    #- conda install -n test-environment pyqt=4.11.4
+    - conda install -n test-environment --yes --file requirements.txt
+    #- pip install -r requirements.txt
+    - python setup.py install
+    
+    
+script:
+    - python pyHCA/tests/tests_hca.py
+    - python pyHCA/tests/tests_seghca.py

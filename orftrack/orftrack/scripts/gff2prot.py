@@ -60,12 +60,20 @@ def get_args():
                         help="Genomic fasta file (.fna) ")
     parser.add_argument("-gff", required=True, nargs="?",
                         help="GFF annotation file (.gff)")
-    parser.add_argument("-out", required=False, nargs="?", default='./', type=str,
+    parser.add_argument("-out", required=False, nargs="?", default='/database/', type=str,
                         help="Output directory")
     parser.add_argument("-name", required=False, nargs="?", default=None, type=str,
                         help="Basename for output files")
 
     args = parser.parse_args()
+    prefix = "/database/"
+    if not re.match(prefix, args.fna[0]):
+        args.fna = [prefix + fasta for fasta in args.fna]
+    if not re.match(prefix, args.gff[0]):
+        args.gff = [prefix + gff for gff in args.gff]
+    if 'args.gff[0]' in locals():
+        if not re.match(prefix, args.out[0]):
+            args.out = [prefix + out for out in args.out]
 
     return args
 

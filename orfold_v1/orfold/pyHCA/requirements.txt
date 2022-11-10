@@ -1,0 +1,11 @@
+numpy 
+scipy
+pandas
+lightgbm
+biopython>=1.68
+scikit-learn>=0.19
+joblib
+CairoSVG
+requests
+six
+ete3

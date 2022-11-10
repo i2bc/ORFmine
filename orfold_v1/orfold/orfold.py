@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/bin/miniconda3/envs/ORFmine_env/bin/python3
 # -*- coding: utf-8 -*-
 """
 Created on Fri Oct  2 01:21:05 2020
@@ -23,28 +23,26 @@ from pathlib import Path
 # -------------- # ========================================================= #
 # Paths to set:  #
 # -------------- #
-
-softwares_path = str(Path(__file__).parent.parent.resolve())
-# softwares_path="/home/nicolas/ORFmine/orfold_v1"
+out_path = "/workdir/orfold/"
+softwares_path = "/ORFmine/orfold_v1/orfold/softwares/"
+# softwares_path = str(Path(__file__).parent.parent.resolve())
 #  1. IUPRED
 #  The python script of iupred
-#iupred      = '/Users/christospapadopoulos/Documents/de_novo/iupred/iupred2a.py'
-iupred_path  = softwares_path + '/orfold/softwares/iupred2a.py'
+iupred_path  = softwares_path + 'iupred2a.py'
 #  The path where is located the data file of iupred
-#iupred_data = '/Users/christospapadopoulos/Documents/de_novo/iupred/'
-iupred_data = softwares_path + '/orfold/softwares/'
+iupred_data = softwares_path
 #  2. TANGO
-#  The script that excecutes Tango
-#tango       = "/Users/christospapadopoulos/Documents/de_novo/TANGO/tango2_3_1"
-#  If system is MacOS 
+#  The script that executes Tango
+#tango       = softwares_path + 'tango2_3_1'
+#  If system is MacOS
 if sys.platform == "darwin":
-    tango       = softwares_path + '/orfold/softwares/tango2_3_1'
+    tango       = softwares_path + 'tango2_3_1'
 #  If system is Windows
 elif sys.platform == "win32":
-    tango       = softwares_path + '/orfold/softwares/Tango.exe'
+    tango       = softwares_path + 'Tango.exe'
 #  If system is Linux
 elif sys.platform == "linux" or sys.platform == "linux2":
-    tango       = softwares_path + '/orfold/softwares/tango_x86_64_release'
+    tango       = softwares_path + 'tango_x86_64_release'
 # ========================================================================== #
 
 
@@ -59,66 +57,73 @@ def get_args():
     """
 
     parser = argparse.ArgumentParser(description='ORF Foldability Calculation')
-    parser.add_argument("-fna",
+    parser.add_argument("-faa",
                         type=str,
                         action='store',
-                        required=True, 
+                        required=True,
                         nargs="*",
                         help="FASTA file containing the amino acid sequences to treat")
-    
-    parser.add_argument("-gff", 
-                        required=False, 
+
+    parser.add_argument("-gff",
+                        required=False,
                         type=str,
                         action='store',
                         nargs="*",
                         default=[],
                         help="GFF annotation file")
-    
+
     parser.add_argument("-options",
                         type=list,
                         #action='store',
-                        required=True, 
+                        required=True,
                         nargs="?",
                         default=["H"],
                         help=
-                        '''Which properties are to be calculated. 
+                        '''Which properties are to be calculated.
                              H for HCA (Default)
                              I for IUPred
                              T for Tango''')
-    
-    parser.add_argument("-plot", 
-                        required=False, 
+
+    parser.add_argument("-plot",
+                        required=False,
                         type=str,
                         action='store',
                         nargs="*",
                         default=False,
                         help=argparse.SUPPRESS)
-    
-    parser.add_argument("-barcodes", 
-                        required=False, 
+
+    parser.add_argument("-barcodes",
+                        required=False,
                         type=str,
                         #action='store',
                         nargs="?",
                         default=False,
                         help=argparse.SUPPRESS)
-    
-    parser.add_argument("-keep", 
-                        required=False, 
+
+    parser.add_argument("-keep",
+                        required=False,
                         type=list,
                         #action='store',
                         nargs="?",
                         default=[],
                         help="Option for keeping the Tango output files")
-    
-    parser.add_argument("-N", 
-                        required=False, 
+
+    parser.add_argument("-N",
+                        required=False,
                         type=str,
                         action='store',
                         nargs="*",
                         default=["all"],
                         help="Size of sample(s) per FASTA file")
-    
+
     args = parser.parse_args()
+    prefix = "/database/"
+    if not re.match(prefix, args.faa[0]):
+        args.faa = [prefix + fasta for fasta in args.faa]
+    if 'args.gff[0]' in locals():
+        if not re.match(prefix, args.gff[0]):
+            args.gff = [prefix + gff for gff in args.gff]
+
     return args
 
 def get_root_name_of_files_list(files_list):
@@ -140,26 +145,26 @@ def calculate_HCA_barcodes(sequences):
     # If you want to take the barcode of all the sequnces do a loop like:
     barcodes = {}
     for orf in list(sequences.keys()):
-        barcodes[orf] = get_hca_barcode(hca = hca, orf = orf)  
+        barcodes[orf] = get_hca_barcode(hca = hca, orf = orf)
     return barcodes
-    
-def calculate_IUPRED_one_sequence(name):
+
+def calculate_IUPRED_one_sequence(name,out_path):
     """
-    Calculates the IUPRED for one sequence 
+    Calculates the IUPRED for one sequence
     """
     name = str(name)
     iupred_command = "python " + iupred + " -d " + iupred_data+ " -a" + ' ./FASTA_tmp/'+name+'.fasta_tmp ' + "short"
     # We create an output file for IUPRED if we have keep I option
     if "I" in parameters.keep:
-        logfile = './IUPRED/'+name+'.iupred' 
+        logfile = out_path+name+'.iupred'
     else:
         logfile = False
-        
+
     process = subprocess.Popen(iupred_command, stderr=None, shell=True, stdout=subprocess.PIPE )   #stdout=subprocess.PIPE
-    iupred_output = process.communicate()            
+    iupred_output = process.communicate()
     #print(iupred_output)
     iupred_seq , iupred_score , anchor_score = parse_iupred_output(iupred_output = iupred_output , check_seq = sequences[name],write_file = logfile)
-    
+
     if iupred_seq != 'Something went wrong':
         iupred_mean = round(sum(iupred_score) / len(iupred_score),2)
         iupred_portion = calculate_proportion_of_seq_disordered(iupred_score)
@@ -170,18 +175,18 @@ def calculate_IUPRED_one_sequence(name):
         iupred_portion = "NaN"
         #print(seq , "----> PROBLEM")
     return iupred_mean , iupred_portion
-    
+
 def calculate_tango_one_sequence(tango_path  ,name):
     tf = tempfile.NamedTemporaryFile(prefix="tango")
     tmp_name = tf.name.split("/")[-1]
 
     tango_command = tango_path + " " + tmp_name + " ct=\"N\" nt=\"N\" ph=\"7.4\" te=\"298\" io=\"0.1\" seq=\"" + sequences[name] + "\""
-    
+
     process = subprocess.Popen(tango_command, stdout=subprocess.PIPE, stderr=None, shell=True)
     tango_output = process.communicate()
-    
-       
-    if str(tango_output[0]).replace("\\n","").replace("\'","").strip() == "b88, File not properly written, try writing it up again,": 
+
+
+    if str(tango_output[0]).replace("\\n","").replace("\'","").strip() == "b88, File not properly written, try writing it up again,":
         b_aggregation = 'None'
         TANGO_portion = "NaN"
         #print(seq + "------> PROBLEM")
@@ -192,7 +197,7 @@ def calculate_tango_one_sequence(tango_path  ,name):
         except:
             # The txt file was never created :(
             TANGO_portion = "NaN"
-       
+
     if os.path.exists(tmp_name+".txt"):
         if 'T' not in parameters.keep:
             os.system("rm "+tmp_name+".txt")
@@ -201,12 +206,12 @@ def calculate_tango_one_sequence(tango_path  ,name):
             os.system("mv "+name+".txt ./TANGO/")
     else:
         pass
-    
+
     return TANGO_portion
 
 # =========================================================================== #
 
-# Start time of the program :     
+# Start time of the program :
 
 #parameters = get_args()
 
@@ -231,14 +236,14 @@ def make_tmp_directories(parameters):
             os.system("mkdir TANGO")
         except:
             pass
-    
+
 
 # ---------------------------------------------- #
 # We find the fasta and gff files associations : #
 # ---------------------------------------------- #
 def make_files_associations(parameters):
 
-    fastas = get_root_name_of_files_list(files_list=parameters.fna)
+    fastas = get_root_name_of_files_list(files_list=parameters.faa)
     # Check if gff files where given:
     if parameters.gff:
         gffs = get_root_name_of_files_list(files_list=parameters.gff)
@@ -264,42 +269,42 @@ def make_files_associations(parameters):
              '''
             These are the files associations I can make:''')
         print(
-        ''' 
+        '''
             {:^30s}\t{:^30s}\t{:^30s}
             {:^30s}\t{:^30s}\t{:^30s}'''.format("FASTA" , "GFF" , "Nb sequences","-----","---","------------")
                 )
         for n,name in enumerate(fastas):
             try:
                 print(
-        ''' 
+        '''
             {:^30s}\t{:^30s}\t{:^30s}'''.format(fastas[name].split("/")[-1],gffs[name].split("/")[-1],files_sampling[fastas[name]]))
                 files_associations[fastas[name]] = gffs[name]
             except:
                 print(
-        ''' 
+        '''
             {:^30s}\t{:^30s}\t{:^30s}'''.format(fastas[name].split("/")[-1],"",files_sampling[fastas[name]]))
                 files_associations[fastas[name]] = ''
 
     else:
         # There is at least 1 GFF which could not be associated with FASTA
         print('''
-             Oups! You provided GFF file(s) which has no correspodance to FASTA''')
+             Oups! You provided GFF file(s) which has no correspondance to FASTA''')
 
         # BUT if we provide the same number of FASTA and GFFs then we can
         # associate them based on the order they passed in the terminal
         if len(fastas) == len(gffs):
             print(
               '''
-             BUT i found {} FASTAs and {} GFFs 
-             so I will associate them based in the order they are:'''.format(len(fastas),len(gffs)))
+             BUT i found {} FASTAs and {} GFFs
+             so I will associate them based on the order they are:'''.format(len(fastas),len(gffs)))
             print(
-        ''' 
+        '''
             {:^30s}\t{:^30s}\t{:^30s}
             {:^30s}\t{:^30s}\t{:^30s}'''.format("FASTA" , "GFF" , "Nb sequences","-----","---","------------")
                 )
             for n,name in enumerate(fastas):
                 print(
-        ''' 
+        '''
             {:^30s}\t{:^30s}\t{:^30s}''' \
               .format(fastas[list(fastas.keys())[n]].split("/")[-1],
                       gffs[list(gffs.keys())[n]].split("/")[-1],
@@ -309,16 +314,16 @@ def make_files_associations(parameters):
         elif len(gffs) == 1:
             print(
               '''
-             BUT i found {} FASTAs and {} unique GFF  
+             BUT i found {} FASTAs and {} unique GFF
              so I will associate this GFF with ALL the FASTA:'''.format(len(fastas),len(gffs)))
             print(
-        ''' 
+        '''
             {:^30s}\t{:^30s}\t{:^30s}
             {:^30s}\t{:^30s}\t{:^30s}'''.format("FASTA" , "GFF" , "Nb sequences","-----","---","------------")
                 )
             for n,name in enumerate(fastas):
                 print(
-        ''' 
+        '''
             {:^30s}\t{:^30s}\t{:^30s}''' \
               .format(fastas[list(fastas.keys())[n]].split("/")[-1],
                       gffs[list(gffs.keys())[0]].split("/")[-1],
@@ -335,9 +340,9 @@ def make_files_associations(parameters):
             exit()
     return files_associations, files_sampling
 #print(files_associations)
-    
-    
-# -------------------------------- #   
+
+
+# -------------------------------- #
 def read_gff_file(gff_file):
     gff_dico = {}
     with open(gff_file,'r') as fi:
@@ -366,7 +371,7 @@ def change_color_in_gff_line(gff_dico,orf,value,nb_cols,minimum,maximum):
     new_line = re.sub(pattern="color=.+",repl="color="+my_color,string=my_line)
     new_line = new_line.strip() + ";element_value=" + str(value) + "\n"
     return new_line
-    
+
 
 # ----------- #
 # MAIN SCRIPT #
@@ -375,6 +380,12 @@ def main():
     start_time = datetime.now()
     global parameters
     parameters = get_args()
+
+# -------------------------------------------------------------- #
+# Prepare output folder:
+# -------------------------------------------------------------- #
+    Path(out_path).mkdir(exist_ok=True)
+
 # -------------------------------------------------------------- #
 # Check if the tools asked for the analysis are well Installed:  #
 # -------------------------------------------------------------- #
@@ -388,9 +399,9 @@ def main():
                   pyHCA\t:\tCHECK''')
         except:
             print('''
-                  Oups! pyHCA is not Installed. 
-                  Please go to the link:    https://github.com/T-B-F/pyHCA 
-                  and follow the installation instructions 
+                  Oups! pyHCA is not installed.
+                  Please go to the link:    https://github.com/T-B-F/pyHCA
+                  and follow the installation instructions
                   ''')
             exit()
 
@@ -407,16 +418,16 @@ def main():
 
         except:
             print('''
-                  Oups! IuPred is not Insatalled. 
+                  Oups! IuPred is not installed.
                   Please go to this link:  https://iupred2a.elte.hu/download_new
-                  and follow the installation instructions 
+                  and follow the installation instructions
                   ''')
             exit()
         try:
             os.path.exists(iupred_data)
         except:
             print('''
-                  Oups! The data file of IuPred cannot be located! 
+                  Oups! The data file of IuPred cannot be located!
                   ''')
 
     if "T" in parameters.options:
@@ -431,9 +442,9 @@ def main():
 
         except:
             print('''
-                  Oups! Tango is not Insatalled. 
+                  Oups! Tango is not installed.
                   Please go to this link:  http://tango.crg.es/about.jsp
-                  and follow the installation instructions 
+                  and follow the installation instructions
                   ''')
             exit()
 # ---------------------------------------------------------------------------
@@ -467,16 +478,16 @@ def main():
             barcodes = calculate_HCA_barcodes(sequences = sequences)
             print("Barcodes calculation : DONE")
             print("\n")
-            with open(name+".barcodes","w") as barcw:
+            with open(out_path+name+".barcodes","w") as barcw:
                 for i in barcodes:
                     barcw.write(">{}\n{}\n".format(i,barcodes[i]))
-                    
+
         # Just some formating options for making beautiful the output file
         max_name = len(max(list(sequences.keys()), key=len))
         formating_a = "{:"+str(max_name+2)+"s}\t{:7s}\t{:7s}\t{:7s}\n"
         formating_b = "{:"+str(max_name+2)+"s}\t"
 
-        with open(name+".tab","w") as fw_output:
+        with open(out_path+name+".tab","w") as fw_output:
             # We write the title in the output table
             fw_output.write(formating_a.format("Seq_ID","HCA","Disord","Aggreg"))
 
@@ -484,15 +495,14 @@ def main():
             if files_associations[fasta_file] != '':
                 gff_dico = read_gff_file(gff_file = files_associations[fasta_file])
                 if "H" in parameters.options:
-                    fw_gff_H = open(name+'_HCA.gff','w')
+                    fw_gff_H = open(out_path+name+'_HCA.gff','w')
                 if "I" in parameters.options:
-                    fw_gff_I = open(name+'_IUPRED.gff','w')
+                    fw_gff_I = open(out_path+name+'_IUPRED.gff','w')
                 if "T" in parameters.options:
-                    fw_gff_T = open(name+'_TANGO.gff','w')
+                    fw_gff_T = open(out_path+name+'_TANGO.gff','w')
 
             print("\n\n")
             for i,orf in enumerate(sequences):
-
                 #print("\r\t0%|{:10s}|{:>3.0f}%".format(str("#"*round(round(i/len(sequences),2)*100/10)),round(i/len(sequences),2)*100),end ='')
 
                 seq = sequences[orf]
@@ -511,7 +521,7 @@ def main():
                             new_gff_line = change_color_in_gff_line(gff_dico = gff_dico,orf=orf,value=score,nb_cols=20,minimum=-10,maximum=10)
                             fw_gff_H.write(new_gff_line)
                         except:
-                            print('There is a probleme at the writing of the {}_HCA.gff file for the orf: {}'.format(name,orf))
+                            print('There is a problem at the writing of the {}_HCA.gff file for the orf: {}'.format(name,orf))
                             pass
                 else:
                     score = "NaN"
@@ -528,7 +538,7 @@ def main():
                     # We check that the fasta file was created
                     #if os.path.exists('./FASTA_tmp/'+orf+'.fasta_tmp'):
                         # And we launch the calculation of IUPRED
-                    #    iupred_mean,iupred_portion = calculate_IUPRED_one_sequence(name = orf)
+                    #    iupred_mean,iupred_portion = calculate_IUPRED_one_sequence(name = orf, out_path=out_path)
                     try:
                         iupred_score   = iupred_funcs.iupred(seq=seq,mode="short")[0]
                         iupred_portion = calculate_proportion_of_seq_disordered(iupred_score)
@@ -543,7 +553,7 @@ def main():
                             new_gff_line = change_color_in_gff_line(gff_dico = gff_dico,orf=orf,value=iupred_portion,nb_cols=20,minimum=0,maximum=1)
                             fw_gff_I.write(new_gff_line)
                         except:
-                            print('There is a probleme at the writing of the {}_IUPRED.gff file for the orf: {}'.format(name,orf))
+                            print('There is a problem at the writing of the {}_IUPRED.gff file for the orf: {}'.format(name,orf))
                             pass
                 else:
                     iupred_mean,iupred_portion = "NaN","NaN"
@@ -561,7 +571,7 @@ def main():
                                                                     nb_cols=20, minimum=0, maximum=1)
                             fw_gff_T.write(new_gff_line)
                         except:
-                            print('There is a probleme at the writing of the {}_IUPRED.gff file for the orf: {}'.format(
+                            print('There is a problem at the writing of the {}_IUPRED.gff file for the orf: {}'.format(
                                 name, orf))
                             pass
                 else:
@@ -614,12 +624,3 @@ def main():
     print("\n\n")
     print('Duration: {}'.format(end_time - start_time))
     exit()
-
-    
-
-    
-
-
-
-
-

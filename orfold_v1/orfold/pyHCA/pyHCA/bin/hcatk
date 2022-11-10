@@ -1,0 +1,117 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+# START LICENCE ##############################################################
+#
+# <one line to give the program's name and a brief idea of what it does.>
+# Copyright (C) <year>  <name of author>
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+# END LICENCE ##############################################################
+"""
+hcatk is a script to perform various hca taks
+"""
+
+__author__  = "Tristan Bitard-Feildel"
+__email__   = "isabelle.callebaut@upmc.fr"
+__year__    = 2020
+__licence__ = "MIT"
+__version__ = 0.9
+
+import sys
+
+if sys.version_info < (3, 0):
+    print("Error, python3 required")
+    sys.exit(1)
+
+import pyHCA
+from pyHCA import annotate_main
+#from pyHCA import score_main
+from pyHCA import draw_main
+from pyHCA import tremolo_main
+from pyHCA import disorder_main
+from pyHCA import domainseq_main
+from pyHCA import dom_on_tree_available
+
+if dom_on_tree_available:
+    from pyHCA import dom_ontree_main
+
+def usage():
+    """ print usage
+    """
+    print("""
+Please use hcatk with one of the following argument:
+- 'dispred' : to compute HCA based disorder per residue
+- 'segment'  : to compute clusters and hca based domains of a sequence
+- 'domainseq': to retrieve domain sequences of an HCA annotation
+- 'draw'     : to draw hca pattern of a sequence in a svg file
+- 'tremolo'  : to perform remote domain search over a sequence database
+- 'domOnTree': to visuzalize tremolo results on a phylogenetic tree
+- 'help'     : to display this help message
+
+To get help for a specific sub program use:
+hcatk <argument> -h
+""")
+    
+    
+def print_exit():
+    usage()
+    return 1
+    
+def main():
+    """ Executable script for annotationHCA modules
+    """
+    ext=0
+    if len(sys.argv) < 2:
+        print("Missing program argument")
+        ext = print_exit()
+    elif sys.argv[1] not in ["segment", "domainseq", "dispred", 
+                             "scores", "draw", "tremolo", "domOnTree",
+                             "help"]:
+        print("Program argument '{}' not recognized".format(sys.argv[1]))
+        ext = print_exit()
+    elif sys.argv[1] == "help":
+        usage()
+    else:
+        method = sys.argv[1]
+        sys.argv.pop(1)
+        if method == "segment":
+            ext = annotate_main()
+        #elif method == "scores":
+            #ext = score_main()
+        elif method == "domainseq":
+            ext = domainseq_main()
+        elif method == "dispred":
+            ext = disorder_main()
+        elif method == "draw":
+            ext = draw_main()
+        elif method == "tremolo":
+            ext = tremolo_main()
+        elif method == "domOnTree":
+            if dom_on_tree_available:
+                ext = dom_ontree_main()
+            else:
+                ext = 1
+                print("Error, 'domOnTree' functionality is not available ", file=sys.stderr, end="")
+                print("as ete3 was not correctly installed", file=sys.stderr)
+                print("Please check you ete3/PyQt4 installation ", file=sys.stderr, end="")
+                print("and reinstall pyHCA ", file=sys.stderr)
+        else:
+            print("Error, something went wrong")
+            ext = print_exit()
+    sys.exit(ext)
+
+if __name__ == '__main__':
+    main()
+    

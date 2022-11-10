@@ -13,7 +13,7 @@ st.setup(
     name='orftrack',
     python_requires='>=3',
     packages=packages,
-    install_requires=['biopython==1.78'],
+    install_requires=['biopython>=1.78'],
     entry_points={
         'console_scripts': [
             'orftrack=orftrack.main:main',

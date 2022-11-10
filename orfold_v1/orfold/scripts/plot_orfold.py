@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/bin/miniconda3/envs/ORFmine_env/bin/python3
 # -*- coding: utf-8 -*-
 """
 Created on Wed Oct 14 11:25:53 2020
@@ -6,7 +6,7 @@ Created on Wed Oct 14 11:25:53 2020
 @author: christospapadopoulos
 """
 
-import argparse,os
+import argparse,os,re
 import matplotlib.pyplot as plt
 import matplotlib as mpl
 import seaborn as sns
@@ -24,17 +24,22 @@ def get_args():
     parser.add_argument("-tab",
                         type=str,
                         action='store',
-                        required=True, 
+                        required=True,
                         nargs="*",
                         help="Tables of foldability calculated by ORFold")
     parser.add_argument("-names",
                         type=str,
                         action='store',
-                        required=False, 
+                        required=False,
                         nargs="*",
                         help="Names of datasets for the legend")
-    
+
     args = parser.parse_args()
+    prefix1 = "/workdir/orfold/"
+    prefix2 = "orfold/"
+    if not (re.match(prefix1, args.tab[0]) or re.match(prefix2, args.tab[0])):
+        args.tab = [prefix1 + tab for tab in args.tab]
+
     return args
 
 
@@ -61,6 +66,9 @@ colors_bank = cmap([0.        , 0.05263158, 0.10526316, 0.15789474, 0.21052632,
 
 def main():
     parameters = get_args()
+    # parameters.tab = "/workdir/orfold/" + parameters.tab
+    out_path="/workdir/orfold/"
+    print(parameters.tab)
 
     for x,file in enumerate(parameters.tab):
         name = os.path.basename(file)
@@ -116,9 +124,9 @@ def main():
 
 
     fig = my_plot.get_figure()
-    fig.savefig('output.png',transparent=False)
-    fig.savefig('output_transparent.png',transparent=True)
-    fig.savefig('output.pdf',transparent=True,dpi=300)
+    fig.savefig(out_path+'output.png',transparent=False)
+    fig.savefig(out_path+'output_transparent.png',transparent=True)
+    fig.savefig(out_path+'output.pdf',transparent=True,dpi=300)
 
     fig2, ax = plt.subplots(figsize=(6, 1))
     fig2.subplots_adjust(bottom=0.5)
@@ -130,3 +138,6 @@ def main():
                                          #boundaries=[-10,-5,0,5,10])
     fig2.savefig('Scale.pdf',transparent=True,dpi=300)
 
+
+if __name__ == "__main__":
+    main()

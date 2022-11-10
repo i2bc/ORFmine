@@ -5,12 +5,11 @@ Created on Fri Jul 24 15:37:10 2020
 @author: nicolas
 """
 
-import os
+import os,re
 import argparse
 from orftrack.lib import logHandler
 
 logger = logHandler.Logger(name=__name__)
-
 
 class Param:
     """
@@ -129,7 +128,7 @@ def get_args():
                          its sequence overlaps with a fraction equals or above co_ovp (By default, co_ovp=0.7).")
 
     'Cutoff defining the minimum ORF sequence fraction'
-    optional_arguments.add_argument("-out", required=False, nargs="?", default='./', type=str,
+    optional_arguments.add_argument("-out", required=False, nargs="?", default='/database/', type=str,
                         help="Output directory")
 
     optional_arguments.add_argument('--show-types', action='store_true', default=False,
@@ -146,10 +145,18 @@ def get_args():
                         dest='bool_isfrag',
                         help=argparse.SUPPRESS)
 
-
     optional_arguments.add_argument('--ofasta', action='store_true', default=False,
                         dest='bool_ofasta',
                         help='Writes amino acid and nucleic fasta files for ORFs')
+
     args = parser.parse_args()
-    
+    prefix = "/database/"
+    if not re.match(prefix, args.fna):
+        args.fna = prefix + args.fna
+    if not re.match(prefix, args.gff):
+        args.gff = prefix + args.gff
+    if 'args.out' in locals():
+        if not re.match(prefix, args.out):
+            args.out = prefix + args.out
+
     return args

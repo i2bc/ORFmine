@@ -1,0 +1,113 @@
+# pyHCA v0.1 segmentation results
+# 
+# Format:
+# 
+# >'protein_id' 'protein_length' 'hca_score computed on the whole sequence'
+# domain 'domain_start' 'domain_stop' 'hca_score' 'hca_pvalue' (if -m domain is used)
+# cluster 'cluster_start' 'cluster_stop' 'cluster_pattern'
+# 
+# The hca_score and associated p-value provide a way to measure the foldability
+# of a protein, i.e how similar is the score compared to scores from disordered
+# sequences.
+# Low p-values correspond to scores at the tail of the distribution of scores 
+# for disordered protein sequences.
+# 
+# /!\ Warning /!# 1- The score computed at the whole protein level (in the line with '>') is for 
+# information only as some people found it useful.
+# No p-value is associated to this score as the scores used in the distributions
+# don't come from full protein sequences but domain or "disordered regions" of 
+# comparable lengths.
+#
+# 2- similarly, scores are displayed even for HCA domain shorted than 30 amino 
+# acids. 
+# As the sequences of length lower than 30 amino acids where filtered out to
+# compute distributions of scores, no p-values are given.
+# 
+# In these two cases, the scores provided must be analyzed carefully, keeping
+# in mind their origin and initial purpose
+# /!\ Warning /!#
+>sp|O16810|ORC1_DROME 924 -0.943
+domain	10	143	0.0003296098776386369	2.708955223880597
+domain	169	192	nan	8.75
+domain	248	290	0.0002203182508013768	3.2093023255813953
+domain	316	393	0.005029195403608577	-0.717948717948718
+domain	444	455	nan	9.5
+domain	524	527	nan	9.5
+domain	552	923	0.00042322697140406706	2.3978494623655915
+cluster	1	2	11
+cluster	10	17	10001011
+cluster	23	23	1
+cluster	26	29	1001
+cluster	34	42	111100111
+cluster	45	55	10101001111
+cluster	66	83	100101001101101001
+cluster	89	98	1001101101
+cluster	102	102	1
+cluster	107	107	1
+cluster	112	121	1010101011
+cluster	127	143	10001010011001111
+cluster	154	155	11
+cluster	162	162	1
+cluster	167	167	1
+cluster	169	186	111001011010001011
+cluster	188	192	10101
+cluster	209	209	1
+cluster	219	219	1
+cluster	234	234	1
+cluster	242	242	1
+cluster	248	262	101101001110001
+cluster	265	268	1011
+cluster	273	276	1101
+cluster	285	290	100011
+cluster	295	295	1
+cluster	302	302	1
+cluster	316	320	10101
+cluster	332	338	1101011
+cluster	351	357	1010101
+cluster	364	371	10100101
+cluster	374	380	1010001
+cluster	391	393	101
+cluster	398	399	11
+cluster	410	410	1
+cluster	427	428	11
+cluster	435	435	1
+cluster	444	455	101001100011
+cluster	460	461	11
+cluster	473	473	1
+cluster	480	480	1
+cluster	486	486	1
+cluster	510	510	1
+cluster	518	518	1
+cluster	524	527	1001
+cluster	532	532	1
+cluster	536	536	1
+cluster	542	542	1
+cluster	552	554	101
+cluster	559	564	101011
+cluster	568	568	1
+cluster	570	570	1
+cluster	575	599	1001101100010001001111001
+cluster	608	618	10011001001
+cluster	624	624	1
+cluster	627	637	10110100101
+cluster	644	651	11011001
+cluster	656	658	101
+cluster	664	669	110001
+cluster	677	690	10011110010111
+cluster	696	703	11101101
+cluster	711	722	111101000101
+cluster	726	742	11100100010100101
+cluster	745	745	1
+cluster	750	758	100110001
+cluster	764	764	1
+cluster	769	779	10110001001
+cluster	787	790	1011
+cluster	796	796	1
+cluster	802	818	10110110100010011
+cluster	823	844	1001001001001110010001
+cluster	849	849	1
+cluster	854	872	1101100100100110101
+cluster	879	885	1011001
+cluster	890	892	111
+cluster	900	908	110011101
+cluster	913	923	10101010011

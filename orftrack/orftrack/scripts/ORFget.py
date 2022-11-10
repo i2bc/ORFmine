@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/bin/miniconda3/envs/ORFmine_env/bin/python3
 # -*- coding: utf-8 -*-
 """
 Created on Tue Nov  3 15:33:25 2020
@@ -14,6 +14,7 @@ import re
 import linecache
 
 
+out_path = "/database/"
 
 def get_args():
     """
@@ -24,46 +25,47 @@ def get_args():
     parser.add_argument("-fna",
                         type=str,
                         #action='store',
-                        required=True, 
+                        required=True,
                         nargs="?",
                         help="Genomic fasta file (.fna) ")
     parser.add_argument("-gff",
                         type=str,
                         #action='store',
-                        required=True, 
+                        required=True,
                         nargs="?",
                         help="Annotation file (.gff) ")
     parser.add_argument("-o",
                         type=str,
                         #action='store',
-                        required=True, 
+                        required=False,
                         nargs="?",
+                        # default = out_path + "amino_acid_sequence",
                         help="Output name of fasta file(s)")
     parser.add_argument("-features_include",
                         type=str,
                         action='store',
-                        required=False, 
+                        required=False,
                         nargs="*",
                         default = ['all'],
                         help="Annotation features to be considered (By definition is all)")
     parser.add_argument("-features_exclude",
                         type=str,
                         action='store',
-                        required=False, 
+                        required=False,
                         nargs="*",
                         default = ["None"],
                         help="Annotation features not to be considered (By definition is None)")
     parser.add_argument("-chr_exclude",
                         type=str,
                         action='store',
-                        required=False, 
+                        required=False,
                         nargs="?",
                         default = [],
                         help="Chromosomes to be excluded")
     parser.add_argument("-N",
                         type=int,
                         #action='store',
-                        required=False, 
+                        required=False,
                         nargs="?",
                         default = False,
                         help="Size of the sample to be generated")
@@ -83,6 +85,12 @@ def get_args():
                     help='Which codon table to use?  This can be either a name (string), an NCBI identifier (integer), or a CodonTable  object (useful for non-standard genetic codes). This defaults to the "Standard" table.')
 
     args = parser.parse_args()
+    # prefix_database = "/database/"
+    # if not re.match(prefix_database, args.fna):
+    #     args.fna = prefix_database + args.fna
+    # if not re.match(prefix_database, args.gff):
+    #     args.gff = prefix_database + args.gff
+
     return args
 
 
@@ -91,8 +99,8 @@ def read_genome(genome_fasta):
         temp = ''.join([line.rstrip() if not line.startswith('>') else '\n' + line for line in fasta_file.readlines()]).split('\n')
         genome = {temp[i].replace('>', '').split()[0] : temp[i+1] for i in range(1, len(temp), 2)}
     return(genome)
-    
-    
+
+
 
 def read_gff_info(gff,elements_in,elements_out):
     elements_in = "(" + ")|(".join(elements_in) + ")"
@@ -115,20 +123,20 @@ def read_gff_info(gff,elements_in,elements_out):
 #                        N.remove(x)
 #                    except:
 #                        pass
-                    
+
                 # And now read the line and extract the sequence
                 element= line.split()[2].rstrip()
-                
+
                 if re.match(elements_out,element) and not re.match(elements_in,element):
                     continue
-                
+
                 if re.match(elements_out,element) and re.match(elements_in,element):
                     print("{} include and exclude at the same time!".format(element))
                     exit()
-                
+
                 if not re.match(elements_in,element) and elements_in != "(all)":
                     continue
-                
+
                 strand = line.split()[6].rstrip()
                 start  = int(line.split()[3])
                 stop   = int(line.split()[4])
@@ -138,11 +146,11 @@ def read_gff_info(gff,elements_in,elements_out):
 
                 if chrom not in chromosomes_include:
                     continue
-                
+
                 info   = line.split()[8]
                 frame  = line.split()[7].rstrip()
                 gene   = info.split(';')[0].split('=')[1].rstrip()
-                
+
                 if gene not in dico_info.keys():
                     count += 1
                     print('\r\t' + 'GFF' + '\t:\t' + str(count)+'\tsequences read', end = '')
@@ -155,43 +163,43 @@ def read_gff_info(gff,elements_in,elements_out):
                     gene_seen = False
                 else:
                     gene_seen = True
-                    
+
                 dico_info[gene]['strand'] = strand
                 dico_info[gene]['chrom']  = chrom
                 dico_info[gene]['info']   = info
                 dico_info[gene]['frame']  = frame
-     
-               
+
+
                 if strand == '+':
-                    
+
                     seq_dna = genome[chrom][start-1:stop]
                     #my_seq_dna = Seq(seq_dna.upper(), IUPAC.unambiguous_dna)
                     my_seq_dna = Seq(seq_dna.upper())
-                    
+
                     if gene_seen == False:
                         dico_info[gene]['DNA_seq'] = dico_info[gene]['DNA_seq'] + str(my_seq_dna)
                     elif gene_seen == True:
-                        
+
                         if stop < min(dico_info[gene]['positions']):
-                            dico_info[gene]['DNA_seq'] = str(my_seq_dna) + dico_info[gene]['DNA_seq'] 
-    
+                            dico_info[gene]['DNA_seq'] = str(my_seq_dna) + dico_info[gene]['DNA_seq']
+
                         elif start > max(dico_info[gene]['positions']):
                             dico_info[gene]['DNA_seq'] = dico_info[gene]['DNA_seq'] + str(my_seq_dna)
                         else:
                             print(gene)
                             continue
 
-                    
+
                     dico_info[gene]['positions'].append(start)
                     dico_info[gene]['positions'].append(stop)
-                    
+
                     try:
                         #dico_info[gene]['AA_seq']  = str(Seq.translate(Seq(dico_info[gene]['DNA_seq'], IUPAC.unambiguous_dna)))#.replace('*','')
                         dico_info[gene]['AA_seq']  = str(Seq.translate(Seq(dico_info[gene]['DNA_seq']), table=parameters.table))#.replace('*','')
-    
+
                     except:
                         dico_info[gene]['AA_seq']  = ''
-                
+
                 elif strand == '-':
 
                     seq_dna = genome[chrom][start-1:stop]
@@ -200,35 +208,35 @@ def read_gff_info(gff,elements_in,elements_out):
                     my_seq_dna = my_seq_dna.reverse_complement()
                     #######dico_info[gene]['DNA_seq'] = dico_info[gene]['DNA_seq'] + str(my_seq_dna)
                     dico_info[gene]["DNA_parts"].append(my_seq_dna)
-                    
+
 
                     if gene_seen == False:
                         dico_info[gene]['DNA_seq'] = dico_info[gene]['DNA_seq'] + str(my_seq_dna)
                     elif gene_seen == True:
                         if stop < min(dico_info[gene]['positions']):
                             dico_info[gene]['DNA_seq'] = dico_info[gene]['DNA_seq'] + str(my_seq_dna)
-    
+
                         elif start > max(dico_info[gene]['positions']):
-                            dico_info[gene]['DNA_seq'] = str(my_seq_dna) + dico_info[gene]['DNA_seq'] 
-    
+                            dico_info[gene]['DNA_seq'] = str(my_seq_dna) + dico_info[gene]['DNA_seq']
+
                         else:
                             print(gene)
                             continue
 
-                    
+
                         dico_info[gene]['positions'].append(start)
                         dico_info[gene]['positions'].append(stop)
-    
-                    
+
+
                     try:
     #                        dico_info[gene]['AA_seq']  = str(Seq.translate(Seq(dico_info[gene]['DNA_seq'], IUPAC.unambiguous_dna)))#.replace('*','')
                         dico_info[gene]['AA_seq']  = str(Seq.translate(Seq(dico_info[gene]['DNA_seq']), table=parameters.table))#.replace('*','')
-    
+
                     except:
                         dico_info[gene]['AA_seq']  = ''
-                            
 
-                    
+
+
     return(dico_info)
 
 
@@ -288,19 +296,19 @@ def find_matches(gff , elements_in , elements_out):
         for x,line in enumerate(f):
             if line.startswith('#') == False:
                 element= line.split()[2].rstrip()
-                
+
                 if re.match(elements_out,element) and not re.match(elements_in,element):
                     continue
-                    
+
                 if re.match(elements_out,element) and re.match(elements_in,element):
                     print("{} include and exclude at the same time!".format(element))
                     exit()
-                    
+
                 if not re.match(elements_in,element) and elements_in != "(all)":
                     continue
-                
+
                 matches.append(x)
-   
+
     return matches
 
 
@@ -317,7 +325,7 @@ def read_matched_gff_lines(matches , gff_file , genome):
         chrom  = my_line[0].rstrip()
         info   = my_line[8]
         gene   = info.split(';')[0].split('=')[1].rstrip()
-        
+
         if gene not in dico_info.keys():
             count += 1
             print('\r\t' + 'GFF' + '\t:\t' + str(count)+'\tsequences read', end = '')
@@ -330,26 +338,26 @@ def read_matched_gff_lines(matches , gff_file , genome):
             gene_seen = False
         else:
             gene_seen = True
-            
+
         dico_info[gene]['strand'] = strand
         dico_info[gene]['chrom']  = chrom
         dico_info[gene]['info']   = info
         #dico_info[gene]['frame']  = frame
- 
-       
+
+
         if strand == '+':
-            
+
             seq_dna = genome[chrom][start-1:stop]
             #my_seq_dna = Seq(seq_dna.upper(), IUPAC.unambiguous_dna)
             my_seq_dna = Seq(seq_dna.upper())
 
-            
+
             if gene_seen == False:
                 dico_info[gene]['DNA_seq'] = dico_info[gene]['DNA_seq'] + str(my_seq_dna)
             elif gene_seen == True:
-                
+
                 if stop < min(dico_info[gene]['positions']):
-                    dico_info[gene]['DNA_seq'] = str(my_seq_dna) + dico_info[gene]['DNA_seq'] 
+                    dico_info[gene]['DNA_seq'] = str(my_seq_dna) + dico_info[gene]['DNA_seq']
 
                 elif start > max(dico_info[gene]['positions']):
                     dico_info[gene]['DNA_seq'] = dico_info[gene]['DNA_seq'] + str(my_seq_dna)
@@ -357,17 +365,17 @@ def read_matched_gff_lines(matches , gff_file , genome):
                     print(gene)
                     continue
 
-            
+
             dico_info[gene]['positions'].append(start)
             dico_info[gene]['positions'].append(stop)
-            
+
             try:
                 #dico_info[gene]['AA_seq']  = str(Seq.translate(Seq(dico_info[gene]['DNA_seq'], IUPAC.unambiguous_dna)))#.replace('*','')
                 dico_info[gene]['AA_seq']  = str(Seq.translate(Seq(dico_info[gene]['DNA_seq']), table=parameters.table))#.replace('*','')
 
             except:
                 dico_info[gene]['AA_seq']  = ''
-        
+
         elif strand == '-':
             seq_dna = genome[chrom][start-1:stop]
             #my_seq_dna = Seq(seq_dna.upper(), IUPAC.unambiguous_dna)
@@ -375,7 +383,7 @@ def read_matched_gff_lines(matches , gff_file , genome):
             my_seq_dna = my_seq_dna.reverse_complement()
             #######dico_info[gene]['DNA_seq'] = dico_info[gene]['DNA_seq'] + str(my_seq_dna)
             dico_info[gene]["DNA_parts"].append(my_seq_dna)
-            
+
             if gene_seen == False:
                 dico_info[gene]['DNA_seq'] = dico_info[gene]['DNA_seq'] + str(my_seq_dna)
             elif gene_seen == True:
@@ -383,17 +391,17 @@ def read_matched_gff_lines(matches , gff_file , genome):
                     dico_info[gene]['DNA_seq'] = dico_info[gene]['DNA_seq'] + str(my_seq_dna)
 
                 elif start > max(dico_info[gene]['positions']):
-                    dico_info[gene]['DNA_seq'] = str(my_seq_dna) + dico_info[gene]['DNA_seq'] 
+                    dico_info[gene]['DNA_seq'] = str(my_seq_dna) + dico_info[gene]['DNA_seq']
 
                 else:
                     print(gene)
                     continue
 
-            
+
                 dico_info[gene]['positions'].append(start)
                 dico_info[gene]['positions'].append(stop)
 
-            
+
             try:
 #                        dico_info[gene]['AA_seq']  = str(Seq.translate(Seq(dico_info[gene]['DNA_seq'], IUPAC.unambiguous_dna)))#.replace('*','')
                 dico_info[gene]['AA_seq']  = str(Seq.translate(Seq(dico_info[gene]['DNA_seq']), table=parameters.table))#.replace('*','')
@@ -402,8 +410,8 @@ def read_matched_gff_lines(matches , gff_file , genome):
                 dico_info[gene]['AA_seq']  = ''
 
     return(dico_info)
-        
-    
+
+
 
 def main():
     global parameters
@@ -451,10 +459,9 @@ def main():
                               elements_in=parameters.features_include,
                               elements_out=parameters.features_exclude)
 
-    #outname = os.path.basename(gff_file)
-    #outname = os.path.splitext(outname)[0]
-    #outname = outname + "_" + type_of_data
-    #outname  = parameters.o
-
-
-    write_multifastas(dico_info = seqs , outname=parameters.o)
+    features_in_name = ""
+    for feature in parameters.features_include:
+        features_in_name += "_" + feature
+    gffname = out_path + os.path.splitext(os.path.basename(parameters.gff))[0] + features_in_name
+    write_multifastas(dico_info = seqs , outname=gffname)
+    print('\n')

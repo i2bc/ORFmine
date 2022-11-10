@@ -1,0 +1,29 @@
+[path]
+hhblits=hhblits
+phmmer=phmmer
+hmmsearch=hmmsearch
+hmmbuild=hmmbuild
+
+[jackhmmer_like_options]
+nb_iterations=5
+coverage=0
+identity=0
+#sep_reg=_AND(_ , _AND)_ , _OR(_ , _OR)_ , _(_ , _)_
+kept_reg=
+#example: kept_reg=G.{1,4}G[RK][TS]
+remove_reg=
+
+[hhblits_options]
+cov=10
+E=1.0
+
+[phmmer_options]
+E=1.0
+domE=1.0
+cpu=1
+
+[hmmsearch_options]
+E=1.0
+domE=1.0
+cpu=1
+

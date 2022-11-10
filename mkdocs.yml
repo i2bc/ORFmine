@@ -19,6 +19,11 @@ nav:
       - Parameters:
         - ORFtrack parameters: orftrack_param.md
         - ORFget parameters: orfget_param.md
+    - ORFribo:
+      - Usage:
+       - Configuration: orfribo_configuration.md
+       - Launch: orfribo_launch.md
+       - Outputs: orfribo_outputs.md
     - ORFold:
       - ORFold presentation:
         - Objective: Objective_orfold.md

@@ -1,3 +1,6 @@
+#!/bin/miniconda3/envs/ORFmine_env/bin/python3
+# -*- coding: utf-8 -*-
+
 import os
 from orftrack.lib import logHandler
 from orftrack.lib import gff_parser
