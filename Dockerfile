@@ -1,6 +1,6 @@
 FROM ubuntu:18.04
 
-LABEL version="0.8.3"
+LABEL version="0.8.6"
 
 ENV LC_ALL=C
 
@@ -45,8 +45,5 @@ RUN printf '#!/bin/bash\nbash /ORFmine/orfribo/RiboDoc_BAM2Reads/RiboDoc_BAM2Rea
     chmod +x /usr/bin/orfribo
 
 WORKDIR /workdir/
-
-RUN bash -c 'mkdir -p -m 777 /tmp/runtime_dir/'
-ENV XDG_RUNTIME_DIR='/tmp/runtime_dir/'
 
 CMD ["echo","Please use an interactive shell for the container"]
