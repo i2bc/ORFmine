@@ -1,7 +1,7 @@
 configfile: "/workdir/config.yaml"
 
 
-orfribo_version = "0.8.3"
+orfribo_version = "0.8.6"
 
 
 # Imports
@@ -21,7 +21,7 @@ local_path = "/workdir/orfribo/"
 database_path = "/database/"
 fastq_path = "/fastq/"
 ribodoc_tools = "/ORFmine/orfribo/RiboDoc_BAM2Reads/tools/"
-snakemake_log_path = "/.snakemake/log/"
+snakemake_log_path = ".snakemake/log/"
 
 
 # Wildcards definition
@@ -53,7 +53,7 @@ rule all:
         # Alignment statistics report
         local_path + "RESULTS/" + config['project_name'] + ".Analysis_Report.txt",
         # Call for count matrix creations on all ORFs
-        table = local_path + "RESULTS/Bam2Reads_genome_output/all_samples_genome" + frag_length_L + ".mean" + config['orfstats_mean_threshold'] + "_median" + config['orfstats_median_threshold'] + "_reads_concatenated.tab"
+        local_path + "RESULTS/Bam2Reads_genome_output/all_samples_genome" + frag_length_L + ".mean" + config['orfstats_mean_threshold'] + "_median" + config['orfstats_median_threshold'] + "_reads_concatenated.tab"
 
 
 # When RiboDoc starts
@@ -522,7 +522,7 @@ rule Bam2Reads_exome:
         bai = local_path + "RESULTS/ORFribo/BAM_exome/exome_elongated.{sample}" + frag_length_L + ".bam.bai",
         psite_table = local_path + "RESULTS/ORFribo/riboWaltz/psite_offset.csv"
     output:
-        reads = local_path + "RESULTS/ORFribo/Bam2Reads_exome_output/{sample}_{length}/exome_reads" + frag_length_L + ".tab"
+        reads = local_path + "RESULTS/ORFribo/Bam2Reads_exome_output/{sample}_{length}/exome" + frag_length_L + "_reads.tab"
     log:
         bam2read = local_path + "logs/Bam2Reads_exome/{sample}.{length}.bam2read.log",
         offset_grep = local_path + "logs/Bam2Reads_exome/{sample}.{length}.offset_grep.log"
@@ -538,16 +538,16 @@ rule Bam2Reads_exome:
         "set +o pipefail;"
         "offset=$(grep {params.sample_name} {input.psite_table} 2> {log.offset_grep} | grep ^{params.read_length} 2>> {log.offset_grep} | cut -f7 2>> {log.offset_grep}) 2>> {log.offset_grep};"
         "if [ $offset = '' ]; then offset=12; fi;"
-        "python3 " + ribodoc_tools + "Bam2Reads_function/BAM2Reads.py -shift ${{offset}} -kmer {params.read_length} -gff {input.gff} -bam {input.bam} -outpath {params.outdir} -outname exome" + frag_length_L + ". -features_include " + config['gff_cds_feature'] + " 2> {log.bam2read};"
+        "python3 " + ribodoc_tools + "Bam2Reads_function/BAM2Reads.py -shift ${{offset}} -kmer {params.read_length} -gff {input.gff} -bam {input.bam} -outpath {params.outdir} -outname exome" + frag_length_L + " -features_include " + config['gff_cds_feature'] + " 2> {log.bam2read};"
         ""
 
 # Calls ORFstat functions
 rule ORFstats:
     input:
         psite_table = local_path + "RESULTS/ORFribo/riboWaltz/psite_offset.csv",
-        reads = local_path + "RESULTS/ORFribo/Bam2Reads_exome_output/{sample}_{length}/exome_reads" + frag_length_L + ".tab"
+        reads = local_path + "RESULTS/ORFribo/Bam2Reads_exome_output/{sample}_{length}/exome" + frag_length_L + "_reads.tab"
     output:
-        stats = local_path + "RESULTS/ORFribo/Bam2Reads_exome_output/{sample}_{length}/exome_reads.stats"
+        stats = local_path + "RESULTS/ORFribo/Bam2Reads_exome_output/{sample}_{length}/exome" + frag_length_L + "_reads.stats"
     log:
         orfstats = local_path + "logs/ORFstats/{sample}.{length}.orfstats.log"
     benchmark:
@@ -562,14 +562,14 @@ rule ORFstats:
 # Select reads of specific length (determined by ORFstats)
 rule select_read_lengths:
     input:
-        orfstats = expand(local_path + "RESULTS/ORFribo/Bam2Reads_exome_output/{sample}_{length}/exome_reads.stats", sample=SAMPLES, length=LENGTHS)
+        orfstats = expand(local_path + "RESULTS/ORFribo/Bam2Reads_exome_output/{sample}_{length}/exome" + frag_length_L + "_reads.stats", sample=SAMPLES, length=LENGTHS)
     output:
         table = local_path + "RESULTS/selected_length_tables/threshold_mean" + config['orfstats_mean_threshold'] + "_median" + config['orfstats_median_threshold'] + "/{sample}.txt"
     benchmark:
         local_path + "benchmarks/select_read_lengths/{sample}.select_read_lengths.benchmark_mean" + config['orfstats_mean_threshold'] + "_median" + config['orfstats_median_threshold'] + ".txt"
     params:
         orfstats_path = local_path + "RESULTS/ORFribo/Bam2Reads_exome_output/{sample}_",
-        orfstats_name = "/exome_reads.stats"
+        orfstats_name = "/exome" + frag_length_L + "_reads.stats"
     threads:
         multi_threads_nbr
     run:
@@ -612,7 +612,7 @@ rule Bam2Reads_genome:
         psite_table = local_path + "RESULTS/ORFribo/riboWaltz/psite_offset.csv",
         table = local_path + "RESULTS/selected_length_tables/threshold_mean" + config['orfstats_mean_threshold'] + "_median" + config['orfstats_median_threshold'] + "/{sample}.txt"
     output:
-        reads_table = local_path + "RESULTS/Bam2Reads_genome_output/{sample}/length_{length}/genome_mean" + config['orfstats_mean_threshold'] + "_median" + config['orfstats_median_threshold'] + "_reads" + frag_length_L + ".tab"
+        reads_table = local_path + "RESULTS/Bam2Reads_genome_output/{sample}/length_{length}/genome" + frag_length_L + ".mean" + config['orfstats_mean_threshold'] + "_median" + config['orfstats_median_threshold'] + "_reads.tab"
     log:
         bam2read = local_path + "logs/Bam2Reads_genome/{sample}.{length}.bam2read_mean" + config['orfstats_mean_threshold'] + "_median" + config['orfstats_median_threshold'] + ".log",
         offset_grep = local_path + "logs/Bam2Reads_genome/{sample}.{length}.offset_grep_mean" + config['orfstats_mean_threshold'] + "_median" + config['orfstats_median_threshold'] + ".log"
@@ -632,7 +632,7 @@ rule Bam2Reads_genome:
             if newlength == params.reads_length:
                 shell("""
                 offset=$(grep '{params.sample_name}' {input.psite_table} 2> {log.offset_grep} | grep '^{params.reads_length}' 2>> {log.offset_grep} | cut -f7 2>> {log.offset_grep}) 2>> {log.offset_grep};
-                python3 """ + ribodoc_tools + "Bam2Reads_function/BAM2Reads.py -shift ${{offset}} -kmer {params.reads_length} -gff {input.intergenic_gff} -bam {input.bam} -outpath {params.outdir} -outname genome_mean" + config['orfstats_mean_threshold'] + "_median" + config['orfstats_median_threshold'] + " -features_include " + config['final_counts'] + " 2> {log.bam2read};")
+                python3 """ + ribodoc_tools + "Bam2Reads_function/BAM2Reads.py -shift ${{offset}} -kmer {params.reads_length} -gff {input.intergenic_gff} -bam {input.bam} -outpath {params.outdir} -outname genome" + frag_length_L + ".mean" + config['orfstats_mean_threshold'] + "_median" + config['orfstats_median_threshold'] + " -features_include " + config['final_counts'] + " 2> {log.bam2read};")
                 in_lengths_list = True
                 break
         if not in_lengths_list:
