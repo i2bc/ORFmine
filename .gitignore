@@ -55,3 +55,5 @@ orfold_v1/orfold/softwares/
 ##############################
 **.idea
 **docs/*._*
+**docs/*/*._*
+**docs/*/*/._*
