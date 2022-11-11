@@ -11,6 +11,7 @@ MIN_PY_VER = "3.7"
 
 REQUIRES = [
     'biopython==1.78',
+    'DendroPy==4.5.2',
     'scipy==1.9.3',
     'seaborn==0.11.0',
     'matplotlib==3.3.3',
@@ -33,6 +34,7 @@ PACKAGES = [
     'packages.orfold',
     'packages.orfold.lib',
     'packages.orfold.scripts',
+    'packages.orfdate',
 ]
 
 st.setup(
@@ -45,7 +47,8 @@ st.setup(
             'orftrack=packages.orftrack.main:main',
             'orfget=packages.orftrack.scripts.ORFget:main',
             'orfold=packages.orfold.orfold:main',
-            'orfplot=packages.orfold.scripts.plot_orfold:main'
+            'orfplot=packages.orfold.scripts.plot_orfold:main',
+            'orfdate=packages.orfdate.ORFdate:main'
         ]
     }
 )
