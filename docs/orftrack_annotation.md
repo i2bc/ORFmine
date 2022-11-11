@@ -1,13 +1,13 @@
 ## ORF annotation
 
 The ORF annotation relies on the comparison of their localization
-with those of all the genomic features annotated in the input GFF 
+with those of all the genomic features annotated in the initial gff given as input
 file (e.g. coding sequences (CDS), tRNA, lncRNA, snoRNA, 
 pseudogenes...). ORFs are subsequently assigned as coding (c_CDS)
 (if they include in the same frame a CDS) or noncoding (nc). 
 Noncoding ORFs are then subdivided into 
 noncoding intergenic ORFs (nc_intergenic) or noncoding overlapping
-ORFs (nc_ovp-x with x refering to the overlapping genomic feature)
+ORFs (nc_ovp-x with x referring to the overlapping genomic feature)
 (see [here](./orftrack_overlap.md) for the definition of an overlap).
 The former correspond to ORFs which do not overlap any 
 genomic feature. The latter consist of ORFs

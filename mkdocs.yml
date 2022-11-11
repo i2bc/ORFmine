@@ -19,11 +19,6 @@ nav:
       - Parameters:
         - ORFtrack parameters: orftrack_param.md
         - ORFget parameters: orfget_param.md
-    - ORFribo:
-      - Usage:
-       - Configuration: orfribo_configuration.md
-       - Launch: orfribo_launch.md
-       - Outputs: orfribo_outputs.md
     - ORFold:
       - ORFold presentation:
         - Objective: Objective_orfold.md
@@ -35,6 +30,26 @@ nav:
       - Parameters:
         - ORFold parameters: parameters_orfold.md
         - ORFplot parameters: parameters_orfplot.md
+    - ORFribo:
+      - ORFribo presentation: 
+        - Objectives: orfribo_objectives.md
+        - How it works: How_it_works_orfribo.md
+      - Usage:
+        - Inputs: orfribo_inputs.md
+        - ORFribo configuration: orfribo_configuration.md
+        - Basic run ORFribo: orfribo_run.md
+        - Advanced run ORFribo: orfribo_advanced.md
+        - Outputs: orfribo_outputs.md
+    - ORFdate:
+      - ORFdate presentation:
+        - Objectives: orfdate_objectives.md
+        - How it works: How_it_works_orfdate.md
+      - Usage:
+        - Inputs: orfdate_inputs.md
+        - Run: orfdate_run.md
+        - Outputs: orfdate_outputs.md
+        - Parameters: orfdate_parameters.md
+     
 theme: readthedocs
 markdown_extensions:
     - footnotes

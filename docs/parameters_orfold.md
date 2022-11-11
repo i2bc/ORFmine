@@ -3,7 +3,7 @@
 
 <b>Mandatory</b>
 
-  ```-fna ```                 FASTA file containing the amino acid sequences to treat 
+  ```-faa ```                 fasta file containing the amino acid sequences to treat 
 
 
 
@@ -20,13 +20,13 @@ same time (-options HIT will estimate the three properties)(default: H).
   ```-h, --help ```           shows this help message and exits
 
 
- ```-gff```                  GFF annotation file. The ID (i.e. annotation) of the 
+ ```-gff```                  gff annotation file. The ID (i.e. annotation) of the 
  sequences given in the input FASTA file sequence must be identical to the ID label 
- in the GFF file (column #3). ORFold generates as many GFF
+ in the gff file (column #3). ORFold generates as many gff
 files as studied properties (fold potential, disorder and/or aggregation 
- propensities), each containing for the sequences provided in the input FASTA file, 
+ propensities), each containing for the sequences provided in the input fasta file, 
  their corresponding property values (fold potential, disorder or aggregation 
- propensities). The values are stored in the column #9 of the output GFF files
+ propensities). The values are stored in the column #9 of the output gff files
  that can be subsequently uploaded on a genome viewer (see [here](./Run_orfold_advanced.md) 
  examples on the use of this option). 
 

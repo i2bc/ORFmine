@@ -2,6 +2,7 @@
 # Orfmap data            #
 ##########################
 
+
 examples/tests
 
 orfmap-*/orfmap/*
@@ -48,3 +49,9 @@ examples/tests
 # ORFold softwares directory #
 ##############################
 orfold_v1/orfold/softwares/
+
+##############################
+# others 
+##############################
+**.idea
+**docs/*._*

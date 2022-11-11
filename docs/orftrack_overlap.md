@@ -2,7 +2,7 @@
 
 Calculation of the overlap:
 
-* An ORF is considered as overlapping with a given genomic feature
+* An ORF is considered as overlapping a given genomic feature
   if the latter covers at least 70% of the ORF sequence.
 
 * If less than 70% of an ORF sequence overlaps a genomic
@@ -19,6 +19,6 @@ as overlapping a given genomic feature if the latter covers at least
 
 
 ``` bash
-orftrack -fna genome.fasta -gff genome.gff -co_ovp 90 
+orftrack -fna /database/genome.fasta -gff /database/genome.gff -co_ovp 0.90 
 ```
 

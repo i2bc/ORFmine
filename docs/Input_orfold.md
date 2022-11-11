@@ -2,14 +2,13 @@
 
 
 ### Inputs
-Basically, ORFold requires only a fasta file containing the amino acid sequences 
-to treat (given with the **-fna** label). ORFold can handle several fasta files at the same
+Basically, ORFold requires only a FASTA file containing the amino acid sequences 
+to treat (given with the **-fna** label). ORFold can handle several FASTA files at the same
 time. In this case, it will treat them independently and will generate as many 
-outputs as entered fasta files. The inputs must be stored in a local directory that will be linked to the /database/ directory of the container (see [here](./orfmine_quickstart.md#prepare-your-folders) for more details). The following commands assume the user run ORFold in the container and all necessary inputs are stored in the /database/ folder of the container.
-
+outputs as entered FASTA files.
 
  
- fasta file example:
+ FASTA file example:
 ```{}
 >aminoacid_sequence_1
 AGNVCFGGRTYMPDFDGMSCVNWQERT
@@ -44,7 +43,7 @@ The following instruction estimates the fold potential, and the disorder and agg
 all amino acid sequences contained in the input fASTA file:
 
 ```{bash}
-orfold -faa /database/sequences.fasta -options HIT
+orfold -fna sequences.fasta -options HIT
 ```
 
 
@@ -53,13 +52,13 @@ The user has to notice that **IUPred** and **Tango** provide additional informat
 to HCA but will slow down considerably ORFold for large datasets. 
 The next instruction only calculate the fold potential with HCA:
 ```{bash}
-orfold -fna /database/sequences.fasta -options H
+orfold -fna sequences.fasta -options H
 ```
 
 ### Output:
 ORFold produces a table (fasta_rootname.tab) that contains for each input sequence,
 the computed values (separated by tabulations) according to the user request (fold potential, and/or disorder and/or 
-aggregation propensities). The output(s) is/are stored in the /workdir/orfold/ directory of the container.
+aggregation propensities).
 
 
 

@@ -2,7 +2,7 @@
 
 
 
-Recent studies attribute a new role to the noncoding genome in
+RECENT studies attribute a new role to the noncoding genome in
 the production of novel peptides. The widespread transcription
 of noncoding regions and the pervasive translation of the resulting
 RNAs offer a vast reservoir of novel peptides to the organisms.

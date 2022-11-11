@@ -74,14 +74,14 @@ documentation of ORFold).
 
 <br>
 <br>
-[![](./img/icons/Logo_ORFold.png){ width=30% }](./Objective_orfold.md) <br>
+[![](./img/icons/Logo_ORFribo.png){ width=30% }](./Objective_orfold.md) <br>
 
 ORFribo probes the translation activity of a set of ORFs of a genome based on Ribosome Profilng data (Ribo-Seq). ORFribo is very flexible and handles any type of ORFs once annotated in a GFF file (e.g. coding sequences, alternative ORFs (i.e., noncoding ORFs located in the alternative frames of CDSs) or intergenic ORFs). ORFribo has no a priori and does not predict any ORF status (translated or not for instance), but rather calculates for each ORF, the counts of reads that map on it along with the frame they are associated with (i.e., the frame of the ORF, or its two alternative frames), thereby providing information that can be indicative on the specificity of the translation of the ORF. The raw information is provided in a text table very easy to parse so that, the user is free to set its own thresholds (number of reads, specificity of translation (i.e. number of reads that are in the frame of the ORF)) to classify ORFs based on their translation signals and/or extract interesting candidates. In order to increase the read coverage of noncoding regions, expected to be low because they are usually associated with lower expression when expressed, ORFribo enables one to pool multiple Ribo-Seq datasets. Reads of good quality (quality thresholds are customizable by the user) of all datasets are thus merged together and the resulting signal is analyzed as a whole and provided as a single output table. The user is free to combine different datasets as he/she whishes (experiments performed in specific conditions, tissues etc).
 
 
 <br>
 <br>
-[![](./img/icons/Logo_ORFold.png){ width=30% }](./Objective_orfold.md) <br>
+[![](./img/icons/Logo_ORFdate.png){ width=30% }](./Objective_orfold.md) <br>
 
 ORFdate estimates the evolutionary age (in Mya) of a set of ORFs of a genome (coding or noncoding ORFs) based on phylostratigraphy.
 

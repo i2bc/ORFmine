@@ -1,68 +1,73 @@
-## Usage
+## Before launching ORFribo: prepare the config.yaml
+ORFribo is very easy to handle and only needs a configuration file to be edited before running it. The latter named *config.yaml* contains the parameters that can be adjusted by the user. Here we describe how to fill this file (a pre-filled configuration file is present in the ORFmine/examples/workdir/ directory and corresponds to the example dataset provided in ORFmine/examples/).
+Please note that every file's name must be written without path and they must be placed in your local folder [linked](./orfmine_binding.md) to the /database/ directory of the container. The fastq files must be stored in your local fastq/ directory that [has been linked](./orfmine_binding.md) to the /fastq/ directory of the container when having launched the container. Please note that we strongly recommend reading the [How it works?](./How_it_works_orfribo.md) page before completing the configuration file.
 
-
-### Prepare your parameters in the configuration file
-
-In case you plan on using ORFribo, you must adjust all the parameters in the configuration file *config.yaml* which you can find in the *orfribo/* folder on GitHub [here] (https://github.com/i2bc/ORFmine/orfribo/config.yaml).
-
-In this file, every file name must be written without path and these files must be placed in the folder linked to the */database/* directory in the container.
+Please place the config.yaml file in the /workdir/ directory of your container and edit it as follows (WARNING all parameters must be written between quotes as in the example):
 
 #### Project name  
-**project_name**: the name you want for your project (please avoid blank spaces or special characters)
+**project_name**: "intergenic_ORF_translation"<br>
+*(the name of your project without spaces or special characters)*
 
-#### Name of database subfolder file  
-You must enter the full name (**with extensions**) without the path of files added in the database subfolder previously created.   
 
-**fasta**: reference_genome_fasta_file.fa  
+#### Input names  
+You must enter the full name (**with extensions and without the path**) of the genome sequence and annotation files of the genome to be treated. These two files must be stored in the /database/ folder of the container. Examples of such files can be found in the ORFmine/examples/database/ folder.
 
-**gff**: corresponding_gff_annotation_file.gff3  
+**fasta**: "Scer.fna"  
+*(i.e. reference_genome_sequences.fa: fasta file containing the nucleotide sequence of the complete genome)*
 
-**gff_intergenic**: the name of ORFtrack output fasta file
+**gff**: "Scer.gff"   
+*(i.e. reference_genome_annotations.gff: annotation file)*
 
-**fasta_outRNA**: unwanted_sequences_fasta_file.fa  
+**gff_intergenic**: "mapping_orf_Scer.gff"  
+*(i.e. ORFtrack_output.gff: name of the ORFtrack output gff file containing the ORF coordinates for which you want to study the translation activity)*
+
+**fasta_outRNA**: "Scer_rRNA.fa"  
+*(i.e. NA_sequences_to_remove.fa: sequences for which you do not want to map Ribo-Seq reads - usually rRNAs etc)*
 
 #### Pipeline option selection  
 During the ORFribo process, data is trimmed and selected depending on the read lengths.
 
-**already_trimmed**: If your data contains reads already trimmed of their adapter, you can set this option on “yes”. Else, set it on "no".
+**already_trimmed**: "no"
+<br>
+*(If your data contains reads already trimmed of their adapter, you can set this option to “yes”. Else, set it to "no")*
 
-**adapt_sequence**: If they are not trimmed, you should specify the sequence of the adapter in quotes on the line here like "AGATCGGAAGAGCACACGTCTGAACTCCAGTCA". If you do not put anything between the quotes, RiboDoc will try to find the adapter itself but this can sometimes lead to a wrong adapter sequence.
+**adapt_sequence**: "AGATCGGAAGAGCACACGTCTGAACTCCAGTCA"
+<br>
+*(If they are not trimmed, you should specify the sequence of the adapter in quotes on the line here like "AGATCGGAAGAGCACACGTCTGAACTCCAGTCA". If you do not put anything between the quotes, and the option "already_trimmed" has been set to "no", ORFribo will try to find the adapter itself but this can sometimes lead to a wrong adapter sequence)*
 
-#### Reads length to analyse
-You also have to define the range for read lengths selection. Default values select reads from 25 to 35 bases long.  
+#### Kmers (or read sizes) to analyze
+You have to define the range of read sizes (kmers) that will be tested. By default, ORFribo will test the quality of kmers/reads from 25 to 35 bases long and will retain those of good quality (i.e. those which mostly map to the coding phase (P0) of CDSs - "mostly" corresponding to a median value of 70% but it [can be modified](#median) by the user).  
 
-**readsLength_min**: minimum read length.   
+**readsLength_min**: "25" <br>
+*(minimum read size (default 25))*
 
-**readsLength_max**: maximum read length.   
+**readsLength_max**: "35" <br>
+*(maximum read size (default 35))* 
 
-#### Names of coding features in GFF
-You might also need to specify features keywords in the GFF file to fit your GFF file format :   
+#### Names of coding features for the detection of kmers of good quality (Step 2)
+You might also need to specify the names, as indicated in the original gff file (not the one generated by ORFtrack), of the "CDS" feature and "gene" attribute so that ORFribo is able to identify the features/attributes that correspond to the CDSs and genes. That said, we strongly recommend using the "CDS" and "gene" keywords for the CDSs and genes respectively as they are used by ORFtrack in its gff output. Using different keywords for these two features might generate conflicts with the detection of good quality kmers ([Step2](./How_it_works_orfribo.md#Step2)) and the read mapping step ([Step3](./How_it_works_orfribo.md#Step3)) which is realized on the ORFtrack output or equivalent. To avoid such conflicts, we recommend modifying in the original gff file the names of the attributes/features used for the genes and CDSs to "gene" and "CDS" respectively. 
 
-**gff_cds_feature**: Feature corresponding to CDS in the annotation file. "CDS" is the default value (can sometimes be "ORF").     
+**gff_cds_feature**: "CDS" <br>
+*(Feature name (column 3) corresponding to CDSs in the original annotation gff file that will be used for the second step "[Detection of kmers of good quality](./How_it_works_orfribo.md#Step2)". Usually, CDSs are referred to as "CDS" in the gff files, so "CDS" is the default value. That said, one should note that CDSs may be referred to as "ORF" in some gff files, in this case, this option should be set to "ORF", though we strongly recommend editing the initial gff file and replace the feature name "ORF" by "CDS".)*
 
-**gff_name_attribut**: Name of the genes features in the GFF. Default is "Name" but it can sometimes be "gene_name" or else.     
+**gff_name_attribut**: "Name" <br>
+*(Name of the gene name attribute in the initial gff file (column 9). Default is "Name" but like for CDSs, please control the name referring to the gene name attribute and modify this option accordingly (some gff files refer to gene name attributes as "gene_name"), though we strongly recommend editing the initial gff file and replace the feature name "gene_name" by "gene".)*   
 
-#### Statistical settings  
-**orfstats_mean_threshold**: Minimum mean of in-frame reads in coding region to select specific read lengths (default is 70)
-
-**orfstats_median_threshold**: Minimum median of in-frame reads in coding region to select specific read lengths (default is 70)
+<a name="ORF_categories"></a>
 
 #### Names of features or ORF categories to be analyzed (noncoding but also coding)
-**final_counts**: List of ORF categories for which you want to investigate the translation activity. The ORF categories listed here must correspond to those provided by ORFtrack in the 3rd column of the output gff file or indicated in ORFtrack's *summary.log*. Examples of these two files can be found in the ORFmine/examples/database/ directory as mapping_orf_Scer.gff or summary.log files. By default, ORFribo will probe the translation activity of all intergenic ORFs which are referred to as "nc_intergenic" (see [here](./orftrack_annotation.md) for more details on the ORF categories and annotation process). If you want to also probe that of noncoding ORFs lying in the alternative frames of CDSs on the same strand, one should write their names in a single quoted block, each feature separated by a single blank space.
-For example, if you want to also probe that of noncoding ORFs lying in the alternative frames of CDSs on the same strand, you must add the "nc_ovp_same-CDS", like this : "nc_intergenic nc_ovp_same-CDS".
+**final_counts**: "nc_intergenic" <br>
+*(List of ORF categories for which you want to investigate the translation activity ([Step3](./How_it_works_orfribo.md#Step3)). The ORF categories listed here must correspond to those provided by ORFtrack in the 3rd column of the output gff file (the ORF categories identified in your input genome can also be found in the *summary.log* of ORFtrack). Examples of these two files can be found in the ORFmine/examples/database/ directory as maping_orf_Scer.gff or summary.log files. By default, ORFribo will probe the translation activity of all intergenic ORFs which are referred to as "nc_intergenic" (see [here](./orftrack_annotation.md) for more details on the ORF categories and annotation process). If you want to also probe that of noncoding ORFs lying in the alternative frames of CDSs on the same strand for example, you must add the "nc_ovp_same-CDS" flag separated by a space as follows: "nc_intergenic nc_ovp_same-CDS".)*
 
 
-<br><br><br>
-#### References
-1. Merkel, Dirk. "Docker: lightweight linux containers for consistent development and deployment." Linux j 239.2 (2014): 2.
-2. Kurtzer GM, Sochat V, Bauer MW. Singularity: Scientific containers for mobility of compute. PLoS One. 2017;12(5):e0177459. Published 2017 May 11. doi:10.1371/journal.pone.0177459
-3. Bitard-Feildel, T. & Callebaut, I. HCAtk and pyHCA: A Toolkit and Python API for the Hydrophobic Cluster Analysis of Protein Sequences. bioRxiv 249995 (2018).
-4. Dosztanyi, Z., Csizmok, V., Tompa, P. & Simon, I. The pairwise energy content estimated from amino acid composition discriminates between folded and intrinsically unstructured proteins. Journal of molecular biology 347, 827–839 (2005).
-5. Dosztányi, Z. Prediction of protein disorder based on IUPred. Protein Science 27, 331– 340 (2018).
-6. Mészáros, B., Erdős, G. & Dosztányi, Z. IUPred2A: context-dependent prediction of protein disorder as a function of redox state and protein binding. Nucleic acids research 46, W329–W337 (2018).
-7. Fernandez-Escamilla, A.-M., Rousseau, F., Schymkowitz, J. & Serrano, L. Prediction of sequence-dependent and mutational effects on the aggregation of peptides and proteins. Nature biotechnology 22, 1302–1306 (2004).
-8. Linding, R., Schymkowitz, J., Rousseau, F., Diella, F. & Serrano, L. A comparative study of the relationship between protein structure and β-aggregation in globular and intrinsically disordered proteins. Journal of molecular biology 342, 345–353 (2004).
-9. Rousseau, F., Schymkowitz, J. & Serrano, L. Protein aggregation and amyloidosis: confusion of the kinds? Current opinion in structural biology 16, 118–126 (2006).
-10. Mészáros B, Erdős G, Dosztányi Z (2018) IUPred2A: context-dependent prediction of protein disorder as a function of redox state and protein binding. Nucleic acids research 46:W329–W337
-11. Papadopoulos, C., Arbes, H., Chevrollier, N., Blanchet, S., Cornu, D., Roginski, P., Rabier, C., Atia, S., Lespinet, O., Namy, O., Lopes, A. (submitted).
-12. Lauria F, Tebaldi T, Bernabò P, Groen EJN, Gillingwater TH, Viero G. riboWaltz: Optimization of ribosome P-site positioning in ribosome profiling data. PLoS Comput Biol. 2018 Aug 13;14(8):e1006169.
+<a name="median"></a>
+#### Statistical settings  
+
+**orfstats_mean_threshold**: "70" <br>
+*(Minimum mean of in-frame reads in coding regions to select specific read sizes/kmers (default is 70))*
+
+
+**orfstats_median_threshold**: "70" <br>
+*(Minimum median of in-frame reads in coding regions to select specific read sizes/kmers (default is 70))*
+
+
