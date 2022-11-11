@@ -17,6 +17,8 @@ import operator
 import os
 import sys
 
+out_path="/workdir/orfdate/"
+
 def run():
     # Arguments parsing
     parser = argparse.ArgumentParser()
@@ -28,8 +30,8 @@ def run():
     parser.add_argument("-evalue", help="BLASTp evalue threshold", default = 0.001, type=float)
     parser.add_argument("-query_cov", help="minimum query coverage threshold", default = 0.7, type=int)
     parser.add_argument("-preserve_underscores", help="should underscores be kept when reading the tree, or considered as spaces", default = False, type=bool)
-    parser.add_argument("-db", help="directory for blastdb files", default = "/workdir/orfdate/blastdb", type=str)
-    parser.add_argument("-blastout", help="directory for blast output files", default = "/workdir/orfdate/blastout", type=str)
+    parser.add_argument("-db", help="directory for blastdb files", default = out_path + "blastdb", type=str)
+    parser.add_argument("-blastout", help="directory for blast output files", default = out_path + "blastout", type=str)
 
     args = parser.parse_args()
 
@@ -148,7 +150,7 @@ def run():
 
             # BLASTp output file's name
             output_file = "{}/{}_vs_{}.out".format(blastout_folder,
-                                                   path_plus_base(focal_fasta),
+                                                   basename(focal_fasta),
                                                    basename(fasta))
 
             if blast :
@@ -215,7 +217,7 @@ def run():
 
     # Write hits_df to a csv file for the user
     print("Writing the hits tableau...")
-    hits_df.to_csv("{}_hits.csv".format("/workdir/orfdate/"+basename(focal_fasta)),index=True, index_label='seq')
+    hits_df.to_csv("{}_hits.csv".format(out_path+basename(focal_fasta)),index=True, index_label='seq')
 
 
     # Generate an empty dataframe that will be filled with :
@@ -248,4 +250,4 @@ def run():
 
     # Write hits_df to a csv file for the user
     print("Writing the output csv...")
-    farest_df.to_csv("{}_dated.csv".format("/workdir/orfdate/"+basename(focal_fasta)),index=True, index_label='seq')
+    farest_df.to_csv("{}_dated.csv".format(out_path+basename(focal_fasta)),index=True, index_label='seq')
