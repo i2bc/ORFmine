@@ -21,7 +21,7 @@ local_path = "/workdir/orfribo/"
 database_path = "/database/"
 fastq_path = "/fastq/"
 ribodoc_tools = "/ORFmine/orfribo/RiboDoc_BAM2Reads/tools/"
-snakemake_log_path = ".snakemake/log/"
+snakemake_log_path = "/.snakemake/log/"
 
 
 # Wildcards definition
