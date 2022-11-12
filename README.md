@@ -1,4 +1,4 @@
-# Overview
+## Overview
 
 OMICS studies attribute a new role to the noncoding genome in the production of novel peptides. The widespread transcription
 of noncoding regions and the pervasive translation of the resulting RNAs offer a vast reservoir of novel peptides to the organisms.
@@ -10,7 +10,7 @@ all Open Reading Frames (ORFs) of a genome (including coding and noncoding seque
 - ORFribo
 - ORFdate
 
-## Built with
+#### Built with
 - python 3.6
 - miniconda 3
 - pyHCA <sup><a href="#references">1</a></sup>
@@ -21,16 +21,16 @@ all Open Reading Frames (ORFs) of a genome (including coding and noncoding seque
 All programs and dependencies are listed [here](docs/dependencies.md). 
 
 
-# Getting started
+## Getting started
 
-## Prerequisites
+### Prerequisites
 
 - [Docker](https://docs.docker.com/engine/install/) or [Singularity](https://singularity-tutorial.github.io/01-installation/)
 - [IUPred](https://iupred2a.elte.hu/download_new) <sup><a href="#references">2, 3, 4</a></sup>  (optional)
 - [Tango](http://tango.crg.es) <sup><a href="#references">5, 6, 7</a></sup> (optional)
 
 
-## Installation
+### Installation
 
 Simply pull the ORFmine image from Dockerhub.
 
@@ -52,36 +52,74 @@ singularity build ~orfmine/orfmine_v0.8.7.sif docker://annelopes94/orfmine:v0.8.
 If you have any error, it might come from a permissions problem so you should try using these commands with sudo as prefix.  
 
 
-# Usage
+## Usage
 
 For usage examples, please check the [Quick start](https://i2bc.github.io/ORFmine/orfmine_quickstart.html) section of our documentation page.
 
 
-# Documentation
+## Documentation
 
 Our full documentation is accessible [here](https://i2bc.github.io/ORFmine/)
 
-# Issues
+## Issues
 
 If you have suggestions to improve ORFmine or face technical issues, please post an issue [here](https://github.com/i2bc/ORFmine/issues)
 
 
-# Contact
+## Contact
 
 Anne Lopes - anne.lopes@i2bc.paris-saclay.fr
 
 
-# Citing
+## Citing
 
-Yet to come.
+#### If you use only ORFtrack
+
+Please cite:
+
+> Papadopoulos, C., Chevrollier, N., Lopes, A. Exploring the peptide potential of genomes. Meth. Mol. Biol. (2022).
 
 
-# Licence
+
+#### If you use only ORFfold with HCA, IUPred and Tango
+
+Please cite:
+> Papadopoulos, C., Chevrollier, N., Lopes, A. Exploring the peptide potential of genomes. Meth. Mol. Biol. (2022)
+
+> Bitard-Feildel, T. & Callebaut, I. HCAtk and pyHCA: A Toolkit and Python API for the Hydrophobic Cluster Analysis of Protein Sequences. bioRxiv 249995 (2018).
+
+> Mészáros, B., Erdős, G. & Dosztányi, Z. IUPred2A: context-dependent prediction of protein disorder as a function of redox state and protein binding. Nucleic acids research 46, W329–W337 (2018).
+
+> Linding, R., Schymkowitz, J., Rousseau, F., Diella, F. & Serrano, L. A comparative study of the relationship between protein structure and β-aggregation in globular and intrinsically disordered proteins. Journal of molecular biology 342, 345–353 (2004).
+
+#### Otherwise, if you use ORFold with a combination of HCA, IUPred and Tango
+
+Please cite:
+> Papadopoulos, C., Chevrollier, N., Lopes, A. Exploring the peptide potential of genomes. Meth. Mol. Biol. (2022)
+
+
+For HCA, cite:
+> Bitard-Feildel, T. & Callebaut, I. HCAtk and pyHCA: A Toolkit and Python API for the Hydrophobic Cluster Analysis of Protein Sequences. bioRxiv 249995 (2018).
+
+For IUPred, cite:
+> Mészáros, B., Erdős, G. & Dosztányi, Z. IUPred2A: context-dependent prediction of protein disorder as a function of redox state and protein binding. Nucleic acids research 46, W329–W337 (2018).
+
+For Tango, cite:
+> Linding, R., Schymkowitz, J., Rousseau, F., Diella, F. & Serrano, L. A comparative study of the relationship between protein structure and β-aggregation in globular and intrinsically disordered proteins. Journal of molecular biology 342, 345–353 (2004).
+
+
+#### If you use ORFribo or ORFdate
+
+Please cite:
+> Papadopoulos, C., Arbes, H., Chevrollier, N., Blanchet, S., Cornu, D., Roginski, P., Rabier, C., Atia, S., Lespinet, O., Namy, O., Lopes, A. (submitted).
+
+
+## Licence
 
 The ORFmine project is under the MIT licence. Please check [here](LICENSE.md) for more details.
 
 
-# References
+## References
 
 1. Bitard-Feildel, T. & Callebaut, I. HCAtk and pyHCA: A Toolkit and Python API for the Hydrophobic Cluster Analysis of Protein Sequences. bioRxiv 249995 (2018).
 2. Dosztanyi, Z., Csizmok, V., Tompa, P. & Simon, I. The pairwise energy content estimated from amino acid composition discriminates between folded and intrinsically unstructured proteins. Journal of molecular biology 347, 827–839 (2005).
