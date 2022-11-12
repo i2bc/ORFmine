@@ -141,7 +141,7 @@ For docker:
 -v <i>ABSOLUTE_PATH_TO_YOUR_DATA_DIR</i>:/database/ \
 -v <i>ABSOLUTE_PATH_TO_YOUR_FASTQ_DIR</i>:/fastq/ \
 -v <i>ABSOLUTE_PATH_TO_YOUR_DIR_CONTAINING_TANGO_OR_IUPRED</i>:/ORFmine/orfold_v1/orfold/softwares/ \
-annelopes94/orfmine:v0.8.7</code>
+annelopes94/orfmine:v0.8.7 /bin/bash</code>
 </pre>
 
 
