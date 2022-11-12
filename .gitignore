@@ -60,3 +60,7 @@ orfold_v1/orfold/softwares/
 
 **.sif
 **.bak
+
+site/
+
+# ./packages

@@ -13,11 +13,9 @@ import argparse
 from orfold.lib.orfold_funcs import *
 from matplotlib.colors import to_hex
 from pathlib import Path
-#import joblib
 
-#from pyHCA import HCA
-#from pyHCA.core.annotateHCA import _annotation_aminoacids
-#from pyHCA.core.classHCA import compute_disstat
+import importlib.util
+
 
 
 # -------------- # ========================================================= #
@@ -44,6 +42,7 @@ elif sys.platform == "win32":
 elif sys.platform == "linux" or sys.platform == "linux2":
     tango       = softwares_path + 'tango_x86_64_release'
 # ========================================================================== #
+
 
 
 # ---------- # ============================================================= #
@@ -408,9 +407,15 @@ def main():
     if "I" in parameters.options:
         try:
             os.path.exists(iupred_path)
-            global iupred_func
-            import orfold.softwares.iupred_funcs as iupred_funcs
-            #from orfold.softwares.iupred_funcs import *
+            # global iupred_func
+            # import orfold.softwares.iupred_funcs as iupred_funcs
+
+            spec = importlib.util.spec_from_file_location("iupred2a_lib", str(Path(softwares_path) / "iupred2a_lib.py"))
+            iupred_funcs = importlib.util.module_from_spec(spec)
+            sys.modules["iupred2a_lib"] = iupred_funcs
+            spec.loader.exec_module(iupred_funcs)
+            iupred_funcs.PATH = softwares_path
+
             print('''
                   IUPRED\t:\tCHECK''')
 
