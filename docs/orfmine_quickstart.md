@@ -14,8 +14,7 @@ In addition, are presented several examples of the use of the different programs
 
 
 
-All the inputs used in these examples are
-available in the ORFmine/examples/ folder that can be dowloaded [here]().
+All the inputs used in these examples are available can be downloaded [here](http://bim.i2bc.paris-saclay.fr/anne-lopes/ORFmine_examples/ORFmine_examples.tar.gz).
 
 <a name="prepare_folders"></a>
 ## Prepare your directories
@@ -197,12 +196,19 @@ This should display all the files and folders of the data folder containing all 
 
 To guide the user, all command line examples will rely on the examples directory that can be found [here](). If you want to follow the guidelines, please follow the procedure below:
 ```bash
-# place examples.zip on a directory and unzip it
+# create a directory that will host the examples archive and go in it
 mkdir ~/orfmine_tutorial
-mv ~/Downloads/examples.zip ~/orfmine_tutorial
-cd ~/orfmine_tutorial/
-unzip examples.zip
-cd examples/
+cd orfmine_tutorial
+
+# download the examples archive
+wget http://bim.i2bc.paris-saclay.fr/anne-lopes/ORFmine_examples/ORFmine_examples.tar.gz
+
+# untar the archive
+tar xvf ORFmine_examples.tar.gz
+
+# go into the example directory 
+cd ORFmine/examples
+
 
 # launch the container (docker usage case).
 docker run --rm -it -v $(pwd)/workdir:/workdir/ -v $(pwd)/database:/database/ -v $(pwd)/fastq:/fastq/ annelopes94/orfmine:v0.8.7
