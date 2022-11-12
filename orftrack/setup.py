@@ -18,6 +18,7 @@ st.setup(
         'console_scripts': [
             'orftrack=orftrack.main:main',
             'orfget=orftrack.scripts.ORFget:main'
+            'orfget2=orftrack.scripts.ORFget_v2:main'
         ]
     }
 )
