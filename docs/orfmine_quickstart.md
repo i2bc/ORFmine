@@ -99,7 +99,7 @@ The same logic applies with the docker command except that **absolute paths** mu
 -v <i>ABSOLUTE_PATH_TO_YOUR_WORKING_DIR</i>:/workdir/ \
 -v <i>ABSOLUTE_PATH_TO_YOUR_DATA_DIR</i>:/database/ \
 -v <i>ABSOLUTE_PATH_TO_YOUR_FASTQ_DIR</i>:/fastq/ \
-annelopes94/orfmine:v0.8.7</code>
+annelopes94/orfmine:v0.8.7 /bin/bash</code>
 </pre>
 
 
@@ -211,7 +211,7 @@ cd ORFmine/examples
 
 
 # launch the container (docker usage case).
-docker run --rm -it -v $(pwd)/workdir:/workdir/ -v $(pwd)/database:/database/ -v $(pwd)/fastq:/fastq/ annelopes94/orfmine:v0.8.7
+docker run --rm -it -v $(pwd)/workdir:/workdir/ -v $(pwd)/database:/database/ -v $(pwd)/fastq:/fastq/ annelopes94/orfmine:v0.8.7 /bin/bash
 
 # or with singularity (considering your .sif image is there: ~/orfmine/orfmine_v0.8.7.sif)
 singularity shell --pwd /workdir/ -B workdir:/workdir/ -B database</i>:/database/ -B fastq</i>:/fastq/ ~/orfmine/orfmine_v0.8.7.sif
