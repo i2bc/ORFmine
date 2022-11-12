@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <link rel="shortcut icon" href="img/favicon.ico" />
-    <title>How it works? - ORFmine Documentation</title>
+    <title>Parameters - ORFmine Documentation</title>
     <link rel="stylesheet" href="css/theme.css" />
     <link rel="stylesheet" href="css/theme_extra.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
@@ -13,8 +13,8 @@
     
       <script>
         // Current page data
-        var mkdocs_page_name = "How it works?";
-        var mkdocs_page_input_path = "How_it_works_orfold.md";
+        var mkdocs_page_name = "Parameters";
+        var mkdocs_page_input_path = "orfdate_parameters.md";
         var mkdocs_page_url = null;
       </script>
     
@@ -90,24 +90,12 @@
                   </li>
               </ul>
               <p class="caption"><span class="caption-text">ORFold</span></p>
-              <ul class="current">
-                  <li class="toctree-l1 current"><a class="reference internal current" href="#">ORFold presentation</a>
-    <ul class="current">
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="#">ORFold presentation</a>
+    <ul>
                 <li class="toctree-l2"><a class="reference internal" href="Objective_orfold.html">Objective</a>
                 </li>
-                <li class="toctree-l2 current"><a class="reference internal current" href="How_it_works_orfold.html">How it works?</a>
-    <ul class="current">
-    <li class="toctree-l3"><a class="reference internal" href="#hydrophobic-clusters-analysis-hca">Hydrophobic Clusters Analysis (HCA)</a>
-    </li>
-    <li class="toctree-l3"><a class="reference internal" href="#tango">Tango</a>
-    </li>
-    <li class="toctree-l3"><a class="reference internal" href="#iupred">IUPred</a>
-        <ul>
-    <li class="toctree-l4"><a class="reference internal" href="#references">References</a>
-    </li>
-        </ul>
-    </li>
-    </ul>
+                <li class="toctree-l2"><a class="reference internal" href="How_it_works_orfold.html">How it works?</a>
                 </li>
     </ul>
                   </li>
@@ -156,7 +144,7 @@
                   </li>
               </ul>
               <p class="caption"><span class="caption-text">ORFdate</span></p>
-              <ul>
+              <ul class="current">
                   <li class="toctree-l1"><a class="reference internal" href="#">ORFdate presentation</a>
     <ul>
                 <li class="toctree-l2"><a class="reference internal" href="orfdate_objectives.html">Objectives</a>
@@ -165,15 +153,17 @@
                 </li>
     </ul>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="#">Usage</a>
-    <ul>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Usage</a>
+    <ul class="current">
                 <li class="toctree-l2"><a class="reference internal" href="orfdate_inputs.html">Inputs</a>
                 </li>
                 <li class="toctree-l2"><a class="reference internal" href="orfdate_run.html">Run</a>
                 </li>
                 <li class="toctree-l2"><a class="reference internal" href="orfdate_outputs.html">Outputs</a>
                 </li>
-                <li class="toctree-l2"><a class="reference internal" href="orfdate_parameters.html">Parameters</a>
+                <li class="toctree-l2 current"><a class="reference internal current" href="orfdate_parameters.html">Parameters</a>
+    <ul class="current">
+    </ul>
                 </li>
     </ul>
                   </li>
@@ -192,9 +182,9 @@
         <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
     <li><a href="index.html" class="icon icon-home" alt="Docs"></a> &raquo;</li>
-          <li>ORFold &raquo;</li>
-          <li>ORFold presentation &raquo;</li>
-      <li>How it works?</li>
+          <li>ORFdate &raquo;</li>
+          <li>Usage &raquo;</li>
+      <li>Parameters</li>
     <li class="wy-breadcrumbs-aside">
     </li>
   </ul>
@@ -203,79 +193,23 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                <h1 id="how-works-orfold">How works ORFold?<a class="headerlink" href="#how-works-orfold" title="Permanent link">#</a></h1>
-<p>ORFold is a tool developed in python3 which aims at 
-characterizing the fold potential of a set of amino acid sequences with no 
-knowledge of their 3D structures nor evolutionary information (orphan sequences can be treated). 
-The fold potential of a sequence is 
-calculated with the HCA 
-method. Also, ORFold can estimate the disorder, 
-and the aggregation propensities of the input sequences with IUPred
-and Tango respectively.    </p>
-<h2 id="hydrophobic-clusters-analysis-hca">Hydrophobic Clusters Analysis (HCA)<a class="headerlink" href="#hydrophobic-clusters-analysis-hca" title="Permanent link">#</a></h2>
-<p><strong>HCA</strong>[1] aims as delineating in an amino acid sequence, regions enriched in 
-strong hydrophobic residues (HCA clusters) and regions 
-of at least four consecutive non-hydrophobic residues (HCA linkers). 
-The patterns of hydrophobic residues can be associated with specific regular 
-secondary structures, and the distribution of the HCA clusters and linkers in a protein 
-sequence can be used to estimate through the HCA score, its ability to fold (completely or partially). </p>
-<p>This score ranges from -10 to +10 with low HCA scores indicating
-sequences depleted in hydrophobic clusters and expected to be disordered in solution, 
-while high HCA scores reflect sequences enriched in hydrophobic clusters 
-and expected to generate aggregates in solution, though some of them could
-fold in lipidic environments. 
-Foldable sequences are known to display
-an equilibrium between hydrophobic and hydrophilic residues (average of 33% 
-of hydrophobic residues in globular proteins). 
-They are mostly associated with intermediate HCA score values.</p>
-<p>The HCA score is calculated using the freely available 
-software <strong>pyHCA</strong> which can be downloaded and installed 
-following the instructions of its developers: <a href="https://github.com/T-B-F/pyHCA">https://github.com/T-B-F/pyHCA</a></p>
-<h2 id="tango">Tango<a class="headerlink" href="#tango" title="Permanent link">#</a></h2>
-<p><strong>Tango</strong>[5][6][7] is a method which aims at predicting aggregation nucleating regions
-in protein sequences. 
-If specified by the user, ORFold can calculate and add the aggregation propensity 
-of a sequence in the output. 
-Tango is not freely available software, and the user of ORFold should 
-first contact the Tango developers to have access to the source code: <a href="http://tango.crg.es">http://tango.crg.es</a></p>
-<p>For the aggregation propensity estimation, according to the protocol
-proposed by Linding et al.[6], a sequence segment is considered as aggregation prone
-if it is composed of at least five consecutive residues predicted as 
-populating a b-aggregated conformation with a percentage occupancy greater than 5%. 
-Then, the aggregation propensity of each sequence is defined as the 
-fraction of residues predicted in aggregation prone segments. </p>
-<h2 id="iupred">IUPred<a class="headerlink" href="#iupred" title="Permanent link">#</a></h2>
-<p><strong>IUPred2A</strong>[2][3][4] is one of the best methods for the prediction of 
-Intrinsically Disordered Proteins (IDPs) and can be used as a 
-complement to the HCA score prediction. 
-If specified by the user, ORFold can calculate and add the disorder propensity 
-of a sequence in the output. 
-IUPred is not freely available, and the user of 
-ORFold should first contact the IUPred developers to 
-have access to the source code : <a href="https://iupred2a.elte.hu">https://iupred2a.elte.hu</a></p>
-<p>For the disorder propensity estimation, in order to be consistent with
-the estimation of the aggregation propensity, ORFold searches for 
-regions on the protein sequence that present at least five consecutive 
-residues with a disorder probability higher than 0.5. 
-The disorder propensity of each sequence is defined as the fraction 
-of residues predicted as located in a highly disordered segment.    </p>
-<p><br><br><br></p>
-<h4 id="references">References<a class="headerlink" href="#references" title="Permanent link">#</a></h4>
-<ol>
-<li>Bitard-Feildel, T. &amp; Callebaut, I. HCAtk and pyHCA: A Toolkit and Python API for the Hydrophobic Cluster Analysis of Protein Sequences. bioRxiv 249995 (2018).</li>
-<li>Dosztanyi, Z., Csizmok, V., Tompa, P. &amp; Simon, I. The pairwise energy content estimated from amino acid composition discriminates between folded and intrinsically unstructured proteins. Journal of molecular biology 347, 827–839 (2005).</li>
-<li>Dosztányi, Z. Prediction of protein disorder based on IUPred. Protein Science 27, 331– 340 (2018).</li>
-<li>Mészáros, B., Erdős, G. &amp; Dosztányi, Z. IUPred2A: context-dependent prediction of protein disorder as a function of redox state and protein binding. Nucleic acids research 46, W329–W337 (2018).</li>
-<li>Fernandez-Escamilla, A.-M., Rousseau, F., Schymkowitz, J. &amp; Serrano, L. Prediction of sequence-dependent and mutational effects on the aggregation of peptides and proteins. Nature biotechnology 22, 1302–1306 (2004).</li>
-<li>Linding, R., Schymkowitz, J., Rousseau, F., Diella, F. &amp; Serrano, L. A comparative study of the relationship between protein structure and β-aggregation in globular and intrinsically disordered proteins. Journal of molecular biology 342, 345–353 (2004).</li>
-<li>Rousseau, F., Schymkowitz, J. &amp; Serrano, L. Protein aggregation and amyloidosis: confusion of the kinds? Current opinion in structural biology 16, 118–126 (2006).</li>
-</ol>
+                <h2 id="orfdate-parameters">ORFdate parameters<a class="headerlink" href="#orfdate-parameters" title="Permanent link">#</a></h2>
+<p><b>Mandatory</b></p>
+<p><code>-focal FOCAL</code>        taxonomic name of the focal species <br>
+<code>-names NAMES</code>        csv file matching fasta (col1) and tree (col2) names<br>
+<code>-tree TREE</code>         newick file for the phylogeny tree<br></p>
+<p><b>Optional</b></p>
+<p><code>-h, --help</code>            show this help message and exit<br>
+ <code>-ncpus NCPUS</code>         total number of cpus that can be used fo the task (default: 1)<br>
+<code>-evalue EVALUE</code>     BLASTp evalue threshold (default: 1e-3)<br>
+ <code>-query_cov QUERY_COV</code> minimum query coverage threshold (default: 0.70)<br>
+ <code>-preserve_underscores</code> PRESERVE_UNDERSCORES (default: False). If True, 
+                        the underscores that are present in the species names in the tree and csv file are considered explicitly and not replaced by spaces. Usually underscoeres in the tree labels are replaced by spaces. Usefull when the species name contains underscores (e.g. Scer_annotationV2). </p>
               
             </div>
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
-        <a href="Objective_orfold.html" class="btn btn-neutral float-left" title="Objective"><span class="icon icon-circle-arrow-left"></span> Previous</a>
-        <a href="Run_orfold.html" class="btn btn-neutral float-right" title="Basic run ORFold">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="orfdate_outputs.html" class="btn btn-neutral float-left" title="Outputs"><span class="icon icon-circle-arrow-left"></span> Previous</a>
     </div>
 
   <hr/>
@@ -298,10 +232,8 @@ of residues predicted as located in a highly disordered segment.    </p>
   <span class="rst-current-version" data-toggle="rst-current-version">
     
     
-      <span><a href="Objective_orfold.html" style="color: #fcfcfc">&laquo; Previous</a></span>
+      <span><a href="orfdate_outputs.html" style="color: #fcfcfc">&laquo; Previous</a></span>
     
-    
-      <span><a href="Run_orfold.html" style="color: #fcfcfc">Next &raquo;</a></span>
     
   </span>
 </div>

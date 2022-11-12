@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <link rel="shortcut icon" href="img/favicon.ico" />
-    <title>How it works? - ORFmine Documentation</title>
+    <title>How it works - ORFmine Documentation</title>
     <link rel="stylesheet" href="css/theme.css" />
     <link rel="stylesheet" href="css/theme_extra.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
@@ -13,8 +13,8 @@
     
       <script>
         // Current page data
-        var mkdocs_page_name = "How it works?";
-        var mkdocs_page_input_path = "How_it_works_orfold.md";
+        var mkdocs_page_name = "How it works";
+        var mkdocs_page_input_path = "How_it_works_orfribo.md";
         var mkdocs_page_url = null;
       </script>
     
@@ -90,24 +90,12 @@
                   </li>
               </ul>
               <p class="caption"><span class="caption-text">ORFold</span></p>
-              <ul class="current">
-                  <li class="toctree-l1 current"><a class="reference internal current" href="#">ORFold presentation</a>
-    <ul class="current">
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="#">ORFold presentation</a>
+    <ul>
                 <li class="toctree-l2"><a class="reference internal" href="Objective_orfold.html">Objective</a>
                 </li>
-                <li class="toctree-l2 current"><a class="reference internal current" href="How_it_works_orfold.html">How it works?</a>
-    <ul class="current">
-    <li class="toctree-l3"><a class="reference internal" href="#hydrophobic-clusters-analysis-hca">Hydrophobic Clusters Analysis (HCA)</a>
-    </li>
-    <li class="toctree-l3"><a class="reference internal" href="#tango">Tango</a>
-    </li>
-    <li class="toctree-l3"><a class="reference internal" href="#iupred">IUPred</a>
-        <ul>
-    <li class="toctree-l4"><a class="reference internal" href="#references">References</a>
-    </li>
-        </ul>
-    </li>
-    </ul>
+                <li class="toctree-l2"><a class="reference internal" href="How_it_works_orfold.html">How it works?</a>
                 </li>
     </ul>
                   </li>
@@ -131,12 +119,16 @@
                   </li>
               </ul>
               <p class="caption"><span class="caption-text">ORFribo</span></p>
-              <ul>
-                  <li class="toctree-l1"><a class="reference internal" href="#">ORFribo presentation</a>
-    <ul>
+              <ul class="current">
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">ORFribo presentation</a>
+    <ul class="current">
                 <li class="toctree-l2"><a class="reference internal" href="orfribo_objectives.html">Objectives</a>
                 </li>
-                <li class="toctree-l2"><a class="reference internal" href="How_it_works_orfribo.html">How it works</a>
+                <li class="toctree-l2 current"><a class="reference internal current" href="How_it_works_orfribo.html">How it works</a>
+    <ul class="current">
+    <li class="toctree-l3"><a class="reference internal" href="#references">References</a>
+    </li>
+    </ul>
                 </li>
     </ul>
                   </li>
@@ -192,9 +184,9 @@
         <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
     <li><a href="index.html" class="icon icon-home" alt="Docs"></a> &raquo;</li>
-          <li>ORFold &raquo;</li>
-          <li>ORFold presentation &raquo;</li>
-      <li>How it works?</li>
+          <li>ORFribo &raquo;</li>
+          <li>ORFribo presentation &raquo;</li>
+      <li>How it works</li>
     <li class="wy-breadcrumbs-aside">
     </li>
   </ul>
@@ -203,79 +195,36 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                <h1 id="how-works-orfold">How works ORFold?<a class="headerlink" href="#how-works-orfold" title="Permanent link">#</a></h1>
-<p>ORFold is a tool developed in python3 which aims at 
-characterizing the fold potential of a set of amino acid sequences with no 
-knowledge of their 3D structures nor evolutionary information (orphan sequences can be treated). 
-The fold potential of a sequence is 
-calculated with the HCA 
-method. Also, ORFold can estimate the disorder, 
-and the aggregation propensities of the input sequences with IUPred
-and Tango respectively.    </p>
-<h2 id="hydrophobic-clusters-analysis-hca">Hydrophobic Clusters Analysis (HCA)<a class="headerlink" href="#hydrophobic-clusters-analysis-hca" title="Permanent link">#</a></h2>
-<p><strong>HCA</strong>[1] aims as delineating in an amino acid sequence, regions enriched in 
-strong hydrophobic residues (HCA clusters) and regions 
-of at least four consecutive non-hydrophobic residues (HCA linkers). 
-The patterns of hydrophobic residues can be associated with specific regular 
-secondary structures, and the distribution of the HCA clusters and linkers in a protein 
-sequence can be used to estimate through the HCA score, its ability to fold (completely or partially). </p>
-<p>This score ranges from -10 to +10 with low HCA scores indicating
-sequences depleted in hydrophobic clusters and expected to be disordered in solution, 
-while high HCA scores reflect sequences enriched in hydrophobic clusters 
-and expected to generate aggregates in solution, though some of them could
-fold in lipidic environments. 
-Foldable sequences are known to display
-an equilibrium between hydrophobic and hydrophilic residues (average of 33% 
-of hydrophobic residues in globular proteins). 
-They are mostly associated with intermediate HCA score values.</p>
-<p>The HCA score is calculated using the freely available 
-software <strong>pyHCA</strong> which can be downloaded and installed 
-following the instructions of its developers: <a href="https://github.com/T-B-F/pyHCA">https://github.com/T-B-F/pyHCA</a></p>
-<h2 id="tango">Tango<a class="headerlink" href="#tango" title="Permanent link">#</a></h2>
-<p><strong>Tango</strong>[5][6][7] is a method which aims at predicting aggregation nucleating regions
-in protein sequences. 
-If specified by the user, ORFold can calculate and add the aggregation propensity 
-of a sequence in the output. 
-Tango is not freely available software, and the user of ORFold should 
-first contact the Tango developers to have access to the source code: <a href="http://tango.crg.es">http://tango.crg.es</a></p>
-<p>For the aggregation propensity estimation, according to the protocol
-proposed by Linding et al.[6], a sequence segment is considered as aggregation prone
-if it is composed of at least five consecutive residues predicted as 
-populating a b-aggregated conformation with a percentage occupancy greater than 5%. 
-Then, the aggregation propensity of each sequence is defined as the 
-fraction of residues predicted in aggregation prone segments. </p>
-<h2 id="iupred">IUPred<a class="headerlink" href="#iupred" title="Permanent link">#</a></h2>
-<p><strong>IUPred2A</strong>[2][3][4] is one of the best methods for the prediction of 
-Intrinsically Disordered Proteins (IDPs) and can be used as a 
-complement to the HCA score prediction. 
-If specified by the user, ORFold can calculate and add the disorder propensity 
-of a sequence in the output. 
-IUPred is not freely available, and the user of 
-ORFold should first contact the IUPred developers to 
-have access to the source code : <a href="https://iupred2a.elte.hu">https://iupred2a.elte.hu</a></p>
-<p>For the disorder propensity estimation, in order to be consistent with
-the estimation of the aggregation propensity, ORFold searches for 
-regions on the protein sequence that present at least five consecutive 
-residues with a disorder probability higher than 0.5. 
-The disorder propensity of each sequence is defined as the fraction 
-of residues predicted as located in a highly disordered segment.    </p>
-<p><br><br><br></p>
+                <h1 id="how-works-orfribo">How works ORFribo?<a class="headerlink" href="#how-works-orfribo" title="Permanent link">#</a></h1>
+<p>ORFribo is designed to analyse, based on ribosome-profiling data, the translation activity of all the ORFs of a genome (coding and noncoding) that are annotated in a gff file. We strongly recommend using ORFtrack to <a href="orfmine_quickstart.html#annotation-and-extraction-of-orfs-with-orftrack">generate the gff file</a> since ORFtrack and ORFribo were jointly developed so that the output of ORFtrack fits the prerequisites of ORFribo. However, the user might provide its own gff. In this case, each ORF annotated in the input gff file must be associated with the name of its corresponding ORF category that can be different from those defined by ORFtrack (e.g. intergenic, ALT-ORF, foldable, xyz...). The ORF category must be indicated in the 3rd column of the input gff file and in the "final_counts" attribute of the config.yaml file so that ORFribo knows which ORF category is to be analyzed (more details in the <a href="orfribo_configuration.html#ORF_categories">dedicated section</a> - an example of the gff output generated by ORFtrack can be found in the ORFmine/examples/database directory and may be used as guide to prepare your own gff). </p>
+<p>The three main steps of ORFribo are:</p>
+<ul>
+<li><b>Step 1: Determination of the P-site offset:</b> For each read size or kmer, ORFribo tries to find the distance in nucleotides from the 5'-end of the read (begining of the Ribosome Protected Fragment - RPF) to the first base of the ribosome's P-site, thanks to riboWaltz [1]. The detection of the first base of the ribosome's P-site enables the identification of the translated codon and, thus, of the translated frame. This is necessary to get the quality controls about phasing in coding regions.</li>
+</ul>
+<p><a name="Step2"></a></p>
+<ul>
+<li><b>Step 2: Detection of kmers of good quality and filtering of low quality ones:</b> Read phasing is a very important step to make sure we are able to detect the frame that is translated among the three frames of the RNA. In coding regions, the frame that is expected to be translated (i.e. the coding one) is already known and will be used to estimate the quality of the experiment and more precisely, to identify read sizes (i.e. kmers) of good quality. To do so, ORFribo will calculate for all kmers mapping on CDS coordinates, the fraction of kmers that indeed map on the coding frame of the CDSs (i.e. named P0 or FO frame). ORFribo will then retain for the analysis (Step 3), only kmers whose P-site position as predicted by riboWaltz indicates, for more than 70% of the corresponding kmers, codons that belong to the P0/F0 coding frame of the CDSs. 70% is the default value but it can be modified by the user through the config.yaml file.</li>
+</ul>
+<p><a name="Step3"></a></p>
+<ul>
+<li><b>Step 3: Analysis: alignment on all ORFs of interest:</b> Read kmers which have passed the phasing filter on CDSs are aligned on the set of <a href="orfribo_configuration.html#ORF_categories">ORFs indicated by the user</a> (e.g. intergenic ORFs, alternative ORFs...). The ORF categories to be analyzed by ORFribo must correspond to those identified by ORFtrack and provided in the 3rd column of its gff output (see an example examples/database/mapping_orf_Scer.gff) (see <a href="orftrack_annotation.html">here</a> for more details on the ORF categories and annotation process). If another gff file is provided, please have a look on the format of the ORFtrack gff output. The P-site offset detected for each kmer in the previous step allows to determine the proportion of reads in each phase of every tested ORF, thereby estimating its fractions of in-frame reads (F0 or P0), and in its +1 and +2 frames (F1 and F2 respectively). This can help the user identify ORFs with high levels of translation specificity (high fractions of F0 reads) or classify ORFs according to their levels of translation specificity (i.e. different levels of F0 reads). </li>
+</ul>
+<p>More details on the complete pipeline of ORFribo can be found in the Figure S1 of Papadopoulos et al [2].</p>
 <h4 id="references">References<a class="headerlink" href="#references" title="Permanent link">#</a></h4>
 <ol>
-<li>Bitard-Feildel, T. &amp; Callebaut, I. HCAtk and pyHCA: A Toolkit and Python API for the Hydrophobic Cluster Analysis of Protein Sequences. bioRxiv 249995 (2018).</li>
-<li>Dosztanyi, Z., Csizmok, V., Tompa, P. &amp; Simon, I. The pairwise energy content estimated from amino acid composition discriminates between folded and intrinsically unstructured proteins. Journal of molecular biology 347, 827–839 (2005).</li>
-<li>Dosztányi, Z. Prediction of protein disorder based on IUPred. Protein Science 27, 331– 340 (2018).</li>
-<li>Mészáros, B., Erdős, G. &amp; Dosztányi, Z. IUPred2A: context-dependent prediction of protein disorder as a function of redox state and protein binding. Nucleic acids research 46, W329–W337 (2018).</li>
-<li>Fernandez-Escamilla, A.-M., Rousseau, F., Schymkowitz, J. &amp; Serrano, L. Prediction of sequence-dependent and mutational effects on the aggregation of peptides and proteins. Nature biotechnology 22, 1302–1306 (2004).</li>
-<li>Linding, R., Schymkowitz, J., Rousseau, F., Diella, F. &amp; Serrano, L. A comparative study of the relationship between protein structure and β-aggregation in globular and intrinsically disordered proteins. Journal of molecular biology 342, 345–353 (2004).</li>
-<li>Rousseau, F., Schymkowitz, J. &amp; Serrano, L. Protein aggregation and amyloidosis: confusion of the kinds? Current opinion in structural biology 16, 118–126 (2006).</li>
+<li>
+<p>Lauria F, Tebaldi T, Bernabò P, Groen EJN, Gillingwater TH, Viero G. riboWaltz: Optimization of ribosome P-site positioning in ribosome profiling data. PLoS Comput Biol. 2018 Aug 13;14(8):e1006169.</p>
+</li>
+<li>
+<p>Papadopoulos, C., Arbes, H., Chevrollier, N., Blanchet, S., Cornu, D., Roginski, P., Rabier, C., Atia, S., Lespinet, O., Namy, O., Lopes, A. (submitted).</p>
+</li>
 </ol>
               
             </div>
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
-        <a href="Objective_orfold.html" class="btn btn-neutral float-left" title="Objective"><span class="icon icon-circle-arrow-left"></span> Previous</a>
-        <a href="Run_orfold.html" class="btn btn-neutral float-right" title="Basic run ORFold">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="orfribo_objectives.html" class="btn btn-neutral float-left" title="Objectives"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="orfribo_inputs.html" class="btn btn-neutral float-right" title="Inputs">Next <span class="icon icon-circle-arrow-right"></span></a>
     </div>
 
   <hr/>
@@ -298,10 +247,10 @@ of residues predicted as located in a highly disordered segment.    </p>
   <span class="rst-current-version" data-toggle="rst-current-version">
     
     
-      <span><a href="Objective_orfold.html" style="color: #fcfcfc">&laquo; Previous</a></span>
+      <span><a href="orfribo_objectives.html" style="color: #fcfcfc">&laquo; Previous</a></span>
     
     
-      <span><a href="Run_orfold.html" style="color: #fcfcfc">Next &raquo;</a></span>
+      <span><a href="orfribo_inputs.html" style="color: #fcfcfc">Next &raquo;</a></span>
     
   </span>
 </div>
