@@ -51,11 +51,57 @@
                   </li>
                   <li class="toctree-l1 current"><a class="reference internal current" href="orfmine_quickstart.html">Quick start</a>
     <ul class="current">
-    <li class="toctree-l2"><a class="reference internal" href="#database-directory-any-usage">database directory (any usage)</a>
+    <li class="toctree-l2"><a class="reference internal" href="#prepare-your-directories">Prepare your directories</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#database-directory-any-usage">database directory (any usage)</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#working-directory-any-usage">working directory (any usage)</a>
+    <li class="toctree-l3"><a class="reference internal" href="#working-directory-any-usage">working directory (any usage)</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#fastq-directory-orfribo">fastq directory (ORFribo)</a>
+    <li class="toctree-l3"><a class="reference internal" href="#fastq-directory-orfribo">fastq directory (ORFribo)</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#launch-the-container">Launch the container</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#binding-tango-andor-iupred">Binding Tango and/or IUPred</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#annotation-and-extraction-of-orfs-with-orftrack">Annotation and extraction of ORFs with ORFtrack</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#annotation-of-orfs">Annotation of ORFs</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#extraction-of-the-sequences-of-noncoding-orfs-in-a-fasta-format">Extraction of the sequences of noncoding ORFs in a fasta format</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#extraction-of-the-sequences-of-the-cdss-of-yeast-in-a-fasta-format">Extraction of the sequences of the CDSs of yeast in a fasta format</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#characterization-of-the-fold-potential-and-disorder-and-aggregation-propensities-of-the-noncoding-orfs-with-orfold">Characterization of the fold potential and disorder and aggregation propensities of the noncoding ORFs with ORFold</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#running-orfold">Running ORFold</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#visualization-of-the-distribution-of-the-fold-potential-with-orfplot">Visualization of the distribution of the fold potential with ORFplot</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#characterization-of-the-translation-activity-of-all-intergenic-orfs-of-yeast">Characterization of the translation activity of all intergenic ORFs of yeast</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#input-files">Input files</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#preparing-the-configyaml-file">Preparing the config.yaml file</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#running-orfribo">Running ORFribo</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#main-outputs">Main outputs</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#running-orfdate">Running ORFdate</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#references">References</a>
+    </li>
+        </ul>
     </li>
     </ul>
                   </li>
@@ -198,7 +244,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                <p>Here we first explain how to <a href="#prepare_folders">prepare the folders</a> necessary for ORFmine and <a href="#start_container">launch the container</a>.</p>
+                <h1 id="quick-start">Quick start<a class="headerlink" href="#quick-start" title="Permanent link">#</a></h1>
+<p>Here we first explain how to <a href="#prepare_folders">prepare the folders</a> necessary for ORFmine and <a href="#start_container">launch the container</a>.</p>
 <p>In addition, are presented several examples of the use of the different programs of ORFmine:</p>
 <ul>
 <li><a href="#ORF_annot">annotation and extraction</a> of all the ORFs (coding and noncoding) of a genome with ORFtrack and its companion program ORFget</li>
@@ -227,14 +274,14 @@ available in the ORFmine/examples/ folder that can be dowloaded <a href="">here<
 placed in the same directory whatever the programs to be used. This directory will then be bound to the /database directory of your future container.</p>
 <ul>
 <li>For ORFtrack:<ul>
-<li>A fasta file with the reference genome sequence (Ex : genome.fa)</li>
-<li>A gff file with the reference genome annotation (Ex : genome.gff3)</li>
+<li>A fasta file with the reference genome sequence (e.g. genome.fa)</li>
+<li>A gff file with the reference genome annotation (e.g. genome.gff3)</li>
 </ul>
 </li>
 <li>For ORFribo:<ul>
-<li>A fasta file with the reference genome sequence (Ex : genome.fa)</li>
-<li>A gff file with the reference genome annotation (Ex : genome.gff3)</li>
-<li>A fasta file with the sequences you do not want to treat and that you want to remove from the mapping, usually rRNA sequences (Ex : outRNA.fa)</li>
+<li>A fasta file with the reference genome sequence (e.g. genome.fa)</li>
+<li>A gff file with the reference genome annotation (e.g. genome.gff3)</li>
+<li>A fasta file with the sequences you do not want to treat and that you want to remove from the mapping, usually rRNA sequences (e.g. outRNA.fa)</li>
 </ul>
 </li>
 <li>For ORFold:<ul>
@@ -271,16 +318,57 @@ it as you like. This directory will then be bound to the /fastq directory of you
 <p>To launch the container and get an interactive shell inside it, you can use either
 the "singularity " or the "docker" commands. Every folder that you have prepared <a href="#prepare_folders">before</a> must be bound to their corresponding folders inside the container through the -v or -B options (see the command lines below). In the following command lines, every italics part has to be adapted from your computer's organization (names and paths) and the other parts are part of the container structure and <strong>must remain as they are!</strong></p>
 <p><strong>Using singularity</strong></p>
-<p><code>
-singularity shell --pwd /workdir/ -B <em>/path/to/your/local/working/folder/</em>:/workdir/ -B <em>/path/to/your/local/data/folder/</em>:/database/ -B <em>/path/to/your/local/fastq/folder/</em>:/fastq/ <em>/path/to/ORFmine/image</em>.sif
-</code></p>
+<pre>
+<code class="language-bash">singularity shell --pwd /workdir/ \
+-B <i>PATH_TO_YOUR_WORKING_DIR</i>:/workdir/ \
+-B <i>PATH_TO_YOUR_DATA_DIR</i>:/database/ \
+-B <i>PATH_TO_YOUR_FASTQ_DIR</i>:/fastq/ \
+<i>PATH_TO_YOUR_ORFMINE_IMAGE</i>.sif</code>
+</pre>
+
 <p><strong>Using docker</strong></p>
-<p>The same logic applies with the docker command but the paths <strong>must be absolute paths</strong>:</p>
-<p><code>
-docker run --rm -it -v <em>/absolute/path/to/your/local/working/folder/</em>:/workdir/ -v <em>/absolute/path/to/your/local/data/folder/</em>:/database/ -v <em>/absolute/path/to/your/local/fastq/folder/</em>:/fastq/ <em>orfmine:latest</em> /bin/bash
-</code></p>
-<p>Please note that if you do not want to use ORFribo, you do not need to link the fastq folder to the container and can remove the -v or -B /absolute/path/to/your/local/fastq/folder/:/fastq/ part of the command line. See <a href="orfmine_binding.html">here</a> for more details on how to bind your local folders to those of the container.</p>
-<p>You are now ready to use all the ORFmine programs and start your analyses!</p>
+<p>The same logic applies with the docker command except that <strong>absolute paths</strong> must be given:</p>
+<pre>
+<code class="language-bash">docker run --rm -it \
+-v <i>ABSOLUTE_PATH_TO_YOUR_WORKING_DIR</i>:/workdir/ \
+-v <i>ABSOLUTE_PATH_TO_YOUR_DATA_DIR</i>:/database/ \
+-v <i>ABSOLUTE_PATH_TO_YOUR_FASTQ_DIR</i>:/fastq/ \
+annelopes94/orfmine:v0.8.7</code>
+</pre>
+
+<p>Please note that if you do not want to use ORFribo, you do not need to link the fastq folder to the container and can remove the binding part of the command line: <code><i>PATH_TO_YOUR_FASTQ_DIR</i>:/fastq/</code>. See <a href="orfmine_binding.html">here</a> for more details on how to bind your local folders to those of the container.</p>
+<h4 id="binding-tango-andor-iupred">Binding Tango and/or IUPred<a class="headerlink" href="#binding-tango-andor-iupred" title="Permanent link">#</a></h4>
+<p>If you want to use Tango and/or IUPred with ORFfold, you will need to have those softwares installed on your local computer (choose the Unix compatible source code for Tango). </p>
+<p>Once installed, please place the parent directory content of those softwares inside a directory of your choice. Below is a description of the workflow we followed:</p>
+<pre><code class="language-bash"># let's consider Tango is installed in ~\tango and IUPred in ~/iupred2a
+
+# create a directory that will contain Tango and IUPred source codes content
+mkdir ~/softwares
+
+# place Tango and IUPred source codes content in softwares
+cp ~/tango ~/softwares
+cp -r ~/iupred2a/* ~/softwares
+</code></pre>
+<p>To use Tango and/or IUPred on the container, you must launch your container by binding the directory created above to a specific directory on the container</p>
+<p>For singularity:</p>
+<pre>
+<code class="language-bash">singularity shell --pwd /workdir/ \
+-B <i>PATH_TO_YOUR_WORKING_DIR</i>:/workdir/ \
+-B <i>PATH_TO_YOUR_DATA_DIR</i>:/database/ \
+-B <i>PATH_TO_YOUR_FASTQ_DIR</i>:/fastq/ \
+-B <i>PATH_TO_YOUR_DIR_CONTAINING_TANGO_OR_IUPRED</i>:/ORFmine/orfold_v1/orfold/softwares/ \
+<i>PATH_TO_YOUR_ORFMINE_IMAGE</i>.sif</code>
+</pre>
+<p>For docker:</p>
+<pre>
+<code class="language-bash">docker run --rm -it \
+-v <i>ABSOLUTE_PATH_TO_YOUR_WORKING_DIR</i>:/workdir/ \
+-v <i>ABSOLUTE_PATH_TO_YOUR_DATA_DIR</i>:/database/ \
+-v <i>ABSOLUTE_PATH_TO_YOUR_FASTQ_DIR</i>:/fastq/ \
+-V <i>ABSOLUTE_PATH_TO_YOUR_DIR_CONTAINING_TANGO_OR_IUPRED</i>:/ORFmine/orfold_v1/orfold/softwares/ \
+annelopes94/orfmine:v0.8.7</code>
+</pre>
+
 <div class="admonition note">
     <p class="first admonition-title">
         Note
@@ -288,12 +376,11 @@ docker run --rm -it -v <em>/absolute/path/to/your/local/working/folder/</em>:/wo
     <p class="last">
 
     <ul>
-    <li> When launching the container, the <i>orfmine:latest</i> part can be changed if you want to launch a specific version of ORFmine. For example : <i>orfmine:v0.7.11</i>.
+    <li> When launching the container with docker, the <i>annelopes94/orfmine:v0.8.7</i> part can be changed if you want to launch a specific version of ORFmine. For example : <i>annelopes94/orfmine:v0.8.6</i>.
      </li>
 
         <li>  If you do not know which versions you have on your computer,
-        you can print them by typing :
-        `docker image ls`
+        you can print them by typing <code>docker image ls</code>
          </li>
 
          <li>
@@ -321,14 +408,11 @@ Or :
 <code>ls /database/</code>
 This should display all the files and folders of the data folder containing all the data files (fasta, gff, ...).
     </li>
-
-
-
      </ul>
     </p>
 </div>
 
-<p><br><br></p>
+<p><br></p>
 <p><a name="ORF_annot"></a></p>
 <h2 id="annotation-and-extraction-of-orfs-with-orftrack">Annotation and extraction of ORFs with ORFtrack<a class="headerlink" href="#annotation-and-extraction-of-orfs-with-orftrack" title="Permanent link">#</a></h2>
 <h3 id="annotation-of-orfs">Annotation of ORFs<a class="headerlink" href="#annotation-of-orfs" title="Permanent link">#</a></h3>

@@ -49,21 +49,11 @@
               <ul class="current">
                   <li class="toctree-l1 current"><a class="reference internal current" href="orfmine_installation.html">Installation</a>
     <ul class="current">
-    <li class="toctree-l2"><a class="reference internal" href="#1-overview">1. Overview</a>
+    <li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#2-quick-installation-without-tango-and-iupred">2. Quick Installation (without Tango and IUPred)</a>
-        <ul>
-    <li class="toctree-l3"><a class="reference internal" href="#install-singularity-or-docker">Install Singularity or Docker</a>
+    <li class="toctree-l2"><a class="reference internal" href="#requirements">Requirements</a>
     </li>
-    <li class="toctree-l3"><a class="reference internal" href="#download-the-latest-orfmine-release">Download the latest ORFmine release</a>
-    </li>
-        </ul>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#3-full-installation-with-tango-and-iupred">3. Full installation (with Tango and IUPred)</a>
-        <ul>
-    <li class="toctree-l3"><a class="reference internal" href="#references">References</a>
-    </li>
-        </ul>
+    <li class="toctree-l2"><a class="reference internal" href="#pull-the-orfmine-docker-image">Pull the ORFmine docker image</a>
     </li>
     </ul>
                   </li>
@@ -209,15 +199,13 @@
             <div class="section" itemprop="articleBody">
               
                 <h2 id="installation">Installation<a class="headerlink" href="#installation" title="Permanent link">#</a></h2>
-<h3 id="1-overview">1. Overview<a class="headerlink" href="#1-overview" title="Permanent link">#</a></h3>
+<h3 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">#</a></h3>
 <p>ORFmine is a package that consists of different programs: ORFtrack, ORFribo, ORFold and ORFdate.
 They can be used together or independently with the exception of ORFribo, which needs the ORFtrack's output file as input to be functional.</p>
-<h3 id="2-quick-installation-without-tango-and-iupred">2. Quick Installation (without Tango and IUPred)<a class="headerlink" href="#2-quick-installation-without-tango-and-iupred" title="Permanent link">#</a></h3>
-<h5 id="install-singularity-or-docker">Install Singularity or Docker<a class="headerlink" href="#install-singularity-or-docker" title="Permanent link">#</a></h5>
-<p>First of all, Docker[1] or Singularity[2] must be present in order to get the image containing all the scripts and tools needed for the analysis. </p>
-<p>Singularity might be prefered as it does not need super user rights, which is interesting for the use of ORFmine on a cluster or on a lab's computer. Singularity installation is explained <a href="https://singularity-tutorial.github.io/01-installation/">here</a>.</p>
+<h3 id="requirements">Requirements<a class="headerlink" href="#requirements" title="Permanent link">#</a></h3>
+<p>First of all, Docker<sup><a href="#references">1</a></sup> or Singularity<sup><a href="#references">2</a></sup> must be present in order to get the image containing all the scripts and tools needed for the analysis. </p>
+<p>Singularity might be prefered as it does not need super user rights, which is interesting for the use of ORFmine on a cluster or on a lab's computer. Singularity installation for UNIX-based OS is explained <a href="https://singularity-tutorial.github.io/01-installation/">here</a>.</p>
 <p>Docker Engine is available on different OS like MacOS and Windows10 through Docker Desktop and as a static binary installation for a variety of Linux platforms (Docker Desktop for Linux is now available on some distributions). Everything is available <a href="https://docs.docker.com/engine/install/">here</a>.</p>
-<p>All programs and dependencies used by ORFmine are listed <a href="dependencies.html">here</a>.</p>
 <div class="admonition note">
     <p class="first admonition-title">
         Note
@@ -227,68 +215,28 @@ They can be used together or independently with the exception of ORFribo, which 
     </p>
 </div>
 
-<h5 id="download-the-latest-orfmine-release">Download the latest ORFmine release<a class="headerlink" href="#download-the-latest-orfmine-release" title="Permanent link">#</a></h5>
+<p>For reproducibility purposes, all programs and dependencies used by ORFmine are listed <a href="dependencies.html">here</a>.</p>
+<h3 id="pull-the-orfmine-docker-image">Pull the ORFmine docker image<a class="headerlink" href="#pull-the-orfmine-docker-image" title="Permanent link">#</a></h3>
 <p>All the scripts and tools needed for the analysis were put and installed in a docker image stored on Dockerhub. You can pull and use it from a terminal as a docker image by writing :</p>
-<pre><code class="language-bash">docker pull DOCKERHUB_REPOSITORY_ORFMINE-name_of_repo/orfmine
+<pre><code class="language-bash">docker pull annelopes94/orfmine:v0.8.7
 </code></pre>
 <p>or as a singularity image :</p>
-<pre><code class="language-bash">singularity build /path/to/your/image.sif docker://name_of_repo/orfmine
+<pre><code class="language-bash"># this will build a singularity image named orfmine_v0.8.7.sif that will be located in YOUR_PATH (to adapt)
+singularity build YOUR_PATH/orfmine_v0.8.6.sif docker://annelopes94/orfmine:v0.8.7
 </code></pre>
-<p>This step might take about 10-20 minutes depending on your computer. </p>
-<p>If you have any error, it might come from a permissions problem so you should try using these commands with sudo as prefix.  </p>
-<p><a name="general_install"></a></p>
-<p>If you are not interested in the calculation of the disorder and/or aggregation propensities with IUPred and/or Tango in ORFold, nothing more is required for the installation and you can skip the rest of this page (please note that HCA is included in the docker and you will be able to predict the foldability of your sequence(s) of interest). The quick installation is now complete! Please have a look <a href="orfmine_quickstart.html">here</a> to start your container.</p>
-<h3 id="3-full-installation-with-tango-and-iupred">3. Full installation (with Tango and IUPred)<a class="headerlink" href="#3-full-installation-with-tango-and-iupred" title="Permanent link">#</a></h3>
-<p>If you want to include IUPred and Tango in ORFold, you have to download them on your own and build the docker/singularity image but do not worry, you will be guided. As usual with docker, you might need the admin privileges to use it.</p>
+<p>This step might take about 10-20 minutes depending on your computer.</p>
 <div class="admonition note">
     <p class="first admonition-title">
         Note
     </p>
     <p class="last">
-    The calculation of the disorder or aggregation propensities are both optional and complementary to the HCA score. As a result, IUPred and Tango tools are not mandatory for ORFold to be operational. In addition, they are not necessarily coupled together. ORFold will properly be installed without them or even with only one of them.
+        If you have any error, it might come from a permissions problem so you should try using these commands with sudo as prefix.  
     </p>
 </div>
 
-<p>First of all, you have to contact the IUPred and/or Tango developers through the respective links to have access to their programs as these two softwares (links to <a href="https://iupred2a.elte.hu/download_new">IUPred</a>[3][4][5] and <a href="http://tango.crg.es">Tango</a>[6][7][8]).</p>
-<p>Then, all scripts and information about virtual environments for ORFmine can be downloaded <a href="https://github.com/i2bc/ORFmine">here</a> with :</p>
-<pre><code class="language-bash">mkdir /path/to/directory/for/ORFmine/;
-cd /path/to/directory/for/ORFmine/;
-git clone https://github.com/i2bc/ORFmine
-</code></pre>
-<p>Once ORFmine is downloaded and you have access to the IUPred and Tango scripts, you must place those in a specific folder to be able to use them with ORFold.
-From you directory made for ORFmine :</p>
-<ul>
-<li>Move the IUPred source code and data (provided by the developer):
-    <code>bash
-    mv iupred2a.py ORFmine/orfold_v1/orfold/softwares/</code></li>
-<li>Move Tango source code:<ul>
-<li>For linux:
-    <code>bash
-    mv tango_x86_64_release ORFmine/orfold_v1/orfold/softwares/</code></li>
-<li>For MacOS:
-    <code>bash
-    mv tango2_3_1 ORFmine/orfold_v1/orfold/softwares/</code></li>
-<li>For windows:
-    <code>bash
-    mv Tango.exe ORFmine/orfold_v1/orfold/softwares/</code></li>
-</ul>
-</li>
-</ul>
-<p>Still from you directory made for ORFmine, you can now build the docker image including IUPred and Tango (this takes several dozen of minutes) :</p>
-<pre><code class="language-bash">docker build -f Dockerfile --tag orfmine:latest .
-</code></pre>
-<p>At this step,  the image is built and if you do not need to use singularity you can launch a container with docker as explained in the exemple <a href="orfmine_quickstart.html">here</a>.</p>
-<p>In case you prefer the use of singularity, you have to make the <em>.sif</em> image in order to launch it :</p>
-<pre><code class="language-bash">singularity build orfmine_latest.sif docker-daemon://repo/orfmine:latest;
-</code></pre>
-<p>You may need to change the permissions for the use of your <em>.sif</em> image. If you do not know exactly how, you can do :</p>
-<pre><code class="language-bash">sudo chmod ogu+rwx orfmine_latest.sif
-</code></pre>
-<p>Well done ! The full installation including TANGO and IUPRED is now complete !
-You can launch a container with singularity as explained in the exemple <a href="orfmine_quickstart.html">here</a>.</p>
-<p><a name="launch_install"></a></p>
-<p><br><br><br></p>
-<h4 id="references">References<a class="headerlink" href="#references" title="Permanent link">#</a></h4>
+<p>The quick installation is now complete! Please have a look <a href="orfmine_quickstart.html">here</a> to start your container.</p>
+<p><br></p>
+<h2 id="references">References<a class="headerlink" href="#references" title="Permanent link">#</a></h2>
 <ol>
 <li>Merkel, Dirk. "Docker: lightweight linux containers for consistent development and deployment." Linux j 239.2 (2014)</li>
 <li>Kurtzer GM, Sochat V, Bauer MW. Singularity: Scientific containers for mobility of compute. PLoS One. 2017;12(5):e0177459. Published 2017 May 11. doi:10.1371/journal.pone.0177459</li>
