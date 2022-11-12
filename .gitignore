@@ -57,3 +57,6 @@ orfold_v1/orfold/softwares/
 **docs/*._*
 **docs/*/*._*
 **docs/*/*/._*
+
+**.sif
+**.bak

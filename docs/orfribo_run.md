@@ -1,6 +1,6 @@
 ## Launch the analysis
 
-Be sure that your configuration.yaml file is [completed](./orfribo_configuration.md) and stored in the /workdir/ directory of the container. Then from the /workdir/ directory, please type the following command:
+Be sure that your configuration.yaml file is [completed](./orfribo_configuration.md) and stored in the /workdir/ directory of the container. Then, from the /workdir/ directory, please type the following command:
 
 ``` bash
 orfribo CPU_NUMBER MEMORY_AMOUNT

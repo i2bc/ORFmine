@@ -14,7 +14,10 @@ cd /ORFmine/orftrack/
 cd /ORFmine/orfold_v1/
 
 # We prepare the folder for IUPred and Tango
-mkdir -p orfold/softwares
+if [ ! -d "orfold/softwares" ];
+then
+    mkdir -p orfold/softwares
+fi
 
 # # We uninstall the previous orfold
 # /bin/miniconda3/envs/ORFmine_env/bin/pip uninstall orfold

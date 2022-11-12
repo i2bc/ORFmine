@@ -1,31 +1,32 @@
 ## Output folder architecture (/workdir/orfribo/):
-Here is the project_name folder architecture after a run of ORFribo.  
-Initial folders and files are still present and highligth in bold in the tree architecture below.  
+Here is the folder architecture of the ORFribo output stored in /workdir/orfribo.   
+
+The following output example is based on the example provided in the /ORFmine/examples/ directory with the fastq SRR1520313_17031088.
+
+
 <pre>
 /workdir/orfribo/
 ├── <i>dag_all.svg</i>
 ├── <i>dag_last_run.svg</i>
 ├── RESULTS/
 	├── <i>config.yaml</i>
+	├── <i>ORFribo_yeast_example.Analysis_Report.txt</i>
 	├── adapter_lists/
 		└── <i>SRR1520313_17031088.txt</i>
-	├── Bam2Reads_genome/
-		├── all_samples_genome.25-35.mean70_median70_reads_concatenated.tab"
+	├── Bam2Reads_genome_output/
+		├── <b>all_samples_genome.25-35.mean70_median70_reads_concatenated.tab</b>
         └── <i>SRR1520313_17031088</i>
-            ├── <i>genome.25-35.mean70_median70_reads_concatenated.tab</i>
+            ├── <b>genome.25-35.mean70_median70_reads_concatenated.tab</b>
             ├── <i>length_25</i>
                 ├── <i>genome.25-35.mean70_median70_reads.tab</i>
-                ├── <i>genome_mean70_median70_periodicity_all.tab</i>
-                ├── <i>genome_mean70_median70_periodicity_start.tab</i>
-                └── <i>genome_mean70_median70_periodicity_stop.tab</i>
+                ├── <i>genome.25-35.mean70_median70_periodicity_all.tab</i>
+                ├── <i>genome.25-35.mean70_median70_periodicity_start.tab</i>
+                └── <i>genome.25-35.mean70_median70_periodicity_stop.tab</i>
             ├── <i>length_26</i>
-                ├── <i>genome_mean70_median70_reads.tab</i>
+                ├── <i>genome.25-35.mean70_median70_reads.tab</i>
             ├ ...
             └── <i>length_35</i>
-                ├── <i>genome_mean70_median70_periodicity_all.tab</i>
-                ├── <i>genome_mean70_median70_periodicity_start.tab</i>
-                ├── <i>genome_mean70_median70_periodicity_stop.tab</i>
-                └── <i>genome_mean70_median70_reads.tab</i>
+                └── <i>genome.25-35.mean70_median70_reads.tab</i>
 	├── annex_database/
 		├── <i>NamedCDS_Scer.gff</i>
 		├── <i>index_bowtie2.1.bt2</i>
@@ -38,7 +39,8 @@ Initial folders and files are still present and highligth in bold in the tree ar
 		├── <i>SRR1520313_17031088_fastqc.html</i>
 		└── <i>SRR1520313_17031088_fastqc.zip</i>
     ├── selected_tables/
-        └── <i>one_folder_by_sample</i>
+        └── <i>threshold_mean70_median70</i>
+        	└── <i>SRR1520313_17031088.txt</i>
 	├── BAM/
 		├── <i>SRR1520313_17031088.25-35.bam</i>
 		└── <i>SRR1520313_17031088.25-35.bam.bai</i>
@@ -63,13 +65,18 @@ Initial folders and files are still present and highligth in bold in the tree ar
     		└── <i>exome_elongated.SRR1520313_17031088.25-35.bam.bai</i>
 		├── Bam2Reads_exome_output/
             ├── <i>SRR1520313_17031088_25</i>
-                ├── <b>exome.25-35.reads.tab</b>
-                ├── <i>exome_periodicity_all.tab</i>
-                ├── <i>exome_periodicity_start.tab</i>
-                ├── <i>exome_periodicity_stop.tab</i>
-                └── <i>exome_reads.stats</i>
+                ├── <b>exome.25-35_reads.tab</b>
+                ├── <i>exome.25-35_periodicity_all.tab</i>
+                ├── <i>exome.25-35_periodicity_start.tab</i>
+                ├── <i>exome.25-35_periodicity_stop.tab</i>
+                └── <i>exome.25-35_reads.stats</i>
             ├── ...
             └── <i>SRR1520313_17031088_35</i>
+                ├── <b>exome.25-35_reads.tab</b>
+                ├── <i>exome.25-35_periodicity_all.tab</i>
+                ├── <i>exome.25-35_periodicity_start.tab</i>
+                ├── <i>exome.25-35_periodicity_stop.tab</i>
+                └── <i>exome.25-35_reads.stats</i>
 		└── riboWaltz/
 		      ├── <i>psite_offset.csv</i>
 		      ├── <i>best_offset.txt</i>
@@ -95,12 +102,14 @@ Initial folders and files are still present and highligth in bold in the tree ar
 	└── <i>SRR1520313_17031088_run_mapping_hisat2.log</i>
 </pre>
 
-<a name="main_table"></a>
+
+
+<a name="main-outable-table"></a>
 
 ## Main output table
-The main outputs can be found in the <i>RESULTS/Bam2Reads_genome_output/</i> folder (bolded in the outputs tree). If ORFribo has been launched on several fastq files, it will generate as many <i>RESULTS/Bam2Reads_genome_output/</i> folders as input fastq files. For each dataset's folder, ORFribo creates a table named <b>genome_meanXX_medianYY_reads_concatenated.tab</b> that summarizes for the current dataset the results pooled over all the [retained kmers](./How_it_works_orfribo.md#Step2). ORFribo also provides the intermediate tables calculated for each RETAINED??? kmer. The latter are stored in the XYZ directory. The user can run ORFribo multiple times chosing different thresholds and only the needed steps to get this output will be executed again.
+The main output table can be found in the <i>RESULTS/Bam2Reads_genome_output/</i> folder and is named <b>all_samples_genome.25-35.meanXX_medianYY_reads_concatenated.tab</b> (with X and Y standing for the median and mean thresholds, here 70 and 70 respectively). This table summarizes the results for each ORF (i.e. numbers and fraction of reads in the three frames of the ORF)  calculated for all the retained kmers in each input dataset (in this example, there is only one dataset - SRR1520313_17031088.). If ORFribo has been performed on [multiple datasets](./orfribo_advanced.md), it also provides for each dataset a folder named according to the dataset that contains a table with the same format as the <b>all_samples_genome.25-35.meanXX_medianYY_reads_concatenated.tab</b> table but calculated only on the [retained kmers](./How_it_works_orfribo.md#Step2) of the corresponding dataset <i>dataset_XYZ/genome.25-35.mean70_median70_reads_concatenated.tab</i>. The directories of each dataset also contain the intermediate tables calculated for each retained kmer. The latter are stored in the <i>RESULTS/Bam2Reads_genome_output/dataset_xyz/length_i/</i> directory where i stands for the kmer sizes. When only one dataset has been provided to ORFribo (as in this example), the output table present in the dataset folder is the same as the <b>all_samples_genome.25-35.meanXX_medianYY_reads_concatenated.tab</b> present in the Bam2Reads_genome_output directory. 
 
-The summary table <b>genome_meanXX_medianYY_reads_concatenated.tab</b> contains for each ORF of the studied category(ies), the number and fraction of reads in int 3 frames (frame 0 (F0 or P0) and its two alternative frames +1 and +2 (P1/F1 and P2/F2 respectively)). This table has 8 columns:
+The summary table <b>all_samples_genome.25-35.meanXX_medianYY_reads_concatenated.tab</b> contains for each ORF of the studied category(ies), the number and fraction of reads in its three frames (frame 0 (F0 or P0) and its two alternative frames +1 and +2 (P1/F1 and P2/F2 respectively)). This table has 8 columns:
 
 <i>Seq_ID</i> : Identifier of the ORF <br>
 <i>Num_reads</i> : Number of reads having a P-site aligned on the ORF <br>
@@ -119,7 +128,7 @@ The summary table <b>genome_meanXX_medianYY_reads_concatenated.tab</b> contains 
 * The <i>logs/</i> folder groups together all the error output messages from tools used in ORFribo analysis pipeline. Thus, in the event of an error, it allows you to identify the problematic step (and give us feedback if needed).
 
 * The <i>RESULTS/</i> folder contains these files and folders: <br>
-* i) <i>PROJECT_NAME.Analysis_report.html</i> gathers standard output of each analysis pipeline tool. It allows to know how many reads are present at each step of the analysis :  a)raw reads b)reads after trimming and length selection c)after out RNA depletion d)after double alignment on the reference genome.
+* i) <i>PROJECT_NAME.Analysis_report.txt</i> gathers standard output of each analysis pipeline tool. It allows to know how many reads are present at each step of the analysis :  a)raw reads b)reads after trimming and length selection c)after out RNA depletion d)after double alignment on the reference genome.
 
 * *ii) <i>config.yaml</i> to have a backup of the parameters.
 
@@ -139,7 +148,7 @@ The summary table <b>genome_meanXX_medianYY_reads_concatenated.tab</b> contains 
 
 * VIII) <i>ORFribo/</i>:
 
-* * I) Bam2Reads_exome_output/: It contains one subfolder per kmer and per dataset with the fractions of reads that map on the coding frame of the CDSs (i.e. in-frame reads named also P0 reads) among all reads mapping on the CDS coordinates no matter the frame. The information in this table is the same as described above for the main output (but for CDS alignments only) and is the one used for the [detection of good quality kmers (Step 2)](./How_it_works_orfribo.md#Step2). If you are interested in the translation activity of CDSs, you then can directly use these outputs whose format is the same as that of the main output table. You just need to pool the tables of all retained kmers (precisely those available in this directory) into a global table (as it has been done for the main table output) that will contain for each CDS, the number and fraction of reads mapping in-frame or in the +1 and +2 frames of each CDS.
+* * I) <b>Bam2Reads_exome_output/</b>: It contains one subfolder per kmer (dataset_XYZ_i with i standing for the kmer size) that itsefl contains a table <b>exome.25-35_reads.tab</b>. The information in this table is the same as that contained in the <b>all_samples_genome.25-35.meanXX_medianYY_reads_concatenated.tab</b> table described above but only for the CDSs annotated in the original gff file. Each CDS is associated with the fractions of reads that map on its coding frame (i.e. in-frame reads named also P0 reads) or in its alternative frames. These tables are used for the [detection of good quality kmers (Step 2)](./How_it_works_orfribo.md#Step2) but can also be used to probe the translation activity of CDSs. In this case, you just need to merge the tables of all retained kmers (the list of the retained kmers can be found in the file /workdir/orfribo/RESULTS/selected_tables/threshold_meanXX_medianXX/dataset_XYZ.txt) into a global table (see [here](./orfribo_advanced.md#CDS) for more details). This final output table will contain for each CDS, the number and fraction of reads mapping in-frame or in the +1 and +2 frames of each CDS.
 
 * * II) database/: It contains the re-formatted fasta and gff with artificial elongated CDSs to avoid the missing of reads which align on the borders of CDSs (i.e. on the start and stop codons).
 
@@ -150,14 +159,14 @@ The summary table <b>genome_meanXX_medianYY_reads_concatenated.tab</b> contains 
 * * V) riboWaltz/: It contains the P-site offsets file.
 
 
-## Multiple inputs
+## Particular case of multiple inputs
 
-ORFribo can be launched for as many samples/FastQs as you want as long as the input files concern the same organism (share the same reference fasta and gff files). For this, you just have to put all the fastq files in the /fastq/ folder and launch ORFribo as you usually do with :
+ORFribo can be launched on multiple datasets (fastqs) as long as the input files concern the same organism - i.e. share the same reference fasta and gff files (more details [here](./orfribo_advanced.md)). For this, you just have to put all the fastq files in the /fastq/ folder and launch ORFribo as you usually do with:
 ``` bash
 orfribo CPU MEMORY
 ```
 
-The outputs will be in this format :
+The output architecture will be the same as the one obtained for a single input, except that all intermediate files will be stored in subdirectories corresponding to each input dataset as follows: 
 <pre>
 orfribo/
 ├── <i>dag_all.svg</i>
@@ -166,7 +175,8 @@ orfribo/
 	├── <i>config.yaml</i>
 	├── adapter_lists/
 		└── <i>one_file_by_sample.txt</i>
-	├── Bam2Reads_genome/
+	├── Bam2Reads_genome_output/
+		├── all_samples_genome.25-35.mean70_median70_reads_concatenated.tab"
         └── <i>one_folder_by_sample</i>
             ├── <i>concatenated_results_table.tab</i>
             └── <i>one_folder_by_length</i>
@@ -213,5 +223,3 @@ orfribo/
 </pre>
 
 
-If you want to add some files to your experiment when ORFribo is already done for some FastQs, just put the new FastQs in the /fastq/ folder and launch the analysis again. ORFribo is smart enough to only execute the needed steps for you analysis. The same logic applies if you change some parameters in the configuration file <i>config.yaml</i> or change the input files. If a file is modified in any way by the user or if a newer one takes its place, the downstream steps of the pipeline based on the modified file will be executed but no more (based on files' timestamp).
-For example, you can also wait for the analysis to be finished, then change the selection thresholds in your configuration file and start ORFribo again. The new outputs will be created only after the necessary steps will be made, without trimming the adapters and aligning the reads on the genome's sequence once again.

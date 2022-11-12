@@ -3,15 +3,19 @@
 
 ### 1. Overview
 ORFmine is a package that consists of different programs: ORFtrack, ORFribo, ORFold and ORFdate.
-They can be used together or independently with the exception of ORFribo, which needs the ORFtrack's output file as input to be fonctional.
+They can be used together or independently with the exception of ORFribo, which needs the ORFtrack's output file as input to be functional.
 
 
 ### 2. Quick Installation (without Tango and IUPred)
 
 ##### Install Singularity or Docker
-First of all, Docker[1] or Singularity[2] must be present in order to get the image containing all the scripts and tools needed for the analysis. Singularity might be prefered as it does not need super user rights, which is interesting for the use of ORFmine on a cluster or on a lab's computer.
-Singularity installation is explained here : [ ![](img/icons/download_16x16.png "Click to install Singularity")](https://singularity-tutorial.github.io/01-installation/)
-Docker Engine is available on different OS like MacOS and Windows10 through Docker Desktop and as a static binary installation for a variety of Linux platforms (Docker Desktop for Linux is now available on some distributions). Everything is available here : [ ![](img/icons/download_16x16.png "Click to install Docker")](https://docs.docker.com/engine/install/)
+First of all, Docker[1] or Singularity[2] must be present in order to get the image containing all the scripts and tools needed for the analysis. 
+
+Singularity might be prefered as it does not need super user rights, which is interesting for the use of ORFmine on a cluster or on a lab's computer. Singularity installation is explained [here](https://singularity-tutorial.github.io/01-installation/).
+
+Docker Engine is available on different OS like MacOS and Windows10 through Docker Desktop and as a static binary installation for a variety of Linux platforms (Docker Desktop for Linux is now available on some distributions). Everything is available [here](https://docs.docker.com/engine/install/).
+
+All programs and dependencies used by ORFmine are listed [here](./dependencies.md).
 
 <div class="admonition note">
     <p class="first admonition-title">
@@ -28,19 +32,19 @@ All the scripts and tools needed for the analysis were put and installed in a do
 ``` bash
 docker pull DOCKERHUB_REPOSITORY_ORFMINE-name_of_repo/orfmine
 ```
+
 or as a singularity image :
+
 ```bash
 singularity build /path/to/your/image.sif docker://name_of_repo/orfmine
-``̀
-
-If you have any error, it might come from a permissions problem so you should try using these commands with as an administrator at the beginning, like in this example on Linux or MacOS :
-``` bash
-sudo docker pull DOCKERHUB_REPOSITORY_ORFMINE
 ```
+
+This step might take about 10-20 minutes depending on your computer. 
+
+If you have any error, it might come from a permissions problem so you should try using these commands with sudo as prefix.  
 
 
 <a name="general_install"></a>
-
 
 If you are not interested in the calculation of the disorder and/or aggregation propensities with IUPred and/or Tango in ORFold, nothing more is required for the installation and you can skip the rest of this page (please note that HCA is included in the docker and you will be able to predict the foldability of your sequence(s) of interest). The quick installation is now complete! Please have a look [here](./orfmine_quickstart.md) to start your container.
 
@@ -88,7 +92,7 @@ From you directory made for ORFmine :
 		mv Tango.exe ORFmine/orfold_v1/orfold/softwares/
         ```
 
-Still from you directory made for ORFmine, you can now build the docker image including IUPred and Tango (this takes several minutes) :
+Still from you directory made for ORFmine, you can now build the docker image including IUPred and Tango (this takes several dozen of minutes) :
 ``` bash
 docker build -f Dockerfile --tag orfmine:latest .
 ```

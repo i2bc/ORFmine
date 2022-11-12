@@ -1,181 +1,77 @@
-## Overview
+# Overview
 
-Recent studies attribute a new role to the noncoding genome in the production of novel peptides. The widespread transcription of noncoding regions and the pervasive translation of the resulting RNAs offer a vast reservoir of novel peptides to the organisms.
+OMICS studies attribute a new role to the noncoding genome in the production of novel peptides. The widespread transcription
+of noncoding regions and the pervasive translation of the resulting RNAs offer a vast reservoir of novel peptides to the organisms.
 
-ORFmine is an open-source package that aims at extracting, annotating, and characterizing the fold potential and the structural properties of all Open Reading Frames (ORF) encoded in a genome (including coding and noncoding sequences). ORFmine consists of two independent programs, ORFtrack and ORFold that can be used together or independently (see here for an example of application).
- 
-Both these tools have been developed in python3 (version >= 3.6).
-The install.sh  script will install both ORFtrack and ORFold with their dependancies.
-They can be used together or independently. 
+ORFmine[1][2] is an open-source package that aims at extracting, annotating, and characterizing the sequence and structural properties of
+all Open Reading Frames (ORFs) of a genome (including coding and noncoding sequences) along with their translation activity. ORFmine consists of several independent programs that can be used together or independently:
+- ORFtrack
+- ORFold
+- ORFribo
+- ORFdate
 
-## Documentation
-You will find complete documentation on [https://i2bc.github.io/ORFmine/](https://i2bc.github.io/ORFmine/)
+## Built with
+- python 3.6
+- miniconda
+- pyHCA [1]
+- R 
+- bash
+- Docker
+
+All programs and dependencies are listed [here](docs/dependencies.md). 
+
+
+# Getting started
+
+## Prerequisites
+
+- [Docker](https://docs.docker.com/engine/install/) or [Singularity](https://singularity-tutorial.github.io/01-installation/)
+- [IUPred](https://iupred2a.elte.hu/download_new) [2,3,4] (optional)
+- [Tango](http://tango.crg.es) [5,6,7] (optional)
+
 
 ## Installation
 
-### 1. Download and uncompress the latest release
+Simply pull the ORFmine image from Dockerhub.
 
-
-You can clone the whole project with the following command:
-``` 
-git clone https://github.com/i2bc/ORFmine.git
-```
-
-Alternatively, you can click [here](https://github.com/i2bc/ORFmine/releases/latest/) to access the latest release.
-
-Then uncompress the archive. If you downloaded:
-* the *.zip* file: ```unzip ORFmine-x.x.x.zip```
-* the *.tar.gz* file: ```tar xzvf ORFmine-x.x.x.tar.gz```
-
-<br>
-
-
-### 2. Create an isolated environment
-Although not strictly necessary, this step is highly recommended 
-(it will allow you to work on different projects without having any conflicting library versions).
-If you do not want to create a virtual environment, please go directly to the [install section](#general_install).
- 
-#### Install virtualenv
-``` python
-python3 -m pip install virtualenv
-```
-
-#### Create a virtual environment
+For docker:
 ```bash
-virtualenv -p python3 orfmine_env
+# pull the ORFmine docker image from Dockerhub
+docker pull annelopes94/orfmine:v0.8.6
 ```
 
-#### Activate the created environment
+For singularity:
 ```bash
-source orfmine_env/bin/activate
+# this will build a sif image named orfmine_v0.8.6.sif that will be located in YOUR_PATH (to adapt)
+singularity build YOUR_PATH/orfmine_v0.8.6.sif docker://annelopes94/orfmine:v0.8.6
 ```
 
-Once activated, any python library you will install using pip 
-will be installed solely in this isolated environment.
-You must activate this environment any time you need libraries installed 
-in this environment. 
-
-Once you are done working on your project, 
-simply type `deactivate` to exit the environment.
+If you have any error, it might come from a permissions problem so you should try using these commands with sudo as prefix.  
 
 
-<div class="admonition note">
-    <p class="first admonition-title">
-        Note
-    </p>
-    <p class="last">
-        To delete definitely your virutal environment, you can simply
-        remove the directory with the following instruction:
-        <code>rm -r orfmine_env/</code>
-    </p>
-</div>
+# Usage
 
-<div class="admonition note">
-    <p class="first admonition-title">
-        Note
-    </p>
-    <p class="last">
-        We remind to the user that some external packages used in ORFmine 
-	(such as Biopython) require python version >= 3.6. Before creating 
-	your virtual environment make sure that your python version is up-to-date. 
-    </p>
-</div>
-
-<a name="general_install"></a>
-
-### 3. Install ORFMine 
-
-#### Preparation before the Installation
-
-Please note that we will refer below to the root directory of ORFmine as ORFmine-x-x-x where x-x-x refers to the version downloaded from an archive file (either .zip or .tar.gz).
-If you just cloned the project, the root directory of ORFmine will be ORFmine instead.
-
-If you just want to use **ORFtrack** in order to annotate all
-the possible ORFs of a genome, you have no other dependencies 
-to install, and you simply have to **Launch the Installation** 
-presented [below](#launch_install). 
-
-The installation of **ORFold** becomes a bit more demanding as
-there are some external tools to be downloaded and/or installed 
-before launching the installation.
-
-Firstly, **ORFold** is based on the HCA method for the calcluation of the
-fold potential. As a result [pyHCA](https://github.com/T-B-F/pyHCA) 
-[[1](https://www.biorxiv.org/content/10.1101/249995v1)]
-is essential to be pre-installed in your machine before installing 
-**ORFold**. You can [download](https://github.com/T-B-F/pyHCA)  for free and install **pyHCA** using 
-the instructions of the developers.  
-<br>
-If you are not interested in the calculation of the disorder
-and/or aggregation propensities with **ORFold** and you already
-have installed pyHCA, you can simply launch the installation
-presented [below](#launch_install).
-
-However, in the case you want to use [IUPred](https://iupred2a.elte.hu) 
-[2][3][4] and/or [Tango](http://tango.crg.es) [5][6][7] with **ORFold** you have to 
-first contact their developers through the respective links and have access 
-to their programs. These two softwares are not freely available for 
-non-academic users.
-
-Once you have access to the IUPred and Tango you have to place them in a directory
-called ```softwares``` placed in the path: ```ORFmine-x.x.x/orfold_v1/orfold/```. To do so:
+For usage examples, please check the [Quick start](https://i2bc.github.io/ORFmine/orfmine_quickstart.html) section of our documentation page.
 
 
-* First create the ```softwares``` directory if not already created:
+# Documentation
 
-```bash
-mkdir ORFmine-x.x.x/orfold_v1/orfold/softwares
-```
-
-* Move the IUPred source code and data (provided by the developer):
-	
-		mv iupred2a.py ORFmine-x.x.x/orfold_v1/orfold/softwares
-		mv iupred2a.py ORFmine-x.x.x/orfold_v1/orfold/softwares
-		mv data ORFmine-x.x.x/orfold_v1/orfold/softwares
-	
-* Move Tango source code:
-	* For MacOS:
-		
-			mv tango2_3_1 ORFmine-x.x.x/orfold_v1/orfold/softwares
-
-	* For linux:
-
-			mv tango_x86_64_release ORFmine-x.x.x/orfold_v1/orfold/softwares
-
-	* For windows:
-		
-			mv Tango.exe ORFmine-x.x.x/orfold_v1/orfold/softwares
-
-<div class="admonition note">
-    <p class="first admonition-title">
-        Note
-    </p>
-    <p class="last">
-        The calculation of the disorder or aggregation propensities  are both optional and 
-	complementary to the HCA score. As a result, IUPred and 
-	Tango tools are not mandatory for the installation of ORFold. In addition,
-	they are not necessarily coupled together. ORFold will properly be 
-	installed without them or even with only one of them.    
-    </p>
-</div>
-<a name="launch_install"></a>
+Our full documentation is accessible [here](https://i2bc.github.io/ORFmine/)
 
 
-#### Installation
+# Contact
 
-If you use a virtual environment, be sure that your virtual environment is activated.
-Then, in any case, follow the procedure described below:
+Anne Lopes - anne.lopes@i2bc.paris-saclay.fr
 
- 
-```bash
-cd ORFmine-x.x.x
-chmod u+x install.sh
-./install.sh
-```
 
-This script will first uninstall ORFmine if it was already installed and will
-re-install it. In addition, it will install all the dependency packages needed for 
-ORFtrack and ORFold.   
+# Citing
+
+Yet to come.
+
+
+# Licence
+
+The ORFmine project is under the MIT licence. Please check [here](LICENSE.md) for more details.
 
 
 ## References
@@ -188,3 +84,5 @@ ORFtrack and ORFold.
 6. Linding, R., Schymkowitz, J., Rousseau, F., Diella, F. & Serrano, L. A comparative study of the relationship between protein structure and β-aggregation in globular and intrinsically disordered proteins. Journal of molecular biology 342, 345–353 (2004). 
 7. Rousseau, F., Schymkowitz, J. & Serrano, L. Protein aggregation and amyloidosis: confusion of the kinds? Current opinion in structural biology 16, 118–126 (2006).
 
+
+`singularity shell --pwd /workdir/ -B workdir:/workdir/ -B database:/database/ -B fastq:/fastq/ -B ~/tango:/ORFmine/orfold_v1/orfold/softwares/ ../../ORFmine/orfmine_test.sif`
