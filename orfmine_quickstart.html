@@ -67,42 +67,6 @@
     </li>
         </ul>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#annotation-and-extraction-of-orfs-with-orftrack">Annotation and extraction of ORFs with ORFtrack</a>
-        <ul>
-    <li class="toctree-l3"><a class="reference internal" href="#annotation-of-orfs">Annotation of ORFs</a>
-    </li>
-    <li class="toctree-l3"><a class="reference internal" href="#extraction-of-the-sequences-of-noncoding-orfs-in-a-fasta-format">Extraction of the sequences of noncoding ORFs in a fasta format</a>
-    </li>
-    <li class="toctree-l3"><a class="reference internal" href="#extraction-of-the-sequences-of-the-cdss-of-yeast-in-a-fasta-format">Extraction of the sequences of the CDSs of yeast in a fasta format</a>
-    </li>
-        </ul>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#characterization-of-the-fold-potential-and-disorder-and-aggregation-propensities-of-the-noncoding-orfs-with-orfold">Characterization of the fold potential and disorder and aggregation propensities of the noncoding ORFs with ORFold</a>
-        <ul>
-    <li class="toctree-l3"><a class="reference internal" href="#running-orfold">Running ORFold</a>
-    </li>
-    <li class="toctree-l3"><a class="reference internal" href="#visualization-of-the-distribution-of-the-fold-potential-with-orfplot">Visualization of the distribution of the fold potential with ORFplot</a>
-    </li>
-        </ul>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#characterization-of-the-translation-activity-of-all-intergenic-orfs-of-yeast">Characterization of the translation activity of all intergenic ORFs of yeast</a>
-        <ul>
-    <li class="toctree-l3"><a class="reference internal" href="#input-files">Input files</a>
-    </li>
-    <li class="toctree-l3"><a class="reference internal" href="#preparing-the-configyaml-file">Preparing the config.yaml file</a>
-    </li>
-    <li class="toctree-l3"><a class="reference internal" href="#running-orfribo">Running ORFribo</a>
-    </li>
-    <li class="toctree-l3"><a class="reference internal" href="#main-outputs">Main outputs</a>
-    </li>
-        </ul>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#running-orfdate">Running ORFdate</a>
-        <ul>
-    <li class="toctree-l3"><a class="reference internal" href="#references">References</a>
-    </li>
-        </ul>
-    </li>
     </ul>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="orfmine_citations.html">Citations</a>
@@ -365,7 +329,7 @@ cp -r ~/iupred2a/* ~/softwares
 -v <i>ABSOLUTE_PATH_TO_YOUR_WORKING_DIR</i>:/workdir/ \
 -v <i>ABSOLUTE_PATH_TO_YOUR_DATA_DIR</i>:/database/ \
 -v <i>ABSOLUTE_PATH_TO_YOUR_FASTQ_DIR</i>:/fastq/ \
--V <i>ABSOLUTE_PATH_TO_YOUR_DIR_CONTAINING_TANGO_OR_IUPRED</i>:/ORFmine/orfold_v1/orfold/softwares/ \
+-v <i>ABSOLUTE_PATH_TO_YOUR_DIR_CONTAINING_TANGO_OR_IUPRED</i>:/ORFmine/orfold_v1/orfold/softwares/ \
 annelopes94/orfmine:v0.8.7</code>
 </pre>
 
@@ -413,10 +377,25 @@ This should display all the files and folders of the data folder containing all 
 </div>
 
 <p><br></p>
+<h1 id="examples-of-orfmine-usage">Examples of ORFmine usage<a class="headerlink" href="#examples-of-orfmine-usage" title="Permanent link">#</a></h1>
+<p>To guide the user, all command line examples will rely on the examples directory that can be found <a href="">here</a>. If you want to follow the guidelines, please follow the procedure below:</p>
+<pre><code class="language-bash"># place examples.zip on a directory and unzip it
+mkdir ~/orfmine_tutorial
+mv ~/Downloads/examples.zip ~/orfmine_tutorial
+cd ~/orfmine_tutorial/
+unzip examples.zip
+cd examples/
+
+# launch the container (docker usage case).
+docker run --rm -it -v $(pwd)/workdir:/workdir/ -v $(pwd)/database:/database/ -v $(pwd)/fastq:/fastq/ annelopes94/orfmine:v0.8.7
+
+# or with singularity (considering your .sif image is there: ~/orfmine/orfmine_v0.8.7.sif)
+singularity shell --pwd /workdir/ -B workdir:/workdir/ -B database&lt;/i&gt;:/database/ -B fastq&lt;/i&gt;:/fastq/ ~/orfmine/orfmine_v0.8.7.sif
+</code></pre>
+<p>After following this procedure, you could juste copy/paste all of the commands below to test them directly.</p>
 <p><a name="ORF_annot"></a></p>
 <h2 id="annotation-and-extraction-of-orfs-with-orftrack">Annotation and extraction of ORFs with ORFtrack<a class="headerlink" href="#annotation-and-extraction-of-orfs-with-orftrack" title="Permanent link">#</a></h2>
 <h3 id="annotation-of-orfs">Annotation of ORFs<a class="headerlink" href="#annotation-of-orfs" title="Permanent link">#</a></h3>
-<p>Before starting, be sure your container <a href="#start_container">is activated</a> and your sequence inputs (fasta and gff files) are stored in the container's /database/ directory (see <a href="#prepare_folders">here</a> for the organization of data). All the following commands rely on paths relative to the docker architecture, and therefore, assume the gff and fasta inputs are stored in /database/.</p>
 <p>ORFtrack takes as input (i) a fasta file containing the nucleotide sequences of all chromosomes or contigs, and (ii) the corresponding annotations in a gff file (see <a href="https://github.com/The-Sequence-Ontology/Specifications/blob/master/gff3.md">the GFF3 documentation</a> for more details on the GFF3 format). Please notice that we strongly recommend using GFF3 formats.
 The following command runs ORFtrack on the complete genome of <em>Saccharomyces cerevisiae</em> (<em>Scer</em>) available in the ORFmine/examples folder:</p>
 <pre><code class="language-bash">orftrack -fna /database/Scer.fna -gff /database/Scer.gff
