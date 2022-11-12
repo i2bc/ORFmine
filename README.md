@@ -87,6 +87,3 @@ The ORFmine project is under the MIT licence. Please check [here](LICENSE.md) fo
 5. Fernandez-Escamilla, A.-M., Rousseau, F., Schymkowitz, J. & Serrano, L. Prediction of sequence-dependent and mutational effects on the aggregation of peptides and proteins. Nature biotechnology 22, 1302–1306 (2004).
 6. Linding, R., Schymkowitz, J., Rousseau, F., Diella, F. & Serrano, L. A comparative study of the relationship between protein structure and β-aggregation in globular and intrinsically disordered proteins. Journal of molecular biology 342, 345–353 (2004). 
 7. Rousseau, F., Schymkowitz, J. & Serrano, L. Protein aggregation and amyloidosis: confusion of the kinds? Current opinion in structural biology 16, 118–126 (2006).
-
-
-`singularity shell --pwd /workdir/ -B workdir:/workdir/ -B database:/database/ -B fastq:/fastq/ -B ~/tango:/ORFmine/orfold_v1/orfold/softwares/ ../../ORFmine/orfmine_test.sif`

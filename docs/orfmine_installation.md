@@ -28,8 +28,6 @@ For reproducibility purposes, all programs and dependencies used by ORFmine are 
 
 ### Pull the ORFmine docker image
 
-
-##### Download the latest ORFmine release
 All the scripts and tools needed for the analysis were put and installed in a docker image stored on Dockerhub. You can pull and use it from a terminal as a docker image by writing :
 
 ``` bash
@@ -43,19 +41,21 @@ or as a singularity image :
 singularity build YOUR_PATH/orfmine_v0.8.6.sif docker://annelopes94/orfmine:v0.8.7
 ```
 
-This step might take about 10-20 minutes depending on your computer. 
+This step might take about 10-20 minutes depending on your computer.
 
-If you have any error, it might come from a permissions problem so you should try using these commands with sudo as prefix.  
+<div class="admonition note">
+    <p class="first admonition-title">
+        Note
+    </p>
+    <p class="last">
+        If you have any error, it might come from a permissions problem so you should try using these commands with sudo as prefix.  
+    </p>
+</div>
 
-<br>
 
 The quick installation is now complete! Please have a look [here](./orfmine_quickstart.md) to start your container.
 
-
-
-<br><br>
-
-
+<br>
 
 
 ## References
