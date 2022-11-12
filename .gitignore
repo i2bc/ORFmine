@@ -62,5 +62,6 @@ orfold_v1/orfold/softwares/
 **.bak
 
 site/
+**.DS_Store
 
 # ./packages
