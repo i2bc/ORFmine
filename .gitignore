@@ -63,5 +63,6 @@ orfold_v1/orfold/softwares/
 
 site/
 **.DS_Store
+**.idea
 
 # ./packages
