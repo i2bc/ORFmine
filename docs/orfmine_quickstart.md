@@ -141,7 +141,7 @@ For docker:
 -v <i>ABSOLUTE_PATH_TO_YOUR_WORKING_DIR</i>:/workdir/ \
 -v <i>ABSOLUTE_PATH_TO_YOUR_DATA_DIR</i>:/database/ \
 -v <i>ABSOLUTE_PATH_TO_YOUR_FASTQ_DIR</i>:/fastq/ \
--V <i>ABSOLUTE_PATH_TO_YOUR_DIR_CONTAINING_TANGO_OR_IUPRED</i>:/ORFmine/orfold_v1/orfold/softwares/ \
+-v <i>ABSOLUTE_PATH_TO_YOUR_DIR_CONTAINING_TANGO_OR_IUPRED</i>:/ORFmine/orfold_v1/orfold/softwares/ \
 annelopes94/orfmine:v0.8.7</code>
 </pre>
 
@@ -192,13 +192,32 @@ This should display all the files and folders of the data folder containing all 
 
 <br>
 
+
+# Examples of ORFmine usage
+
+To guide the user, all command line examples will rely on the examples directory that can be found [here](). If you want to follow the guidelines, please follow the procedure below:
+```bash
+# place examples.zip on a directory and unzip it
+mkdir ~/orfmine_tutorial
+mv ~/Downloads/examples.zip ~/orfmine_tutorial
+cd ~/orfmine_tutorial/
+unzip examples.zip
+cd examples/
+
+# launch the container (docker usage case).
+docker run --rm -it -v $(pwd)/workdir:/workdir/ -v $(pwd)/database:/database/ -v $(pwd)/fastq:/fastq/ annelopes94/orfmine:v0.8.7
+
+# or with singularity (considering your .sif image is there: ~/orfmine/orfmine_v0.8.7.sif)
+singularity shell --pwd /workdir/ -B workdir:/workdir/ -B database</i>:/database/ -B fastq</i>:/fastq/ ~/orfmine/orfmine_v0.8.7.sif
+```
+
+After following this procedure, you could juste copy/paste all of the commands below to test them directly.
+
 <a name="ORF_annot"></a>
+
 ## Annotation and extraction of ORFs with ORFtrack
 
 ### Annotation of ORFs
-
-Before starting, be sure your container [is activated](#start_container) and your sequence inputs (fasta and gff files) are stored in the container's /database/ directory (see [here](#prepare_folders) for the organization of data). All the following commands rely on paths relative to the docker architecture, and therefore, assume the gff and fasta inputs are stored in /database/.
-
 
 ORFtrack takes as input (i) a fasta file containing the nucleotide sequences of all chromosomes or contigs, and (ii) the corresponding annotations in a gff file (see [the GFF3 documentation](https://github.com/The-Sequence-Ontology/Specifications/blob/master/gff3.md) for more details on the GFF3 format). Please notice that we strongly recommend using GFF3 formats.
 The following command runs ORFtrack on the complete genome of *Saccharomyces cerevisiae* (*Scer*) available in the ORFmine/examples folder:
