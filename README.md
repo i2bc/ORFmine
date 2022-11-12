@@ -42,7 +42,7 @@ docker pull annelopes94/orfmine:v0.8.7
 
 For singularity:
 ```bash
-# create a directory that will the singularity image of ORFmine (adpat the location and directory name)
+# create a directory that will host the singularity image of ORFmine (adpat the location and directory name)
 mkdir ~/orfmine
 
 # build a singularity image named orfmine_v0.8.7.sif that will be located in ~/orfmine (to adapt)
