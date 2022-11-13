@@ -14,7 +14,7 @@ In addition, are presented several examples of the use of the different programs
 
 
 
-All the inputs used in these examples are available can be downloaded [here](http://bim.i2bc.paris-saclay.fr/anne-lopes/ORFmine_examples/ORFmine_examples.tar.gz).
+All the inputs used in these examples are available can be downloaded [here](http://bim.i2bc.paris-saclay.fr/anne-lopes/ORFmine_examples/ORFmine_examples.zip).
 
 <a name="prepare_folders"></a>
 ## Prepare your directories
@@ -198,7 +198,7 @@ This should display all the files and folders of the data folder containing all 
 
 # Examples of ORFmine usage
 
-To guide the user, all command line examples will rely on the examples directory that can be found [here](http://bim.i2bc.paris-saclay.fr/anne-lopes/ORFmine_examples/ORFmine_examples.tar.gz). If you want to follow the guidelines, please follow the procedure below:
+To guide the user, all command line examples will rely on the examples directory that can be found [here](http://bim.i2bc.paris-saclay.fr/anne-lopes/ORFmine_examples/ORFmine_examples.zip). If you want to follow the guidelines, please follow the procedure below:
 
 ```bash
 # create a directory that will host the examples archive and go in it
@@ -206,7 +206,7 @@ mkdir ~/orfmine_tutorial
 cd orfmine_tutorial
 
 # download the examples archive if not already down
-wget http://bim.i2bc.paris-saclay.fr/anne-lopes/ORFmine_examples/ORFmine_examples.tar.gz
+wget http://bim.i2bc.paris-saclay.fr/anne-lopes/ORFmine_examples/ORFmine_examples.zip
 
 # untar the archive
 tar xvf ORFmine_examples.tar.gz
