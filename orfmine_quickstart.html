@@ -296,7 +296,7 @@ the "singularity " or the "docker" commands. Every folder that you have prepared
 -v <i>ABSOLUTE_PATH_TO_YOUR_WORKING_DIR</i>:/workdir/ \
 -v <i>ABSOLUTE_PATH_TO_YOUR_DATA_DIR</i>:/database/ \
 -v <i>ABSOLUTE_PATH_TO_YOUR_FASTQ_DIR</i>:/fastq/ \
-annelopes94/orfmine:v0.8.7 /bin/bash</code>
+annelopes94/orfmine:latest /bin/bash</code>
 </pre>
 
 <p>Please note that if you do not want to use ORFribo, you do not need to link the fastq folder to the container and can remove the binding part of the command line: <code><i>PATH_TO_YOUR_FASTQ_DIR</i>:/fastq/</code>. See <a href="orfmine_binding.html">here</a> for more details on how to bind your local folders to those of the container.</p>
@@ -329,7 +329,7 @@ cp -r ~/iupred2a/* ~/softwares
 -v <i>ABSOLUTE_PATH_TO_YOUR_DATA_DIR</i>:/database/ \
 -v <i>ABSOLUTE_PATH_TO_YOUR_FASTQ_DIR</i>:/fastq/ \
 -v <i>ABSOLUTE_PATH_TO_YOUR_DIR_CONTAINING_TANGO_OR_IUPRED</i>:/ORFmine/orfold_v1/orfold/softwares/ \
-annelopes94/orfmine:v0.8.7 /bin/bash</code>
+annelopes94/orfmine:latest /bin/bash</code>
 </pre>
 
 <div class="admonition note">
@@ -339,7 +339,7 @@ annelopes94/orfmine:v0.8.7 /bin/bash</code>
     <p class="last">
 
     <ul>
-    <li> When launching the container with docker, the <i>annelopes94/orfmine:v0.8.7</i> part can be changed if you want to launch a specific version of ORFmine. For example : <i>annelopes94/orfmine:v0.8.6</i>.
+    <li> When launching the container with docker, the <i>annelopes94/orfmine:latest</i> part can be changed if you want to launch a specific version of ORFmine. For example : <i>annelopes94/orfmine:v0.8.7</i>.
      </li>
 
         <li>  If you do not know which versions you have on your computer,
@@ -393,10 +393,10 @@ cd ORFmine/examples
 
 
 # launch the container (docker usage case).
-docker run --rm -it -v $(pwd)/workdir:/workdir/ -v $(pwd)/database:/database/ -v $(pwd)/fastq:/fastq/ annelopes94/orfmine:v0.8.7 /bin/bash
+docker run --rm -it -v $(pwd)/workdir:/workdir/ -v $(pwd)/database:/database/ -v $(pwd)/fastq:/fastq/ annelopes94/orfmine:latest /bin/bash
 
-# or with singularity (considering your .sif image is there: ~/orfmine/orfmine_v0.8.7.sif)
-singularity shell --pwd /workdir/ -B workdir:/workdir/ -B database&lt;/i&gt;:/database/ -B fastq&lt;/i&gt;:/fastq/ ~/orfmine/orfmine_v0.8.7.sif
+# or with singularity (considering your .sif image is there: ~/orfmine/orfmine_latest.sif)
+singularity shell --pwd /workdir/ -B workdir:/workdir/ -B database&lt;/i&gt;:/database/ -B fastq&lt;/i&gt;:/fastq/ ~/orfmine/orfmine_latest.sif
 </code></pre>
 <p>After following this procedure, you could juste copy/paste all of the commands below to test them directly.</p>
 <p><a name="ORF_annot"></a></p>
