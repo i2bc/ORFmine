@@ -46,3 +46,13 @@
   
   border-top: 6px solid black;
 }
+
+#img-orfmine {
+  padding: 2px;
+  margin-top: 3rem;
+  margin-bottom: 6rem;
+}
+
+.img-index {
+  margin-top: 3rem;
+}
