@@ -31,14 +31,14 @@ For reproducibility purposes, all programs and dependencies used by ORFmine are 
 All the scripts and tools needed for the analysis were put and installed in a docker image stored on Dockerhub. You can pull and use it from a terminal as a docker image by writing :
 
 ``` bash
-docker pull annelopes94/orfmine:v0.8.7
+docker pull lopesi2bc/orfmine:latest
 ```
 
 or as a singularity image :
 
 ```bash
-# this will build a singularity image named orfmine_v0.8.7.sif that will be located in YOUR_PATH (to adapt)
-singularity build YOUR_PATH/orfmine_v0.8.6.sif docker://annelopes94/orfmine:v0.8.7
+# this will build a singularity image named orfmine_latest.sif that will be located in YOUR_PATH (to adapt)
+singularity build YOUR_PATH/orfmine_latest.sif docker://lopesi2bc/orfmine:latest
 ```
 
 This step might take about 10-20 minutes depending on your computer.

@@ -99,7 +99,7 @@ The same logic applies with the docker command except that **absolute paths** mu
 -v <i>ABSOLUTE_PATH_TO_YOUR_WORKING_DIR</i>:/workdir/ \
 -v <i>ABSOLUTE_PATH_TO_YOUR_DATA_DIR</i>:/database/ \
 -v <i>ABSOLUTE_PATH_TO_YOUR_FASTQ_DIR</i>:/fastq/ \
-annelopes94/orfmine:v0.8.7 /bin/bash</code>
+lopesi2bc/orfmine:latest /bin/bash</code>
 </pre>
 
 
@@ -141,7 +141,7 @@ For docker:
 -v <i>ABSOLUTE_PATH_TO_YOUR_DATA_DIR</i>:/database/ \
 -v <i>ABSOLUTE_PATH_TO_YOUR_FASTQ_DIR</i>:/fastq/ \
 -v <i>ABSOLUTE_PATH_TO_YOUR_DIR_CONTAINING_TANGO_OR_IUPRED</i>:/ORFmine/orfold_v1/orfold/softwares/ \
-annelopes94/orfmine:v0.8.7 /bin/bash</code>
+lopesi2bc/orfmine:latest /bin/bash</code>
 </pre>
 
 
@@ -152,7 +152,7 @@ annelopes94/orfmine:v0.8.7 /bin/bash</code>
     <p class="last">
 
     <ul>
-    <li> When launching the container with docker, the <i>annelopes94/orfmine:v0.8.7</i> part can be changed if you want to launch a specific version of ORFmine. For example : <i>annelopes94/orfmine:v0.8.6</i>.
+    <li> When launching the container with docker, the <i>lopesi2bc/orfmine:latest</i> part can be changed if you want to launch a specific version of ORFmine. For example : <i>lopesi2bc/orfmine:v0.8.7</i>.
      </li>
 
         <li>  If you do not know which versions you have on your computer,
@@ -212,10 +212,10 @@ cd ORFmine/examples
 
 
 # launch the container (docker usage case).
-docker run --rm -it -v $(pwd)/workdir:/workdir/ -v $(pwd)/database:/database/ -v $(pwd)/fastq:/fastq/ annelopes94/orfmine:v0.8.7 /bin/bash
+docker run --rm -it -v $(pwd)/workdir:/workdir/ -v $(pwd)/database:/database/ -v $(pwd)/fastq:/fastq/ lopesi2bc/orfmine:latest /bin/bash
 
-# or with singularity (considering your .sif image is there: ~/orfmine/orfmine_v0.8.7.sif)
-singularity shell --pwd /workdir/ -B workdir:/workdir/ -B database</i>:/database/ -B fastq</i>:/fastq/ ~/orfmine/orfmine_v0.8.7.sif
+# or with singularity (considering your .sif image is there: ~/orfmine/orfmine_latest.sif)
+singularity shell --pwd /workdir/ -B workdir:/workdir/ -B database</i>:/database/ -B fastq</i>:/fastq/ ~/orfmine/orfmine_latest.sif
 ```
 
 After following this procedure, you could juste copy/paste all of the commands below to test them directly.

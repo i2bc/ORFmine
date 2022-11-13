@@ -37,7 +37,7 @@ Simply pull the ORFmine image from Dockerhub.
 For docker:
 ```bash
 # pull the ORFmine docker image from Dockerhub
-docker pull annelopes94/orfmine:v0.8.7
+docker pull lopesi2bc/orfmine:latest
 ```
 
 For singularity:
@@ -45,8 +45,8 @@ For singularity:
 # create a directory that will host the singularity image of ORFmine (adpat the location and directory name)
 mkdir ~/orfmine
 
-# build a singularity image named orfmine_v0.8.7.sif that will be located in ~/orfmine (to adapt)
-singularity build ~orfmine/orfmine_v0.8.7.sif docker://annelopes94/orfmine:v0.8.7
+# build a singularity image named orfmine_latest.sif that will be located in ~/orfmine (to adapt)
+singularity build ~orfmine/orfmine_latest.sif docker://lopesi2bc/orfmine:latest
 ```
 
 If you have any error, it might come from a permissions problem so you should try using these commands with sudo as prefix.  
