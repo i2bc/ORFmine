@@ -308,9 +308,13 @@ lopesi2bc/orfmine:latest /bin/bash</code>
 # create a directory that will contain Tango and IUPred source codes content
 mkdir ~/softwares
 
-# place Tango and IUPred source codes content in softwares
-cp ~/tango ~/softwares
-cp -r ~/iupred2a/* ~/softwares
+# place Tango UNIX source code content in softwares/
+cp ~/tango/tango_x86_64_release ~/softwares
+
+# place IUPred necessary codes content in softwares/
+cp ~/iupred2a/iupred2a_lib.py ~/softwares
+cp ~/iupred2a/iupred2a.py ~/softwares
+cp -r ~/iupred2a/data ~/softwares
 </code></pre>
 <p>To use Tango and/or IUPred on the container, you must launch your container by binding the directory created above to a specific directory on the container</p>
 <p>For singularity:</p>
