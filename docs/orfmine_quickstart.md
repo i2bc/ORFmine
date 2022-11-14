@@ -14,7 +14,7 @@ In addition, are presented several examples of the use of the different programs
 
 
 
-All the inputs used in these examples are available can be downloaded [here](http://bim.i2bc.paris-saclay.fr/anne-lopes/ORFmine_examples/ORFmine_examples.zip).
+All the inputs used in these examples are available can be downloaded [here](http://bim.i2bc.paris-saclay.fr/anne-lopes/ORFmine_examples/).
 
 <a name="prepare_folders"></a>
 ## Prepare your directories
@@ -198,7 +198,7 @@ This should display all the files and folders of the data folder containing all 
 
 # Examples of ORFmine usage
 
-To guide the user, all command line examples will rely on the examples directory that can be found [here](http://bim.i2bc.paris-saclay.fr/anne-lopes/ORFmine_examples/ORFmine_examples.zip). If you want to follow the guidelines, please follow the procedure below:
+To guide the user, all command line examples will rely on the examples directory that can be found [here](http://bim.i2bc.paris-saclay.fr/anne-lopes/ORFmine_examples). If you want to follow the guidelines, please follow the procedure below:
 
 ```bash
 # create a directory that will host the examples archive and go in it
@@ -209,7 +209,7 @@ cd orfmine_tutorial
 wget http://bim.i2bc.paris-saclay.fr/anne-lopes/ORFmine_examples/ORFmine_examples.zip
 
 # untar the archive
-tar xvf ORFmine_examples.tar.gz
+unzip ORFmine_examples.zip
 
 # go into the example directory 
 cd ORFmine/examples
@@ -219,7 +219,7 @@ cd ORFmine/examples
 docker run --rm -it -v $(pwd)/workdir:/workdir/ -v $(pwd)/database:/database/ -v $(pwd)/fastq:/fastq/ lopesi2bc/orfmine:latest /bin/bash
 
 # or with singularity (considering your .sif image is there: ~/orfmine/orfmine_latest.sif)
-singularity shell --pwd /workdir/ -B workdir:/workdir/ -B database</i>:/database/ -B fastq</i>:/fastq/ ~/orfmine/orfmine_latest.sif
+singularity shell --pwd /workdir/ -B workdir:/workdir/ -B database:/database/ -B fastq:/fastq/ ~/orfmine/orfmine_latest.sif
 ```
 
 After following this procedure, you could juste copy/paste all of the commands below to test them directly.

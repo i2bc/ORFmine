@@ -46,7 +46,7 @@ For singularity:
 mkdir ~/orfmine
 
 # build a singularity image named orfmine_latest.sif that will be located in ~/orfmine (to adapt)
-singularity build ~orfmine/orfmine_latest.sif docker://lopesi2bc/orfmine:latest
+singularity build ~/orfmine/orfmine_latest.sif docker://lopesi2bc/orfmine:latest
 ```
 
 If you have any error, it might come from a permissions problem so you should try using these commands with sudo as prefix.  
