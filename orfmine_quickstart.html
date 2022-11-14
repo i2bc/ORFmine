@@ -217,7 +217,7 @@
 <li><a href="#ORF_ribo">characterization of the translation activity</a> of all intergenic ORFs of a genome with ORFribo</li>
 <li><a href="#ORF_ages">estimation of the ages</a> of all the CDSs of a genome with ORFdate</li>
 </ul>
-<p>All the inputs used in these examples are available can be downloaded <a href="http://bim.i2bc.paris-saclay.fr/anne-lopes/ORFmine_examples/ORFmine_examples.zip">here</a>.</p>
+<p>All the inputs used in these examples are available can be downloaded <a href="http://bim.i2bc.paris-saclay.fr/anne-lopes/ORFmine_examples/">here</a>.</p>
 <p><a name="prepare_folders"></a></p>
 <h2 id="prepare-your-directories">Prepare your directories<a class="headerlink" href="#prepare-your-directories" title="Permanent link">#</a></h2>
 <p>First, you need to prepare your directories (that will depend on the usage) with the appropriate data. These directories will then be bound to your container when launching the container, so that your data will be accessible to the ORFmine programs (see <a href="#start_container">here</a> for launching the container).</p>
@@ -381,7 +381,7 @@ This should display all the files and folders of the data folder containing all 
 
 <p><br></p>
 <h1 id="examples-of-orfmine-usage">Examples of ORFmine usage<a class="headerlink" href="#examples-of-orfmine-usage" title="Permanent link">#</a></h1>
-<p>To guide the user, all command line examples will rely on the examples directory that can be found <a href="http://bim.i2bc.paris-saclay.fr/anne-lopes/ORFmine_examples/ORFmine_examples.zip">here</a>. If you want to follow the guidelines, please follow the procedure below:</p>
+<p>To guide the user, all command line examples will rely on the examples directory that can be found <a href="http://bim.i2bc.paris-saclay.fr/anne-lopes/ORFmine_examples">here</a>. If you want to follow the guidelines, please follow the procedure below:</p>
 <pre><code class="language-bash"># create a directory that will host the examples archive and go in it
 mkdir ~/orfmine_tutorial
 cd orfmine_tutorial
@@ -390,7 +390,7 @@ cd orfmine_tutorial
 wget http://bim.i2bc.paris-saclay.fr/anne-lopes/ORFmine_examples/ORFmine_examples.zip
 
 # untar the archive
-tar xvf ORFmine_examples.tar.gz
+unzip ORFmine_examples.zip
 
 # go into the example directory 
 cd ORFmine/examples
@@ -400,7 +400,7 @@ cd ORFmine/examples
 docker run --rm -it -v $(pwd)/workdir:/workdir/ -v $(pwd)/database:/database/ -v $(pwd)/fastq:/fastq/ lopesi2bc/orfmine:latest /bin/bash
 
 # or with singularity (considering your .sif image is there: ~/orfmine/orfmine_latest.sif)
-singularity shell --pwd /workdir/ -B workdir:/workdir/ -B database&lt;/i&gt;:/database/ -B fastq&lt;/i&gt;:/fastq/ ~/orfmine/orfmine_latest.sif
+singularity shell --pwd /workdir/ -B workdir:/workdir/ -B database:/database/ -B fastq:/fastq/ ~/orfmine/orfmine_latest.sif
 </code></pre>
 <p>After following this procedure, you could juste copy/paste all of the commands below to test them directly.</p>
 <p><a name="ORF_annot"></a></p>
