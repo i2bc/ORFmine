@@ -1,7 +1,7 @@
 <div style="text-align:center;">
     <img src="./img/icons/Logo_ORFmine.png" width="70%"/>
     <div style="margin-top: 5px; margin-bottom: 5px;">
-    Chris Papadopoulos<sup>1</sup>, Nicolas Chevrollier<sup>2</sup>, Hugo Arbes<sup>1</sup>, Anne Lopes<sup>1</sup>
+    Chris Papadopoulos<sup>1</sup>, Nicolas Chevrollier<sup>2</sup>, Hugo Arbes<sup>1</sup>, Paul Roginski<sup>1</sup>, Anne Lopes<sup>1</sup>
     </div>
 </div>
 
@@ -12,7 +12,6 @@
             <sup>1</sup> Université Paris-Saclay, CEA, CNRS, Institute for Integrative Biology of the Cell (I2BC), 91198, Gif-sur-Yvette, France, <a href=mailto:anne.lopes@i2bc.paris-saclay.fr>anne.lopes@i2bc.paris-saclay.fr</a>,
             <a href=mailto:cgpapado.bio@gmail.com>cgpapado.bio@gmail.com</a>,
             <a href=mailto:arbes.bioinfo@gmail.com>arbes.bioinfo@gmail.com</a>.
-
         </div>
         <div style="margin-top: 6px;">
             <sup>2</sup> Independent bio-informatician, Paris, France, <a href=mailto:nicolas.chevrollier@laposte.net>nicolas.chevrollier@laposte.net</a>.
