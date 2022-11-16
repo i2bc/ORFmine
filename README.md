@@ -63,7 +63,7 @@ Our full documentation is accessible [here](https://i2bc.github.io/ORFmine/)
 
 ## Issues
 
-If you have suggestions to improve ORFmine or face technical issues, please post an issue [here](https://github.com/i2bc/ORFmine/issues)
+If you have suggestions to improve ORFmine or face technical issues, please post an issue [here](https://github.com/i2bc/ORFmine/issues).
 
 
 ## Contact
