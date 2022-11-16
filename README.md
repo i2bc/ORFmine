@@ -59,7 +59,7 @@ For usage examples, please check the [Quick start](https://i2bc.github.io/ORFmin
 
 ## Documentation
 
-Our full documentation is accessible [here](https://i2bc.github.io/ORFmine/)
+Our full documentation is accessible [here](https://i2bc.github.io/ORFmine/).
 
 ## Issues
 
