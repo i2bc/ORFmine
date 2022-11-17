@@ -4,6 +4,7 @@ nav:
     - ORFmine:
       - Installation: orfmine_installation.md
       - Quick start: orfmine_quickstart.md
+      - Running example: orfmine_example.md
       - Citations: orfmine_citations.md
     - ORFtrack:
       - ORFtrack presentation:
