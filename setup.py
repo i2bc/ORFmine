@@ -11,17 +11,18 @@ MIN_PY_VER = "3.7"
 
 REQUIRES = [
     'biopython==1.78',
+    'cutadapt==4.1',
     'DendroPy==4.5.2',
     'scipy==1.9.3',
     'seaborn==0.11.0',
     'matplotlib==3.3.3',
-    'scikit-learn>=0.19',
     'pandas',
     'lightgbm',
     'joblib',
     'CairoSVG',
-    'requests>=2.18',
-    'six>=1.11',
+    'requests==2.18',
+    'six==1.11',
+    'snakemake==7.16.0',
     'ete3==3.1.1',
     'pyHCA @ git+https://github.com/T-B-F/pyHCA.git',
 ]

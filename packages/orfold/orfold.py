@@ -12,6 +12,8 @@ import subprocess
 import argparse
 from pathlib import Path
 import importlib.util
+import importlib.resources
+
 import tempfile
 import sys
 import warnings
@@ -29,64 +31,84 @@ def get_args():
     """
 
     parser = argparse.ArgumentParser(description='ORF Foldability Calculation')
-    parser.add_argument("-faa",
-                        type=str,
-                        action='store',
-                        required=True, 
-                        nargs="*",
-                        help="FASTA file containing the amino acid sequences to treat")
+    parser.add_argument(
+        "-faa",
+        type=str,
+        action='store',
+        required=True, 
+        nargs="*",
+        help="FASTA file containing the amino acid sequences to treat"
+    )
     
-    parser.add_argument("-gff", 
-                        required=False, 
-                        type=str,
-                        action='store',
-                        nargs="*",
-                        default=[],
-                        help="GFF annotation file")
+    parser.add_argument(
+        "-gff", 
+        required=False, 
+        type=str,
+        action='store',
+        nargs="*",
+        default=[],
+        help="GFF annotation file"
+    )
     
-    parser.add_argument("-options",
-                        type=list,
-                        #action='store',
-                        required=True, 
-                        nargs="?",
-                        default=["H"],
-                        help=
-                        '''Which properties are to be calculated. 
-                             H for HCA (Default)
-                             I for IUPred
-                             T for Tango''')
+    parser.add_argument(
+        "-options",
+        type=list,
+        required=True, 
+        nargs="?",
+        default=["H"],
+        help=
+        '''Which properties are to be calculated. 
+                H for HCA (Default)
+                I for IUPred
+                T for Tango'''
+    )
     
-    parser.add_argument("-plot", 
-                        required=False, 
-                        type=str,
-                        action='store',
-                        nargs="*",
-                        default=False,
-                        help=argparse.SUPPRESS)
+    parser.add_argument(
+        "-out",
+        required=False,
+        nargs="?",
+        default='./',
+        type=str,
+        help="Output directory ('./' by default)."
+    )
+
+    parser.add_argument(
+        "-plot", 
+        required=False, 
+        type=str,
+        action='store',
+        nargs="*",
+        default=False,
+        help=argparse.SUPPRESS
+                        )
     
-    parser.add_argument("-barcodes", 
-                        required=False, 
-                        type=str,
-                        #action='store',
-                        nargs="?",
-                        default=False,
-                        help=argparse.SUPPRESS)
+    parser.add_argument(
+        "-barcodes", 
+        required=False, 
+        type=str,
+        nargs="?",
+        default=False,
+        help=argparse.SUPPRESS
+    )
     
-    parser.add_argument("-keep", 
-                        required=False, 
-                        type=list,
-                        #action='store',
-                        nargs="?",
-                        default=[],
-                        help="Option for keeping the Tango output files")
-    
-    parser.add_argument("-N", 
-                        required=False, 
-                        type=str,
-                        action='store',
-                        nargs="*",
-                        default=["all"],
-                        help="Size of sample(s) per FASTA file")
+    parser.add_argument(
+        "-keep", 
+        required=False, 
+        type=list,
+        nargs="?",
+        default=[],
+        help="Option for keeping the Tango output files"
+    )     
+
+    parser.add_argument(
+        "-N", 
+        required=False, 
+        type=str,
+        action='store',
+        nargs="*",
+        default=["all"],
+        help="Size of sample(s) per FASTA file"
+    )
     
     args = parser.parse_args()
     return args
@@ -106,13 +128,19 @@ def calculate_HCA_barcodes(sequences):
     """
     We get the Barcode sequences of HCA for all the sequences
     """
+    print("Calculating the HCA barcodes ... ")
+
     from pyHCA import HCA
     hca = HCA(seq=list(sequences.values()),querynames=list(sequences.keys()))
     # You can get the barcode sequence of ONE sequnce using the module get_hca_barcode
     # If you want to take the barcode of all the sequnces do a loop like:
     barcodes = {}
     for orf in list(sequences.keys()):
-        barcodes[orf] = orfold_utils.get_hca_barcode(hca = hca, orf = orf)  
+        barcodes[orf] = orfold_utils.get_hca_barcode(hca = hca, orf = orf)
+
+    print("Barcodes calculation : DONE")
+    print("\n")
+
     return barcodes
 
     
@@ -301,6 +329,9 @@ def main():
     start_time = datetime.now()
     parameters = get_args()
 
+    out_path = Path(parameters.out)
+    os.makedirs(out_path, exist_ok=True)
+
     # get path to external softwares given in config.ini
     external_softwares = orfold_utils.read_config_file()
 
@@ -364,9 +395,10 @@ and follow the install instructions. Then edit the config.ini file.
     make_tmp_directories(parameters=parameters)
     files_associations , files_sampling = make_files_associations(parameters=parameters)
 
+    opened_files = []
+
     for fasta_file in files_associations:
-        name = os.path.basename(fasta_file)
-        name = os.path.splitext(name)[0]
+        name = Path(fasta_file).stem
         size = files_sampling[fasta_file]
 
         # We read the MultiFasta file with the sequences:
@@ -384,12 +416,11 @@ and follow the install instructions. Then edit the config.ini file.
 
         #@TODO To be integrated later!!!
         if "H" in parameters.options and parameters.barcodes == 'True':
+
             # First we calculate ALL the Barcodes at ones:
-            print("Calculating the HCA barcodes ... ")
             barcodes = calculate_HCA_barcodes(sequences = sequences)
-            print("Barcodes calculation : DONE")
-            print("\n")
-            with open(name+".barcodes","w") as barcw:
+
+            with open( out_path / str(name + ".barcodes"), "w") as barcw:
                 for i in barcodes:
                     barcw.write(">{}\n{}\n".format(i,barcodes[i]))
                     
@@ -398,19 +429,23 @@ and follow the install instructions. Then edit the config.ini file.
         formating_a = "{:"+str(max_name+2)+"s}\t{:7s}\t{:7s}\t{:7s}\n"
         formating_b = "{:"+str(max_name+2)+"s}\t"
 
-        with open(name+".tab","w") as fw_output:
+        with open(out_path / str(name + ".tab"), "w") as fw_output:
             # We write the title in the output table
             fw_output.write(formating_a.format("Seq_ID","HCA","Disord","Aggreg"))
 
 
             if files_associations[fasta_file] != '':
                 gff_dico = read_gff_file(gff_file = files_associations[fasta_file])
+
                 if "H" in parameters.options:
-                    fw_gff_H = open(name+'_HCA.gff','w')
+                    fw_gff_H = open(name + '_HCA.gff', 'w')
+                    opened_files.append(fw_gff_H)
                 if "I" in parameters.options:
-                    fw_gff_I = open(name+'_IUPRED.gff','w')
+                    fw_gff_I = open(name + '_IUPRED.gff', 'w')
+                    opened_files.append(fw_gff_I)
                 if "T" in parameters.options:
-                    fw_gff_T = open(name+'_TANGO.gff','w')
+                    fw_gff_T = open(name + '_TANGO.gff', 'w')
+                    opened_files.append(fw_gff_T)
 
             print("\n\n")
             for i, orf in enumerate(sequences):
@@ -426,7 +461,7 @@ and follow the install instructions. Then edit the config.ini file.
                             new_gff_line = change_color_in_gff_line(gff_dico=gff_dico, orf=orf, value=score, nb_cols=20, minimum=-10, maximum=10)
                             fw_gff_H.write(new_gff_line)
                         except:
-                            print('An error aoccured at the writing of the {}_HCA.gff file for the orf: {}'.format(name, orf))
+                            print('An error occured at the writing of the {}_HCA.gff file for the orf: {}'.format(name, orf))
                             pass
                 else:
                     score = "NaN"
@@ -434,7 +469,7 @@ and follow the install instructions. Then edit the config.ini file.
 
                 if "I" in parameters.options:
                     try:
-                        iupred_score  = iupred2a_lib.iupred(seq=seq ,mode="short")[0]
+                        iupred_score  = iupred2a_lib.iupred(seq=seq, mode="short")[0]
                         iupred_portion = orfold_utils.calculate_proportion_of_seq_disordered(iupred_score)
                         iupred_mean = round(sum(iupred_score) / len(iupred_score),2)
                     except:
@@ -446,7 +481,7 @@ and follow the install instructions. Then edit the config.ini file.
                             new_gff_line = change_color_in_gff_line(gff_dico=gff_dico, orf=orf, value=iupred_portion, nb_cols=20, minimum=0, maximum=1)
                             fw_gff_I.write(new_gff_line)
                         except:
-                            print('An error aoccured at the writing of the {}_IUPRED.gff file for the orf: {}'.format(name, orf))
+                            print('An error occured at the writing of the {}_IUPRED.gff file for the orf: {}'.format(name, orf))
                             pass
                 else:
                     iupred_mean, iupred_portion = "NaN","NaN"
@@ -467,7 +502,7 @@ and follow the install instructions. Then edit the config.ini file.
                             new_gff_line = change_color_in_gff_line(gff_dico=gff_dico, orf=orf, value=tango_portion, nb_cols=20, minimum=0, maximum=1)
                             fw_gff_T.write(new_gff_line)
                         except:
-                            print('An error aoccured at the writing of the {}_TANGO.gff file for the orf: {}'.format(name, orf))
+                            print('An error occured at the writing of the {}_TANGO.gff file for the orf: {}'.format(name, orf))
                             pass
                 else:
                     tango_portion = "NaN"
@@ -497,7 +532,8 @@ and follow the install instructions. Then edit the config.ini file.
 
 
     try:
-        fw_gff_H.close()
+        for _f in opened_files:
+            _f.close()
     except:
         pass
     # ------------------------------------------------------------------- #
@@ -505,15 +541,11 @@ and follow the install instructions. Then edit the config.ini file.
     # ------------------------------------------------------------------- #
     if parameters.plot:
 
-        tabs_to_plot = ""
-        for file in files_associations:
-            name = os.path.basename(file)
-            name = os.path.splitext(name)[0]
-            tabs_to_plot = tabs_to_plot + ' ' + name + ".tab"
+        for _file in files_associations:
+            inplot = out_path / str(Path(_file).stem + ".tab")
 
-
-        plot_command = "plot_orfold -tab {}".format(tabs_to_plot)
-        subprocess.Popen(plot_command,stdout=subprocess.PIPE, stderr=None, shell=True)
+        plot_command = "plot_orfold -tab {} -out {}".format(inplot, out_path)
+        subprocess.Popen(plot_command, stdout=subprocess.PIPE, stderr=None, shell=True)
 
     end_time = datetime.now()
     print("\n\n")
