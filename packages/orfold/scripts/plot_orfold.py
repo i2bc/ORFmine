@@ -21,18 +21,30 @@ def get_args():
         Parameters
     """
     parser = argparse.ArgumentParser(description='ORF Foldability Distribution Plot')
-    parser.add_argument("-tab",
-                        type=str,
-                        action='store',
-                        required=True, 
-                        nargs="*",
-                        help="Tables of foldability calculated by ORFold")
-    parser.add_argument("-names",
-                        type=str,
-                        action='store',
-                        required=False, 
-                        nargs="*",
-                        help="Names of datasets for the legend")
+    parser.add_argument(
+        "-tab",
+        type=str,
+        required=True, 
+        nargs="*",
+        help="Tables of foldability calculated by ORFold"
+    )
+
+    parser.add_argument(
+        "-names",
+        type=str,
+        required=False, 
+        nargs="*",
+        help="Names of datasets for the legend"
+    )
+
+    parser.add_argument(
+        "-out",
+        required=False,
+        nargs="?",
+        default='./',
+        type=str,
+        help="Output directory ('./' by default)."
+    )
     
     args = parser.parse_args()
     return args
@@ -60,10 +72,14 @@ colors_bank = cmap([0.        , 0.05263158, 0.10526316, 0.15789474, 0.21052632,
 def main():
     parameters = get_args()
 
-    for x,file in enumerate(parameters.tab):
-        name = os.path.basename(file)
-        name = os.path.splitext(name)[0]
-        hca , iupred , tango = parse_orfold_tab(tab = file)
+    out_path = Path(parameters.out)
+    out_path.mkdir(exist_ok=True)   
+
+    for x, _file in enumerate(parameters.tab):
+        name = str(Path(_file).stem)
+        out_basename = out_path / name
+
+        hca , iupred , tango = parse_orfold_tab(tab=_file)
         to_plot.append(hca)
         colors.append(list(colors_bank[x]))
         #colors.append([random.uniform(0,1),random.uniform(0,1),random.uniform(0,1)])
@@ -72,8 +88,6 @@ def main():
         except:
             labels.append(name)
         bins.append(15)
-
-
 
     my_plot = generate_the_plot(to_plot = to_plot , colors = colors , bins = bins , labels = labels)
 
@@ -111,20 +125,25 @@ def main():
     except:
         pass
 
-
-
     fig = my_plot.get_figure()
-    fig.savefig('output.png',transparent=False)
-    fig.savefig('output_transparent.png',transparent=True)
-    fig.savefig('output.pdf',transparent=True,dpi=300)
+    # fig.savefig('output.png',transparent=False)
+    # fig.savefig('output_transparent.png',transparent=True)
+    # fig.savefig('output.pdf',transparent=True,dpi=300)
+
+
+    fig.savefig(str(out_basename) + '.png', transparent=False)
+    fig.savefig(str(out_basename) + '_alpha.png', transparent=True)
+    fig.savefig(str(out_basename) + '.png', transparent=True, dpi=300)
 
     fig2, ax = plt.subplots(figsize=(6, 1))
     fig2.subplots_adjust(bottom=0.5)
     norm = mpl.colors.Normalize(vmin=-10, vmax=10)
-    cb1      = mpl.colorbar.ColorbarBase(ax,
-                                         cmap=mpl.cm.coolwarm,
-                                         orientation='horizontal',
-                                          norm=norm)
-                                         #boundaries=[-10,-5,0,5,10])
-    fig2.savefig('Scale.pdf',transparent=True,dpi=300)
+    cb1 = mpl.colorbar.ColorbarBase(
+        ax,
+        cmap=mpl.cm.coolwarm,
+        orientation='horizontal',
+        norm=norm
+    )
+
+    fig2.savefig(str(out_basename) + '_scale.pdf', transparent=True, dpi=300)
 

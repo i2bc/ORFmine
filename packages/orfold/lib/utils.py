@@ -5,14 +5,13 @@ Created on Wed Oct 14 15:32:48 2020
 
 @author: christospapadopoulos
 """
+import configparser
+from pathlib import Path
+import warnings
+import sys
 
 import matplotlib.pyplot as plt
 import seaborn as sns
-import random
-import warnings
-import configparser
-from pathlib import Path
-import sys
 
 from packages.config import ROOT_PATH
 
