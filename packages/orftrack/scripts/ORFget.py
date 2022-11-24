@@ -360,15 +360,19 @@ def main():
     #genome_file =  "/Users/christospapadopoulos/Documents/de_novo/Fungi_BLASTs/Scer/Scer.fna"              
     print("Started\t:\t",time.ctime()) 
     my_fasta = SeqIO.to_dict(SeqIO.parse(open(genome_file),'fasta'))
-    my_gff = GFF_iterator(gff_file      = parameters.gff,
-                          genome        = my_fasta,
-                          gff_types     = parameters.features_include,
-                          outname       = parameters.o,
-                          output_type   = parameters.type,
-                          chr_exclude   = parameters.chr_exclude,
-                          genetic_code  = parameters.table,
-                          check         = parameters.check,
-                          elongate      = parameters.elongate)
+
+    GFF_iterator(
+        gff_file = parameters.gff,
+        genome = my_fasta,
+        gff_types = parameters.features_include,
+        outname = parameters.o,
+        output_type = parameters.type,
+        chr_exclude = parameters.chr_exclude,
+        genetic_code = parameters.table,
+        check = parameters.check,
+        elongate = parameters.elongate
+    )
+    
     print("Ended \t:\t",time.ctime())
     return()
 
