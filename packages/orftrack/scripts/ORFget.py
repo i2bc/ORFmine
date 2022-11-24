@@ -8,7 +8,7 @@ Created on Sat Mar 12 00:40:27 2022
 
 import argparse
 from Bio import SeqIO
-from Bio.Seq import Seq
+from pathlib import Path
 import time
 import re
 
@@ -21,22 +21,25 @@ def get_args():
     parser = argparse.ArgumentParser(description='ORFs sequence extractor')
     parser.add_argument("-fna",
                         type=str,
-                        #action='store',
                         required=True, 
                         nargs="?",
                         help="Genomic fasta file (.fna) ")
     parser.add_argument("-gff",
                         type=str,
-                        #action='store',
                         required=True, 
                         nargs="?",
                         help="Annotation file (.gff) ")
-    parser.add_argument("-o",
+    parser.add_argument("-outdir",
                         type=str,
-                        #action='store',
-                        required=True, 
+                        required=False, 
                         nargs="?",
-                        help="Output name of fasta file(s)")
+                        default="./",
+                        help="Output directory of generated fasta file(s) (default='./').")
+    parser.add_argument("-outname",
+                        type=str,
+                        required=False, 
+                        nargs="?",
+                        help="Output basename of generated fasta file(s) (by default, built from GFF filename and asked features).")
     parser.add_argument("-features_include",
                         type=str,
                         action='store',
@@ -356,25 +359,29 @@ class GFF_iterator:
 def main():
     parameters     = get_args()
     genome_file    = parameters.fna
-                                  
-    #genome_file =  "/Users/christospapadopoulos/Documents/de_novo/Fungi_BLASTs/Scer/Scer.fna"              
+
+    features_in_name = "_" + "_".join(parameters.features_include)
+    out_basename = str(Path(parameters.outdir) / (str(Path(parameters.gff).stem) + features_in_name))
+    Path(parameters.outdir).mkdir(parents=True, exist_ok=True)
+
     print("Started\t:\t",time.ctime()) 
     my_fasta = SeqIO.to_dict(SeqIO.parse(open(genome_file),'fasta'))
+
+
 
     GFF_iterator(
         gff_file = parameters.gff,
         genome = my_fasta,
         gff_types = parameters.features_include,
-        outname = parameters.o,
+        outname = out_basename,
         output_type = parameters.type,
         chr_exclude = parameters.chr_exclude,
         genetic_code = parameters.table,
         check = parameters.check,
         elongate = parameters.elongate
     )
-    
+
     print("Ended \t:\t",time.ctime())
-    return()
 
 
 if __name__ == "__main__":
