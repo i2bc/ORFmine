@@ -39,7 +39,8 @@ def get_args():
                         type=str,
                         required=False, 
                         nargs="?",
-                        help="Output basename of generated fasta file(s) (by default, built from GFF filename and asked features).")
+                        default="",
+                        help="Output basename of generated fasta file(s) (default="" - automatically built from GFF filename and asked features).")
     parser.add_argument("-features_include",
                         type=str,
                         action='store',
@@ -361,7 +362,11 @@ def main():
     genome_file    = parameters.fna
 
     features_in_name = "_" + "_".join(parameters.features_include)
-    out_basename = str(Path(parameters.outdir) / (str(Path(parameters.gff).stem) + features_in_name))
+    if parameters.outname == "":
+        out_basename = str(Path(parameters.outdir) / (str(Path(parameters.gff).stem) + features_in_name))
+    else:
+        out_basename = str(Path(parameters.outdir) / (parameters.outname + features_in_name))
+
     Path(parameters.outdir).mkdir(parents=True, exist_ok=True)
 
     print("Started\t:\t",time.ctime()) 
