@@ -88,15 +88,21 @@ def get_args():
                         action='store_true',
                         required=False,
                         #nargs="?",
-                        default = False,
+                        default=False,
                         help='DO NOT write sequences that DO NOT finish with a STOP codon')
     parser.add_argument("-elongate",
                         type=int,
                         #action='store',
                         required=False, 
                         nargs="?",
-                        default = False,
+                        default=False,
                         help="Number of nucletides to elongate vers 5 & 3 UTR")
+    parser.add_argument("-name_attribute",
+                        type=str,
+                        required=False,
+                        nargs="?",
+                        default="Name",
+                        help="GFF 'Name' attribute")
 
     args = parser.parse_args()
     return args
@@ -106,10 +112,10 @@ class GFF_element:
     '''
     
     '''
-    def __init__(self,gff_line,genome=None,genetic_code=1):
+    def __init__(self, gff_line, genome=None, name_attribute="Name", genetic_code=1):
         self.chromosome = gff_line.split("\t")[0]
         self.info       = self.__organize_info__(gff_line.split("\t")[-1])
-        self.identity   = self.__get_feature_identity__(self.info)
+        self.identity   = self.__get_feature_identity__(self.info, name_attribute)
         self.phase      = gff_line.split("\t")[-2]
         self.strand     = gff_line.split("\t")[-3]
         self.end        = int(gff_line.split("\t")[-5])
@@ -131,16 +137,18 @@ class GFF_element:
                 dico[i.split("=")[0]] = i.split("=")[1]
             except:
                 dico[i] = None
-        #return({i.split("=")[0]:i.split("=")[1] for i in info.split(";")})
+
         return dico
     
-    def __get_feature_identity__(self,info_organized):
+    def __get_feature_identity__(self, info_organized, name_attribute):
         if "ID" in info_organized:
             return(info_organized["ID"])
         elif "Name" in info_organized:
             return(info_organized["Name"])
         elif "Parent" in info_organized:
             return(info_organized["Parent"])
+        elif name_attribute in info_organized:
+            return(info_organized[name_attribute])
         else:
             return(None)
         
@@ -200,16 +208,17 @@ class GFF_iterator:
     '''
     This class parses a GFF3 file into multiple features 
     '''
-    def __init__(self,gff_file,outname,output_type,chr_exclude=[None],gff_types=["all"],genome=None,genetic_code=1,check=True,elongate=False):
+    def __init__(self, gff_file, outname, output_type, chr_exclude=[None], gff_types=["all"], genome=None, genetic_code=1, check=True, elongate=False, name_attribute="Name"):
         self.file         = gff_file
         self.genetic_code = genetic_code
         self.chr_exclude  = chr_exclude
         self.gff_types    = gff_types
         self.outname      = outname
         self.output_type  = output_type
-        self.features     = self.__get_features__(gff_file,gff_types,genome,chr_exclude,genetic_code,outname,output_type,check,elongate)
+        self.name_attribute = name_attribute
+        self.features     = self.__get_features__(gff_file, gff_types, genome, chr_exclude, genetic_code, outname, output_type, check,elongate, name_attribute)
         
-    def __get_features__(self,gff_file,gff_types,genome,chr_exclude,genetic_code,outname,output_type,check,elongate):
+    def __get_features__(self, gff_file, gff_types, genome, chr_exclude, genetic_code, outname, output_type, check, elongate, name_attribute):
         # Initialize the list of features
         features = []
         # Initialize the variable previous_feature to test if this feature.identity exists already and update it
@@ -230,7 +239,7 @@ class GFF_iterator:
             for line in gff:
                 if not line.startswith("#"):
                     # For every line we create a feature class
-                    feature = GFF_element(line,genome)
+                    feature = GFF_element(line, genome, name_attribute)
 
                     # We check if the filter is in the list of features wanted
                     #if feature.feature in gff_types and feature.chromosome not in chr_exclude or gff_types == ["all"]:
@@ -375,15 +384,16 @@ def main():
 
 
     GFF_iterator(
-        gff_file = parameters.gff,
-        genome = my_fasta,
-        gff_types = parameters.features_include,
-        outname = out_basename,
-        output_type = parameters.type,
-        chr_exclude = parameters.chr_exclude,
-        genetic_code = parameters.table,
-        check = parameters.check,
-        elongate = parameters.elongate
+        gff_file=parameters.gff,
+        genome=my_fasta,
+        gff_types=parameters.features_include,
+        outname=out_basename,
+        output_type=parameters.type,
+        chr_exclude=parameters.chr_exclude,
+        genetic_code=parameters.table,
+        check=parameters.check,
+        elongate=parameters.elongate,
+        name_attribute=parameters.name_attribute
     )
 
     print("Ended \t:\t",time.ctime())
