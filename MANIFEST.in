@@ -1,0 +1,3 @@
+include packages/orfribo/Snakefile
+include packages/orfribo/config.yaml
+include packages/orfribo/Rscripts/*

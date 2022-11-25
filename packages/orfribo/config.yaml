@@ -1,0 +1,51 @@
+# Name for the experiment
+project_name: ""
+
+# Name of the genome or transcriptome fasta file to align on
+fasta: ""
+
+# Name of the gff file with genome or transcriptome annotations
+gff: ""
+
+# Name of the gff file with intergenic annotations (ORFtrack output)
+gff_intergenic: ""
+
+# Path of the directory containing your .fastq.gz files
+path_to_fastq: ""
+
+# set base directory location for orfribo outputs (optional - default='./orfribo_%datetime')
+out_base: ""
+
+# Fasta file with not interesting sequences (If you do not have any, create an empty file)
+fasta_outRNA: ""
+
+
+# Are the sequencing adapters already removed in fastq files ? 'yes' or 'no'
+already_trimmed: ""
+
+# Adapter sequence (Example sequence for Illumina TruSeq™ single or CD index : "AGATCGGAAGAGCACACGTCTGAACTCCAGTCA")
+# Put "" if unknown, RiboDoc_BAM2Reads will try to find it for you
+adapt_sequence: ""
+
+# Minimum read length kept for ribosome profiling
+readsLength_min: "25"
+
+# Maximum read length kept for ribosome profiling
+readsLength_max: "35"
+
+
+# Elements to select during counting
+gff_cds_feature: "CDS"
+
+# Attribute containing the names of the genes in gff
+gff_name_attribut: "Name"
+
+
+# Minimum mean of in-frame reads in coding region to select specific read lengths
+orfstats_mean_threshold: "70"
+
+# Minimum median of in-frame reads in coding region to select specific read lengths
+orfstats_median_threshold: "70"
+
+# List of features to look for in the intergenic gff of the genome
+final_counts: "nc_intergenic"
