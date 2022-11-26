@@ -1,4 +1,3 @@
-
 import gffutils
 import re
 import os
@@ -12,21 +11,27 @@ from packages.orfribo import __version__
 # set default config file (key:value pairs can be overriden with '--config key=value' in snakemake command)
 configfile: pkg_resources.resource_filename("orfribo", "config.yaml")
 
-
 # get location of Rscript files 
 RSCRIPTS_PATH = pkg_resources.resource_filename("orfribo", 'Rscripts')
 find_adapter_sequence = str(Path(RSCRIPTS_PATH) / "find_adapter_sequence.R")
 periodicity_riboWaltz_exome = str(Path(RSCRIPTS_PATH) / "periodicity_riboWaltz_exome.R")
 
-
 # Sets resources (threads number, maximum RAM ...)
 THREADS_NB = 3
 MEM_MB = 10000
 
+# set project name
+PROJECT_NAME = config['project_name']
+
+# get input path
+GFF_PATH = Path(config['gff']).resolve()
+GFF_INTERGENIC_PATH = Path(config["gff_intergenic"]).resolve()
+FASTA_PATH = Path(config['fasta']).resolve()
+RNA_TO_EXCLUDE_PATH = Path(config['fasta_outRNA']).resolve()
+FASTQ_PATH = Path(config['path_to_fastq']).resolve()
 
 # set and define the base directory for outputs
-suffix_date = time.strftime("%Y%m%d-%H%M%S")  # freeze starting time value
-
+suffix_date = time.strftime("%Y%m%d-%H%M%S") 
 if "out_base" not in config:
     OUT_BASE_PATH = Path('orfribo_' + suffix_date)
 else:
@@ -35,18 +40,6 @@ else:
         OUT_BASE_PATH = Path('orfribo_' + suffix_date)
 
 OUT_BASE_PATH.mkdir(parents=True, exist_ok=True)
-
-
-# set project name
-PROJECT_NAME = config['project_name']
-
-
-# get input path
-GFF_PATH = Path(config['gff']).resolve()
-GFF_INTERGENIC_PATH = Path(config["gff_intergenic"]).resolve()
-FASTA_PATH = Path(config['fasta']).resolve()
-RNA_TO_EXCLUDE_PATH = Path(config['fasta_outRNA']).resolve()
-FASTQ_PATH = Path(config['path_to_fastq']).resolve()
 
 
 # set intermediary output path
@@ -90,7 +83,7 @@ onstart:
     shell("mkdir -p " + str(OUT_BASE_PATH / 'logs'))
     shell("echo 'RiboDoc version : " + __version__ + "' > " + str(LOGS_PATH / "RiboDoc_package_versions.txt"))
     # shell("conda list >> " + str(Path(OUT_BASE_PATH) / "logs" / "RiboDoc_package_versions.txt"))
-    print(OUT_BASE_PATH)
+
 
 
 onsuccess:
@@ -120,7 +113,7 @@ rule find_adapter_sequence:
     shell:
         "touch {output.adapter} 2> {log.touch};"
         "if [ -z " + config['adapt_sequence'] + " ]; then "
-        "Rscript " + find_adapter_sequence + " {input.fastq} " + str(RESULTS_PATH / "adapter_lists") + "/" + " 2> {log.rscript} ;"
+        "Rscript " + find_adapter_sequence + " {input.fastq} " + str(RESULTS_PATH / "adapter_lists") + " 2> {log.rscript} ;"
         "elif [ '" + config['already_trimmed'] + "' = 'no' ]; then echo " + config['adapt_sequence'] + " 1> {output.adapter} 2> {log.echo};"
         "fi;"
 
@@ -216,7 +209,7 @@ rule bowtie2_build_outRNA:
 rule bowtie2_run_outRNA:
     input:
         expand(str(ANNEX_DB_PATH / "outRNA_bowtie2.{extb}.bt2"), extb=BOWTIE2),
-        fastq = str(RESULTS_PATH / "cutadapt"/ ("{sample}.cutadapt" + FRAG_LENGTH_L + ".fastq.gz"))
+        fastq = str(RESULTS_PATH / "cutadapt" / ("{sample}.cutadapt" + FRAG_LENGTH_L + ".fastq.gz"))
     output:
         str(RESULTS_PATH / "no-outRNA"/ ("{sample}" + FRAG_LENGTH_L + ".no-outRNA.fastq.gz"))
     log:

@@ -1,8 +1,8 @@
 import os
 import sys
 import argparse
-from orftrack.lib import gff_parser
-from orftrack.lib import fasta_parser
+from packages.orftrack.lib import gff_parser
+from packages.orftrack.lib import fasta_parser
 
 
 def main():

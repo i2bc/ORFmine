@@ -14,7 +14,7 @@ gff_intergenic: ""
 path_to_fastq: ""
 
 # set base directory location for orfribo outputs (optional - default='./orfribo_%datetime')
-out_base: ""
+# out_base: "output_orfribo"
 
 # Fasta file with not interesting sequences (If you do not have any, create an empty file)
 fasta_outRNA: ""
