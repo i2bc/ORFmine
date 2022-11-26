@@ -53,6 +53,7 @@ st.setup(
         'console_scripts': [
             'orftrack=packages.orftrack.main:main',
             'orfget=packages.orftrack.scripts.ORFget:main',
+            'gff2prot=packages.orftrack.scripts.gff2prot:main',
             'orfold=packages.orfold.orfold:main',
             'orfplot=packages.orfold.scripts.plot_orfold:main',
             'orfdate=packages.orfdate.ORFdate:main',
