@@ -57,6 +57,7 @@ st.setup(
             'orfold=packages.orfold.orfold:main',
             'orfplot=packages.orfold.scripts.plot_orfold:main',
             'orfdate=packages.orfdate.ORFdate:main',
+            'orfribo=packages.orfribo.orfribo:main',
             'bam2reads=packages.orfribo.scripts.BAM2Reads:main',
             'orfstats=packages.orfribo.scripts.ORFstats:main',
             'merge_read_tables=packages.orfribo.scripts.concatenate:main',            

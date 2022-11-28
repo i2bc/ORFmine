@@ -30,7 +30,7 @@ FASTA_PATH = Path(config['fasta']).resolve()
 RNA_TO_EXCLUDE_PATH = Path(config['fasta_outRNA']).resolve()
 FASTQ_PATH = Path(config['path_to_fastq']).resolve()
 
-# set and define the base directory for outputs
+# set and define the base directory for outputs - by default, if not provided, output dirname is based on the project name
 suffix_date = time.strftime("%Y%m%d-%H%M%S") 
 if "out_base" not in config:
     OUT_BASE_PATH = Path('orfribo_' + suffix_date)

@@ -120,7 +120,6 @@ def main():
 
     snakemake.snakemake(
         snakefile,
-        # configfiles=args.configfile,
         dryrun=args.dry_run,
         nodes=args.jobs,
         resources=args.mem_mb,
