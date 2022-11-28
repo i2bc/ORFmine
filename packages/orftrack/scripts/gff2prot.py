@@ -47,7 +47,7 @@ def get_args():
         required=False,
         action='store_true',
         default=False,
-        help="For only amino acids output format (.faa)."
+        help="For only amino acids output format (.chromosome_to_process)."
     )
 
     group.add_argument(
@@ -55,7 +55,7 @@ def get_args():
         required=False,
         action='store_true',
         default=False,
-        help="For nucleic output format (.fna)."
+        help="For nucleic output format (.nfasta)."
     )
 
     parser.add_argument(
@@ -80,11 +80,11 @@ def main():
     features = args.features_include
     elongation = args.elongate
 
-    out_formats = [".faa", ".fna"]
+    out_formats = [".pfasta", ".nfasta"]
     if args.proteic:
-        out_formats.remove(".fna")
+        out_formats.remove(".nfasta")
     elif args.nucleic:
-        out_formats.remove(".faa")
+        out_formats.remove(".pfasta")
 
     outpath = Path(args.outdir)
     outpath.mkdir(parents=True, exist_ok=True)
@@ -114,13 +114,13 @@ def main():
 
     if chromosomes:
         print("\nWriting CDS sequences...")
-        with open(basename_out + '.faa', 'w') as faa_file:
-            with open(basename_out + '.fna', 'w') as fna_file:
+        with open(basename_out + '.pfasta', 'w') as faa_file:
+            with open(basename_out + '.nfasta', 'w') as fna_file:
                 for chr_name in sorted(chromosomes):
                     proteins = chromosomes[chr_name].group_cds()
 
                     for name, cds_elements in proteins.items():
-                        header = '>' + name + ':' + chromosomes[chr_name].id_ + '\n'
+                        header = '>' + name + '\n'
                         fasta_aa = header + ''.join([cds.translate() for cds in cds_elements]) + '\n'
                         fasta_nuc = header + ''.join([cds.sequence() for cds in cds_elements]) + '\n'
                         faa_file.write(fasta_aa)
@@ -128,7 +128,7 @@ def main():
 
 
 
-def process_gff(gff_filename: str = None, fasta_hash: dict = {}, asked_chrs: list = [], features: list=[], basename_out: str = "", out_formats: list=[".faa", ".fna"], elongation: int = None) -> dict:
+def process_gff(gff_filename: str = None, fasta_hash: dict = {}, asked_chrs: list = [], features: list=[], basename_out: str = "", out_formats: list=[".pfasta", ".nfasta"], elongation: int = None) -> dict:
     """Return a dictionary with chromosome name as key, and gff_parser.Chromosome instance as value
     if asked GFF elements that are CDS only
     and / or 
@@ -140,7 +140,7 @@ def process_gff(gff_filename: str = None, fasta_hash: dict = {}, asked_chrs: lis
         asked_chrs (list, optional): Chromosome names to processed. By default, all chromosomes are processed (default: []).
         features (list, optional): List of GFF features to process. Empty list means all features will be treated. Defaults to [].
         basename_out (str, optional): Output file basename. Defaults to "".
-        out_formats (list, optional): List of output formats to be generated. Outputs can be .fna, .faa or both.
+        out_formats (list, optional): List of output formats to be generated. Outputs can be .fna, .pfasta or both.
 
     Returns:
         dict: Dictionary with chromosome name as key, and gff_parser.Chromosome instance as value
@@ -151,7 +151,7 @@ def process_gff(gff_filename: str = None, fasta_hash: dict = {}, asked_chrs: lis
 
     if elongation:
         basename_out += "_elongated"
-        out_formats = [".fna", ".gff"]
+        out_formats = [".nfasta", ".gff"]
     
     try:
         out_files = { _ext:open(basename_out+_ext, "w") for _ext in out_formats }
@@ -187,10 +187,10 @@ def process_gff(gff_filename: str = None, fasta_hash: dict = {}, asked_chrs: lis
                         chromosome.add(gff_element=gff_element)
 
                     else:
-                        if ".faa" in out_files:
-                            out_files[".faa"].write(gff_element.get_fastaline())
-                        if ".fna" in out_files:
-                            out_files[".fna"].write(gff_element.get_fastanuc_line())
+                        if ".pfasta" in out_files:
+                            out_files[".pfasta"].write(gff_element.get_fastaline())
+                        if ".nfasta" in out_files:
+                            out_files[".nfasta"].write(gff_element.get_fastanuc_line())
                         if ".gff" in out_files:
                             out_files[".gff"].write(gff_element.get_gffline())
 
