@@ -129,7 +129,7 @@ class GffElement:
             return '\t'.join(self.gff_line)
         else:
             gff_line = self.seqid
-            gff_line += '\t'+self.source
+            gff_line += '\t' + self.source
             gff_line += '\t' + self.type
             gff_line += '\t' + str(self.start)
             gff_line += '\t' + str(self.end)
@@ -461,16 +461,21 @@ class Chromosome:
 
     def group_cds(self):
         proteins_dict = {}
+
         for cds in self.get_cds():
             if cds.name not in proteins_dict:
                 proteins_dict[cds.name] = []
-            proteins_dict[cds.name].append(cds)
 
+            if cds.strand == "-":
+                proteins_dict[cds.name].insert(0, cds)
+            else:
+                proteins_dict[cds.name].append(cds)
+    
         return proteins_dict
 
     def proteins_fasta(self):
         proteins = self.group_cds()
-        for protein in sorted(proteins):
+        for protein in sorted(proteins):            
             fasta = '>' + protein + ':' + self.id_ + '\n'
             fasta += ''.join([cds.translate() for cds in proteins[protein]]) + '\n'
             yield fasta

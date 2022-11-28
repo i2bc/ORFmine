@@ -163,10 +163,10 @@ class GFF_element:
         '''
         if gff_element.end < self.start:
             self.seq_nucl = gff_element.seq_nucl + self.seq_nucl
-            self.start    = gff_element.start
+            self.start = gff_element.start
         elif gff_element.start > self.end:
             self.seq_nucl = self.seq_nucl + gff_element.seq_nucl 
-            self.end      = gff_element.end
+            self.end = gff_element.end
             
     def __correct_feature_sequences__(self,genetic_code=1):
         '''
@@ -270,13 +270,13 @@ class GFF_iterator:
                             # If the elongation option is activate, we elongate the feture sequence:
                             if elongate != False:
                                 # We elongate the sequence of the feature 
-                                features[0].__elongate__(genome=genome,elongate=elongate)
+                                features[0].__elongate__(genome=genome, elongate=elongate)
                                 
-                                fasta_elongate.write(">{}\n{}\n".format(features[0].identity+"_mRNA",str(features[0].seq_nucl_elongated.seq)))
+                                fasta_elongate.write(">{}\n{}\n".format(features[0].identity + "_mRNA", str(features[0].seq_nucl_elongated.seq)))
                                 
                                 gene_end  = len(features[0].seq_nucl_elongated.seq)
-                                cds_start = elongate+1
-                                cds_end   = elongate+len(str(features[0].seq_nucl.seq))
+                                cds_start = elongate + 1
+                                cds_end   = elongate + len(str(features[0].seq_nucl.seq))
                                 
                                 # We write the GENE feature in the GFF : ID=identity
                                 gff_elongate.write("{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\n".format(features[0].identity+"_mRNA","elongated","gene","1",gene_end,".","+",".","ID=" + features[0].identity))
@@ -315,7 +315,7 @@ class GFF_iterator:
         try:
             features[0].__correct_feature_sequences__(genetic_code=genetic_code)
         except:
-            print("None of the feature paterns was found in your GFF file")
+            print("None of the feature patterns was found in your GFF file")
         try:
             fwn.write(">{}\n{}\n".format(features[0].identity,str(features[0].seq_nucl.seq)))
         except:
