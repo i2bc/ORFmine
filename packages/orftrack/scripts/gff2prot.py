@@ -114,17 +114,23 @@ def main():
 
     if chromosomes:
         print("\nWriting CDS sequences...")
-        with open(basename_out + '.pfasta', 'w') as faa_file:
-            with open(basename_out + '.nfasta', 'w') as fna_file:
-                for chr_name in sorted(chromosomes):
-                    proteins = chromosomes[chr_name].group_cds()
+        try:
+            out_files = { _ext:open(basename_out+_ext, "w") for _ext in out_formats }
 
-                    for name, cds_elements in proteins.items():
-                        header = '>' + name + '\n'
-                        fasta_aa = header + ''.join([cds.translate() for cds in cds_elements]) + '\n'
-                        fasta_nuc = header + ''.join([cds.sequence() for cds in cds_elements]) + '\n'
-                        faa_file.write(fasta_aa)
-                        fna_file.write(fasta_nuc)
+            for chr_name in sorted(chromosomes):
+                proteins = chromosomes[chr_name].group_cds()
+
+                for name, cds_elements in proteins.items():
+                    header = '>' + name + '\n'
+                    fasta_aa = header + ''.join([cds.translate() for cds in cds_elements]) + '\n'
+                    fasta_nuc = header + ''.join([cds.sequence() for cds in cds_elements]) + '\n'
+                    if ".pfasta" in out_files:
+                        out_files[".pfasta"].write(fasta_aa)
+                    if ".nfasta" in out_files:
+                        out_files[".nfasta"].write(fasta_nuc)
+        finally:
+            for _, _file in out_files.items():
+                _file.close()
 
 
 
