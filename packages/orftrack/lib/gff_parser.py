@@ -624,11 +624,6 @@ def parse(param=None, fasta_hash=None, chr_asked=None, chr_exclude=None):
     for chr_name in sorted(gff_data):
         gff_data[chr_name].index_cds()
 
-    # output all proteins (even reconstructed) in info.log 
-    # for chr_name in sorted(gff_data):
-    #     for pfasta in gff_data[chr_name].proteins_fasta():
-    #         logger.info(pfasta)
-
     return gff_data
 
 
