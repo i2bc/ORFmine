@@ -609,6 +609,7 @@ def parse(param=None, fasta_hash=None, chr_asked=None, chr_exclude=None):
                             if element_type in param.types_only:
                                 chromosome.add(gff_element=GffElement(gff_line=line, fasta_chr=fasta_hash[chr_id]))
                 
+                # read next line as long as it is not starting with '#'
                 while True:
                     line = gff_file.readline()
                     if not line.startswith("#"):

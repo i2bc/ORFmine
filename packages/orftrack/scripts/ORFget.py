@@ -250,10 +250,10 @@ class GFF_iterator:
                             previous_feature = feature.identity
                             features.append(feature)
                             continue
+
                         # If the feature is not already in the list we add it (I check only the last feature)                        
                         if feature.identity != previous_feature:
                             previous_feature = feature.identity
-                            # We append the new feature in the list
                             features.append(feature)
                     
                             # We translate the previous feature into AA
