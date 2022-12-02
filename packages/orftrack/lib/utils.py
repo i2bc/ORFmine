@@ -1,5 +1,7 @@
 import logging
 import os
+from pathlib import Path
+from shutil import copyfileobj as shutil_copyfileobj
 from threading import Thread
 import time
 from typing import List, Union
@@ -36,6 +38,19 @@ class IndexGFF(Thread):
         start_time = time.time()
         self.result = get_indexes_gff(gff_fname=self.filename)
         print(f"{self.name} - GFF file parsed in {round(time.time()-start_time, 2)} seconds")
+
+
+class Concatenate(Thread):
+    def __init__(self, inputs, output):
+        super().__init__()
+        self.inputs = inputs
+        self.output = output
+
+    def run(self):
+        print(f"{self.name} - Merging output files...")
+        start_time = time.time()
+        concatfiles(inputs=self.inputs, output=self.output)
+        print(f"{self.name} - Merging done in {round(time.time()-start_time, 2)} seconds")
 
 
 
@@ -252,3 +267,26 @@ def index_genomes(fasta_file: str="", gff_file: str=""):
         t.join()
 
     return [x.result for x in indexing_threads]
+
+
+def concatfiles(inputs: List[Union[str, Path]], output: Union[str, Path]):
+    with open(output, 'w') as wfd:
+        for f in inputs:
+            with open(f,'r') as fd:
+                shutil_copyfileobj(fd, wfd)
+            Path(f).unlink()
+            
+        
+def merge_outfiles(inpath: Union[str, Path], infiles: List[Union[str, Path]], extensions: List[str], outbasename: str):
+    threads: List[Concatenate] = []
+    for ext in extensions:
+        output = inpath / f"{outbasename}{ext}"
+        files_ext = [ f"{base_file}{ext}" for base_file in infiles if Path(f"{base_file}{ext}").exists() ]
+
+        threads.append(Concatenate(inputs=files_ext, output=output))
+
+    for t in threads:
+        t.start()
+
+    for t in threads:
+        t.join()

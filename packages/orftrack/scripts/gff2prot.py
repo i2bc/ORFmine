@@ -8,7 +8,7 @@ from os import stat as ostat
 import shutil
 
 from packages.orftrack.lib import gff_parser, fasta_parser
-from packages.orftrack.lib.utils import CDSQueue, get_chunks, index_genomes, validate_chromosomes
+from packages.orftrack.lib.utils import CDSQueue, get_chunks, index_genomes, validate_chromosomes, merge_outfiles
 
 import multiprocessing
 
@@ -114,10 +114,6 @@ def process_chromosome(gff_filename: str=None, fasta_chr: fasta_parser.Fasta=Non
 
     # queue used to process CDS particular (CDS can't be written 'on the fly')
     queue = CDSQueue()
-
-    if elongation:
-        basename_out += "_elongated"
-        out_formats = [".nfasta", ".gff"]
     
     try:
         out_files = { _ext:open(basename_out+_ext, "w") for _ext in out_formats }
@@ -212,10 +208,7 @@ def process_chromosome(gff_filename: str=None, fasta_chr: fasta_parser.Fasta=Non
             print(f"No asked features found for chromosome {chr_id}")
             for _ext in out_formats:
                 if ostat(basename_out + _ext).st_size == 0:
-                    Path(basename_out + _ext).unlink()
-
-
-            
+                    Path(basename_out + _ext).unlink()            
         
 
     print(f"{process_name} -  Chromosome {chr_id} successfully processed in {round(time.time()-start_time, 2)} seconds")
@@ -237,6 +230,7 @@ def main():
     elif args.nucleic:
         out_formats.remove(".pfasta")
 
+
     outpath = Path(args.outdir)
     outpath.mkdir(parents=True, exist_ok=True)
 
@@ -246,9 +240,12 @@ def main():
     else:
         basename_out = str(outpath / f"{args.outname}{features_in_name}")
 
+    if elongation:
+        basename_out += "_elongated"    
+        out_formats.append(".gff")
+
     # get useful indexes of fasta & gff files 
     fasta_hash, gff_indexes = index_genomes(fasta_file=genomic_fna, gff_file=genomic_gff)
-
 
     # chromosomes must be consistent between the fasta file and gff file
     # if a same chromosome is given in both chr_includes and chr_excludes, this chromosome will be included.
@@ -261,13 +258,14 @@ def main():
     chunks = get_chunks(l=valid_chromosomes, chunks_size=cpus)
 
     i = 0
-    for chunk in chunks:
-
-        # create and start processed
+    merged_files = []
+    for n, chunk in enumerate(chunks):
         processes = []
+        out_filenames = [] 
 
         for chr_id in chunk:
             basename = f"{basename_out}_{chr_id}_{i}"
+            out_filenames.append(basename)
 
             p = multiprocessing.Process(target=process_chromosome, args=(genomic_gff, fasta_hash[chr_id], chr_id, features, basename, out_formats, elongation, gff_indexes,))
             p.chr_id = chr_id
@@ -280,8 +278,10 @@ def main():
         for p in processes:
             p.join()
 
-
-
+        merged_files.append(outpath/f"out_merged_chunk-{n}")
+        merge_outfiles(inpath=outpath, infiles=out_filenames, extensions=out_formats, outbasename=f"out_merged_chunk-{n}")
+    merge_outfiles(inpath=outpath, infiles=merged_files, extensions=out_formats, outbasename=str(Path(basename_out).stem))
+    
 
 
 if __name__ == '__main__':
