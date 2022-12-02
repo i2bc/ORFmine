@@ -4,13 +4,13 @@ import re
 import sys
 from typing import List
 import time
-
+from os import stat as ostat
+import shutil
 
 from packages.orftrack.lib import gff_parser, fasta_parser
 from packages.orftrack.lib.utils import CDSQueue, get_chunks, index_genomes, validate_chromosomes
 
 import multiprocessing
-
 
 
 def get_args():
@@ -121,6 +121,7 @@ def process_chromosome(gff_filename: str=None, fasta_chr: fasta_parser.Fasta=Non
     
     try:
         out_files = { _ext:open(basename_out+_ext, "w") for _ext in out_formats }
+        has_elements = False
 
         with open(gff_filename, 'r') as gff_file:
             # retrieve en-of-file value
@@ -147,6 +148,8 @@ def process_chromosome(gff_filename: str=None, fasta_chr: fasta_parser.Fasta=Non
                 if not re.findall(features_to_keep, element_type):
                     continue
 
+                has_elements = True
+
                 try:
                     gff_element = gff_parser.GffElement(gff_line=line, fasta_chr=fasta_chr)
                 except KeyError as e:
@@ -156,6 +159,8 @@ def process_chromosome(gff_filename: str=None, fasta_chr: fasta_parser.Fasta=Non
                 # process non CDS elements
                 if gff_element.type != "CDS":
                     if elongation:
+                        if ".gff" in out_files:
+                            out_files[".gff"].write(gff_element.get_gffline())
                         gff_element.start = gff_element.start - elongation
                         gff_element.end = gff_element.end + elongation
                     
@@ -164,47 +169,54 @@ def process_chromosome(gff_filename: str=None, fasta_chr: fasta_parser.Fasta=Non
                         out_files[".pfasta"].write(gff_element.get_fastaline())
                     if ".nfasta" in out_files:
                         out_files[".nfasta"].write(gff_element.get_fastanuc_line())
-                    if ".gff" in out_files:
-                        out_files[".gff"].write(gff_element.get_gffline())
 
                 # CDS elements must be treated differently (CDS must be merged for multi-exonic proteins)
                 else:
                     queue.add(cds=gff_element)
                     if queue.cds_completed:
-                        # print(", ".join([x.name for x in queue.cds_completed]))
                         if elongation:
+                            if ".gff" in out_files:
+                                out_files[".gff"].write(queue.build_fake_gff(elongate=elongation))
                             queue.elongate(value=elongation)
 
-                        # writing non CDS elements
+                        # writing CDS elements
                         if ".pfasta" in out_files:
                             out_files[".pfasta"].write(queue.get_fasta(_type="proteic"))
                         if ".nfasta" in out_files:
                             out_files[".nfasta"].write(queue.get_fasta(_type="nucleic"))
-                        if ".gff" in out_files:
-                            out_files[".gff"].write(gff_element.get_gffline())                        
 
                 if gff_file.tell() == eof:
                     break
         
         # The last CDS is still in cds_list
-        if queue.cds_list:
-            
+        if queue.cds_list:            
             # must copy cds_list in cds_completed since queue.get_fasta() applies only on cds_completed
             queue.cds_completed = queue.cds_list
             if elongation:
+                if ".gff" in out_files:
+                    out_files[".gff"].write(queue.build_fake_gff(elongate=elongation))                
                 queue.elongate(value=elongation)
 
-            # writing non CDS elements
+            # writing CDS elements
             if ".pfasta" in out_files:
                 out_files[".pfasta"].write(queue.get_fasta(_type="proteic"))
             if ".nfasta" in out_files:
                 out_files[".nfasta"].write(queue.get_fasta(_type="nucleic"))
-            if ".gff" in out_files:
-                out_files[".gff"].write(gff_element.get_gffline())
-  
     finally:
+        # close opened files
         for _, _file in out_files.items():
             _file.close()
+
+        # remove empty files
+        if not has_elements:
+            print(f"No asked features found for chromosome {chr_id}")
+            for _ext in out_formats:
+                if ostat(basename_out + _ext).st_size == 0:
+                    Path(basename_out + _ext).unlink()
+
+
+            
+        
 
     print(f"{process_name} -  Chromosome {chr_id} successfully processed in {round(time.time()-start_time, 2)} seconds")
                                 
@@ -275,5 +287,12 @@ def main():
 if __name__ == '__main__':
     sys.exit(main())
 
+    outpath = Path("/home/nchenche/projects/orfmine_workdir/examples/database/gff2prot_out")
     genomic_fna = "/home/nchenche/projects/orfmine_workdir/examples/database/Scer.fna"
     genomic_gff = "/home/nchenche/projects/orfmine_workdir/examples/database/Scer.gff"
+
+    outfiles = sorted(outpath.glob("*.nfasta"), key=lambda x: int(x.stem.replace("_elongated", "").split("_")[-1]))
+    with open('output_file.nfasta','w') as wfd:
+        for f in outfiles:
+            with open(f,'r') as fd:
+                shutil.copyfileobj(fd, wfd)
