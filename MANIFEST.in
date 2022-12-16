@@ -1,3 +1,7 @@
+include packages/utilities/data
+include packages/utilities/data/*
+include packages/orfold/data
+include packages/orfold/data/*
 include packages/orfribo/Snakefile
 include packages/orfribo/config.yaml
 include packages/orfribo/Rscripts/*

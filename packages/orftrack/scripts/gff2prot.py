@@ -5,7 +5,6 @@ import sys
 from typing import List
 import time
 from os import stat as ostat
-import shutil
 
 from packages.orftrack.lib import gff_parser, fasta_parser
 from packages.orftrack.lib.utils import CDSQueue, get_chunks, index_genomes, validate_chromosomes, merge_outfiles
@@ -247,13 +246,13 @@ def main():
     # get useful indexes of fasta & gff files 
     fasta_hash, gff_indexes = index_genomes(fasta_file=genomic_fna, gff_file=genomic_gff)
 
-    # chromosomes must be consistent between the fasta file and gff file
-    # if a same chromosome is given in both chr_includes and chr_excludes, this chromosome will be included.
+    # chromosomes must be consistent between the fasta file and gff file, and the asked chromosomes
     valid_chromosomes = validate_chromosomes(to_include=chromosomes_to_process, to_exclude=chromosomes_to_exclude, in_gff=gff_indexes.keys(), in_fasta=fasta_hash.keys())
     print("Chromosomes that will be processed:")
     for chr in valid_chromosomes:
         print(f" - {chr}")
     print()
+
 
     chunks = get_chunks(l=valid_chromosomes, chunks_size=cpus)
 
@@ -286,13 +285,3 @@ def main():
 
 if __name__ == '__main__':
     sys.exit(main())
-
-    outpath = Path("/home/nchenche/projects/orfmine_workdir/examples/database/gff2prot_out")
-    genomic_fna = "/home/nchenche/projects/orfmine_workdir/examples/database/Scer.fna"
-    genomic_gff = "/home/nchenche/projects/orfmine_workdir/examples/database/Scer.gff"
-
-    outfiles = sorted(outpath.glob("*.nfasta"), key=lambda x: int(x.stem.replace("_elongated", "").split("_")[-1]))
-    with open('output_file.nfasta','w') as wfd:
-        for f in outfiles:
-            with open(f,'r') as fd:
-                shutil.copyfileobj(fd, wfd)

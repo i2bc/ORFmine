@@ -7,8 +7,6 @@ Created on Sun Jul 12 16:59:14 2020
 # import random
 from packages.orftrack.lib import logHandler
 
-logger = logHandler.Logger(name=__name__)
-
 
 Genecode = {'ATA': 'I', 'ATC': 'I', 'ATT': 'I', 'ATG': 'M',
             'ACA': 'T', 'ACC': 'T', 'ACG': 'T', 'ACT': 'T',
@@ -246,6 +244,8 @@ def parse(fasta_filename):
         A list of FastaIndex instances.
 
     """
+    logger = logHandler.Logger(name=__name__)
+    
     logger.title('# Parsing fasta file')
     chr_indexes = []
     with open(fasta_filename, 'rb') as fasta_file:
