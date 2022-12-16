@@ -11,9 +11,6 @@ import psutil
 from packages.orftrack.lib import gff_parser, fasta_parser, inspect
 
 
-logger = logging.getLogger(__name__)
-
-
 class IndexFasta(Thread):
     def __init__(self, filename):
         super().__init__()
@@ -47,11 +44,10 @@ class Concatenate(Thread):
         self.output = output
 
     def run(self):
-        print(f"{self.name} - Merging output files...")
+        print(f"{self.name} - Merging intermediate output files...")
         start_time = time.time()
         concatfiles(inputs=self.inputs, output=self.output)
         print(f"{self.name} - Merging done in {round(time.time()-start_time, 2)} seconds")
-
 
 
 class CDSQueue:
@@ -184,30 +180,6 @@ class CDSQueue:
                 
         return gene_line + mrna_line + utr5_line + cds_line + utr3_line
 
-def memory_usage():
-    # return the memory usage in MB
-    process = psutil.Process(os.getpid())
-    mem = process.memory_info().rss / float(2 ** 20)
-
-    return mem
-
-
-def get_indexes_gff(gff_fname):
-    gff_indexes = {}
-        
-    with open(gff_fname, 'rb') as gff_file:
-        line = gff_file.readline().decode(encoding='utf-8')
-        while line:
-            if not line.startswith('#'):
-                name = line.split('\t')[0]
-                pos_chr = gff_file.tell()-len(line)
-                if name not in gff_indexes:
-                    gff_indexes[name] = pos_chr
-                
-            line = gff_file.readline().decode(encoding='utf-8')
-
-    return gff_indexes
-
 
 def memory_usage():
     # return the memory usage in MB
@@ -240,6 +212,8 @@ def get_chunks(l: list, chunks_size: int=10):
 
 
 def validate_chromosomes(to_include: list=[], to_exclude: list=[], in_gff: list=[], in_fasta: list=[]) -> list:
+    logger = logging.getLogger(__name__)
+
     # get chromosomes present both in the GFF file and the fasta file
     chrs_common = inspect.check_chrids(chrs_gff=sorted(in_gff), chrs_fasta=sorted(in_fasta))
 

@@ -99,7 +99,7 @@ def get_config(outpath='./'):
           "level": "INFO",
           "handlers": ["console", "summary_handler"],
           "propagate": False
-      }
+        }
       },
 
       "root": {

@@ -1,10 +1,11 @@
 import sys
 from packages.orftrack.lib import logHandler
 
-logger = logHandler.Logger(name=__name__)
 
 
 def check_types(gff_data=None, types=None):
+    logger = logHandler.Logger(name=__name__)
+
     unconsistent_types = []
     all_types = get_types(gff_data)
 
@@ -33,6 +34,8 @@ def get_types(gff_data):
 
 
 def check_chrids(chrs_gff: list = None, chrs_fasta: list = None):
+    logger = logHandler.Logger(name=__name__)
+
     chr_common = set(chrs_gff).intersection(chrs_fasta)
 
     if chr_common:
@@ -52,6 +55,8 @@ def check_chrids(chrs_gff: list = None, chrs_fasta: list = None):
 
 
 def table_chrs(chrs_gff, chrs_fasta):
+    logger = logHandler.Logger(name=__name__)
+
     table_header = ["Chromosome ids", "in GFF", "in fasta"]
     spacer_len = 20
     table_border = spacer_len * len(table_header) * '-'

@@ -22,7 +22,8 @@ REQUIRES = [
     'joblib',
     'CairoSVG',
     'pysam==0.19.1',
-    'requests==2.18',
+    'requests==2.28.1',
+    "urllib3==1.26.13",
     'six==1.12',
     'snakemake==7.16.0',
     'ete3==3.1.1',
@@ -41,6 +42,8 @@ PACKAGES = [
     'packages.orfribo',
     'packages.orfribo.lib',
     'packages.orfribo.scripts',
+    'packages.utilities',
+    'packages.utilities.lib',
 ]
 
 st.setup(

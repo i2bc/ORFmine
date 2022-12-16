@@ -9,9 +9,6 @@ from packages.orftrack.lib import logHandler
 from packages.orftrack.lib import inspect
 
 
-logger = logHandler.Logger(name=__name__)
-
-
 class GffElement:
 
     def __init__(self, gff_line=None, fasta_chr=None):
@@ -548,6 +545,8 @@ def parse(param=None, fasta_hash=None, chr_asked=None, chr_exclude=None):
     @type chr_exclude: list
     @type chr_asked: list
     """
+    logger = logHandler.Logger(name=__name__)
+    
     logger.title('# Parsing GFF file')
     gff_fname = param.gff_fname
     fasta_hash = fasta_hash
