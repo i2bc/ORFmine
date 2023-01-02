@@ -139,9 +139,9 @@ class GffElement:
             gff_line += ';color=' + self.color
 
             if self.ovp_phased:
-                gff_line += ';Ovp_with=' + '|'.join([x.name for x in self.ovp_phased])
+                gff_line += ';Ovp_with=' + '|'.join([x.name.strip() for x in self.ovp_phased])
             elif self.ovp_unphased:
-                gff_line += ';Ovp_with=' + '|'.join([x.name for x in self.ovp_unphased])
+                gff_line += ';Ovp_with=' + '|'.join([x.name.strip() for x in self.ovp_unphased])
 
             return gff_line.strip() + '\n'  #  @BUG added strip() to prevent extra '\n', but dont know yet where it comes from - to identify
 
