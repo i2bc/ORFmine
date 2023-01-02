@@ -183,6 +183,7 @@ def summary(gff_outfile: str):
     with open(gff_outfile, 'r') as _file:
         for line in _file:
             if not line.startswith('#'):
+                print(line)
                 seqid = line.split('\t')[0]
                 orf_type = line.split('\t')[2]
                 orf_len = (int(line.split('\t')[4]) - int(line.split('\t')[3]) + 1) / 3.0
