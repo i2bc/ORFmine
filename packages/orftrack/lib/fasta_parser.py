@@ -5,10 +5,17 @@ Created on Sun Jul 12 16:59:14 2020
 @author: nicolas
 """
 # import random
+from json import load as json_load
+from pathlib import Path
+from pkg_resources import resource_filename as pkg_resource_filename
+
 from packages.orftrack.lib import logHandler
 
 
-Genecode = {'ATA': 'I', 'ATC': 'I', 'ATT': 'I', 'ATG': 'M',
+PATH_TO_CODON_TABLES = pkg_resource_filename('packages.utilities', 'data')
+
+
+STANDARD_CODON_TABLE = {'ATA': 'I', 'ATC': 'I', 'ATT': 'I', 'ATG': 'M',
             'ACA': 'T', 'ACC': 'T', 'ACG': 'T', 'ACT': 'T',
             'AAC': 'N', 'AAT': 'N', 'AAA': 'K', 'AAG': 'K',
             'AGC': 'S', 'AGT': 'S', 'AGA': 'R', 'AGG': 'R',
@@ -29,9 +36,7 @@ Genecode = {'ATA': 'I', 'ATC': 'I', 'ATT': 'I', 'ATG': 'M',
 
 class Fasta:
     """
-
     Class used to read/get informations of a chromosome from a genomic fasta file.
-
     """
 
     base_complement = {
@@ -53,7 +58,7 @@ class Fasta:
         'X': 'N',
     }
 
-    def __init__(self):
+    def __init__(self, codon_table_id: str="1"):
         """
 
         All key index file positions necessary to read a chromosome from a genomic fasta file
@@ -66,8 +71,11 @@ class Fasta:
         seq_len (int): length of a nucleotide line in the fasta file
         line_len (int): length of a nucleotide line with extra-characters
         off_char (int): difference between seq_len and line_len
+        codon_table_id (str): codon table id consistent with the NCBI codon tables
 
         """
+        self.logger = logHandler.Logger(name=f"{__name__}.Fasta")
+
         self.fasta_fname = None
         self.chr = None
         self.curpos_start = None
@@ -76,6 +84,21 @@ class Fasta:
         self.line_len = None
         self.off_char = None
         self.nucid_max = None
+        self.codon_table = self.get_codon_table(codon_table_id)
+
+    
+    def get_codon_table(self, codon_table_id: str):
+        codon_table_name = Path(PATH_TO_CODON_TABLES) / f"codon_table_{codon_table_id}.json"
+        try:
+            self.logger.info(f"Accessing the codon table {codon_table_name}")
+            with open(Path(PATH_TO_CODON_TABLES / codon_table_name)) as table_file:
+                codon_table = json_load(table_file)
+        except:
+            self.logger.error(f"Unable to initialize the codon table id from {codon_table_name}")
+            self.logger.info("The standard codon table will be used")
+            codon_table = STANDARD_CODON_TABLE
+
+        return codon_table
 
     def init_nucid_max(self):
         """
@@ -215,10 +238,10 @@ class Fasta:
         codons = (sequence[i:i + 3] for i in range(0, len(sequence), 3))
 
         for codon in codons:
-            if codon.upper() not in Genecode.keys():
+            if codon.upper() not in self.codon_table.keys():
                 protein += 'X'
             else:
-                protein += Genecode[codon.upper()]
+                protein += self.codon_table[codon.upper()]
 
         return protein
 
@@ -236,7 +259,7 @@ class Fasta:
                           self.seq_len, self.line_len, self.off_char, self.nucid_max)
 
 
-def parse(fasta_filename):
+def parse(fasta_filename, codon_table_id: str="1"):
     """
     Reads a fasta file and stores key index positions to parse it without the need to store the whole file in memory.
 
@@ -254,7 +277,7 @@ def parse(fasta_filename):
     with open(fasta_filename, 'rb') as fasta_file:
         for line in fasta_file:
             if line.startswith(b'>'):
-                chr_index = Fasta()
+                chr_index = Fasta(codon_table_id)
                 chr_index.fasta_fname = fasta_filename
                 chr_index.chr = line.decode().strip().split('>')[-1].split()[0]
                 logger.debug('  - Reading chromosome: ' + chr_index.chr)

@@ -26,13 +26,23 @@ def get_args():
     parser.add_argument("-chrs", required=False, nargs="*", type=str, default=[], help="Chromosome names to processed. By default, all chromosomes are processed (default: []).")
     parser.add_argument("-outdir", required=False, nargs="?", default='./', type=str, help="Output directory")
     parser.add_argument("-outname", required=False, nargs="?", default="", type=str, help="Basename for output files (default: '_proteins' suffix added to fasta file name)")
+
+    parser.add_argument(
+        "--codon-table",
+        required=False,
+        type=str,
+        default="1",
+        help="Codon table ID to be used for considered chromosomes. \
+            The ID must be consistent with the NCBI codon table IDs \
+            (see https://www.ncbi.nlm.nih.gov/Taxonomy/Utils/wprintgc.cgi). \
+            By default, the standard codon table (id = 1) is used. Defaults to '1'"
+    )
     
     parser.add_argument(
-            "-features_include",
+            "--features-include",
             type=str,
             required=True, 
             nargs="*",
-            default=[],
             help="Annotation features to be considered (By definition is all)"
     )
 
@@ -41,7 +51,7 @@ def get_args():
         required=False,
         action='store_true',
         default=False,
-        help="For only amino acids output format (.chromosome_to_process)."
+        help="For only amino acids output format (.pfasta)."
     )
 
     group.add_argument(
@@ -53,25 +63,25 @@ def get_args():
     )
 
     parser.add_argument(
-        "-elongate",
+        "--elongate",
         type=int,
         required=False, 
         nargs="?",
         default=None,
-        help="Number of nucleotides the sequence of matching GFF elements must be elongated from both extremities (default: None)"
+        help="Number of nucleotides the sequence of matching GFF elements must be elongated from both extremities. Defaults to None"
     )
 
     parser.add_argument(
-        "-chr_exclude",
+        "--chr-exclude",
         type=str,
         required=False, 
         nargs="*",
         default=[],
-        help="Chromosomes to be excluded (By definition is None)"
+        help="List of chromosomes to be excluded. Defaults to None"
     )
 
     parser.add_argument(
-        "-cpus",
+        "--cpus",
         type=int,
         required=False, 
         nargs="?",
@@ -222,6 +232,7 @@ def main():
     features = args.features_include
     elongation = args.elongate
     cpus = args.cpus
+    codon_table_id = args.codon_table
 
     out_formats = [".pfasta", ".nfasta"]
     if args.proteic:
@@ -244,7 +255,7 @@ def main():
         out_formats.append(".gff")
 
     # get useful indexes of fasta & gff files 
-    fasta_hash, gff_indexes = index_genomes(fasta_file=genomic_fna, gff_file=genomic_gff)
+    fasta_hash, gff_indexes = index_genomes(fasta_file=genomic_fna, gff_file=genomic_gff, codon_table_id=codon_table_id)
 
     # chromosomes must be consistent between the fasta file and gff file, and the asked chromosomes
     valid_chromosomes = validate_chromosomes(to_include=chromosomes_to_process, to_exclude=chromosomes_to_exclude, in_gff=gff_indexes.keys(), in_fasta=fasta_hash.keys())
