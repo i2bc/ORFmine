@@ -34,21 +34,24 @@ class Fasta:
 
     """
 
-    base_complement = {'A': 'T',
-                       'T': 'A',
-                       'G': 'C',
-                       'C': 'G',
-                       'N': 'N',
-                       'R': 'Y',
-                       'Y': 'R',
-                       'W': 'N',
-                       'S': 'N',
-                       'M': 'N',
-                       'K': 'N',
-                       'B': 'N',
-                       'D': 'N',
-                       'H': 'N',
-                       'V': 'N'}
+    base_complement = {
+        'A': 'T',
+        'T': 'A',
+        'G': 'C',
+        'C': 'G',
+        'N': 'N',
+        'R': 'Y',
+        'Y': 'R',
+        'W': 'N',
+        'S': 'N',
+        'M': 'N',
+        'K': 'N',
+        'B': 'N',
+        'D': 'N',
+        'H': 'N',
+        'V': 'N',
+        'X': 'N',
+    }
 
     def __init__(self):
         """
