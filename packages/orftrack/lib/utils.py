@@ -12,15 +12,16 @@ from packages.orftrack.lib import gff_parser, fasta_parser, inspect
 
 
 class IndexFasta(Thread):
-    def __init__(self, filename):
+    def __init__(self, filename, codon_table_id: str="1"):
         super().__init__()
         self.filename = filename
+        self.codon_table_id = codon_table_id
         self.result = None
 
     def run(self):
         print(f"{self.name} - Indexing fasta file...")
         start_time = time.time()
-        self.result = fasta_parser.parse(fasta_filename=self.filename)
+        self.result = fasta_parser.parse(fasta_filename=self.filename, codon_table_id=self.codon_table_id)
         print(f"{self.name} - Fasta file parsed in {round(time.time()-start_time, 2)} seconds")
 
 
@@ -230,10 +231,10 @@ def validate_chromosomes(to_include: list=[], to_exclude: list=[], in_gff: list=
     return chr_ids
 
 
-def index_genomes(fasta_file: str="", gff_file: str=""):
+def index_genomes(fasta_file: str, gff_file: str, codon_table_id: str="1"):
     indexing_threads: List[Union[IndexGFF, IndexFasta]]
 
-    indexing_threads = [IndexFasta(filename=fasta_file), IndexGFF(filename=gff_file)]
+    indexing_threads = [IndexFasta(filename=fasta_file, codon_table_id=codon_table_id), IndexGFF(filename=gff_file)]
     for t in indexing_threads:
         t.start()
 

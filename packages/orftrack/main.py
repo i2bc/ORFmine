@@ -36,7 +36,7 @@ def main():
 
     # parses fasta & gff by chromosomes
     logger.title('# Parsing GFF and fasta input files #')
-    fasta_hash = fasta_parser.parse(fasta_filename=param.fasta_fname)
+    fasta_hash = fasta_parser.parse(fasta_filename=param.fasta_fname, codon_table_id=param.codon_table_id)
     gff_data = gff_parser.parse(param=param, fasta_hash=fasta_hash, chr_asked=param.chr, chr_exclude=param.chr_exclude)
 
     # ORFs mapping (scans genome for stop-to-stop sequences and assigns them a status)

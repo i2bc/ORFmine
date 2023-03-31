@@ -47,6 +47,8 @@ class Param:
         self.is_frag = args.bool_isfrag
         self.o_fasta = args.bool_ofasta
 
+        self.codon_table_id: str = args.codon_table
+
         self.outpath = args.out if args.out.endswith('/') else args.out + '/'
         os.makedirs(self.outpath, exist_ok=True)
         self.default_basename = 'mapping_orf_'
@@ -68,6 +70,7 @@ class Param:
         logger.info('Parameters description:')
         logger.info('- fasta filename: ' + self.fasta_fname)
         logger.info('- gff filename: ' + self.gff_fname)
+        logger.info('- codon table id: ' + self.codon_table_id)
         logger.info('- chr: ' + chr_asked)
         logger.info('- chr_exclude: ' + chr_exclude)
         logger.info('- types_only: ' + ', '.join(self.types_only))
@@ -108,6 +111,17 @@ def get_args():
         required=True,
         nargs="?",
         help="GFF annotation file (.gff)"
+    )
+
+    optional_arguments.add_argument(
+        "--codon-table",
+        required=False,
+        type=str,
+        default="1",
+        help="Codon table ID to be used for considered chromosomes. \
+            The ID must be consistent with the NCBI codon table IDs \
+            (see https://www.ncbi.nlm.nih.gov/Taxonomy/Utils/wprintgc.cgi). \
+            By default, the standard codon table (id = 1) is used. Defaults to '1'"
     )
 
     optional_arguments.add_argument(
