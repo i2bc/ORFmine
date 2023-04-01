@@ -25,98 +25,66 @@ snakemake -s /ORFmine/orfribo/RiboDoc_BAM2Reads/Snakefile -j --dag -np --forceal
 snakemake -s /ORFmine/orfribo/RiboDoc_BAM2Reads/Snakefile -j ${cpu_use} ${used_memory} --directory /workdir/orfribo/ -k --nolock;
 
 """
-import argparse
 import pkg_resources
-import multiprocessing
-
 import snakemake
+from yaml import safe_load as yaml_safe_load
+
+from packages.orfribo.lib import argparser
 
 
-def get_args() -> argparse.Namespace:
-    """Return command line parameters
+def get_default_config():
+    """Load the default snakefile configuration
 
     Returns:
-        argparse.Namespace: command line parameters
+        dict: default snakefile configuration
     """
-    
-    parser = argparse.ArgumentParser(description='Run ORFribo pipeline.')
-    parser._action_groups.pop()  # Remove original optional argument group
+    # 
+    default_config_path = pkg_resources.resource_filename("packages.orfribo", 'config.yaml')
+    default_config = None
+    try:
+        with open(default_config_path, "r") as f:
+                default_config = yaml_safe_load(f)
+    except:
+        print("Error occured while trying to load the default snakefile configuration")
 
-    mandatory_arguments = parser.add_argument_group('Mandatory arguments')
-    optional_arguments = parser.add_argument_group('Optional arguments')
+    return default_config
 
-    mandatory_arguments.add_argument(
-        "-c", "--configfile",
-        required=True,
-        nargs="?",
-        help="Configuration file defining mandatory inputs, output paths and other optional parameters."
-    )
 
-    optional_arguments.add_argument(
-        "-C", "--config",
-        required=False,
-        nargs="*",
-        metavar="KEY=VALUE",
-        default=dict(),
-        help="Configuration file defining mandatory inputs, output paths and other optional parameters."
-    )
+def update_config(default_config: dict, configfile: str):
+    """ Update the default config from a yaml file
 
-    optional_arguments.add_argument(
-        "-j", "--jobs",
-        required=False,
-        type=int,
-        nargs="?",
-        default=1,
-        help="Use at most N CPU cluster/cloud jobs in parallel. For local execution this is an alias for --cores. (default: 1)"
-    )
+    Args:
+        default_config (dict): dict to update
+        configfile (str): yaml file containing key:value pairs to update
+    """
+     
+    with open(configfile, "r") as f:
+        custom_config = yaml_safe_load(f)
+        
+    # ensure that only valid keys will be used for the update
+    for key in default_config:
+         if key not in custom_config:
+              print(f"Warning, key {key} in {configfile} is not allowed. It will not be considered.")
+              _ = custom_config.pop(key)
 
-    optional_arguments.add_argument(
-        "-m", "--mem_mb",
-        required=False,
-        type=int,
-        nargs="?",
-        default=50,
-        help="Maximum allowed RAM to be used in Mb. (default: 50Mb)"
-    )
-
-    optional_arguments.add_argument(
-        "-n", "--dry-run",
-        required=False,
-        action='store_true',
-        default=False,
-        help="Only dry-run the workflow (default False)"
-    )
-
-    optional_arguments.add_argument(
-        "--dag",
-        required=False,
-        action='store_true',
-        default=False,
-        help="Print the dag in the graphviz dot language (default False)"
-    )
-
-    optional_arguments.add_argument(
-        "-F", "--forceall",
-        required=False,
-        action='store_true',
-        default=False,
-        help="Force all output files to be re-created (default False)"
-    )
-
-    args = parser.parse_args()
-
-    if args.config:
-        args.config = { x.split("=")[0]:x.split("=")[1] for x in args.config }
-
-    args.mem_mb = {"mem_mb": args.mem_mb * 1000} 
-    
-    return args
+    default_config.update(custom_config)
 
 
 def main():
-    args = get_args()
+    args = argparser.get_args()
 
-    snakefile = pkg_resources.resource_filename("orfribo", 'Snakefile')
+    config = get_default_config()
+    if args.config:
+         update_config(default_config=config, configfile=args.config)
+
+    provided_args = argparser.get_provided_args(parser=argparser.get_parser(), args=args)
+    for key, value in provided_args.items():
+        config[key] = value
+         
+    required_args = ["--fna", "--gff", "--gff_intergenic", "--path_to_fastq", "--already_trimmed"]
+    argparser.validate_required_args(config, required_args)
+
+    snakefile = pkg_resources.resource_filename("packages.orfribo", 'Snakefile')
 
     snakemake.snakemake(
         snakefile,
@@ -124,6 +92,7 @@ def main():
         nodes=args.jobs,
         resources=args.mem_mb,
         forceall=args.forceall,
+        printshellcmds=True,
         printdag=args.dag, 
         config=args.config
     )

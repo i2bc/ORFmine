@@ -9,7 +9,7 @@ import time
 from packages.orfribo import __version__
 
 # set default config file (key:value pairs can be overriden with '--config key=value' in snakemake command)
-configfile: pkg_resources.resource_filename("orfribo", "config.yaml")
+# configfile: pkg_resources.resource_filename("orfribo", "config.yaml")
 
 # get location of Rscript files 
 RSCRIPTS_PATH = pkg_resources.resource_filename("orfribo", 'Rscripts')
@@ -17,8 +17,8 @@ find_adapter_sequence = str(Path(RSCRIPTS_PATH) / "find_adapter_sequence.R")
 periodicity_riboWaltz_exome = str(Path(RSCRIPTS_PATH) / "periodicity_riboWaltz_exome.R")
 
 # Sets resources (threads number, maximum RAM ...)
-THREADS_NB = 3
-MEM_MB = 10000
+THREADS_NB = config['threads']
+MEM_MB = config['mem_mb']
 
 # set project name
 PROJECT_NAME = config['project_name']
@@ -26,7 +26,7 @@ PROJECT_NAME = config['project_name']
 # get input path
 GFF_PATH = Path(config['gff']).resolve()
 GFF_INTERGENIC_PATH = Path(config["gff_intergenic"]).resolve()
-FASTA_PATH = Path(config['fasta']).resolve()
+FASTA_PATH = Path(config['fna']).resolve()
 RNA_TO_EXCLUDE_PATH = Path(config['fasta_outRNA']).resolve()
 FASTQ_PATH = Path(config['path_to_fastq']).resolve()
 
@@ -65,7 +65,7 @@ FRAG_LENGTH_L = "." + LENGTHS[0] + "-" + LENGTHS[-1]
 with open(str(GFF_PATH), "r") as gff_file:
     is_name_found = False
     for line in gff_file:
-        searched_name = re.search("^([^\t]+[\t]){8}.*" + config['gff_name_attribut'], line)
+        searched_name = re.search("^([^\t]+[\t]){8}.*" + config['gff_name_attribute'], line)
         if searched_name:
             is_name_found = True
             break
@@ -135,9 +135,9 @@ rule name_CDS:
                         parent = list(db.parents(feature, level=1))
                         if len(parent) > 0:
                             parent = parent[0]
-                            if parent.attributes.get(config['gff_name_attribut']) and not feature.attributes.get(config['gff_name_attribut']):
-                                feature.attributes[config['gff_name_attribut']] = [i.replace("mRNA","cds") for i in parent.attributes.get(config['gff_name_attribut'])]
-                                feature.attributes[config['gff_name_attribut']][0] + "_name"
+                            if parent.attributes.get(config['gff_name_attribute']) and not feature.attributes.get(config['gff_name_attribute']):
+                                feature.attributes[config['gff_name_attribute']] = [i.replace("mRNA","cds") for i in parent.attributes.get(config['gff_name_attribute'])]
+                                feature.attributes[config['gff_name_attribute']][0] + "_name"
                             if parent.attributes.get('ID') and not feature.attributes.get('ID'):
                                 feature.attributes["ID"] = parent.attributes["ID"]
                                 feature.attributes['ID'] = feature.attributes['ID'][0] + "_CDS"
@@ -387,7 +387,7 @@ rule ORFget:
         dirbase = str(ORFRIBO_PATH / "database"),
         outname = "exome"
     shell:
-        "orfget.py -fna {input.fasta} -gff {input.gff} -features_include " + config['gff_cds_feature'] + " -name_attribute " + config['gff_name_attribut'] + " -outdir {params.dirbase} -outname {params.outname} -type nucl -elongate 50 -check ;"
+        "orfget.py -fna {input.fasta} -gff {input.gff} -features_include " + config['gff_cds_feature'] + " -name_attribute " + config['gff_name_attribute'] + " -outdir {params.dirbase} -outname {params.outname} -type nucl -elongate 50 -check ;"
         "mv {output.gff} {output.gff_with_genes};"
         "awk '$3 !~ /gene/' {output.gff_with_genes} > {output.gff};"
 
