@@ -162,6 +162,7 @@ def get_provided_args(parser: argparse.ArgumentParser, args: argparse.Namespace,
     for action in parser._actions:
         if any(arg in sys.argv for arg in action.option_strings if arg not in ignore_args):
             provided_args[action.dest] = getattr(args, action.dest)
+            
     return provided_args
 
 
