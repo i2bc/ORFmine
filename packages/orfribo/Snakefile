@@ -9,7 +9,8 @@ import time
 from packages.orfribo import __version__
 
 # set default config file (key:value pairs can be overriden with '--config key=value' in snakemake command)
-# configfile: pkg_resources.resource_filename("orfribo", "config.yaml")
+configfile: pkg_resources.resource_filename("orfribo", "config.yaml")
+
 
 # get location of Rscript files 
 RSCRIPTS_PATH = pkg_resources.resource_filename("orfribo", 'Rscripts')
@@ -30,30 +31,50 @@ FASTA_PATH = Path(config['fna']).resolve()
 RNA_TO_EXCLUDE_PATH = Path(config['fasta_outRNA']).resolve()
 FASTQ_PATH = Path(config['path_to_fastq']).resolve()
 
-# set and define the base directory for outputs - by default, if not provided, output dirname is based on the project name
-suffix_date = time.strftime("%Y%m%d-%H%M%S") 
-if "out_base" not in config:
-    OUT_BASE_PATH = Path('orfribo_' + suffix_date)
-else:
-    OUT_BASE_PATH = Path(config["out_base"])
-    if OUT_BASE_PATH == "" or OUT_BASE_PATH == None:
-        OUT_BASE_PATH = Path('orfribo_' + suffix_date)
 
+# set intermediary output path
+OUT_BASE_PATH = Path(config["out_base"])
 OUT_BASE_PATH.mkdir(parents=True, exist_ok=True)
 
 
-# set intermediary output path
 RESULTS_PATH = OUT_BASE_PATH / "RESULTS"
+RESULTS_PATH.mkdir(parents=True, exist_ok=True)
+
 ANNEX_DB_PATH = RESULTS_PATH / "annex_database"
+ANNEX_DB_PATH.mkdir(parents=True, exist_ok=True)
+
 ORFRIBO_PATH = RESULTS_PATH / "ORFribo"
+ORFRIBO_PATH.mkdir(parents=True, exist_ok=True)
+
+SELECTED_LENGTH_TABLES = RESULTS_PATH / "selected_length_tables"
+SELECTED_LENGTH_TABLES.mkdir(parents=True, exist_ok=True)
+
 LOGS_PATH = OUT_BASE_PATH / "logs"
+LOGS_PATH.mkdir(parents=True, exist_ok=True)
+
 BENCHMARKS_PATH = OUT_BASE_PATH / "benchmarks"
+BENCHMARKS_PATH.mkdir(parents=True, exist_ok=True)
+
+CUTADAPT_PATH = RESULTS_PATH / "cutadapt"
+CUTADAPT_PATH.mkdir(parents=True, exist_ok=True)
+
+
+# set vars
+MIN_READ_LENGTH = str(config['readsLength_min'])
+MAX_READ_LENGTH = str(config['readsLength_max'])
+NAME_GFF_ATTRIBUTE = config['gff_name_attribute']
+ORFSTATS_THRESHOLD_MEAN = config['orfstats_mean_threshold']
+ORFSTATS_THRESHOLD_MEDIAN = config['orfstats_median_threshold']
+SEQUENCE_ADAPTER = config['adapt_sequence']
+GFF_ELEMENT_TO_COUNT = config['gff_cds_feature']
+ARE_ADAPTERS_TRIMMED = config['already_trimmed']
+FEATURES_TO_COUNT = config['final_counts']
 
 # Wildcards definition
 SAMPLES, = glob_wildcards(FASTQ_PATH / "{sample}.fastq.gz")
 BOWTIE2 = ["1", "2", "3", "4", "rev.1", "rev.2"]
 HISAT2 = ["1", "2", "3", "4", "5", "6", "7", "8"]
-LENGTHS = list(map(str,range(int(config['readsLength_min']), int(config['readsLength_max'])+1)))
+LENGTHS = list(map(str, range(int(MIN_READ_LENGTH), int(MAX_READ_LENGTH) + 1)))
 
 
 # Strings with minimum and maximum read lengths to be used in file names
@@ -61,29 +82,32 @@ FRAG_LENGTH_S = "." + LENGTHS[0]
 FRAG_LENGTH_L = "." + LENGTHS[0] + "-" + LENGTHS[-1]
 
 
-# Check if attributes specified by the user are present in the gff file
-with open(str(GFF_PATH), "r") as gff_file:
-    is_name_found = False
-    for line in gff_file:
-        searched_name = re.search("^([^\t]+[\t]){8}.*" + config['gff_name_attribute'], line)
-        if searched_name:
-            is_name_found = True
-            break
+def is_name_in_gff():
+    # Check if attributes specified by the user are present in the gff file
+    with open(str(GFF_PATH), "r") as gff_file:
+        is_name_found = False
+        for line in gff_file:
+            searched_name = re.search("^([^\t]+[\t]){8}.*" + NAME_GFF_ATTRIBUTE, line)
+            if searched_name:
+                is_name_found = True
+                break
+    
+    return is_name_found
 
 rule all:
     input:
         # Call for fastqc quality control rule
         expand(str(RESULTS_PATH / "fastqc" / "{sample}_fastqc.html"), sample=SAMPLES),
         # Alignment statistics report
-        str(RESULTS_PATH / (PROJECT_NAME + ".Analysis_Report.txt")),
+        str(RESULTS_PATH / f"{PROJECT_NAME}.Analysis_Report.txt"),
         # Call for count matrix creations on all ORFs
-        str(RESULTS_PATH / "Bam2Reads_genome_output" / ("all_samples_genome" + FRAG_LENGTH_L + ".mean" + config['orfstats_mean_threshold'] + "_median" + config['orfstats_median_threshold'] + "_reads_concatenated.tab"))
+        str(RESULTS_PATH / "Bam2Reads_genome_output" / f"all_samples_genome{FRAG_LENGTH_L}.mean{ORFSTATS_THRESHOLD_MEAN}_median{ORFSTATS_THRESHOLD_MEDIAN}_reads_concatenated.tab")
+
 
 onstart:
     shell("mkdir -p " + str(OUT_BASE_PATH / 'logs'))
     shell("echo 'RiboDoc version : " + __version__ + "' > " + str(LOGS_PATH / "RiboDoc_package_versions.txt"))
     # shell("conda list >> " + str(Path(OUT_BASE_PATH) / "logs" / "RiboDoc_package_versions.txt"))
-
 
 
 onsuccess:
@@ -112,9 +136,9 @@ rule find_adapter_sequence:
         touch = str(LOGS_PATH / "find_adapter_sequence" / "{sample}.touch.log")
     shell:
         "touch {output.adapter} 2> {log.touch};"
-        "if [ -z " + config['adapt_sequence'] + " ]; then "
+        "if [ -z " + SEQUENCE_ADAPTER + " ]; then "
         "Rscript " + find_adapter_sequence + " {input.fastq} " + str(RESULTS_PATH / "adapter_lists") + " 2> {log.rscript} ;"
-        "elif [ '" + config['already_trimmed'] + "' = 'no' ]; then echo " + config['adapt_sequence'] + " 1> {output.adapter} 2> {log.echo};"
+        "elif [ '" + ARE_ADAPTERS_TRIMMED + "' = 'no' ]; then echo " + SEQUENCE_ADAPTER + " 1> {output.adapter} 2> {log.echo};"
         "fi;"
 
 # Adds transcript names and gene IDs to the CDS and exon lines if possible
@@ -125,19 +149,19 @@ rule name_CDS:
         gff_namedCDS = str(ANNEX_DB_PATH / ("NamedCDS_" + Path(str(GFF_PATH)).name))
     run:
         gene_id_bool = True
-        if name_in_gff == True:
+        if is_name_in_gff():
             db = gffutils.create_db(input.gff, ':memory:', merge_strategy='create_unique', keep_order=True)
             with open(output.gff_namedCDS, 'w') as fout:
                 for d in db.directives:
                     fout.write('##{0}\n'.format(d))
                 for feature in db.all_features():
-                    if feature.featuretype == config['gff_cds_feature'] or feature.featuretype == "exon":
+                    if feature.featuretype == GFF_ELEMENT_TO_COUNT or feature.featuretype == "exon":
                         parent = list(db.parents(feature, level=1))
                         if len(parent) > 0:
                             parent = parent[0]
-                            if parent.attributes.get(config['gff_name_attribute']) and not feature.attributes.get(config['gff_name_attribute']):
-                                feature.attributes[config['gff_name_attribute']] = [i.replace("mRNA","cds") for i in parent.attributes.get(config['gff_name_attribute'])]
-                                feature.attributes[config['gff_name_attribute']][0] + "_name"
+                            if parent.attributes.get(NAME_GFF_ATTRIBUTE) and not feature.attributes.get(NAME_GFF_ATTRIBUTE):
+                                feature.attributes[NAME_GFF_ATTRIBUTE] = [i.replace("mRNA","cds") for i in parent.attributes.get(NAME_GFF_ATTRIBUTE)]
+                                feature.attributes[NAME_GFF_ATTRIBUTE][0] + "_name"
                             if parent.attributes.get('ID') and not feature.attributes.get('ID'):
                                 feature.attributes["ID"] = parent.attributes["ID"]
                                 feature.attributes['ID'] = feature.attributes['ID'][0] + "_CDS"
@@ -172,7 +196,7 @@ rule adapt_trimming:
         fastq = str(FASTQ_PATH / "{sample}.fastq.gz"),
         adapt_seq = str(RESULTS_PATH / "adapter_lists" / "{sample}.txt")
     output:
-        cut_fastq = temp(str(RESULTS_PATH / "cutadapt" / ("{sample}.cutadapt" + FRAG_LENGTH_L + ".fastq.gz")))
+        cut_fastq = temp(str(CUTADAPT_PATH / ("{sample}.cutadapt" + FRAG_LENGTH_L + ".fastq.gz")))
     log:
         trim_value = str(LOGS_PATH / "adapt_trimming" / "{sample}_trim_value.log"),
         cutadapt = str(LOGS_PATH / "adapt_trimming" / "{sample}_cutadapt.log"),
@@ -184,9 +208,10 @@ rule adapt_trimming:
     threads:
         THREADS_NB
     shell:
+        "touch {output.cut_fastq}; "
         "adapter_sequence=`cat {input.adapt_seq}` ;"
-        "if [ '" + config['already_trimmed'] + "' = 'no' ]; then trim=\"-a ${{adapter_sequence}} --trimmed-only\"; else trim=''; fi 2> {log.trim_value};"
-        "cutadapt ${{trim}} -e 0.125 -j {threads} --max-n=1 -m " + config['readsLength_min'] + " -M " + config['readsLength_max'] + " -o {output.cut_fastq} {input.fastq} 1>> {log.cutadapt_out} 2> {log.cutadapt} ;"
+        "if [ '" + ARE_ADAPTERS_TRIMMED + "' = 'no' ]; then trim=\"-a ${{adapter_sequence}} --trimmed-only\"; else trim=''; fi 2> {log.trim_value};"
+        "cutadapt ${{trim}} -e 0.125 -j {threads} --max-n=1 -m " + MIN_READ_LENGTH + " -M " + MAX_READ_LENGTH + " -o {output.cut_fastq} {input.fastq} 1>> {log.cutadapt_out} 2> {log.cutadapt} ;"
 
 # Builds the index of bowtie2 mapping on sequences for reads remove
 rule bowtie2_build_outRNA:
@@ -250,7 +275,7 @@ rule hisat2_build:
     output:
         expand(str(ANNEX_DB_PATH / "index_hisat2.{exth}.ht2"), exth=HISAT2)
     log:
-        str(LOGS_PATH / "hisat2_build" /" hisat2_build.log")
+        str(LOGS_PATH / "hisat2_build" /"hisat2_build.log")
     benchmark:
         str(BENCHMARKS_PATH / "hisat2_build" / "hisat2_build.benchmark.txt")
     params:
@@ -344,39 +369,41 @@ rule stats_report:
         # List of interesting logs to make the report
         logs_names = ["adapt_trimming", "bowtie2_run_outRNA", "run_mapping_hisat2", "run_mapping_bowtie2"]
         # File for the statistical report
-        data_report = open(output.stat_report, "w")
-        for sample in SAMPLES:
-            # Data treatment report creation
-            data_report.write("##################\n## NEXT SAMPLE ##\n##################\n\n" + sample + "\n")
-            for log in logs_names:
-                data_report.write("\n" + ("#" * (len(log)+6)) + "\n## " + log + " ##\n" + ("#" * (len(log)+6)) + "\n")
-                logs_files = open(local_path + "logsTmp/" + sample + "_" + log + ".log","r")
-                # Keep only lines of interest from cutadapt report1,2
-                i=-1
-                if log == "adapt_trimming":
-                    if int(2) > 1:
-                        lines_to_read = range(22)
-                    else:
-                        lines_to_read = range(20)
-                    for position, line in enumerate(logs_files):
-                        if position in lines_to_read:
-                            data_report.write(line)
-                        else:
-                            break
-                else:
-                    for line in logs_files:
-                        data_report.write(line)
-                logs_files.close()
-            data_report.write("\n\n\n")
-        data_report.close()
+        with open(output.stat_report, "w") as data_report:
+            for sample in SAMPLES:
+                # Data treatment report creation
+                data_report.write("##################\n## NEXT SAMPLE ##\n##################\n\n" + sample + "\n")
 
-# In case there are no UTRs in the original GFF, call for ORFelongate functions
+                for log in logs_names:
+                    data_report.write("\n" + ("#" * (len(log)+6)) + "\n## " + log + " ##\n" + ("#" * (len(log)+6)) + "\n")
+
+                    log_filename = str(OUT_BASE_PATH / "logsTmp" / f"{sample}_{log}.log") 
+
+                    with open(log_filename ,"r") as logs_files:
+                        # Keep only lines of interest from cutadapt report1,2
+                        i=-1
+                        if log == "adapt_trimming":
+                            if int(2) > 1:
+                                lines_to_read = range(22)
+                            else:
+                                lines_to_read = range(20)
+                            for position, line in enumerate(logs_files):
+                                if position in lines_to_read:
+                                    data_report.write(line)
+                                else:
+                                    break
+                        else:
+                            for line in logs_files:
+                                data_report.write(line)
+                data_report.write("\n\n")
+
+# In case there are no UTRs in the original GFF, call for ORFelongate functions (@TODO replce orfget by gff2prot)
 rule ORFget:
     input:
         fasta = str(FASTA_PATH),
         gff = str(ANNEX_DB_PATH / ("NamedCDS_" + Path(str(GFF_PATH)).name))
     output:
-        fasta = str(ORFRIBO_PATH / "database" / "exome_elongated.nfasta"),
+        fasta = str(ORFRIBO_PATH / "database" / f"exome_elongated.nfasta"),
         gff = str(ORFRIBO_PATH / "database" / "exome_elongated.gff"),
         gff_with_genes = str(ORFRIBO_PATH / "database" / "exome_elongated_with_gene_features.gff")
     log:
@@ -387,7 +414,7 @@ rule ORFget:
         dirbase = str(ORFRIBO_PATH / "database"),
         outname = "exome"
     shell:
-        "orfget.py -fna {input.fasta} -gff {input.gff} -features_include " + config['gff_cds_feature'] + " -name_attribute " + config['gff_name_attribute'] + " -outdir {params.dirbase} -outname {params.outname} -type nucl -elongate 50 -check ;"
+        "orfget -fna {input.fasta} -gff {input.gff} -features_include " + GFF_ELEMENT_TO_COUNT + " -name_attribute " + NAME_GFF_ATTRIBUTE + " -outdir {params.dirbase} -outname {params.outname} -type nucl -elongate 50 -check ;"
         "mv {output.gff} {output.gff_with_genes};"
         "awk '$3 !~ /gene/' {output.gff_with_genes} > {output.gff};"
 
@@ -563,7 +590,7 @@ rule Bam2Reads_exome:
         mem_mb = round(MEM_MB / 2)
     params:
         outdir = str(ORFRIBO_PATH / "Bam2Reads_exome_output" / "{sample}_{length}/"),
-        outname = "exome" + FRAG_LENGTH_L + " -features_include " + config['gff_cds_feature'],
+        outname = "exome" + FRAG_LENGTH_L + " -features_include " + GFF_ELEMENT_TO_COUNT,
         sample_name = "{sample}",
         read_length = "{length}"
     shell:
@@ -597,35 +624,35 @@ rule select_read_lengths:
     input:
         orfstats = expand(str(ORFRIBO_PATH / "Bam2Reads_exome_output" / "{sample}_{length}" / ("exome" + FRAG_LENGTH_L + "_reads.stats")), sample=SAMPLES, length=LENGTHS)
     output:
-        table = str(RESULTS_PATH / "selected_length_tables" / ("threshold_mean" + config['orfstats_mean_threshold'] + "_median" + config['orfstats_median_threshold'] + "/{sample}.txt"))
+        table = str(SELECTED_LENGTH_TABLES / Path(f"threshold_mean{ORFSTATS_THRESHOLD_MEAN}_median{ORFSTATS_THRESHOLD_MEDIAN}") / "{sample}.txt")
     benchmark:
-        str(BENCHMARKS_PATH / "select_read_lengths" / ("{sample}.select_read_lengths.benchmark_mean" + config['orfstats_mean_threshold'] + "_median" + config['orfstats_median_threshold'] + ".txt"))
+        str(BENCHMARKS_PATH / "select_read_lengths" / ("{sample}" + f"_select_read_lengths.benchmark_mean{ORFSTATS_THRESHOLD_MEAN}_median{ORFSTATS_THRESHOLD_MEDIAN}.txt"))
     params:
         orfstats_path = str(ORFRIBO_PATH / "Bam2Reads_exome_output" / "{sample}_"),
-        orfstats_name = "/exome" + FRAG_LENGTH_L + "_reads.stats"
+        # orfstats_path = lambda wildcards: str(ORFRIBO_PATH / "Bam2Reads_exome_output" / f"{wildcards.sample}_"),
+        orfstats_name = f"/exome{FRAG_LENGTH_L}_reads.stats"
     threads:
         THREADS_NB
     run:
         pattern_mean = re.compile("^Mean[\s\t]+([\w.]+)")
         pattern_median = re.compile("^Median[\s\t]+([\w.]+)")
-        file_table = open(output.table, "x")
-        for length in LENGTHS:
-            mean_med = 0
-            file_gff = open(params.orfstats_path + length + params.orfstats_name, "r")
-            for line in file_gff:
-                match_mean = pattern_mean.match(line)
-                match_median = pattern_median.match(line)
-                if bool(match_mean):
-                    if float(match_mean.group(1)) >= float(config['orfstats_mean_threshold']):
-                        mean_med = 1
-                if bool(match_median):
-                    if float(match_median.group(1)) >= float(config['orfstats_median_threshold']):
-                        mean_med += 1
-            if mean_med == 2:
-                file_table = open(output.table, "a")
-                file_table.write(length + "\n")
-                file_table.close()
-            file_gff.close()
+
+        with open(output.table, "x") as file_table:
+            for length in LENGTHS:
+                mean_med = 0
+                with open(params.orfstats_path + length + params.orfstats_name, "r") as file_gff:
+                    for line in file_gff:
+                        match_mean = pattern_mean.match(line)
+                        match_median = pattern_median.match(line)
+                        if bool(match_mean):
+                            if float(match_mean.group(1)) >= float(ORFSTATS_THRESHOLD_MEAN):
+                                mean_med = 1
+                        if bool(match_median):
+                            if float(match_median.group(1)) >= float(ORFSTATS_THRESHOLD_MEDIAN):
+                                mean_med += 1
+                    if mean_med == 2:
+                        file_table.write(length + "\n")
+
 
 # Copies the output of ORFtrack into the 'database' directory if it is not already in it
 # rule ORFtrack_output_copy:
@@ -636,56 +663,63 @@ rule select_read_lengths:
 #     shell:
 #         "cp {input.intergenic_gff} {output.intergenic_gff};"
 
+
+
+
 # Calls Bam2Reads functions for the genome steps
 rule Bam2Reads_genome:
     input:
         intergenic_gff = str(GFF_INTERGENIC_PATH),
-        bam = str(RESULTS_PATH / "BAM" / ("{sample}" + FRAG_LENGTH_L + ".bam")),
-        bai = str(RESULTS_PATH / "BAM" / ("{sample}" + FRAG_LENGTH_L + ".bam.bai")),
+        bam = str(RESULTS_PATH / "BAM" / ("{sample}" + f"{FRAG_LENGTH_L}.bam")),
+        bai = str(RESULTS_PATH / "BAM" / ("{sample}" + f"{FRAG_LENGTH_L}.bam.bai")),
         psite_table = str(ORFRIBO_PATH / "riboWaltz" / "psite_offset.csv"),
-        table = str(RESULTS_PATH / ("selected_length_tables/threshold_mean" + config['orfstats_mean_threshold'] + "_median" + config['orfstats_median_threshold'] + "/{sample}.txt"))
+        table = str(RESULTS_PATH / "selected_length_tables" / f"threshold_mean{ORFSTATS_THRESHOLD_MEAN}_median{ORFSTATS_THRESHOLD_MEDIAN}" / ("{sample}" + ".txt"))
     output:
-        reads_table = str(RESULTS_PATH / "Bam2Reads_genome_output" / ("{sample}/length_{length}/genome" + FRAG_LENGTH_L + ".mean" + config['orfstats_mean_threshold'] + "_median" + config['orfstats_median_threshold'] + "_reads.tab"))
+        reads_table = str(RESULTS_PATH / "Bam2Reads_genome_output" / "{sample}" / "length_{length}" / f"genome{FRAG_LENGTH_L}.mean{ORFSTATS_THRESHOLD_MEAN}_median{ORFSTATS_THRESHOLD_MEDIAN}_reads.tab")
     log:
-        bam2read = str(LOGS_PATH / "Bam2Reads_genome" / ("{sample}.{length}.bam2read_mean" + config['orfstats_mean_threshold'] + "_median" + config['orfstats_median_threshold'] + ".log")),
-        offset_grep = str(LOGS_PATH / "Bam2Reads_genome" / ("{sample}.{length}.offset_grep_mean" + config['orfstats_mean_threshold'] + "_median" + config['orfstats_median_threshold'] + ".log"))
+        bam2read = str(LOGS_PATH / "Bam2Reads_genome" / ("{sample}.{length}.bam2read_mean" + f"{ORFSTATS_THRESHOLD_MEAN}_median{ORFSTATS_THRESHOLD_MEDIAN}.log")),
+        offset_grep = str(LOGS_PATH / "Bam2Reads_genome" / ("{sample}.{length}.offset_grep_mean" + f"{ORFSTATS_THRESHOLD_MEAN}_median{ORFSTATS_THRESHOLD_MEDIAN}.log")),
     benchmark:
-        str(BENCHMARKS_PATH / "Bam2Reads_genome" / ("{sample}.{length}.Bam2Reads_genome.benchmark._mean" + config['orfstats_mean_threshold'] + "_median" + config['orfstats_median_threshold'] + "txt"))
+        str(BENCHMARKS_PATH / "Bam2Reads_genome" / ("{sample}.{length}.Bam2Reads_genome.benchmark._mean" + f"{ORFSTATS_THRESHOLD_MEAN}_median{ORFSTATS_THRESHOLD_MEDIAN}.txt"))
     resources:
         mem_mb = MEM_MB
     params:
-        outdir = str(RESULTS_PATH / "Bam2Reads_genome_output/{sample}/length_{length}/"),
-        outname = "genome" + FRAG_LENGTH_L + ".mean" + config['orfstats_mean_threshold'] + "_median" + config['orfstats_median_threshold'] + " -features_include " + config['final_counts'],
+        outdir = str(RESULTS_PATH / "Bam2Reads_genome_output" / "{sample}" / "length_{length}"),
+        outname = f"genome{FRAG_LENGTH_L}.mean{ORFSTATS_THRESHOLD_MEAN}_median{ORFSTATS_THRESHOLD_MEDIAN}",
         sample_name = "{sample}",
         reads_length = "{length}"
-    run:
-        in_lengths_list = ""
-        lengths_list = open(input.table,"r").readlines()
-        for length in lengths_list:
-            newlength = length.rstrip('\r\n')
-            if newlength == params.reads_length:
-                shell("""
-                offset=$(grep '{params.sample_name}' {input.psite_table} 2> {log.offset_grep} | grep '^{params.reads_length}' 2>> {log.offset_grep} | cut -f7 2>> {log.offset_grep}) 2>> {log.offset_grep};
-                bam2reads -shift ${{offset}} -kmer {params.reads_length} -gff {input.intergenic_gff} -bam {input.bam} -outpath {params.outdir} -outname {params.outname} 2> {log.bam2read};""")
-                in_lengths_list = True
-                break
-        if not in_lengths_list:
-            fake = open(output.reads_table, "x")
+    shell:
+        """
+        lengths_list=$(cat {input.table})
+        in_lengths_list=""
 
+        for length in $lengths_list; do
+            if [ "$length" == "{params.reads_length}" ]; then
+                offset=$(grep '{params.sample_name}' {input.psite_table} 2> {log.offset_grep} | grep '^{params.reads_length}' 2>> {log.offset_grep} | cut -f7 2>> {log.offset_grep}) 2>> {log.offset_grep};
+                bam2reads -shift ${{offset}} -kmer {params.reads_length} -gff {input.intergenic_gff} -bam {input.bam} -outpath {params.outdir} -outname {params.outname} -features_include {FEATURES_TO_COUNT} 2> {log.bam2read};
+                in_lengths_list="True"
+                break
+            fi
+        done
+
+        if [ -z "$in_lengths_list" ]; then
+            touch {output.reads_table}
+        fi
+        """
 
 # Concatenate counts tables selected into one by sample
 rule concatenate_count_tables_genome:
     input:
         tables_list = expand(rules.Bam2Reads_genome.output, sample=SAMPLES, length=LENGTHS)
     output:
-        table = str(RESULTS_PATH / "Bam2Reads_genome_output" / ("{sample}/genome" + FRAG_LENGTH_L + ".mean" + config['orfstats_mean_threshold'] + "_median" + config['orfstats_median_threshold'] + "_reads_concatenated.tab"))
+        table = str(RESULTS_PATH / "Bam2Reads_genome_output" / "{sample}"/ f"genome{FRAG_LENGTH_L}.mean{ORFSTATS_THRESHOLD_MEAN}_median{ORFSTATS_THRESHOLD_MEDIAN}_reads_concatenated.tab")
     log:
-        str(LOGS_PATH / "concatenate_count_tables_genome" / ("{sample}.concatenate_mean" + config['orfstats_mean_threshold'] + "_median" + config['orfstats_median_threshold'] + ".log"))
+        str(LOGS_PATH / "concatenate_count_tables_genome" / ("{sample}.concatenate_mean" + f"{ORFSTATS_THRESHOLD_MEAN}_median{ORFSTATS_THRESHOLD_MEDIAN}.log"))
     benchmark:
-        str(BENCHMARKS_PATH / "concatenate_count_tables_genome" / ("{sample}.concatenate.benchmark_mean" + config['orfstats_mean_threshold'] + "_median" + config['orfstats_median_threshold'] + ".txt"))
+        str(BENCHMARKS_PATH / "concatenate_count_tables_genome" / ("{sample}.concatenate.benchmark_mean" + f"{ORFSTATS_THRESHOLD_MEAN}_median{ORFSTATS_THRESHOLD_MEDIAN}.txt"))
     params:
         outdir = str(RESULTS_PATH / "Bam2Reads_genome_output" / "{sample}"),
-        outname = "genome" + FRAG_LENGTH_L + ".mean" + config['orfstats_mean_threshold'] + "_median" + config['orfstats_median_threshold'],
+        outname = f"genome{FRAG_LENGTH_L}.mean{ORFSTATS_THRESHOLD_MEAN}_median{ORFSTATS_THRESHOLD_MEDIAN}",
         sample_name = "{sample}"
     run:
         selected_tables = []
@@ -702,14 +736,14 @@ rule concatenate_all_tables:
     input:
         tables_list = expand(rules.concatenate_count_tables_genome.output, sample=SAMPLES)
     output:
-        table = str(RESULTS_PATH / "Bam2Reads_genome_output" / ("all_samples_genome" + FRAG_LENGTH_L + ".mean" + config['orfstats_mean_threshold'] + "_median" + config['orfstats_median_threshold'] + "_reads_concatenated.tab"))
+        table = str(RESULTS_PATH / "Bam2Reads_genome_output" / f"all_samples_genome{FRAG_LENGTH_L}.mean{ORFSTATS_THRESHOLD_MEAN}_median{ORFSTATS_THRESHOLD_MEDIAN}_reads_concatenated.tab")
     log:
-        str(LOGS_PATH / ("concatenate_all_tables/concatenate_mean" + config['orfstats_mean_threshold'] + "_median" + config['orfstats_median_threshold'] + ".log"))
+        str(LOGS_PATH / "concatenate_all_tables" / f"concatenate_mean{ORFSTATS_THRESHOLD_MEAN}_median{ORFSTATS_THRESHOLD_MEDIAN}.log")
     benchmark:
-        str(BENCHMARKS_PATH / ("concatenate_all_tables/concatenate.benchmark_mean" + config['orfstats_mean_threshold'] + "_median" + config['orfstats_median_threshold'] + ".txt"))
+        str(BENCHMARKS_PATH / "concatenate_all_tables" / f"concatenate.benchmark_mean{ORFSTATS_THRESHOLD_MEAN}_median{ORFSTATS_THRESHOLD_MEDIAN}.txt")
     params:
         outdir = str(RESULTS_PATH / "Bam2Reads_genome_output"),
-        outname = "all_samples_genome" + FRAG_LENGTH_L + ".mean" + config['orfstats_mean_threshold'] + "_median" + config['orfstats_median_threshold']
+        outname = f"all_samples_genome{FRAG_LENGTH_L}.mean{ORFSTATS_THRESHOLD_MEAN}_median{ORFSTATS_THRESHOLD_MEDIAN}"
     run:
         selected_tables = []
         for table in input.tables_list:

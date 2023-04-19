@@ -16,7 +16,7 @@ path_to_fastq: ""
 # set base directory location for orfribo outputs (optional - default='./orfribo_%datetime')
 out_base: ""
 
-# Fasta file with sequences you don't want to consider. If you do not have any, create an empty file)
+# Fasta file with sequences you don't want to consider. (required) - @TODO: not working with empty file, eith make it required or add condition in snakefile
 fasta_outRNA: ""
 
 # Are the sequencing adapters already removed in fastq files ? 'yes' or 'no'

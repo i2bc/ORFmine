@@ -186,7 +186,8 @@ def count_percentage_reads_to_file(file_output, elements_in, elements_out, gff_i
     print("Total ORFs\t:\t",features_found,"\t(100.00 %)")
     print("ORFs kept \t:\t",features_count,"\t(",str(round((features_count/features_found*100),2)),"%)")
 
-    return "Duration : {}\n {} features corresponding the selection.\nThe mean time per selected feature is : {}\n".format(end-start, features_found,(end-start)/features_found)
+    print("Duration : {}\n {} features corresponding the selection.\nThe mean time per selected feature is : {}\n".format(end-start, features_found,(end-start)/features_found))
+ 
 
 
 def BAM2Reads(rname, gff_file, kmer, outname, elements_in=None, elements_out=None):
@@ -228,7 +229,7 @@ def main():
     elements_out = "(" + ")|(".join(parameters.features_exclude) + ")"
     file_output = parameters.outpath + "/" + parameters.outname
 
-    return count_percentage_reads_to_file(file_output, elements_in, elements_out, gff_iterator, bam = parameters.bam, shift = parameters.shift,kmers=parameters.kmer)
+    count_percentage_reads_to_file(file_output, elements_in, elements_out, gff_iterator, bam = parameters.bam, shift = parameters.shift,kmers=parameters.kmer)
 
 
 if __name__ == "__main__":

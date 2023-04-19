@@ -34,6 +34,7 @@ def get_args():
     args = parser.parse_args()
     return args
 
+
 def concatenate(tables):
     dico = {}
     for tab in tables:
@@ -43,12 +44,21 @@ def concatenate(tables):
                 if ID == "Seq_ID":
                     continue
                 if ID not in dico:
-                    dico[ID] = {"Num_reads":0,"Num_p0":0,"Num_p1":0,"Num_p2":0,
-                                "Perc_p0":0.0,"Perc_p1":0.0,"Perc_p2":0.0}
+                    dico[ID] = {
+                        "Num_reads": 0,
+                        "Num_p0": 0,
+                        "Num_p1": 0,
+                        "Num_p2" :0,
+                        "Perc_p0": 0.0,
+                        "Perc_p1": 0.0,
+                        "Perc_p2":0.0
+                    }
+
                 dico[ID]["Num_reads"] = dico[ID]["Num_reads"] + int(line.split()[1])
-                dico[ID]["Num_p0"]    = dico[ID]["Num_p0"]    + int(line.split()[2])
-                dico[ID]["Num_p1"]    = dico[ID]["Num_p1"]    + int(line.split()[3])
-                dico[ID]["Num_p2"]    = dico[ID]["Num_p2"]    + int(line.split()[4])
+                dico[ID]["Num_p0"] = dico[ID]["Num_p0"] + int(line.split()[2])
+                dico[ID]["Num_p1"] = dico[ID]["Num_p1"] + int(line.split()[3])
+                dico[ID]["Num_p2"] = dico[ID]["Num_p2"]+ int(line.split()[4])
+
                 try:
                     dico[ID]["Perc_p0"]  = float(dico[ID]["Num_p0"] / dico[ID]["Num_reads"]*100)
                 except:
@@ -61,6 +71,7 @@ def concatenate(tables):
                     dico[ID]["Perc_p2"]  = float(dico[ID]["Num_p2"] / dico[ID]["Num_reads"]*100)
                 except:
                     pass
+    print(dico)
     return dico
     
 def write_output(concatenated, out_filename):
@@ -78,8 +89,8 @@ def write_output(concatenated, out_filename):
 def main():
     parameters = get_args()
 
-    Path(parameters.outdir).mkdir(parents=True, exist_ok=True)
-    out_filename = Path(parameters.outdir) / (str(Path(parameters.outname)) + "_reads_concatenated.tab")
+    Path(parameters.outpath).mkdir(parents=True, exist_ok=True)
+    out_filename = Path(parameters.outpath) / (str(Path(parameters.outname)) + "_reads_concatenated.tab")
 
     concatenated = concatenate(tables = parameters.tables)
     write_output(concatenated, out_filename=out_filename)
