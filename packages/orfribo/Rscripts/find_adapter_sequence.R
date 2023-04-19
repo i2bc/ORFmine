@@ -78,6 +78,8 @@ for(Ligne in 1 : lines_check)
       print(paste0("Adapter sequence found for fastq '", basename(fastq), "' : ", Pattern2))
       write(Pattern2, paste0(outpath, sample, ".txt"), append = TRUE)
       break
+    } else {
+      print(paste0("No adapter sequence found for fastq '", basename(fastq), "' : ", Pattern2))
     }
   }
 }

@@ -25,8 +25,10 @@ snakemake -s /ORFmine/orfribo/RiboDoc_BAM2Reads/Snakefile -j --dag -np --forceal
 snakemake -s /ORFmine/orfribo/RiboDoc_BAM2Reads/Snakefile -j ${cpu_use} ${used_memory} --directory /workdir/orfribo/ -k --nolock;
 
 """
+from pathlib import Path
 import pkg_resources
 import snakemake
+import time
 from yaml import safe_load as yaml_safe_load
 
 from packages.orfribo.lib import argparser
@@ -70,6 +72,14 @@ def update_config(default_config: dict, configfile: str):
     default_config.update(custom_config)
 
 
+def generate_dag_svg(snakefile, output_svg_path):
+    import subprocess
+
+    cmd = (f"snakemake -s {snakefile} -j --dag -np --forceall --nolock | dot -Tsvg > {output_svg_path}")
+    subprocess.run(cmd, shell=True, check=True)
+
+
+
 def main():
     args = argparser.get_args()
 
@@ -84,19 +94,39 @@ def main():
     required_args = ["--fna", "--gff", "--gff_intergenic", "--path_to_fastq", "--already_trimmed"]
     argparser.validate_required_args(config, required_args)
 
+    # get the orfribo snakefile 
     snakefile = pkg_resources.resource_filename("packages.orfribo", 'Snakefile')
 
+    import json
+    print(json.dumps(config, indent=2))
+    # exit()
+
+    if args.dag:
+        generate_dag_svg(snakefile=snakefile, output_svg_path="orfribo_dag.svg")
+        exit()
+
+    # set root directory of orfribo results
+    if not config["out_base"]:
+        suffix_date = time.strftime("%Y%m%d-%H%M%S") 
+        config["out_base"] = Path('orfribo_' + suffix_date)
+
+    if not Path(config["fasta_outRNA"]).exists():
+        with open(Path(config["fasta_outRNA"]), "x") as _f:
+            pass
+
     snakemake.snakemake(
-        snakefile,
+        snakefile=snakefile,
         dryrun=args.dry_run,
         nodes=args.jobs,
         resources=args.mem_mb,
         forceall=args.forceall,
         printshellcmds=True,
-        printdag=args.dag, 
-        config=args.config
+        config=config,
+        force_incomplete=True,
+        # omit_from="select_read_lengths"
     )
 
 
 if __name__ == "__main__":
+    # orfribo --fna database/Scer.fna --gff database/Scer.gff --gff_intergenic database/mapping_orf_Scer.gff --path_to_fastq fastq/ --already_trimmed yes --fasta_outRNA database/Scer_rRNA.fa -j 4
     main()

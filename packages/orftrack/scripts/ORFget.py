@@ -374,7 +374,8 @@ def main():
     if parameters.outname == "":
         out_basename = str(Path(parameters.outdir) / (str(Path(parameters.gff).stem) + features_in_name))
     else:
-        out_basename = str(Path(parameters.outdir) / (parameters.outname + features_in_name))
+        out_basename = str(Path(parameters.outdir) / parameters.outname)
+        # out_basename = str(Path(parameters.outdir) / (parameters.outname + features_in_name))
 
     Path(parameters.outdir).mkdir(parents=True, exist_ok=True)
 
