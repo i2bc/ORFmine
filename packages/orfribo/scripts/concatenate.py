@@ -71,7 +71,7 @@ def concatenate(tables):
                     dico[ID]["Perc_p2"]  = float(dico[ID]["Num_p2"] / dico[ID]["Num_reads"]*100)
                 except:
                     pass
-    print(dico)
+
     return dico
     
 def write_output(concatenated, out_filename):
