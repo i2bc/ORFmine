@@ -397,7 +397,7 @@ rule stats_report:
                                 data_report.write(line)
                 data_report.write("\n\n")
 
-# In case there are no UTRs in the original GFF, call for ORFelongate functions (@TODO replce orfget by gff2prot)
+# In case there are no UTRs in the original GFF, call for ORFelongate functions (@TODO replace orfget by gff2prot)
 rule ORFget:
     input:
         fasta = str(FASTA_PATH),

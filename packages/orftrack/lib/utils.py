@@ -110,10 +110,13 @@ class CDSQueue:
             write(queue.get_fasta())
 
     """
-    def __init__(self) -> None:
+    def __init__(self, check_stop_end: bool=False, check_stop_intra: bool=False) -> None:
         self.cds_list: List[gff_parser.GffElement] = []  # stores parent-related CDS unready
         self.stored_parent: str = ""  # stored last read parent
-        self.cds_completed: List[gff_parser.GffElement] = []  # stores parent-related CDS ready to be merged
+        self.cds_completed: List[gff_parser.GffElement] = []  # stores parent-related CDS ready to be merged; CDS in the list are added as completed only when the current parent is different from the stored/previous one
+        self.check_stop_end = check_stop_end
+        self.check_stop_intra = check_stop_intra
+        self.check = True if check_stop_end or check_stop_intra else False
 
     def add(self, cds: gff_parser.GffElement=None):
         # when CDS parent has not been met yet, we update the state of CDSQueue instance
@@ -138,7 +141,39 @@ class CDSQueue:
         self.stored_parent = cds.parent
 
         self.cds_completed = [x for x in self.cds_list]
+        if self.check:
+            is_valid = self.has_protein_valid_stop()
+            if not is_valid:
+                self.cds_completed.clear()
+
         self.cds_list.clear()
+
+
+    def has_protein_valid_stop(self):
+        """Check the validity of a protein (merged CDS, aka completed) according to the presence of stop codons.
+        
+        If a protein has a stop codon (*):
+            - at the end of its sequence (if self.check_stop_end) -> VALID if stop found at the end, INVALID otherwise
+            - anywhere else in the sequence (if self.check_stop_intra) -> VALID if no stop found in the sequence, INVALID otherwise
+
+        Return:
+            bool: True if valid, False otherwise
+        """
+        if not self.cds_completed:
+            return False
+        
+        aa_sequence = ''.join([cds.translate() for cds in self.cds_completed])
+        if not aa_sequence:
+            print(f"Error: amino acid sequence of protein {self.cds_completed[0].id_} is empty")
+            return False
+        
+        if self.check_stop_end and aa_sequence[-1] != "*":
+            return False
+        
+        if self.check_stop_intra and "*" in aa_sequence[:-1]:
+            return False
+        
+        return True
     
     def get_fasta(self, _type="nucleic"):
         try:

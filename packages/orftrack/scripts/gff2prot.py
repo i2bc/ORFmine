@@ -21,11 +21,46 @@ def get_args():
     parser = argparse.ArgumentParser(description='Returns amino acid and nucleic fasta files from genomic data')
     group = parser.add_mutually_exclusive_group()
 
-    parser.add_argument("-fna", required=True, nargs="?", help="Genomic fasta file (.fna) ")
-    parser.add_argument("-gff", required=True, nargs="?", help="GFF annotation file (.gff)")
-    parser.add_argument("-chrs", required=False, nargs="*", type=str, default=[], help="Chromosome names to processed. By default, all chromosomes are processed (default: []).")
-    parser.add_argument("-outdir", required=False, nargs="?", default='./', type=str, help="Output directory")
-    parser.add_argument("-outname", required=False, nargs="?", default="", type=str, help="Basename for output files (default: '_proteins' suffix added to fasta file name)")
+    parser.add_argument(
+        "-fna",
+        required=True,
+        nargs="?",
+        help="Genomic fasta file (.fna)"
+    )
+    
+    parser.add_argument(
+        "-gff",
+        required=True,
+        nargs="?",
+        help="GFF annotation file (.gff)"
+    )
+
+    parser.add_argument(
+        "-chrs",
+        required=False,
+        nargs="*",
+        type=str,
+        default=[],
+        help="Chromosome names to processed. By default, all chromosomes are processed (default: [])."
+    )
+
+    parser.add_argument(
+        "-outdir",
+        required=False,
+        nargs="?",
+        default='./',
+        type=str,
+        help="Output directory"
+    )
+
+    parser.add_argument(
+        "-outname",
+        required=False,
+        nargs="?",
+        default="",
+        type=str,
+        help="Basename for output files (default: '_proteins' suffix added to fasta file name)"
+    )
 
     parser.add_argument(
         "--codon-table",
@@ -89,12 +124,39 @@ def get_args():
         help="Maximum number of CPUs to use. By default, all available CPUs are used."
     )
 
+    parser.add_argument(
+        "-E", "--stop-end",
+        required=False,
+        action='store_true',
+        default=False,
+        help="Quality flag used to process only proteins with a STOP codon at the end of their sequence. Defauts to False."
+    )
+
+    parser.add_argument(
+        "-I", "--no-stop-intra",
+        required=False,
+        action='store_true',
+        default=False,
+        help="Quality flag used to process only proteins that does not possess a STOP codon inside their sequence. Defauts to False."
+    )
+
     args = parser.parse_args()
 
     return args
 
 
-def process_chromosome(gff_filename: str=None, fasta_chr: fasta_parser.Fasta=None, chr_id: str="", features: list=[], basename_out: str="", out_formats: list=[".pfasta", ".nfasta"], elongation: int=None, gff_indexes: dict={}) -> dict:
+def process_chromosome(
+        gff_filename: str=None,
+        fasta_chr: fasta_parser.Fasta=None,
+        chr_id: str="",
+        features: list=[],
+        basename_out: str="",
+        out_formats: list=[".pfasta", ".nfasta"],
+        elongation: int=None,
+        gff_indexes: dict={},
+        check_stop_end: bool=False,
+        check_stop_intra: bool=False,
+        ) -> dict:
     """
     Return a dictionary with chromosome name as key, and gff_parser.Chromosome instance as value
     if asked GFF elements that are CDS only
@@ -122,14 +184,14 @@ def process_chromosome(gff_filename: str=None, fasta_chr: fasta_parser.Fasta=Non
     features_to_keep = "|".join(features)
 
     # queue used to process CDS particular (CDS can't be written 'on the fly')
-    queue = CDSQueue()
+    queue = CDSQueue(check_stop_end=check_stop_end, check_stop_intra=check_stop_intra)
     
     try:
         out_files = { _ext:open(basename_out+_ext, "w") for _ext in out_formats }
         has_elements = False
 
         with open(gff_filename, 'r') as gff_file:
-            # retrieve en-of-file value
+            # retrieve end-of-file value
             eof = gff_file.seek(0, 2)
 
             # place cursor to the position of the 1st given chromosome line 
@@ -142,7 +204,7 @@ def process_chromosome(gff_filename: str=None, fasta_chr: fasta_parser.Fasta=Non
                 if line.startswith("#"):
                     continue
 
-                # quit the loop in chromosome name is not the chromosome of interest
+                # quit the loop if chromosome name is not the chromosome of interest
                 chr_name = line.split('\t')[0]
                 if chr_name != chr_id:
                     break
@@ -164,6 +226,7 @@ def process_chromosome(gff_filename: str=None, fasta_chr: fasta_parser.Fasta=Non
                 # process non CDS elements
                 if gff_element.type != "CDS":
                     if elongation:
+                        # warning: element coords in gff are not elongated coords but they are in the fasta files
                         if ".gff" in out_files:
                             out_files[".gff"].write(gff_element.get_gffline())
                         gff_element.start = gff_element.start - elongation
@@ -233,6 +296,8 @@ def main():
     elongation = args.elongate
     cpus = args.cpus
     codon_table_id = args.codon_table
+    check_stop_end = args.stop_end
+    check_stop_intra = args.no_stop_intra
 
     out_formats = [".pfasta", ".nfasta"]
     if args.proteic:
@@ -244,14 +309,13 @@ def main():
     outpath = Path(args.outdir)
     outpath.mkdir(parents=True, exist_ok=True)
 
-    features_in_name = "_" + "_".join(features)
-    if args.outname == "":
-        basename_out = str(outpath / f"{Path(genomic_gff).stem}{features_in_name}")
+    features_in_name = "_".join(features)
+    if not args.outname:
+        basename_out = str(outpath / f"{Path(genomic_gff).stem}_{features_in_name}")
     else:
-        basename_out = str(outpath / f"{args.outname}{features_in_name}")
+        basename_out = str(outpath / f"{Path(args.outname).stem}")
 
     if elongation:
-        basename_out += "_elongated"    
         out_formats.append(".gff")
 
     # get useful indexes of fasta & gff files 
@@ -277,7 +341,10 @@ def main():
             basename = f"{basename_out}_{chr_id}_{i}"
             out_filenames.append(basename)
 
-            p = multiprocessing.Process(target=process_chromosome, args=(genomic_gff, fasta_hash[chr_id], chr_id, features, basename, out_formats, elongation, gff_indexes,))
+            p = multiprocessing.Process(
+                target=process_chromosome,
+                args=(genomic_gff, fasta_hash[chr_id], chr_id, features, basename, out_formats, elongation, gff_indexes, check_stop_end, check_stop_intra)
+            )
             p.chr_id = chr_id
             processes.append(p)
             i += 1
