@@ -139,8 +139,8 @@ class CDSQueue:
 
     def update(self, cds: gff_parser.GffElement=None):
         self.stored_parent = cds.parent
-
         self.cds_completed = [x for x in self.cds_list]
+
         if self.check:
             is_valid = self.has_protein_valid_stop()
             if not is_valid:
@@ -177,7 +177,7 @@ class CDSQueue:
     
     def get_fasta(self, _type="nucleic"):
         try:
-            header = '>' + self.cds_completed[0].name + '\n'
+            header = f">{self.cds_completed[0].id_}_mRNA\n"
         except:
             print(f"Exception, list error: {self.cds_completed}")
 
@@ -208,11 +208,11 @@ class CDSQueue:
         cds_end   = gene_end - elongate
         cds_template = self.cds_completed[0]
 
-        gene_line = "{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\n".format(cds_template.seqid, "elongated", "gene", gene_start, gene_end, ".", "+", ".", "ID=" + cds_template.id_ + "_gene")
-        mrna_line = "{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\n".format(cds_template.seqid, "elongated", "mRNA", gene_start, gene_end, ".", "+", ".","ID=" + cds_template.id_ + "_mRNA; Parent=" + cds_template.id_ + "_gene")
-        utr5_line = "{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\n".format(cds_template.seqid, "elongated", "five_prime_UTR", gene_start, elongate, ".", "+", ".","ID=" + cds_template.id_ + "_5UTR; Parent=" + cds_template.id_ + "_mRNA")
-        cds_line = "{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\n".format(cds_template.seqid, "elongated", "CDS", cds_start, cds_end, ".", "+", ".","ID=" + cds_template.id_ + "_CDS; Parent=" + cds_template.id_ + "_mRNA")
-        utr3_line = "{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\n".format(cds_template.seqid, "elongated", "three_prime_UTR", cds_end + 1, gene_end, ".", "+", ".","ID=" + cds_template.id_ + "_3UTR; Parent=" + cds_template.id_ + "_mRNA")
+        gene_line = "{}_mRNA\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\n".format(cds_template.id_, "elongated", "gene", gene_start, gene_end, ".", "+", ".", "ID=" + cds_template.id_ + "_gene")
+        mrna_line = "{}_mRNA\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\n".format(cds_template.id_, "elongated", "mRNA", gene_start, gene_end, ".", "+", ".","ID=" + cds_template.id_ + "_mRNA; Parent=" + cds_template.id_ + "_gene")
+        utr5_line = "{}_mRNA\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\n".format(cds_template.id_, "elongated", "five_prime_UTR", gene_start, elongate, ".", "+", ".","ID=" + cds_template.id_ + "_5UTR; Parent=" + cds_template.id_ + "_mRNA")
+        cds_line = "{}_mRNA\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\n".format(cds_template.id_, "elongated", "CDS", cds_start, cds_end, ".", "+", ".","ID=" + cds_template.id_ + "_CDS; Parent=" + cds_template.id_ + "_mRNA")
+        utr3_line = "{}_mRNA\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\n".format(cds_template.id_, "elongated", "three_prime_UTR", cds_end + 1, gene_end, ".", "+", ".","ID=" + cds_template.id_ + "_3UTR; Parent=" + cds_template.id_ + "_mRNA")
                 
         return gene_line + mrna_line + utr5_line + cds_line + utr3_line
 

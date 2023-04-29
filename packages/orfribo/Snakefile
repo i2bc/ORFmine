@@ -46,6 +46,9 @@ ANNEX_DB_PATH.mkdir(parents=True, exist_ok=True)
 ORFRIBO_PATH = RESULTS_PATH / "ORFribo"
 ORFRIBO_PATH.mkdir(parents=True, exist_ok=True)
 
+DATABASE_PATH = ORFRIBO_PATH / "database"
+DATABASE_PATH.mkdir(parents=True, exist_ok=True)
+
 SELECTED_LENGTH_TABLES = RESULTS_PATH / "selected_length_tables"
 SELECTED_LENGTH_TABLES.mkdir(parents=True, exist_ok=True)
 
@@ -403,26 +406,27 @@ rule ORFget:
         fasta = str(FASTA_PATH),
         gff = str(ANNEX_DB_PATH / ("NamedCDS_" + Path(str(GFF_PATH)).name))
     output:
-        fasta = str(ORFRIBO_PATH / "database" / f"exome_elongated.nfasta"),
-        gff = str(ORFRIBO_PATH / "database" / "exome_elongated.gff"),
-        gff_with_genes = str(ORFRIBO_PATH / "database" / "exome_elongated_with_gene_features.gff")
+        fasta = str(DATABASE_PATH / f"exome_elongated.nfasta"),
+        gff = str(DATABASE_PATH / "exome_elongated.gff"),
+        gff_with_genes = str(DATABASE_PATH / "exome_elongated_with_gene_features.gff")
     log:
         orf_get = str(LOGS_PATH / "ORFget" / "orf_get.log")
     benchmark:
         str(BENCHMARKS_PATH / "ORFget" / "ORFget.benchmark.txt")
     params:
-        dirbase = str(ORFRIBO_PATH / "database"),
-        outname = "exome"
+        dirbase = str(DATABASE_PATH),
+        outname = "exome_elongated",
+        features = GFF_ELEMENT_TO_COUNT
     shell:
-        "orfget -fna {input.fasta} -gff {input.gff} -features_include " + GFF_ELEMENT_TO_COUNT + " -name_attribute " + NAME_GFF_ATTRIBUTE + " -outdir {params.dirbase} -outname {params.outname} -type nucl -elongate 50 -check ;"
+        "gff2prot -fna {input.fasta} -gff {input.gff} --features-include {params.features} --outdir {params.dirbase} --out-basename {params.outname} --nucleic --elongate 50 --stop-end; "
         "mv {output.gff} {output.gff_with_genes};"
         "awk '$3 !~ /gene/' {output.gff_with_genes} > {output.gff};"
 
 # Create GTF file for riboWaltz
 rule exome_construction_gtf:
     input:
-        fasta = str(ORFRIBO_PATH / "database" / "exome_elongated.nfasta"),
-        gff_with_genes = str(ORFRIBO_PATH / "database" / "exome_elongated_with_gene_features.gff")
+        fasta = str(DATABASE_PATH / "exome_elongated.nfasta"),
+        gff_with_genes = str(DATABASE_PATH / "exome_elongated_with_gene_features.gff")
     output:
         fasta = str(ORFRIBO_PATH / "annex_database" / ("exome_elongated.exons_" + Path(str(FASTA_PATH)).name)),
         gtf = str(ORFRIBO_PATH / "annex_database" / ("exome_elongated.exons_" + Path(str(GFF_PATH)).stem + ".gtf"))
@@ -447,7 +451,7 @@ rule exome_construction_gtf:
 # Builds the index of bowtie2 mapping for all RNA
 rule bowtie2_build_exome:
     input:
-        fasta = str(ORFRIBO_PATH / "database" / "exome_elongated.nfasta")
+        fasta = str(DATABASE_PATH / "exome_elongated.nfasta")
     output:
         expand(str(ORFRIBO_PATH / "annex_database" / "exome_elongated.exome_index_bowtie2.{extb}.bt2"), extb=BOWTIE2)
     log:
@@ -464,7 +468,7 @@ rule bowtie2_build_exome:
 # Builds the index of hisat2 mapping for all RNA
 rule hisat2_build_exome:
     input:
-        fasta = str(ORFRIBO_PATH / "database"/ "exome_elongated.nfasta")
+        fasta = str(DATABASE_PATH/ "exome_elongated.nfasta")
     output:
         expand(str(ORFRIBO_PATH / "annex_database" / "exome_elongated.exome_index_hisat2.{exth}.ht2"),exth=HISAT2)
     log:
@@ -575,7 +579,7 @@ rule riboWaltz_exome:
 # Calls Bam2Reads functions
 rule Bam2Reads_exome:
     input:
-        gff = str(ORFRIBO_PATH / "database" / "exome_elongated.gff"),
+        gff = str(DATABASE_PATH / "exome_elongated.gff"),
         bam = str(ORFRIBO_PATH / "BAM_exome" / ("exome_elongated.{sample}" + FRAG_LENGTH_L + ".bam")),
         bai = str(ORFRIBO_PATH / "BAM_exome" / ("exome_elongated.{sample}" + FRAG_LENGTH_L + ".bam.bai")),
         psite_table = str(ORFRIBO_PATH / "riboWaltz" / "psite_offset.csv")

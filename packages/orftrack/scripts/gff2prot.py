@@ -45,7 +45,7 @@ def get_args():
     )
 
     parser.add_argument(
-        "-outdir",
+        "-D", "--outdir",
         required=False,
         nargs="?",
         default='./',
@@ -54,7 +54,7 @@ def get_args():
     )
 
     parser.add_argument(
-        "-outname",
+        "-B", "--out-basename",
         required=False,
         nargs="?",
         default="",
@@ -310,10 +310,10 @@ def main():
     outpath.mkdir(parents=True, exist_ok=True)
 
     features_in_name = "_".join(features)
-    if not args.outname:
+    if not args.out_basename:
         basename_out = str(outpath / f"{Path(genomic_gff).stem}_{features_in_name}")
     else:
-        basename_out = str(outpath / f"{Path(args.outname).stem}")
+        basename_out = str(outpath / f"{Path(args.out_basename).stem}")
 
     if elongation:
         out_formats.append(".gff")
