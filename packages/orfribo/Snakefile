@@ -68,9 +68,9 @@ MAX_READ_LENGTH = str(config['readsLength_max'])
 NAME_GFF_ATTRIBUTE = config['gff_name_attribute']
 ORFSTATS_THRESHOLD_MEAN = config['orfstats_mean_threshold']
 ORFSTATS_THRESHOLD_MEDIAN = config['orfstats_median_threshold']
-SEQUENCE_ADAPTER = config['adapt_sequence']
 GFF_ELEMENT_TO_COUNT = config['gff_cds_feature']
 ARE_ADAPTERS_TRIMMED = config['already_trimmed']
+SEQUENCE_ADAPTER = config['adapt_sequence']
 FEATURES_TO_COUNT = config['final_counts']
 
 # Wildcards definition
