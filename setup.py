@@ -31,19 +31,19 @@ REQUIRES = [
 ]
 
 PACKAGES = [
-    'packages',
-    'packages.orftrack',
-    'packages.orftrack.lib',
-    'packages.orftrack.scripts',
-    'packages.orfold',
-    'packages.orfold.lib',
-    'packages.orfold.scripts',
-    'packages.orfdate',
-    'packages.orfribo',
-    'packages.orfribo.lib',
-    'packages.orfribo.scripts',
-    'packages.utilities',
-    'packages.utilities.lib',
+    'orfmine',
+    'orfmine.orftrack',
+    'orfmine.orftrack.lib',
+    'orfmine.orftrack.scripts',
+    'orfmine.orfold',
+    'orfmine.orfold.lib',
+    'orfmine.orfold.scripts',
+    'orfmine.orfdate',
+    'orfmine.orfribo',
+    'orfmine.orfribo.lib',
+    'orfmine.orfribo.scripts',
+    'orfmine.utilities',
+    'orfmine.utilities.lib',
 ]
 
 st.setup(
@@ -54,16 +54,16 @@ st.setup(
     install_requires=REQUIRES,
     entry_points={
         'console_scripts': [
-            'orftrack=packages.orftrack.main:main',
-            'orfget=packages.orftrack.scripts.ORFget:main',
-            'gff2prot=packages.orftrack.scripts.gff2prot:main',
-            'orfold=packages.orfold.orfold:main',
-            'orfplot=packages.orfold.scripts.plot_orfold:main',
-            'orfdate=packages.orfdate.ORFdate:main',
-            'orfribo=packages.orfribo.orfribo:main',
-            'bam2reads=packages.orfribo.scripts.BAM2Reads:main',
-            'orfstats=packages.orfribo.scripts.ORFstats:main',
-            'merge_read_tables=packages.orfribo.scripts.concatenate:main',            
+            'orftrack=orfmine.orftrack.main:main',
+            'orfget=orfmine.orftrack.scripts.ORFget:main',
+            'gff2prot=orfmine.orftrack.scripts.gff2prot:main',
+            'orfold=orfmine.orfold.orfold:main',
+            'orfplot=orfmine.orfold.scripts.plot_orfold:main',
+            'orfdate=orfmine.orfdate.ORFdate:main',
+            'orfribo=orfmine.orfribo.orfribo:main',
+            'bam2reads=orfmine.orfribo.scripts.BAM2Reads:main',
+            'orfstats=orfmine.orfribo.scripts.ORFstats:main',
+            'merge_read_tables=orfmine.orfribo.scripts.concatenate:main',            
         ]
     }
 )

@@ -1,0 +1,4 @@
+Config file /home/nchenche/projects/ORFmine/packages/orfribo/config.yaml is extended by additional config specified via the command line.
+IsADirectoryErrorin line 65 of /home/nchenche/projects/ORFmine/packages/orfribo/Snakefile:
+[Errno 21] Is a directory: '/home/nchenche/projects/ORFmine/packages/orfribo'
+  File "/home/nchenche/projects/ORFmine/packages/orfribo/Snakefile", line 65, in <module>
