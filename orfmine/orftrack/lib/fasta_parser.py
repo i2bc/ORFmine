@@ -12,7 +12,7 @@ from pkg_resources import resource_filename as pkg_resource_filename
 from orfmine.orftrack.lib import logHandler
 
 
-PATH_TO_CODON_TABLES = pkg_resource_filename('packages.utilities', 'data')
+PATH_TO_CODON_TABLES = pkg_resource_filename('orfmine.utilities', 'data')
 
 
 STANDARD_CODON_TABLE = {'ATA': 'I', 'ATC': 'I', 'ATT': 'I', 'ATG': 'M',
