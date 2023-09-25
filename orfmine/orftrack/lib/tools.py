@@ -1,4 +1,4 @@
-# from packages.orftrack.lib import logHandler
+# from orfmine.orftrack.lib import logHandler
 
 
 def get_infos(_input: str, option: str):

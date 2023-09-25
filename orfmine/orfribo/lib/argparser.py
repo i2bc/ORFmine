@@ -15,7 +15,7 @@ def get_args() -> argparse.Namespace:
     if args.config:
         args.config = { x.split("=")[0]:x.split("=")[1] for x in args.config }
 
-    args.mem_mb = {"mem_mb": args.mem_mb * 1000} 
+    args.mem_mb = args.mem_mb * 1000
     
     return args
 
@@ -40,14 +40,14 @@ def get_parser():
     parser.add_argument("--orfstats_mean_threshold", help="Minimum mean of in-frame reads", type=int, default=70)
     parser.add_argument("--orfstats_median_threshold", help="Minimum median of in-frame reads", type=int, default=70)
     parser.add_argument("--final_counts", help="List of features in intergenic GFF", default="nc_intergenic")
-    parser.add_argument("--mem_mb", help="Maximum allowed RAM to use in Mb", type=int, default=2000)
-    parser.add_argument("--threads", help="Number of maximum threads to use", type=int, default=3)
-
+    parser.add_argument("--mem_mb", help="Maximum allowed RAM to use in Mb (default: 2000Mb).", type=int, default=2000)
+    parser.add_argument("--threads", help="Maximum number of threads to use", type=int, default=3)
     parser.add_argument("-j", "--jobs", type=int, default=1, help="Use at most N CPU cluster/cloud jobs in parallel. For local execution this is an alias for --cores. (default: 1)")
-    parser.add_argument("-m", "--mem-mb", type=int, default=50, help="Maximum allowed RAM to be used in Mb. (default: 50Mb)")
     parser.add_argument("-n", "--dry-run", action='store_true', default=False, help="Only dry-run the workflow (default False)")
     parser.add_argument('--dag', '-D', action='store_true', default=False, help='Generate a DAG image of the worfklow ("dag.svg")')
     parser.add_argument("-F", "--forceall", action='store_true', default=False, help="Force all output files to be re-created (default False)")
+    parser.add_argument("--docker", action='store_true', default=False, help="Flag used to run computations on a docker container")
+    parser.add_argument("-D, --dry-run", action='store_true', default=False, help="Flag used to show the docker command line. Must be used in conjonction with --docker")
 
     return parser
 
@@ -69,6 +69,7 @@ def validate_required_args(config, required_args):
             parsed_arg = parsed_arg[1:]
         
         if not config[parsed_arg]:
+            print(parsed_arg, arg)
             missing_args.append(arg)
 
     if missing_args:

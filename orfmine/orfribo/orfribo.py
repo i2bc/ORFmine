@@ -25,13 +25,36 @@ snakemake -s /ORFmine/orfribo/RiboDoc_BAM2Reads/Snakefile -j --dag -np --forceal
 snakemake -s /ORFmine/orfribo/RiboDoc_BAM2Reads/Snakefile -j ${cpu_use} ${used_memory} --directory /workdir/orfribo/ -k --nolock;
 
 """
+from argparse import Namespace
+import json
 from pathlib import Path
 import pkg_resources
 import snakemake
 import time
 from yaml import safe_load as yaml_safe_load
 
+from orfmine.utilities.container import ContainerCLI
 from orfmine.orfribo.lib import argparser
+
+
+def load_config(args: Namespace):
+    # load default yaml config file
+    config = get_default_config()
+
+    # update default config with from config file, if given
+    if args.config:
+        update_config(default_config=config, configfile=args.config)
+
+    # update default config from given command line args
+    provided_args = argparser.get_provided_args(parser=argparser.get_parser(), args=args)
+    for key, value in provided_args.items():
+        config[key] = value
+
+    # check that required args are given and valid
+    required_args = ["--fna", "--gff", "--gff_intergenic", "--path_to_fastq", "--already_trimmed"]
+    argparser.validate_required_args(config, required_args)
+
+    return config
 
 
 def get_default_config():
@@ -79,52 +102,95 @@ def generate_dag_svg(snakefile, output_svg_path):
     subprocess.run(cmd, shell=True, check=True)
 
 
+def set_outdir(config: dict, args: Namespace):
+    # set root directory of orfribo results; it must be created here for container usage
+    if not config["out_base"]:        
+        suffix_date = time.strftime("%Y%m%d-%H%M%S") 
+        outdir = f"orfribo_{suffix_date}"
+        config["out_base"] = outdir
 
-def main():
-    args = argparser.get_args()
+    args.out_base = outdir
+    Path(outdir).mkdir(parents=True, exist_ok=True)
 
-    config = get_default_config()
-    if args.config:
-         update_config(default_config=config, configfile=args.config)
 
-    provided_args = argparser.get_provided_args(parser=argparser.get_parser(), args=args)
-    for key, value in provided_args.items():
-        config[key] = value
-         
-    required_args = ["--fna", "--gff", "--gff_intergenic", "--path_to_fastq", "--already_trimmed"]
-    argparser.validate_required_args(config, required_args)
-
+def start_orfribo(args: Namespace, config: dict):
     # get the orfribo snakefile 
-    snakefile = pkg_resources.resource_filename("packages.orfribo", 'Snakefile')
-
-    import json
-    print(json.dumps(config, indent=2))
-    # exit()
+    snakefile = pkg_resources.resource_filename("orfmine.orfribo", 'Snakefile')
 
     if args.dag:
         generate_dag_svg(snakefile=snakefile, output_svg_path="orfribo_dag.svg")
         exit()
 
-    # set root directory of orfribo results
-    if not config["out_base"]:
-        suffix_date = time.strftime("%Y%m%d-%H%M%S") 
-        config["out_base"] = Path('orfribo_' + suffix_date)
-
-    if not Path(config["fasta_outRNA"]).exists():
-        with open(Path(config["fasta_outRNA"]), "x") as _f:
-            pass
+    resources = {"mem_mb": args.mem_mb}
 
     snakemake.snakemake(
         snakefile=snakefile,
         dryrun=args.dry_run,
         nodes=args.jobs,
-        resources=args.mem_mb,
+        resources=resources,
         forceall=args.forceall,
         printshellcmds=True,
         config=config,
         force_incomplete=True,
         # omit_from="select_read_lengths"
     )
+
+
+def run_orfribo_containerized(args: Namespace):
+    # load config file
+    config = load_config(args=args)
+
+    # list of flags related to input files
+    input_args = ["fna", "gff", "gff_intergenic", "path_to_fastq"]
+    # flag related to output path/file
+    output_arg = "--out_base" 
+
+    # update default config with from config file, if given; add input file if present
+    if args.config:
+        input_args += ["config"]
+
+    # add input file if present
+    if args.fasta_outRNA:
+        input_args += ["fasta_outRNA"]
+
+    # set root directory of orfribo results
+    set_outdir(config=config, args=args)
+
+    # instantiate containerCLI handler
+    cli = ContainerCLI(input_args=input_args, output_arg=output_arg, args=args)
+
+    cli.show()
+    if not args.dry_run:
+        cli.run()
+
+
+def run_orfribo_locally(args: Namespace):
+    # load config file
+    config = load_config(args=args)
+
+    # set root directory of orfribo results
+    set_outdir(config=config, args=args)
+
+    # if not exist, create empty file of ribosomic RNAs to exclude
+    if not Path(config["fasta_outRNA"]).exists():
+        with open(Path(config["fasta_outRNA"]), "x") as _f:
+            pass
+
+    # print config
+    print(json.dumps(config, indent=2))
+
+    # start orfribo
+    start_orfribo(args=args, config=config)
+
+
+
+def main():
+    args = argparser.get_args()
+
+    if args.docker:
+        run_orfribo_containerized(args=args)
+    else:
+        run_orfribo_locally(args=args)
 
 
 if __name__ == "__main__":

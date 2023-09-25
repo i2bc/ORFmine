@@ -6,7 +6,7 @@ from pathlib import Path
 import pkg_resources
 import time
 
-from packages.orfribo import __version__
+from orfmine.orfribo import __version__
 
 # set default config file (key:value pairs can be overriden with '--config key=value' in snakemake command)
 configfile: pkg_resources.resource_filename("orfribo", "config.yaml")
