@@ -169,7 +169,7 @@ class ContainerCLI:
         """Run the converted command line argument"""
         Path(self.output).mkdir(exist_ok=True, parents=True)
         try:
-            result = subprocess.run(self.cli, capture_output=True, text=True, check=True)
+            subprocess.run(self.cli, capture_output=True, text=True, check=True)
         except subprocess.CalledProcessError as e:
             raise RuntimeError(f"Command '{self.cmd()}' failed with error:\n{e.stderr}")
         except Exception as e:

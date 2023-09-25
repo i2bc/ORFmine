@@ -99,7 +99,12 @@ def generate_dag_svg(snakefile, output_svg_path):
     import subprocess
 
     cmd = (f"snakemake -s {snakefile} -j --dag -np --forceall --nolock | dot -Tsvg > {output_svg_path}")
-    subprocess.run(cmd, shell=True, check=True)
+    try:
+        subprocess.run(cmd, shell=True, check=True)
+    except subprocess.CalledProcessError as e:
+        raise RuntimeError(f"Command '{cmd}' failed with error:\n{e.stderr}")
+    except Exception as e:
+        raise RuntimeError(f"Error executing the command: {cmd}. Error: {str(e)}")
 
 
 def set_outdir(config: dict, args: Namespace):
