@@ -33,6 +33,7 @@ import snakemake
 import time
 from yaml import safe_load as yaml_safe_load
 
+from orfmine import DOCKER_IMAGE
 from orfmine.utilities.container import ContainerCLI
 from orfmine.orfribo.lib import argparser
 
@@ -104,7 +105,13 @@ def generate_dag_svg(snakefile, output_svg_path):
     except subprocess.CalledProcessError as e:
         raise RuntimeError(f"Command '{cmd}' failed with error:\n{e.stderr}")
     except Exception as e:
-        raise RuntimeError(f"Error executing the command: {cmd}. Error: {str(e)}")
+        raise RuntimeError(f"Error executing the command: {cmd}.\nError: {str(e)}")
+
+
+def validate_container_type(container_type: str) -> None:
+    VALID_CONTAINERS = ["docker", "singularity"]
+    if container_type not in VALID_CONTAINERS:
+        raise ValueError(f"Unsupported container type '{container_type}'. Supported types are: {', '.join(VALID_CONTAINERS)}")
 
 
 def set_outdir(config: dict, args: Namespace):
@@ -161,8 +168,18 @@ def run_orfribo_containerized(args: Namespace):
     # set root directory of orfribo results
     set_outdir(config=config, args=args)
 
+    # get container type    
+    container_type = "docker" if args.docker else "singularity"
+
     # instantiate containerCLI handler
-    cli = ContainerCLI(input_args=input_args, output_arg=output_arg, args=args)
+    cli = ContainerCLI(
+            input_args=input_args,
+            output_arg=output_arg,
+            args=args,
+            image_base=DOCKER_IMAGE,
+            prog="orfribo",
+            container_type=container_type
+        )
 
     cli.show()
     if not args.dry_run:
@@ -192,7 +209,7 @@ def run_orfribo_locally(args: Namespace):
 def main():
     args = argparser.get_args()
 
-    if args.docker:
+    if args.docker or args.singularity:
         run_orfribo_containerized(args=args)
     else:
         run_orfribo_locally(args=args)

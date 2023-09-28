@@ -46,8 +46,11 @@ def get_parser():
     parser.add_argument("-n", "--dry-run", action='store_true', default=False, help="Only dry-run the workflow (default False)")
     parser.add_argument('--dag', '-D', action='store_true', default=False, help='Generate a DAG image of the worfklow ("dag.svg")')
     parser.add_argument("-F", "--forceall", action='store_true', default=False, help="Force all output files to be re-created (default False)")
-    parser.add_argument("--docker", action='store_true', default=False, help="Flag used to run computations on a docker container")
     parser.add_argument("-D, --dry-run", action='store_true', default=False, help="Flag used to show the docker command line. Must be used in conjonction with --docker")
+
+    container_group = parser.add_mutually_exclusive_group()
+    container_group.add_argument("--docker", action='store_true', default=False, help="Flag used to run computations on a docker container")
+    container_group.add_argument("--singularity", action='store_true', default=False, help="Flag used to run computations on a singularity container")
 
     return parser
 
@@ -69,10 +72,10 @@ def validate_required_args(config, required_args):
             parsed_arg = parsed_arg[1:]
         
         if not config[parsed_arg]:
-            print(parsed_arg, arg)
             missing_args.append(arg)
 
     if missing_args:
         get_parser().print_usage()
         print(f"\nMissing required arguments: {', '.join(missing_args)}")
         sys.exit(1)
+
