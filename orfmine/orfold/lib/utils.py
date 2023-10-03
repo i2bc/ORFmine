@@ -419,7 +419,7 @@ def read_gff_file(gff_file):
             if line.startswith("#") or line == "\n":
                 continue
             try:
-                gff_dico[line.split()[-1].split('ID=')[1].split(";")[0]] = line
+                gff_dico[line.split('ID=')[-1].split(";")[0]] = line
             except:
                 try:
                     gff_dico[line.split()[8].split('ID=')[1].split(";")[0]] = line
@@ -448,11 +448,11 @@ def get_orfold_out_format(max_len_head: int=12):
     return "{:"+str(max_len_head+2)+"s}\t{:7s}\t{:7s}\t{:7s}\n"
 
 
-def get_sequences(fasta_file: str, size: Union[str, int] = "all"):
+def get_sequences(fasta_file: str, sample_size: Union[str, int] = "all"):
     sequences = read_multiFASTA(fasta_file)
 
-    if size != "all":
-        indexes = sorted(random.sample(k=int(size), population=range(len(sequences))))
+    if sample_size != -1:
+        indexes = sorted(random.sample(k=int(sample_size), population=range(len(sequences))))
         sequences = {list(sequences.keys())[i]: list(sequences.values())[i] for i in indexes}
 
     if not sequences:
