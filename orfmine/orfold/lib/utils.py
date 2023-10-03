@@ -105,6 +105,16 @@ def generate_the_plot(to_plot,colors,bins,labels):
     
 
 def read_multiFASTA(fasta_file):
+    """_summary_
+
+    @BUG: potential issue with `dico[name] + seq.replace("*","")`
+
+    Args:
+        fasta_file (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
     dico = {}
     with open(fasta_file,'r') as fasta:
         for line in fasta:
@@ -463,3 +473,73 @@ def get_sequences(fasta_file: str, sample_size: Union[str, int] = "all"):
 
 def format_with_n_decimals(number, n=3):
     return f"{number:.{n}f}"
+
+
+def fasta_generator(filename):
+    header = None
+    sequence = []
+    with open(filename, 'r') as f:
+        for line in f:
+            line = line.strip()
+            if line.startswith(">"):
+                if header:  # This indicates we're moving to a new sequence.
+                    sequence[-1] = sequence[-1].rstrip("*")
+                    yield header.lstrip(">"), ''.join(sequence)
+                header = line
+                sequence = []
+            else:
+                sequence.append(line)
+        if header:  # Yield the last sequence
+            sequence[-1] = sequence[-1].rstrip("*")
+            yield header.lstrip(">"), ''.join(sequence)
+
+
+def iter_to_generator(iterable):
+    """Make an iterable a generator"""
+    for item in iterable:
+        yield item
+
+
+def reservoir_sampling_fasta(filename, k):
+    """Sample k sequences from a FASTA file using reservoir sampling."""
+    reservoir = []
+    current_header = None
+    current_sequence = []
+
+    with open(filename, 'r') as file:
+        for index, line in enumerate(file):
+            line = line.strip()
+
+            # If line is a header (i.e., a new sequence)
+            if line.startswith('>'):
+                # Check if there's a sequence stored and try to add it to the reservoir
+                if current_header and current_sequence:
+                    current_sequence[-1] = current_sequence[-1].rstrip('*')
+                    sequence_entry = (current_header.lstrip(">"), ''.join(current_sequence))
+
+                    if len(reservoir) < k:
+                        reservoir.append(sequence_entry)
+                    else:
+                        rand_idx = random.randint(0, index)
+                        if rand_idx < k:
+                            reservoir[rand_idx] = sequence_entry
+
+                # Reset for next sequence
+                current_header = line
+                current_sequence = []
+            else:
+                current_sequence.append(line)
+
+        # Handle the last sequence in the file
+        if current_header and current_sequence:
+            current_sequence[-1] = current_sequence[-1].rstrip('*')
+            sequence_entry = (current_header.lstrip(">"), ''.join(current_sequence))
+
+            if len(reservoir) < k:
+                reservoir.append(sequence_entry)
+            else:
+                rand_idx = random.randint(0, index)
+                if rand_idx < k:
+                    reservoir[rand_idx] = sequence_entry
+
+    return iter_to_generator(reservoir)
