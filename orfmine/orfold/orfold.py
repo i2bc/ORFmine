@@ -234,36 +234,31 @@ def process_orf(orf: str, seq: str, options: str, iupred2a_lib: ModuleType=None,
     return scores
 
 
-def process_fasta_file(fasta_file: Union[str, Path], out_path: Union[str, Path], options: str="H", sample_size: Union[int, str]=None, gff_template: Union[str, Path]="", to_keep: bool=False):
+def process_fasta_file(fasta_file: Union[str, Path], out_path: Union[str, Path], options: str="H", sample_size: int=-1, gff_template: Union[str, Path]="", to_keep: bool=False):
     # import external optional softwares
     iupred2a_lib, tango_path = import_optional_tools(options=options)
 
     # get fasta file base name
     fasta_basename = Path(fasta_file).stem
 
-    # get sequences in the fasta file
-    sequences = orfold_utils.get_sequences(fasta_file=fasta_file, sample_size=sample_size)
-
     # get table output format of orfold
-    out_format = orfold_utils.get_orfold_out_format(max_len_head=len(max(sequences.keys(), key=len)))
+    out_format = orfold_utils.get_orfold_out_format(max_len_head=60)
+
+    # get sequences in the fasta file
+    fasta_sequences = orfold_utils.fasta_generator(filename=fasta_file) if sample_size == -1 else orfold_utils.reservoir_sampling_fasta(filename=fasta_file, k=sample_size)
 
     with open(out_path / (fasta_basename + ".tab"), "w") as fw_output:
         fw_output.write(out_format.format("Seq_ID", "HCA", "Disord", "Aggreg"))
 
         opened_files = {}
-        if gff_template:
-            opened_files = open_gff_file(gff_template=gff_template, options=options, basename=fasta_basename)
 
-        for orf, seq in sequences.items():
-            scores = process_orf(orf=orf, seq=seq, options=options, iupred2a_lib=iupred2a_lib, tango_path=tango_path, opened_files=opened_files, to_keep=to_keep)
+        # iterate over each sequence
+        for header, sequence in fasta_sequences:                
+            scores = process_orf(orf=header, seq=sequence, options=options, iupred2a_lib=iupred2a_lib, tango_path=tango_path, opened_files=opened_files, to_keep=to_keep)
 
             # write scores in the table output
             scores = [orfold_utils.format_with_n_decimals(scores[opt]) if scores[opt] != "NaN" else "NaN" for opt in SUFFIX_MAP]
-            fw_output.write(out_format.format(orf, *scores))
-
-        # close opened files
-        for _f in opened_files.values():
-            _f["file"].close()
+            fw_output.write(out_format.format(header, *scores))
 
 
 def run_orfold(fasta_file: Union[str, Path], out_path: Union[str, Path], options: str="H", sample_size: Union[int,str]=None, gff_template: Union[str, Path]="", to_keep: bool=False):
