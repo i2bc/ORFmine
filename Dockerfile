@@ -80,8 +80,8 @@ ENV PATH ${VIRTUAL_ENV}:${PATH}
 COPY orfmine ./orfmine
 COPY setup.py ./
 
-# copy ini file for optional softwares related to orfold (iupred & tango)
-COPY softwares.ini ./
+# create ini file for optional softwares related to orfold (iupred & tango)
+RUN printf "[EXTERNAL_SOFTWARE]\niupred = \"/opt/iupred2a\"\ntango = \"/opt/tango\"\n" > ./softwares.ini
 
 # install ORFmine python libraries & dependencies 
 RUN pip3 install -e .

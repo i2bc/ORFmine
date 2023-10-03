@@ -6,10 +6,9 @@ Created on Wed Oct 14 11:25:53 2020
 @author: christospapadopoulos
 """
 
-import argparse,os
+import argparse
 import matplotlib.pyplot as plt
 import matplotlib as mpl
-import seaborn as sns
 import random
 from orfmine.orfold.lib.utils import parse_orfold_tab, generate_the_plot
 from pathlib import Path
@@ -50,9 +49,12 @@ def get_args():
     return args
 
 
-glo_ref_path = Path(__file__).parent.parent.resolve()
+import pkg_resources
 
-glo_ref_hca , glo_ref_iupred , glo_ref_tango = parse_orfold_tab(tab = glo_ref_path / 'data' / 'globular.tab' )
+data_file_path = pkg_resources.resource_filename('orfmine.orfold', 'data/globular.tab')
+glo_ref_hca, glo_ref_iupred, glo_ref_tango = parse_orfold_tab(tab=data_file_path)
+
+
 to_plot = [glo_ref_hca]
 #to_plot = [dis_ref_hca , glo_ref_hca ,tra_ref_hca]
 colors  = ['grey']
@@ -126,14 +128,9 @@ def main():
         pass
 
     fig = my_plot.get_figure()
-    # fig.savefig('output.png',transparent=False)
-    # fig.savefig('output_transparent.png',transparent=True)
-    # fig.savefig('output.pdf',transparent=True,dpi=300)
-
-
     fig.savefig(str(out_basename) + '.png', transparent=False)
     fig.savefig(str(out_basename) + '_alpha.png', transparent=True)
-    fig.savefig(str(out_basename) + '.png', transparent=True, dpi=300)
+    fig.savefig(str(out_basename) + '.pdf', transparent=True, dpi=300)
 
     fig2, ax = plt.subplots(figsize=(6, 1))
     fig2.subplots_adjust(bottom=0.5)

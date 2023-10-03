@@ -4,124 +4,60 @@
 Created on Fri Oct  2 01:21:05 2020
 
 @author: christospapadopoulos
-"""
 
-import os,sys,re,random
+
+#@TODO To be integrated later!!!
+if "H" in parameters.options and parameters.barcodes:
+    # First we calculate ALL the Barcodes at ones:
+    barcodes = calculate_HCA_barcodes(sequences=sequences)
+
+    with open(out_path / str(fasta_basename + ".barcodes"), "w") as barcw:
+        for i in barcodes:
+            barcw.write(">{}\n{}\n".format(i,barcodes[i]))
+
+"""
 from datetime import datetime
-import subprocess
-import argparse
-from pathlib import Path
 import importlib.util
 import importlib.resources
-
-import tempfile
+import os
+from pathlib import Path
+import subprocess
 import sys
+import tempfile
+from typing import Dict
 import warnings
 
-import seaborn as sns
+# Temporarily redirect stderr | this is a hack done to remove the error print message from hca
+from io import StringIO
+original_stderr = sys.stderr
+sys.stderr = StringIO()
 
+with warnings.catch_warnings():
+    warnings.filterwarnings("ignore")
+    from pyHCA.core.annotateHCA import _annotation_aminoacids
+    from pyHCA.core.classHCA import compute_disstat
+
+# Restore stderr
+sys.stderr = original_stderr
+
+from orfmine import DOCKER_IMAGE
 from orfmine.orfold.lib import utils as orfold_utils
-from matplotlib.colors import to_hex
+from orfmine.orfold.lib import arguments
+from orfmine.utilities.container import ContainerCLI
 
 
-def get_args():
-    """
-    Returns:
-        Parameters
-    """
-
-    parser = argparse.ArgumentParser(description='ORF Foldability Calculation')
-    parser.add_argument(
-        "-faa",
-        type=str,
-        action='store',
-        required=True, 
-        nargs="*",
-        help="FASTA file containing the amino acid sequences to treat"
-    )
-    
-    parser.add_argument(
-        "-gff", 
-        required=False, 
-        type=str,
-        action='store',
-        nargs="*",
-        default=[],
-        help="GFF annotation file"
-    )
-    
-    parser.add_argument(
-        "-options",
-        type=list,
-        required=True, 
-        nargs="?",
-        default=["H"],
-        help=
-        '''Which properties are to be calculated. 
-                H for HCA (Default)
-                I for IUPred
-                T for Tango'''
-    )
-    
-    parser.add_argument(
-        "-out",
-        required=False,
-        nargs="?",
-        default='./',
-        type=str,
-        help="Output directory ('./' by default)."
-    )
-
-    parser.add_argument(
-        "-plot", 
-        required=False, 
-        type=str,
-        action='store',
-        nargs="*",
-        default=False,
-        help=argparse.SUPPRESS
-                        )
-    
-    parser.add_argument(
-        "-barcodes", 
-        required=False, 
-        type=str,
-        nargs="?",
-        default=False,
-        help=argparse.SUPPRESS
-    )
-    
-    parser.add_argument(
-        "-keep", 
-        required=False, 
-        type=list,
-        nargs="?",
-        default=[],
-        help="Option for keeping the Tango output files"
-    )     
-
-    parser.add_argument(
-        "-N", 
-        required=False, 
-        type=str,
-        action='store',
-        nargs="*",
-        default=["all"],
-        help="Size of sample(s) per FASTA file"
-    )
-    
-    args = parser.parse_args()
-    return args
+TANGO_EXEC = {
+    "darwin": "tango2_3_1",
+    "win32": "Tango.exe",
+    "linux": "tango_x86_64_release",
+}
 
 
-def get_root_name_of_files_list(files_list):
-    """
-    Removes the extentions and path of the files
-    """
-    files = {}
-    for i in files_list:
-        files[i.split("/")[-1].split(".")[0]] = i
-    return files
+SUFFIX_MAP = {
+    "H": "_HCA.gff",
+    "I": "_IUPRED.gff",
+    "T": "_TANGO.gff"
+}
 
 
 def calculate_HCA_barcodes(sequences):
@@ -144,15 +80,14 @@ def calculate_HCA_barcodes(sequences):
     return barcodes
 
     
-def calculate_tango_one_sequence(tango_path, name, to_keep):
+def calculate_tango_one_sequence(tango_path, seq, seqid, to_keep):
     tf = tempfile.NamedTemporaryFile(prefix="tango")
     tmp_name = tf.name.split("/")[-1]
 
-    tango_command = tango_path + " " + tmp_name + " ct=\"N\" nt=\"N\" ph=\"7.4\" te=\"298\" io=\"0.1\" seq=\"" + sequences[name] + "\""
+    tango_command = tango_path + " " + tmp_name + " ct=\"N\" nt=\"N\" ph=\"7.4\" te=\"298\" io=\"0.1\" seq=\"" + seq + "\""
     
     process = subprocess.Popen(tango_command, stdout=subprocess.PIPE, stderr=None, shell=True)
-    tango_output = process.communicate()
-    
+    tango_output = process.communicate()    
        
     if str(tango_output[0]).replace("\\n", "").replace("\'", "").strip() == "b88, File not properly written, try writing it up again,": 
         b_aggregation = 'None'
@@ -166,11 +101,11 @@ def calculate_tango_one_sequence(tango_path, name, to_keep):
             TANGO_portion = "NaN"
        
     if os.path.exists(tmp_name + ".txt"):
-        if 'T' not in to_keep:
+        if not to_keep:
             os.system("rm " + tmp_name + ".txt")
         else:
-            os.system("mv " + tmp_name + ".txt " + name + ".txt" )
-            os.system("mv " + name + ".txt ./TANGO/")
+            os.system("mv " + tmp_name + ".txt " + seqid + ".txt" )
+            os.system("mv " + seqid + ".txt ./TANGO/")
     else:
         pass
     
@@ -178,194 +113,23 @@ def calculate_tango_one_sequence(tango_path, name, to_keep):
 
 
 def make_tmp_directories(parameters):
-    if "T" in parameters.keep:
-        try:
-            os.system("mkdir TANGO")
-        except:
-            pass
+    if parameters.keep:
+        tango_path = Path(parameters.out) / "TANGO"
+        tango_path.mkdir(exist_ok=True, parents=True)
     
 
-def make_files_associations(parameters):
-
-    fastas = get_root_name_of_files_list(files_list=parameters.faa)
-    # Check if gff files where given:
-    if parameters.gff:
-        gffs = get_root_name_of_files_list(files_list=parameters.gff)
-    else:
-        gffs = parameters.gff
-
-    samples = parameters.N
-    files_associations = {}
-
-    # First I associate the number of sequences samples
-    # It must be given in order!!! OBLIGATORY
-    files_sampling = {}
-    for n,name in enumerate(fastas):
-        try:
-            files_sampling[fastas[name]] = samples[n]
-        except:
-            files_sampling[fastas[name]] = "all"
-    # ---------------------------------------- DONE
-    result =  all(elem in fastas for elem in gffs)
-    if result:
-        # All the gff files found an associated fasta file
-        print(
-             '''
-            These are the files associations I can make:''')
-        print(
-        ''' 
-            {:^30s}\t{:^30s}\t{:^30s}
-            {:^30s}\t{:^30s}\t{:^30s}'''.format("FASTA" , "GFF" , "Nb sequences","-----","---","------------")
-                )
-        for n,name in enumerate(fastas):
-            try:
-                print(
-        ''' 
-            {:^30s}\t{:^30s}\t{:^30s}'''.format(fastas[name].split("/")[-1],gffs[name].split("/")[-1],files_sampling[fastas[name]]))
-                files_associations[fastas[name]] = gffs[name]
-            except:
-                print(
-        ''' 
-            {:^30s}\t{:^30s}\t{:^30s}'''.format(fastas[name].split("/")[-1],"",files_sampling[fastas[name]]))
-                files_associations[fastas[name]] = ''
-
-    else:
-        # There is at least 1 GFF which could not be associated with FASTA
-        print('''
-             Oups! You provided GFF file(s) which has no correspodance to FASTA''')
-
-        # BUT if we provide the same number of FASTA and GFFs then we can
-        # associate them based on the order they passed in the terminal
-        if len(fastas) == len(gffs):
-            print(
-              '''
-             BUT i found {} FASTAs and {} GFFs 
-             so I will associate them based in the order they are:'''.format(len(fastas),len(gffs)))
-            print(
-        ''' 
-            {:^30s}\t{:^30s}\t{:^30s}
-            {:^30s}\t{:^30s}\t{:^30s}'''.format("FASTA" , "GFF" , "Nb sequences","-----","---","------------")
-                )
-            for n,name in enumerate(fastas):
-                print(
-        ''' 
-            {:^30s}\t{:^30s}\t{:^30s}''' \
-              .format(fastas[list(fastas.keys())[n]].split("/")[-1],
-                      gffs[list(gffs.keys())[n]].split("/")[-1],
-                      files_sampling[fastas[name]]))
-                files_associations[fastas[list(fastas.keys())[n]]] = gffs[list(gffs.keys())[n]]
-
-        elif len(gffs) == 1:
-            print(
-              '''
-             BUT i found {} FASTAs and {} unique GFF  
-             so I will associate this GFF with ALL the FASTA:'''.format(len(fastas),len(gffs)))
-            print(
-        ''' 
-            {:^30s}\t{:^30s}\t{:^30s}
-            {:^30s}\t{:^30s}\t{:^30s}'''.format("FASTA" , "GFF" , "Nb sequences","-----","---","------------")
-                )
-            for n,name in enumerate(fastas):
-                print(
-        ''' 
-            {:^30s}\t{:^30s}\t{:^30s}''' \
-              .format(fastas[list(fastas.keys())[n]].split("/")[-1],
-                      gffs[list(gffs.keys())[0]].split("/")[-1],
-                      files_sampling[fastas[name]]))
-                files_associations[fastas[list(fastas.keys())[n]]] = gffs[list(gffs.keys())[0]]
-
-
-        else:
-        # But if they do not have neither the same name with FASTA nor the same
-        # number, sorry but I can do nothing for you! :)
-            print('''
-                  BEY
-              ''')
-            exit()
-    return files_associations, files_sampling
+def import_optional_tools(options: str):
+    iupred2a_lib = None
+    tango_executable = None
     
-
-def read_gff_file(gff_file):
-    gff_dico = {}
-    with open(gff_file,'r') as fi:
-        for line in fi:
-            if line.startswith("#") or line == "\n":
-                continue
-            try:
-                gff_dico[line.split()[-1].split('ID=')[1].split(";")[0]] = line
-            except:
-                try:
-                    gff_dico[line.split()[8].split('ID=')[1].split(";")[0]] = line
-                except:
-                    print("Check your last column of your GFF. There are spaces!!!")
-    return gff_dico
-
-
-def decide_which_color(value, nb_cols, minimum,maximum):
-    step = (maximum - minimum) / nb_cols
-    my_choice = round(abs(value - minimum) / step)
-    my_rgb = sns.color_palette(palette="coolwarm", n_colors=nb_cols+1)[int(my_choice)]
-    my_color = to_hex(my_rgb)
-    return(my_color)
-
-
-def change_color_in_gff_line(gff_dico, orf,value, nb_cols, minimum,maximum):
-    my_line  = gff_dico[orf]
-    my_color = decide_which_color(value=value,nb_cols=nb_cols, minimum=minimum,maximum=maximum)
-    new_line = re.sub(pattern="color=.+", repl="color=" + my_color, string=my_line)
-    new_line = new_line.strip() + ";element_value=" + str(value) + "\n"
-    return new_line
-    
-
-
-TANGO_EXEC = {
-    "darwin": "tango2_3_1",
-    "win32": "Tango.exe",
-    "linux": "tango_x86_64_release",
-}
-
-
-def main():
-    start_time = datetime.now()
-    parameters = get_args()
-
-    out_path = Path(parameters.out)
-    os.makedirs(out_path, exist_ok=True)
-
     # get path to external softwares given in config.ini
     external_softwares = orfold_utils.read_config_file()
-
+    
     # Check if the tools asked for the analysis are well Installed
-    if "H" in parameters.options:
-        try:
-            with warnings.catch_warnings():
-                warnings.filterwarnings("ignore")
-
-                from pyHCA import HCA
-                from pyHCA.core.annotateHCA import _annotation_aminoacids
-                from pyHCA.core.classHCA import compute_disstat
-        except:
-            print('''
-                  Oups! pyHCA is not Installed. 
-                  Please go to the link:    https://github.com/T-B-F/pyHCA 
-                  and follow the installation instructions 
-                  ''')
-            exit()
-
-    if "I" in parameters.options:
+    if "I" in options:
         is_valid, error_message = orfold_utils.check_path(path=external_softwares["iupred"], software="iupred")
         if not is_valid:
-            print('''
-
-{}
-
-If you have installed IUPred2a on your computer, please edit the softwares.ini file
-at the root of your ORFmine project and give the absolute root path of the 
-parent directory where the IUPred2a library and data/ folder reside.
-
-Otherwise, please go to this link:  https://iupred2a.elte.hu/download_new
-and follow the install instructions. Then edit the config.ini file.
-                  '''.format(error_message))
+            print(orfold_utils.error_missing_softwares(software="iupred").format(error_message))
             exit()
 
         # import iupred2a_lib from its location
@@ -374,187 +138,193 @@ and follow the install instructions. Then edit the config.ini file.
         sys.modules["iupred2a_lib"] = iupred2a_lib
         spec.loader.exec_module(iupred2a_lib)
 
-    if "T" in parameters.options:
+    if "T" in options:
         is_valid, error_message = orfold_utils.check_path(path=external_softwares["tango"], software="tango")
         if not is_valid:
-            print('''
-
-{}
-
-If you have installed Tango on your computer, please edit the softwares.ini file
-at the root of your ORFmine project and give the absolute root path of the 
-parent directory where the Tango executable resides.
-
-Otherwise, please go to this link: http://tango.crg.es/about.jsp
-and follow the install instructions. Then edit the config.ini file.
-                  '''.format(error_message))
+            print(orfold_utils.error_missing_softwares(software="tango").format(error_message))
             exit()
 
+        tango_path = Path(external_softwares["tango"])
+        if tango_path.is_dir():
+            tango_executable = str(tango_path / TANGO_EXEC[sys.platform])
+        elif tango_path.is_file() and tango_path.name in TANGO_EXEC.values():
+            tango_executable = str(tango_path)            
 
-    #check_tools_installed(parameters=parameters)
-    make_tmp_directories(parameters=parameters)
-    files_associations , files_sampling = make_files_associations(parameters=parameters)
-
-    opened_files = []
-
-    for fasta_file in files_associations:
-        name = Path(fasta_file).stem
-        size = files_sampling[fasta_file]
-
-        # We read the MultiFasta file with the sequences:
-        global sequences
-        sequences = orfold_utils.read_multiFASTA(fasta_file)
-
-        # Here we generate a sample of the initial fasta file
-        if size != "all":
-            indexes = random.sample(k=int(size),population=range(len(sequences)))
-            indexes.sort()
-            d = {list(sequences.keys())[i]:list(sequences.values())[i] for i in indexes}
-            sequences = d.copy()
-            del(d)
+    return iupred2a_lib, tango_executable
 
 
-        #@TODO To be integrated later!!!
-        if "H" in parameters.options and parameters.barcodes == 'True':
+def calculate_score(option, seq, iupred2a_lib=None, tango_path=None, to_keep: bool=False, seqid=None,):
+    score, pvalue, mean = ["NaN"]*3
 
-            # First we calculate ALL the Barcodes at ones:
-            barcodes = calculate_HCA_barcodes(sequences = sequences)
+    if option == "H":
+        score, pvalue = compute_disstat(0, len(seq), _annotation_aminoacids(seq=seq, method="domain", verbose=False)["cluster"])
 
-            with open( out_path / str(name + ".barcodes"), "w") as barcw:
-                for i in barcodes:
-                    barcw.write(">{}\n{}\n".format(i,barcodes[i]))
-                    
-        # Just some formating options for making beautiful the output file
-        max_name = len(max(list(sequences.keys()), key=len))
-        formating_a = "{:"+str(max_name+2)+"s}\t{:7s}\t{:7s}\t{:7s}\n"
-        formating_b = "{:"+str(max_name+2)+"s}\t"
+    elif option == "I":
+        pre_score  = iupred2a_lib.iupred(seq=seq, mode="short")[0]  # score
+        score = orfold_utils.calculate_proportion_of_seq_disordered(pre_score)  # iupred_portion
+        mean = round(sum(pre_score) / len(pre_score), 2)
 
-        with open(out_path / str(name + ".tab"), "w") as fw_output:
-            # We write the title in the output table
-            fw_output.write(formating_a.format("Seq_ID","HCA","Disord","Aggreg"))
+    elif option == "T":
+        score = calculate_tango_one_sequence(tango_path=tango_path, seq=seq, seqid=seqid, to_keep=to_keep)
+
+    return round(score, 3), pvalue, mean
 
 
-            if files_associations[fasta_file] != '':
-                gff_dico = read_gff_file(gff_file = files_associations[fasta_file])
-
-                if "H" in parameters.options:
-                    fw_gff_H = open(name + '_HCA.gff', 'w')
-                    opened_files.append(fw_gff_H)
-                if "I" in parameters.options:
-                    fw_gff_I = open(name + '_IUPRED.gff', 'w')
-                    opened_files.append(fw_gff_I)
-                if "T" in parameters.options:
-                    fw_gff_T = open(name + '_TANGO.gff', 'w')
-                    opened_files.append(fw_gff_T)
-
-            print("\n\n")
-            for i, orf in enumerate(sequences):
-                seq = sequences[orf]
-
-                if "H" in parameters.options:
-                    score, pvalue = compute_disstat(0, len(seq), _annotation_aminoacids(seq=seq,method="domain",verbose=False)["cluster"])
-                    score = round(score,2)
-
-                    # If a gff file was given then we change the colour based on the HCA score
-                    if files_associations[fasta_file] != '':
-                        try:
-                            new_gff_line = change_color_in_gff_line(gff_dico=gff_dico, orf=orf, value=score, nb_cols=20, minimum=-10, maximum=10)
-                            fw_gff_H.write(new_gff_line)
-                        except:
-                            print('An error occured at the writing of the {}_HCA.gff file for the orf: {}'.format(name, orf))
-                            pass
-                else:
-                    score = "NaN"
-
-
-                if "I" in parameters.options:
-                    try:
-                        iupred_score  = iupred2a_lib.iupred(seq=seq, mode="short")[0]
-                        iupred_portion = orfold_utils.calculate_proportion_of_seq_disordered(iupred_score)
-                        iupred_mean = round(sum(iupred_score) / len(iupred_score),2)
-                    except:
-                        iupred_mean, iupred_portion = "NaN","NaN"
-
-                    # If a gff file was given then we change the colour based on the IUPRED score.
-                    if files_associations[fasta_file] != '':
-                        try:
-                            new_gff_line = change_color_in_gff_line(gff_dico=gff_dico, orf=orf, value=iupred_portion, nb_cols=20, minimum=0, maximum=1)
-                            fw_gff_I.write(new_gff_line)
-                        except:
-                            print('An error occured at the writing of the {}_IUPRED.gff file for the orf: {}'.format(name, orf))
-                            pass
-                else:
-                    iupred_mean, iupred_portion = "NaN","NaN"
-
-
-                if "T" in parameters.options:
-                    tango_path = Path(external_softwares["tango"])
-                    if tango_path.is_dir():
-                        tango_executable = str(tango_path / TANGO_EXEC[sys.platform])
-                    elif tango_path.is_file() and tango_path.name in TANGO_EXEC.values():
-                        tango_executable = str(tango_path)
-
-                    tango_portion = calculate_tango_one_sequence(tango_path=tango_executable, name=orf, to_keep=parameters.keep)
-
-                    # If a gff file was given then we change the colour based on the Tango propensity.
-                    if files_associations[fasta_file] != '':
-                        try:
-                            new_gff_line = change_color_in_gff_line(gff_dico=gff_dico, orf=orf, value=tango_portion, nb_cols=20, minimum=0, maximum=1)
-                            fw_gff_T.write(new_gff_line)
-                        except:
-                            print('An error occured at the writing of the {}_TANGO.gff file for the orf: {}'.format(name, orf))
-                            pass
-                else:
-                    tango_portion = "NaN"
-
-                # --------------------------------------- #
-                # We write line-by-line the table output  #
-                # --------------------------------------- #
-
-                fw_output.write(formating_b.format(orf))
-                try:
-                    fw_output.write("{:<7.3f}\t".format(float(score)))
-                except:
-                    fw_output.write("{:<7s}\t".format("NaN"))
-                try:
-                    fw_output.write("{:<7.3f}\t".format(float(iupred_portion)))
-                except:
-                    fw_output.write("{:<7s}\t".format("NaN"))
-                try:
-                    fw_output.write("{:<7.3f}\t".format(float(tango_portion)))
-                except:
-                    fw_output.write("{:<7s}\t".format("NaN"))
-                #try:
-                #    fw_output.write("{:s}\t".format(str(barcodes[orf])))
-                #except:
-                #    fw_output.write("{:<7.3f}\t".format(float("NaN")))
-                fw_output.write("\n")
-
-
+def write_gff_line(outfile, gff_dico, orf, value, gff_filename, nb_cols=20, minimum=0, maximum=1):
     try:
-        for _f in opened_files:
-            _f.close()
+        new_gff_line = orfold_utils.change_color_in_gff_line(gff_dico=gff_dico, orf=orf, value=value, nb_cols=nb_cols, minimum=minimum, maximum=maximum)
+        outfile.write(new_gff_line)
     except:
+        print('An error occured at the writing of the {} file for the orf: {}'.format(gff_filename, orf))
         pass
-    # ------------------------------------------------------------------- #
-    # If the plot option is True then we plot the HCA score distribution  #
-    # ------------------------------------------------------------------- #
-    if parameters.plot:
 
-        for _file in files_associations:
-            inplot = out_path / str(Path(_file).stem + ".tab")
 
-        plot_command = "plot_orfold -tab {} -out {}".format(inplot, out_path)
-        subprocess.Popen(plot_command, stdout=subprocess.PIPE, stderr=None, shell=True)
+def process_orf(orf: str, seq: str, options: str, iupred2a_lib, tango_path, opened_files, to_keep: bool=False):
+    scores = {}
+    for option in ["H", "I", "T"]:
+        scores[option] = "NaN"  # initialize scores to NaN for each property
+
+        # skip score computation if option not asked
+        if option not in options:
+            continue
+
+        # compute asked property score
+        seqid = orf if option == "T" else None
+        scores[option], _, _ = calculate_score(option=option, seq=seq, iupred2a_lib=iupred2a_lib, tango_path=tango_path, to_keep=to_keep, seqid=seqid)
+
+        # write new gff with scores information
+        if option in opened_files:
+            write_gff_line(
+                outfile=opened_files[option]["file"],
+                gff_dico=opened_files[option]["gff_dict"],
+                orf=orf,
+                value=scores[option],
+                gff_filename=opened_files[option]["gff_filename"],
+                maximum=10 if option == "H" else 1,
+                minimum=-10 if option == "H" else 0
+            )
+
+    return scores
+
+
+def process_fasta_file(fasta_file, size, associated_gff, out_path, parameters, iupred2a_lib, tango_path):
+    fasta_basename = Path(fasta_file).stem
+
+    # get sequences in the fasta file
+    sequences = orfold_utils.get_sequences(fasta_file=fasta_file, size=size)
+
+    # get table output format of orfold
+    out_format = orfold_utils.get_orfold_out_format(max_len_head=len(max(sequences.keys(), key=len)))
+
+    with open(out_path / (fasta_basename + ".tab"), "w") as fw_output:
+        fw_output.write(out_format.format("Seq_ID", "HCA", "Disord", "Aggreg"))
+
+        opened_files = {}
+        if associated_gff:
+            for option, suffix in SUFFIX_MAP.items():
+                if option in parameters.options:
+                    opened_files[option] = {
+                        "file": open(fasta_basename + suffix, 'w'),
+                        "gff_filename": fasta_basename + suffix,
+                        "gff_dict": orfold_utils.read_gff_file(gff_file=associated_gff)
+                    }
+
+        for orf, seq in sequences.items():
+            scores = process_orf(
+                orf=orf,
+                seq=seq,
+                options=parameters.options,
+                iupred2a_lib=iupred2a_lib,
+                tango_path=tango_path,
+                opened_files=opened_files,
+                to_keep=parameters.keep
+            )
+
+            # write scores in the table output
+            scores = [orfold_utils.format_with_n_decimals(scores[opt]) if scores[opt] != "NaN" else "NaN" for opt in SUFFIX_MAP]
+            fw_output.write(out_format.format(orf, *scores))
+
+        # close opened files
+        for _f in opened_files.values():
+            _f["file"].close()
+
+
+def run_orfold(parameters: arguments.argparse.Namespace):
+
+    out_path = Path(parameters.out)
+    out_path.mkdir(parents=True, exist_ok=True)
+
+    # import external optional softwares
+    iupred2a_lib, tango_path = import_optional_tools(options=parameters.options)
+
+    # create optional directories for tango if necessary
+    make_tmp_directories(parameters=parameters)
+
+    # get associations between fasta & gff file(s)
+    files_associations, files_sampling = orfold_utils.make_files_associations(parameters=parameters)
+
+    # process fasta files
+    for fasta_file in files_associations:
+        size = files_sampling[fasta_file]
+        associated_gff = files_associations[fasta_file]
+
+        process_fasta_file(
+            fasta_file=fasta_file,
+            size=size,
+            associated_gff=associated_gff,
+            out_path=out_path,
+            parameters=parameters,
+            iupred2a_lib=iupred2a_lib,
+            tango_path=tango_path
+        )
+
+def run_orfold_containerized(parameters: arguments.argparse.Namespace):
+    out_path = Path(parameters.out)
+    out_path.mkdir(parents=True, exist_ok=True)
+
+    # list of flags related to input files
+    input_args = ["-faa"]
+    if parameters.gff:
+        input_args += ["-gff"]
+
+    # deal with special case of external softwares
+    software_bindings = orfold_utils.read_config_file()
+
+    # flag related to output path/file
+    output_arg = "-out"
+
+    # instantiate containerCLI handler
+    cli = ContainerCLI(
+            input_args=input_args,
+            output_arg=output_arg,
+            args=parameters,
+            image_base=DOCKER_IMAGE,
+            prog="orfold",
+            container_type="docker" if parameters.docker else "singularity",
+            software_bindings=software_bindings
+        )
+
+    cli.show()
+    if not parameters.dry_run:
+        cli.run()
+
+
+def main():
+    start_time = datetime.now()
+
+    parameters = arguments.get_args()
+    
+    if parameters.docker or parameters.singularity:
+        run_orfold_containerized(parameters=parameters)
+    else:
+        run_orfold(parameters=parameters)
 
     end_time = datetime.now()
-    print("\n\n")
-    print('Duration: {}'.format(end_time - start_time))
-    exit()
+    print('\nDuration: {}'.format(end_time - start_time))
 
-    
 
-    
+if __name__ == "__main__":
+    main()
 
 
 

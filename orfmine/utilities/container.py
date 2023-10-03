@@ -2,7 +2,7 @@ from argparse import Namespace
 from pathlib import Path
 import subprocess
 import sys
-from typing import List, Optional
+from typing import Dict, List, Optional, Union
 
 
 class ContainerCLI:
@@ -14,15 +14,17 @@ class ContainerCLI:
         output_arg (str): The command line argument related to the output directory.
         image_base (str): Docker image fullname (e.g. f"{DOCKER_REPOSITORY}/{IMAGE_NAME}:{IMAGE_TAG}").
         cmd_args (Optional[List[str]], optional): Command line arguments. If not provided, sys.argv is used.
-        prog (str, optional): Name of the program to be executed
+        prog (str, optional): Name of the program to be executed.
+        software_bindings (dict, optional): Dictionary to hold software name and its path on the host system.
         container_type (str, optional): Type of container to be used ; either 'docker' or 'singularity'. Defaults to 'docker'.
         container_ipath (str, optional): The input path inside the container. Defaults to '/input'.
         container_opath (str, optional): The output path inside the container. Defaults to '/output'.
+        opt_path (str, optional): The optional software path inside the container. Defaults to '/opt'.
     """
 
-    VALID_CONTAINERS = ("--docker", "--singularity")
+    VALID_CONTAINERS = ("docker", "singularity")
 
-    def __init__(self, args: Namespace, input_args: List[str], output_arg: str, image_base: str, cmd_args: Optional[List[str]] = None, prog: str="", container_type: str="docker", container_ipath: str='/input', container_opath: str='/output') -> None:
+    def __init__(self, args: Namespace, input_args: List[str], output_arg: str, image_base: str, cmd_args: Optional[List[str]] = None, prog: str="", software_bindings: Optional[Dict[str, str]] = None, container_type: str="docker", container_ipath: str='/input', container_opath: str='/output', opt_path: str='/opt') -> None:
         """
 
         Args:
@@ -32,9 +34,11 @@ class ContainerCLI:
             image_base (str): Docker image fullname (e.g. f"{DOCKER_REPOSITORY}/{IMAGE_NAME}:{IMAGE_TAG}").
             cmd_args (Optional[List[str]], optional): Command line arguments. If not provided, sys.argv is used.
             prog (str, optional): Name of the program to be executed.
+            software_bindings (dict, optional): Dictionary to hold software name and its path on the host system.
             container_type (str, optional): Type of container to be used ; either 'docker' or 'singularity'. Defaults to 'docker'.
             container_ipath (str, optional): The input path inside the container. Defaults to '/input'.
             container_opath (str, optional): The output path inside the container. Defaults to '/output'.
+            opt_path (str, optional): The optional software path inside the container. Defaults to '/opt'.
         """        
         self.args = args
         self.input_args = input_args
@@ -43,10 +47,12 @@ class ContainerCLI:
 
         self.cmd_args = cmd_args or sys.argv
         self.prog = prog or Path(cmd_args[0]).name
+        self.software_bindings = software_bindings
         
         self.container_type = container_type
         self.container_ipath = container_ipath
         self.container_opath = container_opath
+        self.opt_path = opt_path
 
         self.container_handler = {
             'docker': {
@@ -66,13 +72,22 @@ class ContainerCLI:
         self._generate_cli()
 
         
-    def _validate_file_exists(self, filepath: str) -> None:
-        if not Path(filepath).exists():
-            raise FileNotFoundError(f"Provided file path '{filepath}' does not exist.")
+    def _validate_file_exists(self, filepath: Union[str, List[str]]) -> None:
+        do_not_exist = []
 
-    def _validate_container_type(self, container_type: str) -> None:
-        if container_type not in self.VALID_CONTAINERS:
-            raise ValueError(f"Unsupported container type '{container_type}'. Supported types are: {', '.join(self.VALID_CONTAINERS)}")
+        if not isinstance(filepath, list):
+            filepath = [filepath]
+
+        for _file in filepath:
+            if not Path(_file).exists():
+                do_not_exist.append(_file)
+
+        if do_not_exist:
+            raise FileNotFoundError(f"Error, the provided file(s) do(es) not exist: '{do_not_exist}'")
+
+    def _validate_container_type(self) -> None:
+        if self.container_type not in self.VALID_CONTAINERS:
+            raise ValueError(f"Unsupported container type '{self.container_type}'. Supported types are: {', '.join(self.VALID_CONTAINERS)}")
 
     def _arg_to_attr(self, arg: str) -> str:
         """Translates an argument name to an attribute name compatible with argparse.Namespace format
@@ -97,11 +112,20 @@ class ContainerCLI:
 
     def _get_io(self):
         """Get inputs/output paths from their argument flags in Namespace
+
+        >>> self.cmd_args = ["prog", "-foo1", "/work/file1", "-foo2", "/work/file2", "-out", "/work/output"]
+        >>> self.input_args = ["-foo1", "-foo2"]
+        >>> self.output_arg = "-out"
+        >>> self.iargs = ["foo1", "foo2"]
+        >>> self.oarg = ["out"]
+        >>> self.input_files = [["/work/file1"], ["/work/file2"]]
+        >>> self.output = ["/work/output"]
         """
         iargs = [ self._arg_to_attr(arg=arg) for arg in self.input_args ]
         oarg = self._arg_to_attr(arg=self.output_arg)
 
-        self.input_files = [ getattr(self.args, x) for x in iargs ]
+        # retrieve attributes | ensure input files elements are typed as list for a more generic usage
+        self.input_files = [[getattr(self.args, x)] if not isinstance(getattr(self.args, x), list) else getattr(self.args, x) for x in iargs]
         self.output = getattr(self.args, oarg)
 
         # Check if input files exist
@@ -115,6 +139,9 @@ class ContainerCLI:
         image_url = self.container_handler[self.container_type]['image_url']
         self.cli = base_command + self._generate_volume_bindings() + image_url + [self.prog] + self._parse_arguments()
 
+    def get_inp_binding_path(self, file_path):
+        return f"{Path(file_path).resolve()}:{self.container_ipath}/{Path(file_path).name}"
+        
     def _generate_volume_bindings(self):
         """Generate the syntax to mount/bind required io to the container filesystem
 
@@ -124,10 +151,19 @@ class ContainerCLI:
         binding_flag = self.container_handler[self.container_type]['binding_flag']
         
         mnt_point = []
-        for input_file in self.input_files:
-            mnt_point += [binding_flag, f"{Path(input_file).resolve()}:{self.container_ipath}/{Path(input_file).name}"]
+
+        # add input paths bindings
+        input_binding_path = [self.get_inp_binding_path(_file) for input_file in self.input_files for _file in input_file]
+        mnt_point += [item for input_path in input_binding_path for item in [binding_flag, input_path]]
         
+        # add output path binding
         mnt_point += [binding_flag, f"{Path(self.output).resolve()}:{self.container_opath}"]
+
+        # add external software bindings
+        if self.software_bindings:
+            for _, host_path in self.software_bindings.items():
+                container_path = f"{self.opt_path}/{Path(host_path).name}"
+                mnt_point += [binding_flag, f"{Path(host_path).resolve()}:{container_path}"]
 
         return mnt_point
 
@@ -138,12 +174,16 @@ class ContainerCLI:
             cmd_arguments (List): List of strings defining the container suited arguments
         """
         # add all command line arguments except --docker or --singularity if present
-        cmd_arguments = [ argv for argv in self.cmd_args[1:] if argv not in self.VALID_CONTAINERS ]
+        cmd_arguments = [ argv for argv in self.cmd_args[1:] if argv not in [f"--{x}" for x in self.VALID_CONTAINERS] ]
+
+        # flatten input_files
+        input_files = [item for input_file in self.input_files for item in input_file]
 
         # edit arguments relative to input(s)
         for arg in cmd_arguments:
-            if arg in self.input_files:
-                cmd_arguments[cmd_arguments.index(arg)] = f"/input/{Path(arg).name}"
+            if arg in input_files:
+                print("arg in files")
+                cmd_arguments[cmd_arguments.index(arg)] = f"{self.container_ipath}/{Path(arg).name}"
             elif arg == self.output:
                 cmd_arguments[cmd_arguments.index(arg)] = self.container_opath
 
