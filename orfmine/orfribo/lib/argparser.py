@@ -46,7 +46,7 @@ def get_parser():
     parser.add_argument("-n", "--dry-run", action='store_true', default=False, help="Only dry-run the workflow (default False)")
     parser.add_argument('--dag', '-D', action='store_true', default=False, help='Generate a DAG image of the worfklow ("dag.svg")')
     parser.add_argument("-F", "--forceall", action='store_true', default=False, help="Force all output files to be re-created (default False)")
-    parser.add_argument("-D, --dry-run", action='store_true', default=False, help="Flag used to show the docker command line. Must be used in conjonction with --docker")
+    parser.add_argument("-D", "--dry-run", action='store_true', default=False, help="Flag used to show the docker command line. Must be used in conjonction with '--docker' or '--singularity'")
 
     container_group = parser.add_mutually_exclusive_group()
     container_group.add_argument("--docker", action='store_true', default=False, help="Flag used to run computations on a docker container")

@@ -7,13 +7,45 @@ Created on Wed Oct 14 15:32:48 2020
 """
 import configparser
 from pathlib import Path
-import warnings
+import random
+import re
 import sys
+from typing import Union
+import warnings
 
+from matplotlib.colors import to_hex
 import matplotlib.pyplot as plt
 import seaborn as sns
 
 from orfmine import ROOT_PATH
+
+
+def error_missing_softwares(software: str):
+    softwares_info = {
+        "iupred": {
+            "name": "IUPred2a",
+            "link": "https://iupred2a.elte.hu/download_new"
+        },
+        "tango": {
+            "name": "Tango",
+            "link": "http://tango.crg.es/about.jsp"
+        }
+    }
+
+    error_message_template = '''
+{{}}
+
+If you have installed {} on your computer, please edit the softwares.ini file
+at the root of your ORFmine project and give the absolute root path of the 
+parent directory where the IUPred2a library and data/ folder reside.
+
+Otherwise, please go to this link:  {}
+and follow the install instructions. Then edit the softwares.ini file.
+
+'''.format("", softwares_info[software]["name"], softwares_info[software]["link"])
+    
+    return error_message_template
+
 
 
 def parse_orfold_tab(tab):
@@ -69,7 +101,7 @@ def generate_the_plot(to_plot,colors,bins,labels):
         sns_plot = plt.axvline(x = -3.319,ymin=0,ymax=5,ls = ':')
         sns_plot = plt.axvline(x =  5.214,ymin=0,ymax=5,ls = ':')
 
-    return(sns_plot)
+    return sns_plot
     
 
 def read_multiFASTA(fasta_file):
@@ -84,7 +116,17 @@ def read_multiFASTA(fasta_file):
             else:
                 seq = line.strip()
                 dico[name] = dico[name] + seq.replace("*","")
-    return(dico) 
+    return dico
+
+def get_seq_number(fasta_file):
+    seq_number = 0
+    with open(fasta_file,'r') as fasta:
+        for line in fasta:
+            if not line.startswith('>'):
+                continue
+            seq_number += 1
+
+    return seq_number
     
     
 def get_hca_barcode(hca,orf):
@@ -98,7 +140,7 @@ def get_hca_barcode(hca,orf):
         cluster_elements = str(cluster).split('\t')
         if len(cluster_elements[-1]) > 4:
             barcode = barcode[:int(cluster_elements[1])-1] + cluster_elements[-1] + barcode[int(cluster_elements[2]):]
-    return(barcode) 
+    return barcode
 
   
 def parse_iupred_output(iupred_output,check_seq,write_file = False):
@@ -137,7 +179,7 @@ def parse_iupred_output(iupred_output,check_seq,write_file = False):
     if len(sequence) == len(iupred_score) and len(sequence) == len(anchor_score) and "".join(sequence) == check_seq:
         return(sequence , iupred_score , anchor_score)
     else:
-        return("Something went wrong","Something went wrong","Something went wrong")
+        return "Something went wrong", "Something went wrong", "Something went wrong"
             
     
 def calculate_proportion_of_seq_disordered(iupred_score):
@@ -146,20 +188,20 @@ def calculate_proportion_of_seq_disordered(iupred_score):
     for i,pos in enumerate(iupred_score):
         if pos > 0.5:
             count_seg_tmp += 1 
-        elif pos <= 0.5 and count_seg_tmp >=5:
+        elif pos <= 0.5 and count_seg_tmp >= 5:
             count_agg_seg = count_agg_seg + count_seg_tmp
             count_seg_tmp = 0
-        elif pos <= 0.5 and count_seg_tmp <5:
+        elif pos <= 0.5 and count_seg_tmp < 5:
             count_seg_tmp = 0 
             continue
         
         if i == len(iupred_score) -1:
-            if count_seg_tmp >=5:
+            if count_seg_tmp >= 5:
                 count_agg_seg = count_agg_seg + count_seg_tmp
             else:
                 continue
                
-    return(round(count_agg_seg/len(iupred_score),3))   
+    return round(count_agg_seg/len(iupred_score), 3)
 
   
 
@@ -199,7 +241,6 @@ def calculate_proportion_of_seq_aggregable(b_aggregation):
     return(round(count_agg_seg/len(b_aggregation),3))
     
 
-#Read config.ini file
 def read_config_file():
     config_file = ROOT_PATH / 'softwares.ini'
     config = configparser.ConfigParser()
@@ -261,7 +302,164 @@ def check_path(path: str="", software: str="iupred"):
         term = "files" if len(missing_files) > 1 else "file"        
         error_message = "Sorry, it looks like the following {} do not exist in {}: {}".format(term, path, ", ".join(missing_files))
 
-
     return is_valid, error_message
 
+
+def get_root_name_of_files_list(files_list):
+    """
+    Removes the extentions and path of the files
+    """
+    return {Path(i).stem: i for i in files_list}
+
+
+def make_files_associations(parameters):
+    fastas = get_root_name_of_files_list(files_list=parameters.faa)
+    # Check if gff files where given:
+    if parameters.gff:
+        gffs = get_root_name_of_files_list(files_list=parameters.gff)
+    else:
+        gffs = parameters.gff
+
+    samples = parameters.N
+    files_associations = {}
+
+    # First I associate the number of sequences samples
+    # It must be given in order!!! OBLIGATORY
+    files_sampling = {}
+    for n,name in enumerate(fastas):
+        try:
+            files_sampling[fastas[name]] = samples[n]
+        except:
+            files_sampling[fastas[name]] = "all"
+    # ---------------------------------------- DONE
+    result =  all(elem in fastas for elem in gffs)
+    if result:
+        # All the gff files found an associated fasta file
+        print(
+             '''
+            These are the files associations I can make:''')
+        print(
+        ''' 
+            {:^30s}\t{:^30s}\t{:^30s}
+            {:^30s}\t{:^30s}\t{:^30s}'''.format("FASTA" , "GFF" , "Nb sequences","-----","---","------------")
+                )
+        for n,name in enumerate(fastas):
+            try:
+                print(
+        ''' 
+            {:^30s}\t{:^30s}\t{:^30s}'''.format(fastas[name].split("/")[-1],gffs[name].split("/")[-1],files_sampling[fastas[name]]))
+                files_associations[fastas[name]] = gffs[name]
+            except:
+                print(
+        ''' 
+            {:^30s}\t{:^30s}\t{:^30s}'''.format(fastas[name].split("/")[-1],"",files_sampling[fastas[name]]))
+                files_associations[fastas[name]] = ''
+
+    else:
+        # There is at least 1 GFF which could not be associated with FASTA
+        print('''
+             Oups! You provided GFF file(s) which has no correspodance to FASTA''')
+
+        # BUT if we provide the same number of FASTA and GFFs then we can
+        # associate them based on the order they passed in the terminal
+        if len(fastas) == len(gffs):
+            print(
+              '''
+             BUT i found {} FASTAs and {} GFFs 
+             so I will associate them based in the order they are:'''.format(len(fastas),len(gffs)))
+            print(
+        ''' 
+            {:^30s}\t{:^30s}\t{:^30s}
+            {:^30s}\t{:^30s}\t{:^30s}'''.format("FASTA" , "GFF" , "Nb sequences","-----","---","------------")
+                )
+            for n,name in enumerate(fastas):
+                print(
+        ''' 
+            {:^30s}\t{:^30s}\t{:^30s}''' \
+              .format(fastas[list(fastas.keys())[n]].split("/")[-1],
+                      gffs[list(gffs.keys())[n]].split("/")[-1],
+                      files_sampling[fastas[name]]))
+                files_associations[fastas[list(fastas.keys())[n]]] = gffs[list(gffs.keys())[n]]
+
+        elif len(gffs) == 1:
+            print(
+              '''
+             BUT i found {} FASTAs and {} unique GFF  
+             so I will associate this GFF with ALL the FASTA:'''.format(len(fastas),len(gffs)))
+            print(
+        ''' 
+            {:^30s}\t{:^30s}\t{:^30s}
+            {:^30s}\t{:^30s}\t{:^30s}'''.format("FASTA" , "GFF" , "Nb sequences","-----","---","------------")
+                )
+            for n,name in enumerate(fastas):
+                print(
+        ''' 
+            {:^30s}\t{:^30s}\t{:^30s}''' \
+              .format(fastas[list(fastas.keys())[n]].split("/")[-1],
+                      gffs[list(gffs.keys())[0]].split("/")[-1],
+                      files_sampling[fastas[name]]))
+                files_associations[fastas[list(fastas.keys())[n]]] = gffs[list(gffs.keys())[0]]
+
+
+        else:
+        # But if they do not have neither the same name with FASTA nor the same
+        # number, sorry but I can do nothing for you! :)
+            print('''
+                  BEY
+              ''')
+            exit()
+            
+    return files_associations, files_sampling
     
+
+def read_gff_file(gff_file):
+    gff_dico = {}
+    with open(gff_file,'r') as fi:
+        for line in fi:
+            if line.startswith("#") or line == "\n":
+                continue
+            try:
+                gff_dico[line.split()[-1].split('ID=')[1].split(";")[0]] = line
+            except:
+                try:
+                    gff_dico[line.split()[8].split('ID=')[1].split(";")[0]] = line
+                except:
+                    print("Check your last column of your GFF. There are spaces!!!")
+    return gff_dico
+
+
+def decide_which_color(value, nb_cols, minimum,maximum):
+    step = (maximum - minimum) / nb_cols
+    my_choice = round(abs(value - minimum) / step)
+    my_rgb = sns.color_palette(palette="coolwarm", n_colors=nb_cols+1)[int(my_choice)]
+    my_color = to_hex(my_rgb)
+    return(my_color)
+
+
+def change_color_in_gff_line(gff_dico, orf,value, nb_cols, minimum,maximum):
+    my_line  = gff_dico[orf]
+    my_color = decide_which_color(value=value,nb_cols=nb_cols, minimum=minimum,maximum=maximum)
+    new_line = re.sub(pattern="color=.+", repl="color=" + my_color, string=my_line)
+    new_line = new_line.strip() + ";element_value=" + str(value) + "\n"
+    return new_line
+
+
+def get_orfold_out_format(max_len_head: int=12):
+    return "{:"+str(max_len_head+2)+"s}\t{:7s}\t{:7s}\t{:7s}\n"
+
+
+def get_sequences(fasta_file: str, size: Union[str, int] = "all"):
+    sequences = read_multiFASTA(fasta_file)
+
+    if size != "all":
+        indexes = sorted(random.sample(k=int(size), population=range(len(sequences))))
+        sequences = {list(sequences.keys())[i]: list(sequences.values())[i] for i in indexes}
+
+    if not sequences:
+        raise ValueError(f"Failed to obtain sequences from the provided FASTA file: {Path(fasta_file.name)}")
+        
+    return sequences
+
+
+def format_with_n_decimals(number, n=3):
+    return f"{number:.{n}f}"
