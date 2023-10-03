@@ -25,7 +25,7 @@ import subprocess
 import sys
 import tempfile
 from types import ModuleType
-from typing import Dict
+from typing import Dict, Union
 import warnings
 
 
@@ -114,7 +114,7 @@ def calculate_tango_one_sequence(tango_path, seq, seqid, to_keep):
     return TANGO_portion
 
 
-def make_tmp_directories(out_path: str|Path, to_keep: bool=False):
+def make_tmp_directories(out_path: Union[str, Path], to_keep: bool=False):
     if to_keep:
         tango_path = Path(out_path) / "TANGO"
         tango_path.mkdir(exist_ok=True, parents=True)
@@ -181,7 +181,7 @@ def write_gff_line(outfile, gff_dico, orf, value, gff_filename, nb_cols=20, mini
         pass
 
 
-def process_orf(orf: str, seq: str, options: str, iupred2a_lib: ModuleType=None, tango_path: str|Path="", opened_files: dict={}, to_keep: bool=False):
+def process_orf(orf: str, seq: str, options: str, iupred2a_lib: ModuleType=None, tango_path: Union[str, Path]="", opened_files: dict={}, to_keep: bool=False):
     scores = {}
     for option in ["H", "I", "T"]:
         scores[option] = "NaN"  # initialize scores to NaN for each property
@@ -209,7 +209,7 @@ def process_orf(orf: str, seq: str, options: str, iupred2a_lib: ModuleType=None,
     return scores
 
 
-def process_fasta_file(fasta_file: str|Path, out_path: str|Path, options: str="H", sample_size: int|str=None, gff_template: str|Path="", to_keep: bool=False):
+def process_fasta_file(fasta_file: Union[str, Path], out_path: Union[str, Path], options: str="H", sample_size: Union[int, str]=None, gff_template: Union[str, Path]="", to_keep: bool=False):
 
     # import external optional softwares
     iupred2a_lib, tango_path = import_optional_tools(options=options)
@@ -248,7 +248,7 @@ def process_fasta_file(fasta_file: str|Path, out_path: str|Path, options: str="H
             _f["file"].close()
 
 
-def run_orfold(fasta_file: str|Path, out_path: str|Path, options: str="H", sample_size: int|str=None, gff_template: str|Path="", to_keep: bool=False):
+def run_orfold(fasta_file: Union[str, Path], out_path: Union[str, Path], options: str="H", sample_size: Union[int,str]=None, gff_template: Union[str, Path]="", to_keep: bool=False):
     out_path = Path(out_path)
     out_path.mkdir(parents=True, exist_ok=True)
 
