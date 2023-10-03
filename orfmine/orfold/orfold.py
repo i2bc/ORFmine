@@ -17,6 +17,7 @@ if "H" in parameters.options and parameters.barcodes:
 
 """
 from datetime import datetime
+from functools import partial
 import importlib.util
 import importlib.resources
 import os
@@ -26,6 +27,7 @@ import sys
 import tempfile
 from types import ModuleType
 from typing import Dict, Union
+import signal
 import warnings
 
 
@@ -60,6 +62,14 @@ SUFFIX_MAP = {
     "I": "_IUPRED.gff",
     "T": "_TANGO.gff"
 }
+
+def signal_handler(opened_files, sig, frame):
+    print('You pressed Ctrl+C! Closing files...')
+    for _, file_dict in opened_files.items():
+        file_dict["file"].close()
+    exit(1)
+
+
 
 
 def calculate_HCA_barcodes(sequences):
@@ -180,6 +190,21 @@ def write_gff_line(outfile, gff_dico, orf, value, gff_filename, nb_cols=20, mini
         print('An error occured at the writing of the {} file for the orf: {}'.format(gff_filename, orf))
         pass
 
+def open_gff_file(gff_template: Union[str, Path], options: str, basename: str):
+    opened_files = {}
+    if gff_template:
+        for option, suffix in SUFFIX_MAP.items():
+            if option in options:
+                opened_files[option] = {
+                    "file": open(basename + suffix, 'w'),
+                    "gff_filename": basename + suffix,
+                    "gff_dict": orfold_utils.read_gff_file(gff_file=gff_template)
+                }
+
+    # Set the signal ensure file will be closed on abrupt preogram stop (ctrl-c)
+    signal.signal(signal.SIGINT, partial(signal_handler, opened_files))
+
+    return opened_files
 
 def process_orf(orf: str, seq: str, options: str, iupred2a_lib: ModuleType=None, tango_path: Union[str, Path]="", opened_files: dict={}, to_keep: bool=False):
     scores = {}
@@ -210,7 +235,6 @@ def process_orf(orf: str, seq: str, options: str, iupred2a_lib: ModuleType=None,
 
 
 def process_fasta_file(fasta_file: Union[str, Path], out_path: Union[str, Path], options: str="H", sample_size: Union[int, str]=None, gff_template: Union[str, Path]="", to_keep: bool=False):
-
     # import external optional softwares
     iupred2a_lib, tango_path = import_optional_tools(options=options)
 
@@ -228,13 +252,7 @@ def process_fasta_file(fasta_file: Union[str, Path], out_path: Union[str, Path],
 
         opened_files = {}
         if gff_template:
-            for option, suffix in SUFFIX_MAP.items():
-                if option in options:
-                    opened_files[option] = {
-                        "file": open(fasta_basename + suffix, 'w'),
-                        "gff_filename": fasta_basename + suffix,
-                        "gff_dict": orfold_utils.read_gff_file(gff_file=gff_template)
-                    }
+            opened_files = open_gff_file(gff_template=gff_template, options=options, basename=fasta_basename)
 
         for orf, seq in sequences.items():
             scores = process_orf(orf=orf, seq=seq, options=options, iupred2a_lib=iupred2a_lib, tango_path=tango_path, opened_files=opened_files, to_keep=to_keep)
@@ -260,18 +278,16 @@ def run_orfold(fasta_file: Union[str, Path], out_path: Union[str, Path], options
 
 
 def run_orfold_containerized(parameters: arguments.argparse.Namespace):
-    out_path = Path(parameters.out)
-    out_path.mkdir(parents=True, exist_ok=True)
 
-    # list of flags related to input files
+    # set list of flags related to input files
     input_args = ["--faa"]
     if parameters.gff:
         input_args += ["--gff"]
 
-    # deal with special case of external softwares
+    # set external softwares paths
     software_bindings = orfold_utils.read_config_file()
 
-    # flag related to output path/file
+    # set flag related to output path/file
     output_arg = "--out"
 
     # instantiate containerCLI handler
