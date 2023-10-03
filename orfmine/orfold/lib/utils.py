@@ -436,9 +436,9 @@ def decide_which_color(value, nb_cols, minimum,maximum):
     return(my_color)
 
 
-def change_color_in_gff_line(gff_dico, orf,value, nb_cols, minimum,maximum):
+def change_color_in_gff_line(gff_dico, orf,value, nb_cols, minimum, maximum):
     my_line  = gff_dico[orf]
-    my_color = decide_which_color(value=value,nb_cols=nb_cols, minimum=minimum,maximum=maximum)
+    my_color = decide_which_color(value=value, nb_cols=nb_cols, minimum=minimum,maximum=maximum)
     new_line = re.sub(pattern="color=.+", repl="color=" + my_color, string=my_line)
     new_line = new_line.strip() + ";element_value=" + str(value) + "\n"
     return new_line
