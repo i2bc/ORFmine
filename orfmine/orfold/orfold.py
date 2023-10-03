@@ -24,6 +24,7 @@ from pathlib import Path
 import subprocess
 import sys
 import tempfile
+from types import ModuleType
 from typing import Dict
 import warnings
 
@@ -112,9 +113,9 @@ def calculate_tango_one_sequence(tango_path, seq, seqid, to_keep):
     return TANGO_portion
 
 
-def make_tmp_directories(parameters):
-    if parameters.keep:
-        tango_path = Path(parameters.out) / "TANGO"
+def make_tmp_directories(out_path: str|Path, to_keep: bool=False):
+    if to_keep:
+        tango_path = Path(out_path) / "TANGO"
         tango_path.mkdir(exist_ok=True, parents=True)
     
 
@@ -179,7 +180,7 @@ def write_gff_line(outfile, gff_dico, orf, value, gff_filename, nb_cols=20, mini
         pass
 
 
-def process_orf(orf: str, seq: str, options: str, iupred2a_lib, tango_path, opened_files, to_keep: bool=False):
+def process_orf(orf: str, seq: str, options: str, iupred2a_lib: ModuleType=None, tango_path: str|Path="", opened_files: dict={}, to_keep: bool=False):
     scores = {}
     for option in ["H", "I", "T"]:
         scores[option] = "NaN"  # initialize scores to NaN for each property
@@ -207,11 +208,16 @@ def process_orf(orf: str, seq: str, options: str, iupred2a_lib, tango_path, open
     return scores
 
 
-def process_fasta_file(fasta_file, size, associated_gff, out_path, parameters, iupred2a_lib, tango_path):
+def process_fasta_file(fasta_file: str|Path, out_path: str|Path, options: str="H", sample_size: int|str=None, gff_template: str|Path="", to_keep: bool=False):
+
+    # import external optional softwares
+    iupred2a_lib, tango_path = import_optional_tools(options=options)
+
+    # get fasta file base name
     fasta_basename = Path(fasta_file).stem
 
     # get sequences in the fasta file
-    sequences = orfold_utils.get_sequences(fasta_file=fasta_file, size=size)
+    sequences = orfold_utils.get_sequences(fasta_file=fasta_file, sample_size=sample_size)
 
     # get table output format of orfold
     out_format = orfold_utils.get_orfold_out_format(max_len_head=len(max(sequences.keys(), key=len)))
@@ -220,25 +226,17 @@ def process_fasta_file(fasta_file, size, associated_gff, out_path, parameters, i
         fw_output.write(out_format.format("Seq_ID", "HCA", "Disord", "Aggreg"))
 
         opened_files = {}
-        if associated_gff:
+        if gff_template:
             for option, suffix in SUFFIX_MAP.items():
-                if option in parameters.options:
+                if option in options:
                     opened_files[option] = {
                         "file": open(fasta_basename + suffix, 'w'),
                         "gff_filename": fasta_basename + suffix,
-                        "gff_dict": orfold_utils.read_gff_file(gff_file=associated_gff)
+                        "gff_dict": orfold_utils.read_gff_file(gff_file=gff_template)
                     }
 
         for orf, seq in sequences.items():
-            scores = process_orf(
-                orf=orf,
-                seq=seq,
-                options=parameters.options,
-                iupred2a_lib=iupred2a_lib,
-                tango_path=tango_path,
-                opened_files=opened_files,
-                to_keep=parameters.keep
-            )
+            scores = process_orf(orf=orf, seq=seq, options=options, iupred2a_lib=iupred2a_lib, tango_path=tango_path, opened_files=opened_files, to_keep=to_keep)
 
             # write scores in the table output
             scores = [orfold_utils.format_with_n_decimals(scores[opt]) if scores[opt] != "NaN" else "NaN" for opt in SUFFIX_MAP]
@@ -249,49 +247,31 @@ def process_fasta_file(fasta_file, size, associated_gff, out_path, parameters, i
             _f["file"].close()
 
 
-def run_orfold(parameters: arguments.argparse.Namespace):
-
-    out_path = Path(parameters.out)
+def run_orfold(fasta_file: str|Path, out_path: str|Path, options: str="H", sample_size: int|str=None, gff_template: str|Path="", to_keep: bool=False):
+    out_path = Path(out_path)
     out_path.mkdir(parents=True, exist_ok=True)
 
-    # import external optional softwares
-    iupred2a_lib, tango_path = import_optional_tools(options=parameters.options)
-
     # create optional directories for tango if necessary
-    make_tmp_directories(parameters=parameters)
+    make_tmp_directories(out_path=out_path, to_keep=to_keep)
 
-    # get associations between fasta & gff file(s)
-    files_associations, files_sampling = orfold_utils.make_files_associations(parameters=parameters)
+    # process fasta file
+    process_fasta_file(fasta_file=fasta_file, out_path=out_path, options=options, gff_template=gff_template, sample_size=sample_size, to_keep=to_keep)
 
-    # process fasta files
-    for fasta_file in files_associations:
-        size = files_sampling[fasta_file]
-        associated_gff = files_associations[fasta_file]
-
-        process_fasta_file(
-            fasta_file=fasta_file,
-            size=size,
-            associated_gff=associated_gff,
-            out_path=out_path,
-            parameters=parameters,
-            iupred2a_lib=iupred2a_lib,
-            tango_path=tango_path
-        )
 
 def run_orfold_containerized(parameters: arguments.argparse.Namespace):
     out_path = Path(parameters.out)
     out_path.mkdir(parents=True, exist_ok=True)
 
     # list of flags related to input files
-    input_args = ["-faa"]
+    input_args = ["--faa"]
     if parameters.gff:
-        input_args += ["-gff"]
+        input_args += ["--gff"]
 
     # deal with special case of external softwares
     software_bindings = orfold_utils.read_config_file()
 
     # flag related to output path/file
-    output_arg = "-out"
+    output_arg = "--out"
 
     # instantiate containerCLI handler
     cli = ContainerCLI(
@@ -313,11 +293,11 @@ def main():
     start_time = datetime.now()
 
     parameters = arguments.get_args()
-    
+
     if parameters.docker or parameters.singularity:
         run_orfold_containerized(parameters=parameters)
     else:
-        run_orfold(parameters=parameters)
+        run_orfold(fasta_file=parameters.faa, out_path=parameters.out, options=parameters.options, gff_template=parameters.gff, sample_size=parameters.sample, to_keep=parameters.keep)
 
     end_time = datetime.now()
     print('\nDuration: {}'.format(end_time - start_time))
