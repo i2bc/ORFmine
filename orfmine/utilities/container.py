@@ -69,6 +69,7 @@ class ContainerCLI:
 
         self._validate_container_type()
         self._get_io()
+        self._create_outdir()
         self._generate_cli()
 
         
@@ -119,7 +120,7 @@ class ContainerCLI:
         >>> self.iargs = ["foo1", "foo2"]
         >>> self.oarg = ["out"]
         >>> self.input_files = [["/work/file1"], ["/work/file2"]]
-        >>> self.output = ["/work/output"]
+        >>> self.output = "/work/output"
         """
         iargs = [ self._arg_to_attr(arg=arg) for arg in self.input_args ]
         oarg = self._arg_to_attr(arg=self.output_arg)
@@ -131,6 +132,9 @@ class ContainerCLI:
         # Check if input files exist
         for file in self.input_files:
             self._validate_file_exists(filepath=file)
+
+    def _create_outdir(self):
+        Path(self.output).mkdir(exist_ok=True, parents=True)
             
     def _generate_cli(self):
         """Generate the expected command line from the given container type.
