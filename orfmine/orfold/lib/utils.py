@@ -214,7 +214,6 @@ def calculate_proportion_of_seq_disordered(iupred_score):
     return round(count_agg_seg/len(iupred_score), 3)
 
   
-
 def read_tango_seq(file):
     aa_seq        = []
     b_aggregation   = []
@@ -228,7 +227,8 @@ def read_tango_seq(file):
             h_aggregation.append(float(line.split()[6]))
             
     return(''.join(aa_seq),b_aggregation,h_aggregation)
-    
+
+
 def calculate_proportion_of_seq_aggregable(b_aggregation):
     count_seg_tmp = 0
     count_agg_seg = 0
@@ -438,20 +438,52 @@ def read_gff_file(gff_file):
     return gff_dico
 
 
-def decide_which_color(value, nb_cols, minimum,maximum):
+def decide_which_color(value, nb_cols, minimum, maximum):
     step = (maximum - minimum) / nb_cols
     my_choice = round(abs(value - minimum) / step)
     my_rgb = sns.color_palette(palette="coolwarm", n_colors=nb_cols+1)[int(my_choice)]
     my_color = to_hex(my_rgb)
-    return(my_color)
+
+    print(value, my_choice, my_color)
+
+    return my_color
 
 
-def change_color_in_gff_line(gff_dico, orf,value, nb_cols, minimum, maximum):
-    my_line  = gff_dico[orf]
-    my_color = decide_which_color(value=value, nb_cols=nb_cols, minimum=minimum,maximum=maximum)
+# def change_color_in_gff_line(gff_dico, orf, value, nb_cols, minimum, maximum):
+#     my_line  = gff_dico[orf]
+#     my_color = decide_which_color(value=value, nb_cols=nb_cols, minimum=minimum, maximum=maximum)
+#     new_line = re.sub(pattern="color=.+", repl="color=" + my_color, string=my_line)
+#     new_line = new_line.strip() + ";element_value=" + str(value) + "\n"
+
+#     return new_line
+
+
+def change_color_in_gff_line(my_line, value, minimum, maximum, nb_cols=20):
+    my_color = decide_which_color(value=value, nb_cols=nb_cols, minimum=minimum, maximum=maximum)
     new_line = re.sub(pattern="color=.+", repl="color=" + my_color, string=my_line)
     new_line = new_line.strip() + ";element_value=" + str(value) + "\n"
+
     return new_line
+
+
+def set_gffline_color(line_template, value, minimum, maximum, nb_cols=20):
+    color = decide_which_color(value=value, nb_cols=nb_cols, minimum=minimum, maximum=maximum)
+
+    # Check if 'color' tag exists in the line_template
+    if "color=" in line_template:
+        # new_line = re.sub(pattern="color=.+", repl="color=" + color, string=line_template)
+        new_line = re.sub(pattern=r"color=[^;]*", repl="color=" + color, string=line_template)
+    else:
+        # If not, add the color tag. Add it before the potential last semicolon.
+        if line_template.endswith(";"):
+            new_line = line_template[:-1] + ";color=" + color
+        else:
+            new_line = line_template + ";color=" + color
+
+    new_line += ";element_value=" + str(value) + "\n"
+
+    return new_line
+
 
 
 def get_orfold_out_format(max_len_head: int=12):
