@@ -16,18 +16,19 @@ if "H" in parameters.options and parameters.barcodes:
             barcw.write(">{}\n{}\n".format(i,barcodes[i]))
 
 """
+from contextlib import ExitStack
 from datetime import datetime
 from functools import partial
 import importlib.util
 import importlib.resources
 import os
 from pathlib import Path
+import signal
 import subprocess
 import sys
 import tempfile
 from types import ModuleType
-from typing import Dict, Union
-import signal
+from typing import Dict, List, Union
 import warnings
 
 
@@ -182,31 +183,51 @@ def calculate_score(option, seq, iupred2a_lib=None, tango_path=None, to_keep: bo
     return round(score, 3), pvalue, mean
 
 
-def write_gff_line(outfile, gff_dico, orf, value, gff_filename, nb_cols=20, minimum=0, maximum=1):
-    try:
-        new_gff_line = orfold_utils.change_color_in_gff_line(gff_dico=gff_dico, orf=orf, value=value, nb_cols=nb_cols, minimum=minimum, maximum=maximum)
-        outfile.write(new_gff_line)
-    except:
-        print('An error occured at the writing of the {} file for the orf: {}'.format(gff_filename, orf))
-        pass
+def get_scores_from_tabline(line: str, options: str):
+    opt_mapping = {opt:i for (i, opt) in enumerate(SUFFIX_MAP, start=1) if opt in options}
 
-def open_gff_file(gff_template: Union[str, Path], options: str, basename: str):
-    opened_files = {}
-    if gff_template:
-        for option, suffix in SUFFIX_MAP.items():
-            if option in options:
-                opened_files[option] = {
-                    "file": open(basename + suffix, 'w'),
-                    "gff_filename": basename + suffix,
-                    "gff_dict": orfold_utils.read_gff_file(gff_file=gff_template)
-                }
+    return  {opt:line.split()[idx] for opt, idx in opt_mapping.items()}
 
-    # Set the signal ensure file will be closed on abrupt preogram stop (ctrl-c)
+
+def open_gff_file(gff_basename: str, options: str):
+    gff_filenames = [f"{gff_basename}{suffix}" for (opt, suffix) in SUFFIX_MAP.items() if opt in options]
+
+    opened_files = {opt: open(_file, 'w') for opt, _file in zip(options, gff_filenames)}
+
+    # Set the signal ensure file will be closed on abrupt program stop (ctrl-c)
     signal.signal(signal.SIGINT, partial(signal_handler, opened_files))
 
     return opened_files
 
-def process_orf(orf: str, seq: str, options: str, iupred2a_lib: ModuleType=None, tango_path: Union[str, Path]="", opened_files: dict={}, to_keep: bool=False):
+
+def annotate_gff(scores: Dict, outpath: Union[str, Path], out_basename: str, gff_template: Union[str, Path]="", options: str="H"):
+    # set and open gff filenames to be written
+    gff_basename = Path(outpath) / out_basename
+    opened_files = open_gff_file(gff_basename=str(gff_basename), options=options)
+
+    # iterate over each line of the gff template and process IDs found in scores
+    with open(gff_template, "r") as template_file:
+        for line in template_file:
+            line = line.strip()
+            if line.startswith("#") or not line:
+                continue
+
+            seqid = line.split('ID=')[-1].split(";")[0]
+            if seqid in scores:
+                for opt in options:
+                    value = float(scores[seqid][opt])
+                    maximum = 10 if opt == "H" else 1
+                    minimum = -10 if opt == "H" else 0
+
+                    new_gffline = orfold_utils.set_gffline_color(line_template=line, value=value, minimum=minimum, maximum=maximum)
+                    opened_files[opt].write(new_gffline)
+    
+    # close opened files
+    for _file in opened_files.values():
+        _file.close()
+
+
+def process_orf(orf: str, seq: str, options: str, iupred2a_lib: ModuleType=None, tango_path: Union[str, Path]="", to_keep: bool=False):
     scores = {}
     for option in ["H", "I", "T"]:
         scores[option] = "NaN"  # initialize scores to NaN for each property
@@ -219,27 +240,18 @@ def process_orf(orf: str, seq: str, options: str, iupred2a_lib: ModuleType=None,
         seqid = orf if option == "T" else None
         scores[option], _, _ = calculate_score(option=option, seq=seq, iupred2a_lib=iupred2a_lib, tango_path=tango_path, to_keep=to_keep, seqid=seqid)
 
-        # write new gff with scores information
-        if option in opened_files:
-            write_gff_line(
-                outfile=opened_files[option]["file"],
-                gff_dico=opened_files[option]["gff_dict"],
-                orf=orf,
-                value=scores[option],
-                gff_filename=opened_files[option]["gff_filename"],
-                maximum=10 if option == "H" else 1,
-                minimum=-10 if option == "H" else 0
-            )
-
     return scores
 
 
-def process_fasta_file(fasta_file: Union[str, Path], out_path: Union[str, Path], options: str="H", sample_size: int=-1, gff_template: Union[str, Path]="", to_keep: bool=False):
+def process_fasta_file(fasta_file: Union[str, Path], out_path: Union[str, Path], options: str="H", sample_size: int=-1, to_keep: bool=False):
     # import external optional softwares
     iupred2a_lib, tango_path = import_optional_tools(options=options)
 
     # get fasta file base name
     fasta_basename = Path(fasta_file).stem
+
+    # set outfile
+    scores_tab_file = out_path / f"{fasta_basename}.tab"
 
     # get table output format of orfold
     out_format = orfold_utils.get_orfold_out_format(max_len_head=60)
@@ -247,18 +259,20 @@ def process_fasta_file(fasta_file: Union[str, Path], out_path: Union[str, Path],
     # get sequences in the fasta file
     fasta_sequences = orfold_utils.fasta_generator(filename=fasta_file) if sample_size == -1 else orfold_utils.reservoir_sampling_fasta(filename=fasta_file, k=sample_size)
 
-    with open(out_path / (fasta_basename + ".tab"), "w") as fw_output:
+    all_scores = {}
+    with open(scores_tab_file, "w") as fw_output:
         fw_output.write(out_format.format("Seq_ID", "HCA", "Disord", "Aggreg"))
-
-        opened_files = {}
 
         # iterate over each sequence
         for header, sequence in fasta_sequences:                
-            scores = process_orf(orf=header, seq=sequence, options=options, iupred2a_lib=iupred2a_lib, tango_path=tango_path, opened_files=opened_files, to_keep=to_keep)
+            scores = process_orf(orf=header, seq=sequence, options=options, iupred2a_lib=iupred2a_lib, tango_path=tango_path, to_keep=to_keep)
 
             # write scores in the table output
-            scores = [orfold_utils.format_with_n_decimals(scores[opt]) if scores[opt] != "NaN" else "NaN" for opt in SUFFIX_MAP]
-            fw_output.write(out_format.format(header, *scores))
+            fmt_scores = [orfold_utils.format_with_n_decimals(scores[opt]) if scores[opt] != "NaN" else "NaN" for opt in "HIT"]
+            fw_output.write(out_format.format(header, *fmt_scores))
+            all_scores[header] = scores
+
+    return all_scores
 
 
 def run_orfold(fasta_file: Union[str, Path], out_path: Union[str, Path], options: str="H", sample_size: Union[int,str]=None, gff_template: Union[str, Path]="", to_keep: bool=False):
@@ -269,7 +283,11 @@ def run_orfold(fasta_file: Union[str, Path], out_path: Union[str, Path], options
     make_tmp_directories(out_path=out_path, to_keep=to_keep)
 
     # process fasta file
-    process_fasta_file(fasta_file=fasta_file, out_path=out_path, options=options, gff_template=gff_template, sample_size=sample_size, to_keep=to_keep)
+    all_scores = process_fasta_file(fasta_file=fasta_file, out_path=out_path, options=options, sample_size=sample_size, to_keep=to_keep)
+
+    # annotate gff if required
+    if gff_template:
+        annotate_gff(scores=all_scores, outpath=out_path, out_basename=Path(fasta_file).stem, options=options, gff_template=gff_template)
 
 
 def run_orfold_containerized(parameters: arguments.argparse.Namespace):
