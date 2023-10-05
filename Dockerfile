@@ -1,20 +1,31 @@
 #################
 # 1st build stage - ubuntu based image
 #################
-FROM ubuntu:20.04 as stage_1
+FROM ubuntu:22.04 as stage_1
 
 # Set DEBIAN_FRONTEND to noninteractive
 ENV DEBIAN_FRONTEND=noninteractive
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
-RUN apt-get update && \
-    apt-get install -y build-essential python3.9 python3-pip python3-venv && \
-    apt-get install -y libc6-dev git libncurses5-dev default-jre && \
-    apt-get install -y libbz2-dev liblzma-dev zlib1g-dev wget vim-tiny && \
-    apt-get install -y libxml2-dev libcurl4-openssl-dev libssl-dev && \
-    apt-get install -y libfontconfig1-dev libharfbuzz-dev libfribidi-dev && \
-    apt-get install -y libfreetype6-dev libpng-dev libtiff5-dev libjpeg-dev
+RUN apt-get update && apt-get install -y \
+    build-essential python3.10 python3-pip python3-venv \
+    libc6-dev git libncurses5-dev default-jre \
+    libbz2-dev liblzma-dev zlib1g-dev wget vim-tiny \
+    libxml2-dev libcurl4-openssl-dev libssl-dev \
+    libfontconfig1-dev libharfbuzz-dev libfribidi-dev \
+    libfreetype6-dev libpng-dev libtiff5-dev libjpeg-dev
+
+RUN apt-get clean && rm -rf /var/lib/apt/lists/*
+
+
+# RUN apt-get update && \
+#     apt-get install -y build-essential python3.10 python3-pip python3-venv && \
+#     apt-get install -y libc6-dev git libncurses5-dev default-jre && \
+#     apt-get install -y libbz2-dev liblzma-dev zlib1g-dev wget vim-tiny && \
+#     apt-get install -y libxml2-dev libcurl4-openssl-dev libssl-dev && \
+#     apt-get install -y libfontconfig1-dev libharfbuzz-dev libfribidi-dev && \
+#     apt-get install -y libfreetype6-dev libpng-dev libtiff5-dev libjpeg-dev
 
 
 
@@ -23,19 +34,21 @@ RUN apt-get update && \
 #################
 FROM stage_1 as stage_2
 
+
 # Add R repository
 RUN apt-get update && \
     apt-get install -y software-properties-common dirmngr --no-install-recommends && \
     apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9 && \
-    add-apt-repository "deb https://cloud.r-project.org/bin/linux/ubuntu $(lsb_release -cs)-cran40/"
-
-# Install R 4.1.2
-RUN apt-get update && \
-    apt-get install -y r-base
+    add-apt-repository "deb https://cloud.r-project.org/bin/linux/ubuntu $(lsb_release -cs)-cran40/" && \
+    apt-get update && \
+    apt-get install -y r-base && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
 # install ribowaltz
-RUN R -e "install.packages('devtools', dependencies = TRUE);library('devtools');devtools::install_github('LabTranslationalArchitectomics/riboWaltz@v1.2.0', dependencies = TRUE);"
-
+RUN R -e "install.packages('devtools', dependencies = TRUE); \
+         library('devtools'); \
+         devtools::install_github('LabTranslationalArchitectomics/riboWaltz@v1.2.0', dependencies = TRUE);"
 
 
 #################
