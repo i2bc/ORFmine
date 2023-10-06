@@ -8,37 +8,24 @@ Created on Tue Apr 19 14:40:40 2022
 # TODO : determine the number of cpu to use per blast
 # TODO : gérer les fichiers de correspondance incomplets
 
-import argparse
-from ast import Dict, List
-import pandas as pd
-import numpy as np
-import multiprocessing
-import dendropy
+# Standard library imports
+from datetime import datetime
 from functools import partial
-import operator
+import multiprocessing
 from pathlib import Path
-import os
+import operator
 import shutil
 import sys
+from typing import Dict, List, Union
 
+# Third-party imports
 from Bio.Blast.Applications import NcbimakeblastdbCommandline, NcbiblastpCommandline
+import dendropy
+import numpy as np
+import pandas as pd
 
-
-
-def get_args():
-    parser = argparse.ArgumentParser()
-    parser.add_argument("-focal", required=True, help="Taxonomic name of the focal species")
-    parser.add_argument("-names", required=True, help="CSV file matching fasta (col1) and tree (col2) names", default=False)
-    parser.add_argument("-tree", required=True, help="Newick file for the phylogeny tree")
-    parser.add_argument("-out", required=False, type=str, default="./", help="Output directory (default='./')")
-    parser.add_argument("-ncpus", help="Total number of cpus that can be used fo the task (default=1)", default=1, type=int)
-    parser.add_argument("-blast", help="Wether to perform BLASTp or not. True to perform BLASTp, False otherwise (default=True)", type=bool, default = True)
-    parser.add_argument("-evalue", help="BLASTp evalue threshold (default=0.001)", default=0.001, type=float)
-    parser.add_argument("-query_cov", help="Minimum query coverage threshold (default=0.7)", default=0.7, type=int)
-    parser.add_argument("-preserve_underscores", help="Wether underscores are kept when reading the tree, or considered as spaces. True to keep underscores, False otherwise (default=False)", default = False, type=bool)
-    parser.add_argument('--keep', action='store_true', default=False, dest='bool_keep', help="Add '--keep' to keep intermediary computed files such as blastdb and blast outputs")
-
-    return parser.parse_args()
+# Self-party imports
+from orfmine.orfdate.lib.arguments import get_args
 
 
 def generate_tree(tree_file: str, names_df: pd.DataFrame, preserve_underscores: bool) -> dendropy.Tree:
@@ -58,14 +45,14 @@ def generate_tree(tree_file: str, names_df: pd.DataFrame, preserve_underscores: 
 
     # remove from tree taxa absent in names_df 
     taxa = [ tree.taxon_namespace[i].label for i in range(0,len(tree.taxon_namespace)) ]
-    extra_taxa = [ label for label in taxa if label not in names_df['tree'].tolist()]
+    extra_taxa = [ label for label in taxa if label not in names_df['taxon'].tolist()]
 
     if len(extra_taxa) > 0 :
         print("Extra taxa are : {}".format(extra_taxa))
         tree.prune_taxa_with_labels(extra_taxa)
 
         # Also need to correct the "taxon_namespace" attribute
-        tree.taxon_namespace = [ tree.taxon_namespace[i] for i in range(0, len(tree.taxon_namespace)) if tree.taxon_namespace[i].label in names_df['tree'].tolist()]
+        tree.taxon_namespace = [ tree.taxon_namespace[i] for i in range(0, len(tree.taxon_namespace)) if tree.taxon_namespace[i].label in names_df['taxon'].tolist()]
         print("Corrected tree")
         print(tree.as_ascii_plot())
 
@@ -88,7 +75,7 @@ def map_pyhlo_distance(tree: dendropy.Tree, focal_name: str) -> Dict:
         focal = tree.taxon_namespace.get_taxon(label=focal_name)
     except :
         labels = [tree.taxon_namespace[i].label for i in range(len(tree.taxon_namespace))]
-        print("Cannot find the -focal {} in the names of the tree :\n{}".format(focal_name, labels))
+        print("Cannot find the target taxon {} in the names of the tree :\n{}".format(focal_name, labels))
         sys.exit(1)
 
     pdc = tree.phylogenetic_distance_matrix()  # distance matrix object
@@ -108,7 +95,7 @@ def blastp(fasta, focal_fasta, names_df, out_path, num_threads=4, min_cov=0.7, e
         blastout_folder = Path(out_path) / "blastout"
 
         # Taxon name
-        tree_name = names_df['tree'][np.where(names_df['fasta'] == fasta )[0][0]]
+        tree_name = names_df['taxon'][np.where(names_df['fasta'] == fasta )[0][0]]
         print("{}...".format(tree_name))
 
         # BLASTp output file's name
@@ -207,35 +194,57 @@ def write_outputs(hits: Dict, distances: Dict, out_basename: str) -> None:
     farest_df.to_csv("{}_dated.csv".format(out_basename), index=True, index_label='seq')
 
 
-def main():
-    args = get_args()
-    
-    focal_name = args.focal  # taxonomic name of the focal species
-    tree_file = args.tree  # newick file for the phylogeny tree
-    ncpus = args.ncpus  # Number of cpus to use
-    is_blast = args.blast  # boolean flag to inform on wether to perform blastp or not 
-    evalue = args.evalue  # BLASTp evalue threshold    
-    min_cov = args.query_cov  # minimum query coverage threshold
-    out_path = Path(args.out)  # main output directory
-    keep_files = args.bool_keep  # boolean flag to inform on wether to keep intermediary files or not
-    preserve_underscores = args.preserve_underscores
-
+def get_mapping_df(csv_file: Union[str, Path], colnames: List[str]):
     # Dataframe with fasta files' names as first column and tree taxons' names as second column
-    names_df = pd.read_csv(args.names, names = ["fasta","tree"])
+    mapping_df = None
+    try:
+        mapping_df = pd.read_csv(csv_file, names=colnames)
+    except FileNotFoundError:
+        print(f"Error: unable to find the csv mapping file: {csv_file}")
+        print("\nPlease ensure the path exists.")
+    except pd.errors.EmptyDataError:
+        print(f"Error: the csv mapping file is empty: {csv_file}")
+    except pd.errors.ParserError as e:
+        print(f"Error while parsing the csv mapping file: {csv_file}")
+        print("Details:", str(e))
+
+    # Check if mapping_df was assigned and is not empty
+    if mapping_df is None or mapping_df.empty:
+        print("Error: The DataFrame was not properly initialized.")
+        exit(1)
+
+    return mapping_df
+
+
+def check_files(files: Union[str, Path]):
+    files_not_found = False
+    for _file in files:
+        if not Path(_file).resolve().exists():
+            print(f"Error: unable to find {_file}")
+            files_not_found = True
+
+    if files_not_found:
+        print(f"\nPlease check your mapping csv file and ensure all the paths are correct.")
+        exit(1)
+
+
+def run_orfdate(target: str, newick_file: Union[str, Path], out_path: Union[str, Path], mapping_file: Union[str, Path], ncpus: int=1, is_blast: bool=True, evalue: float=0.001, min_cov: float=0.7, keep_files: bool=False, preserve_underscores: bool=False):
+    
+    mapping_df = get_mapping_df(csv_file=mapping_file, colnames=["fasta", "taxon"])
+    check_files(files=mapping_df["fasta"].to_list())
 
     # fasta name of the focal species
     try :
-        focal_fasta = names_df['fasta'][np.where(names_df['tree'] == focal_name )[0][0]]
+        focal_fasta = mapping_df['fasta'][np.where(mapping_df['taxon'] == target )[0][0]]
     except :
-        print("The focal name {} is not found.\nNames provided in -names :\n{}".format(focal_name, names_df['tree']))
+        print("The focal name {} is not found.\nNames provided in --mapping :\n{}".format(target, mapping_df['taxon']))
         sys.exit(1)
 
-
     # Generate and print a tree object that will be used to infer hits distance.
-    tree = generate_tree(tree_file=tree_file, names_df=names_df, preserve_underscores=preserve_underscores)
+    tree = generate_tree(tree_file=newick_file, names_df=mapping_df, preserve_underscores=preserve_underscores)
 
     # get phylogenetic distances
-    distance_to_focal = map_pyhlo_distance(tree=tree, focal_name=focal_name)
+    distance_to_focal = map_pyhlo_distance(tree=tree, focal_name=target)
 
     if is_blast :
         print("Performing BLASTp on provided fastas...")
@@ -244,14 +253,13 @@ def main():
 
         blastout_folder = Path(out_path) / "blastout"
         blastout_folder.mkdir(parents=True, exist_ok=True)
-
     else :
         print("Skipping BLASTp.")
         
     # Perform the blastp function on each fasta
-    fastas = [fasta for fasta in names_df['fasta']]
+    fastas = [fasta for fasta in mapping_df['fasta']]
     with multiprocessing.Pool(processes=ncpus) as pool:
-        all_hits = pool.map(partial(blastp, focal_fasta=focal_fasta, names_df=names_df, out_path=str(out_path), min_cov=min_cov, evalue=evalue, is_blast=is_blast), fastas)
+        all_hits = pool.map(partial(blastp, focal_fasta=focal_fasta, names_df=mapping_df, out_path=str(out_path), min_cov=min_cov, evalue=evalue, is_blast=is_blast), fastas)
         
     # all_hits = [blastp(fasta, focal_fasta, names_df, out_path, ncpus=ncpus, min_cov=min_cov, evalue=evalue, is_blast=is_blast) for fasta in names_df['fasta']]
 
@@ -264,3 +272,32 @@ def main():
 
     # write outputs
     write_outputs(hits=hits_df, distances=distance_to_focal, out_basename=str(out_path / Path(focal_fasta).stem))
+
+
+def run_orfdate_containerized(args):
+    pass
+
+
+def main():
+    start_time = datetime.now()
+
+    args = get_args()
+
+    if args.docker or args.singularity:
+        run_orfdate_containerized(args=args)
+    else:
+        run_orfdate(
+            target=args.target,
+            newick_file=args.tree,
+            out_path=Path(args.out),
+            mapping_file=args.mapping,
+            ncpus=args.cpus,
+            is_blast=args.blast,
+            evalue=args.evalue,
+            min_cov=args.min_coverage,
+            keep_files=args.keep_files,
+            preserve_underscores=args.has_underscores
+        )
+
+    end_time = datetime.now()
+    print('\nDuration: {}'.format(end_time - start_time))
