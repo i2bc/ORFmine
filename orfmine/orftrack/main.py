@@ -16,12 +16,12 @@ from orfmine.orftrack.lib import parameters
 from orfmine.orftrack.lib import tools
 
 
-def main():
-    # gets arguments
-    start_time = time.time()
+def run_orftrack(params, logger):
+    # start_time = time.time()
 
-    params = parameters.set_parameters(args=parameters.get_args())
-    # params = parameters.Param(args=parameters.get_args())
+    # # gets arguments
+    # params = parameters.set_parameters(args=parameters.get_args())
+    # # params = parameters.Param(args=parameters.get_args())
 
     if params.bool_chrs:
         tools.get_infos(_input=params.gff_fname, option='chrs')
@@ -30,10 +30,9 @@ def main():
         tools.get_infos(_input=params.gff_fname, option='types')
         sys.exit(0)
 
-    logger = logHandler.Logger(name=__name__, outpath=params.outpath)
+    # logger = logHandler.Logger(name=__name__, outpath=params.outpath)
     logo(logger)
     params.description()
-
 
     # parses fasta & gff by chromosomes
     logger.title('# Parsing GFF and fasta input files #')
@@ -47,8 +46,6 @@ def main():
     # Print a brief summary of ORFs mapping
     mapping.summary(gff_outfile=params.outfile+'.gff')
 
-    logger.title("-- Execution time: {} seconds --".format(round((time.time() - start_time), 2)))
-
 
 def logo(logger):
     logger.info('')
@@ -59,6 +56,20 @@ def logo(logger):
     logger.info('  \___/  |_| \_\ |_|      \__| |_|     \__,_|  \___| |_|\_\ ')
     logger.info('')
                                                             
+
+def main():
+    start_time = time.time()
+
+    # gets arguments
+    params = parameters.set_parameters(args=parameters.get_args())
+    # params = parameters.Param(args=parameters.get_args())
+
+    logger = logHandler.Logger(name=__name__, outpath=params.outpath)
+
+    run_orftrack(params=params, logger=logger)
+
+    logger.title("-- Execution time: {} seconds --".format(round((time.time() - start_time), 2)))
+
 
 if __name__ == '__main__':
 
