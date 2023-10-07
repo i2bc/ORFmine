@@ -70,24 +70,35 @@ COPY softwares_dependencies/FastQC/ .
 RUN ln -s /opt/FastQC/fastqc /usr/local/bin
 
 
+#################
+# 3rd build stage - orfmine python dependencies
+#################
+FROM stage_3 as stage_4
+
+# create a user and go in home
+RUN adduser orfuser
+
+# go in /home
+WORKDIR /home/orfuser/orfmine
+
+# create a virtual environment
+RUN python3 -m venv env-orfmine
+ENV VIRTUAL_ENV /home/orfuser/orfmine/env-orfmine/bin
+
+# # Make sure we use the virtualenv:
+ENV PATH ${VIRTUAL_ENV}:${PATH}
+
+# Copy the requirements file into the container
+COPY requirements.txt .
+
+# Install the Python dependencies
+RUN pip3 install --no-cache-dir -r requirements.txt
+
 
 #################
 # final stage - orfmine package
 #################
-FROM stage_3
-
-# create a user and go in home
-RUN adduser orfmine
-
-# go in /home
-WORKDIR /home/orfmine
-
-# create a virtual environment
-RUN python3 -m venv env-orfmine
-ENV VIRTUAL_ENV /home/orfmine/env-orfmine/bin
-
-# # Make sure we use the virtualenv:
-ENV PATH ${VIRTUAL_ENV}:${PATH} 
+FROM stage_4
 
 # add ORFmine main package and setup.py
 COPY orfmine ./orfmine
@@ -105,9 +116,9 @@ RUN pip3 install -e .
 
 # create /inputs and /outputs directries with relevant user permissions
 RUN mkdir /input /output && \
-    chown orfmine:orfmine /input && \ 
-    chown orfmine:orfmine /output && \
+    chown orfuser:orfuser /input && \ 
+    chown orfuser:orfuser /output && \
     chmod 755 /input /output
 
 # log as user himself
-USER orfmine
+USER orfuser

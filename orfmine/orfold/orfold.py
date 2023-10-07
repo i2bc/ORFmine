@@ -298,7 +298,8 @@ def run_orfold_containerized(parameters: arguments.argparse.Namespace):
         input_args += ["--gff"]
 
     # set external softwares paths
-    software_bindings = orfold_utils.read_config_file()
+    softwares = orfold_utils.read_config_file()
+    extra_bindings = {x:'/opt' for x in softwares.values()}
 
     # set flag related to output path/file
     output_arg = "--out"
@@ -311,7 +312,7 @@ def run_orfold_containerized(parameters: arguments.argparse.Namespace):
             image_base=DOCKER_IMAGE,
             prog="orfold",
             container_type="docker" if parameters.docker else "singularity",
-            software_bindings=software_bindings
+            extra_bindings=extra_bindings
         )
 
     cli.show()
@@ -325,9 +326,17 @@ def main():
     parameters = arguments.get_args()
 
     if parameters.docker or parameters.singularity:
+        parameters.is_container = True
         run_orfold_containerized(parameters=parameters)
     else:
-        run_orfold(fasta_file=parameters.faa, out_path=parameters.out, options=parameters.options, gff_template=parameters.gff, sample_size=parameters.sample, to_keep=parameters.keep)
+        run_orfold(
+            fasta_file=parameters.faa,
+            out_path=parameters.out,
+            options=parameters.options,
+            gff_template=parameters.gff,
+            sample_size=parameters.sample,
+            to_keep=parameters.keep,
+        )
 
     end_time = datetime.now()
     print('\nDuration: {}'.format(end_time - start_time))
