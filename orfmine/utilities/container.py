@@ -19,12 +19,12 @@ class ContainerCLI:
         container_type (str, optional): Type of container to be used ; either 'docker' or 'singularity'. Defaults to 'docker'.
         container_ipath (str, optional): The input path inside the container. Defaults to '/input'.
         container_opath (str, optional): The output path inside the container. Defaults to '/output'.
-        opt_path (str, optional): The optional software path inside the container. Defaults to '/opt'.
+        extra_binding (dict, optional): A dictionary that maps external files to their respective paths inside the container for mounting.
     """
 
     VALID_CONTAINERS = ("docker", "singularity")
 
-    def __init__(self, args: Namespace, input_args: List[str], output_arg: str, image_base: str, cmd_args: Optional[List[str]] = None, prog: str="", software_bindings: Optional[Dict[str, str]] = None, container_type: str="docker", container_ipath: str='/input', container_opath: str='/output', opt_path: str='/opt') -> None:
+    def __init__(self, args: Namespace, input_args: List[str], output_arg: str, image_base: str, cmd_args: Optional[List[str]] = None, prog: str="", software_bindings: Optional[Dict[str, str]] = None, container_type: str="docker", container_ipath: str='/input', container_opath: str='/output', extra_bindings: dict={}) -> None:
         """
 
         Args:
@@ -38,7 +38,7 @@ class ContainerCLI:
             container_type (str, optional): Type of container to be used ; either 'docker' or 'singularity'. Defaults to 'docker'.
             container_ipath (str, optional): The input path inside the container. Defaults to '/input'.
             container_opath (str, optional): The output path inside the container. Defaults to '/output'.
-            opt_path (str, optional): The optional software path inside the container. Defaults to '/opt'.
+            extra_binding (dict, optional): A dictionary that maps external files to their respective paths inside the container for mounting.
         """        
         self.args = args
         self.input_args = input_args
@@ -52,7 +52,7 @@ class ContainerCLI:
         self.container_type = container_type
         self.container_ipath = container_ipath
         self.container_opath = container_opath
-        self.opt_path = opt_path
+        self.extra_bindings = extra_bindings
 
         self.container_handler = {
             'docker': {
@@ -163,11 +163,11 @@ class ContainerCLI:
         # add output path binding
         mnt_point += [binding_flag, f"{Path(self.output).resolve()}:{self.container_opath}"]
 
-        # add external software bindings
-        if self.software_bindings:
-            for _, host_path in self.software_bindings.items():
-                container_path = f"{self.opt_path}/{Path(host_path).name}"
-                mnt_point += [binding_flag, f"{Path(host_path).resolve()}:{container_path}"]
+        # add external extra bindings
+        if self.extra_bindings:
+            for host_file, container_path in self.extra_bindings.items():
+                container_path = f"{container_path}/{Path(host_file).name}"
+                mnt_point += [binding_flag, f"{Path(host_file).resolve()}:{container_path}"]
 
         return mnt_point
 
@@ -186,7 +186,6 @@ class ContainerCLI:
         # edit arguments relative to input(s)
         for arg in cmd_arguments:
             if arg in input_files:
-                print("arg in files")
                 cmd_arguments[cmd_arguments.index(arg)] = f"{self.container_ipath}/{Path(arg).name}"
             elif arg == self.output:
                 cmd_arguments[cmd_arguments.index(arg)] = self.container_opath
@@ -212,12 +211,19 @@ class ContainerCLI:
     def run(self):
         """Run the converted command line argument"""
         Path(self.output).mkdir(exist_ok=True, parents=True)
+
+        error_detail = None
         try:
-            subprocess.run(self.cli, capture_output=True, text=True, check=True)
+            subprocess.run(self.cli, stdout=sys.stdout, text=True, check=True)
         except subprocess.CalledProcessError as e:
-            raise RuntimeError(f"Command '{self.cmd()}' failed with error:\n{e.stderr}")
+            error_detail = e.stderr or e.stdout or "No additional error message provided."
         except Exception as e:
-            raise RuntimeError(f"Error executing the command: {self.cmd()}. Error: {str(e)}")
+            error_detail = str(e)
+
+        if error_detail:
+            final_error_msg = f"Command failed with error:\n{error_detail}"
+            print(final_error_msg)
+            exit(1)
 
 
 if __name__ == "__main__":

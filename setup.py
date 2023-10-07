@@ -59,7 +59,7 @@ st.setup(
             'gff2prot=orfmine.orftrack.scripts.gff2prot:main',
             'orfold=orfmine.orfold.orfold:main',
             'orfplot=orfmine.orfold.scripts.orfplot:main',
-            'orfdate=orfmine.orfdate.ORFdate:main',
+            'orfdate=orfmine.orfdate.orfdate:main',
             'orfribo=orfmine.orfribo.orfribo:main',
             'bam2reads=orfmine.orfribo.scripts.BAM2Reads:main',
             'orfstats=orfmine.orfribo.scripts.ORFstats:main',
