@@ -9,7 +9,11 @@ from json import load as json_load
 from pathlib import Path
 from pkg_resources import resource_filename as pkg_resource_filename
 
-from orfmine.orftrack.lib import logHandler
+# from orfmine.orftrack.lib import logHandler
+from orfmine.utilities.lib.logging import get_logger
+
+
+logger = get_logger(name=__name__)
 
 
 PATH_TO_CODON_TABLES = pkg_resource_filename('orfmine.utilities', 'data')
@@ -74,7 +78,9 @@ class Fasta:
         codon_table_id (str): codon table id consistent with the NCBI codon tables
 
         """
-        self.logger = logHandler.Logger(name=f"{__name__}.Fasta")
+        self.logger = get_logger(name=f"{__name__}.{self.__class__.__name__}")
+
+        # self.logger = logHandler.Logger(name=f"{__name__}.Fasta")
 
         self.fasta_fname = None
         self.chr = None
@@ -90,7 +96,6 @@ class Fasta:
     def get_codon_table(self, codon_table_id: str):
         codon_table_name = Path(PATH_TO_CODON_TABLES) / f"codon_table_{codon_table_id}.json"
         try:
-            self.logger.info(f"Accessing the codon table {codon_table_name}")
             with open(Path(PATH_TO_CODON_TABLES / codon_table_name)) as table_file:
                 codon_table = json_load(table_file)
         except:
@@ -270,9 +275,6 @@ def parse(fasta_filename, codon_table_id: str="1"):
         A list of FastaIndex instances.
 
     """
-    logger = logHandler.Logger(name=__name__)
-    
-    logger.title('# Parsing fasta file')
     chr_indexes = []
     with open(fasta_filename, 'rb') as fasta_file:
         for line in fasta_file:
@@ -280,7 +282,7 @@ def parse(fasta_filename, codon_table_id: str="1"):
                 chr_index = Fasta(codon_table_id)
                 chr_index.fasta_fname = fasta_filename
                 chr_index.chr = line.decode().strip().split('>')[-1].split()[0]
-                logger.debug('  - Reading chromosome: ' + chr_index.chr)
+                logger.debug('Reading chromosome: ' + chr_index.chr)
                 chr_index.curpos_start = fasta_file.tell()
 
                 seqline = fasta_file.readline()

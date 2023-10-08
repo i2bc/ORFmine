@@ -6,8 +6,6 @@ def get_infos(_input: str, option: str):
     @param _input: gff filename
     @param option: 'chrs' or 'types'
     """
-    # logger = logHandler.Logger(name=__name__)
-
     if option == 'chrs':
         chr_names = []
         with open(_input, 'r') as gff_file:

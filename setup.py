@@ -54,7 +54,7 @@ st.setup(
     install_requires=REQUIRES,
     entry_points={
         'console_scripts': [
-            'orftrack=orfmine.orftrack.main:main',
+            'orftrack=orfmine.orftrack.orftrack:main',
             'orfget=orfmine.orftrack.scripts.ORFget:main',
             'gff2prot=orfmine.orftrack.scripts.gff2prot:main',
             'orfold=orfmine.orfold.orfold:main',
