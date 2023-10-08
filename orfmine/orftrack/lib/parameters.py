@@ -283,9 +283,9 @@ def get_parser():
         "--out", "-O",
         required=False,
         nargs="?",
-        default='./',
+        default='.',
         type=str,
-        help="Output directory ('./' by default)."
+        help="Output directory ('.' by default)."
     )
 
     optional_arguments.add_argument(
