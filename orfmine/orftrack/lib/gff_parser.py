@@ -5,8 +5,13 @@ Created on Sun Jul 12 16:59:28 2020
 @author: nicolas
 """
 import sys
+
 from orfmine.orftrack.lib import logHandler, inspect
-from orfmine.orftrack.lib.parameters import Param
+from orfmine.orftrack.lib.parameters import Parameter
+from orfmine.utilities.lib.logging import get_logger
+
+
+logger = get_logger(name=__name__)
 
 
 class GffElement:
@@ -538,16 +543,14 @@ def set_gff_descr(gff_fname):
             line = gff_file.readline().decode(encoding='utf-8')
 
 
-def parse(param: Param, fasta_hash: dict):
+def parse(param: Parameter, fasta_hash: dict):
     """ chr_asked=param.chr, chr_exclude=param.chr_exclude
     @param fasta_hash:
     @param param:
     @type chr_exclude: list
     @type chr_asked: list
     """
-    logger = logHandler.Logger(name=__name__)
     
-    logger.title('# Parsing GFF file')
     gff_fname = param.gff_fname
     fasta_hash = fasta_hash
     chr_asked = param.chr if param.chr else []
@@ -556,9 +559,7 @@ def parse(param: Param, fasta_hash: dict):
     if not GFF_DESCR:
         set_gff_descr(gff_fname)
 
-    logger.info('Checking chromosome IDs consistency between GFF and fasta file...')
-    logger.info('')
-
+    logger.debug('Checking chromosome IDs consistency between GFF and fasta file...')
     # Get chromosomes present both in the GFF file and the fasta file
     chrs_common = inspect.check_chrids(chrs_gff=sorted(GFF_DESCR), chrs_fasta=sorted(fasta_hash))
 

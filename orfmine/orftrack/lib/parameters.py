@@ -5,6 +5,7 @@ Created on Fri Jul 24 15:37:10 2020
 @author: nicolas
 """
 
+import logging
 import os
 import argparse
 import configparser
@@ -12,9 +13,7 @@ from pathlib import Path
 from typing import List, Union
 import sys
 
-from orfmine.orftrack.lib import logHandler
-
-logger = logHandler.Logger(name=__name__)
+from orfmine.utilities.lib.logging import get_logger
 
 
 class Parameter:
@@ -57,6 +56,7 @@ class Parameter:
         Output directory, by default './'
 
     """
+
     def __init__(
         self,
         fna: Union[str, Path]=None,
@@ -74,8 +74,10 @@ class Parameter:
         bool_isfrag: bool=False,
         bool_ofasta: bool=False,
         codon_table: str='1',
-        out: Union[str, Path]='./',
+        out: Union[str, Path]='.',
     ):
+        self.logger = get_logger(name=__name__)
+
         self.fasta_fname = fna
         self.gff_fname = gff
 
@@ -103,43 +105,47 @@ class Parameter:
 
         self.codon_table_id = codon_table
 
-        self.outpath = out if out.endswith('/') else out + '/'
-        os.makedirs(self.outpath, exist_ok=True)
-        self.default_basename = 'mapping_orf_'
-        self.default_mainname = '.'.join(os.path.basename(self.fasta_fname).split('.')[:-1])
-        self.outfile = self.outpath + self.default_basename + self.default_mainname
+        self.outpath = Path(out)
+        self.outpath.mkdir(exist_ok=True, parents=True)
+        
+        self.default_basename = 'mapping_orf'
+        self.default_mainname = Path(self.fasta_fname).stem
+        self.outfile = str(self.outpath / f"{self.default_basename}_{self.default_mainname}")
 
 
     def description(self):
         """
-
         A formatted string describing all key index positions stored.
+
+        # for arg, value in vars(args).items():
+        #     print(f"{arg}: {value}")
+
 
         Returns:
             object: str
-
         """
         chr_asked = 'None' if not self.chr else ', '.join(self.chr)
         chr_exclude = 'None' if not self.chr_exclude else ', '.join(self.chr_exclude)
-        logger.info('')
-        logger.info('Parameters description:')
-        logger.info('- fasta filename: ' + self.fasta_fname)
-        logger.info('- gff filename: ' + self.gff_fname)
-        logger.info('- codon table id: ' + self.codon_table_id)
-        logger.info('- chr: ' + chr_asked)
-        logger.info('- chr_exclude: ' + chr_exclude)
-        logger.info('- types_only: ' + ', '.join(self.types_only))
-        logger.info('- types_except: ' + ', '.join(self.types_except))
-        logger.info('- o_include: ' + ', '.join(self.o_include))
-        logger.info('- o_exclude: ' + ', '.join(self.o_exclude))
-        logger.info('- orf_len: ' + str(self.orf_len))
-        logger.info('- co_ovp : ' + str(self.co_ovp))
-        logger.info('- outfile: ' + self.outfile)
-        logger.info('- bool_types: ' + str(self.bool_types))
-        logger.info('- bool_chrs: ' + str(self.bool_chrs))
-        logger.info('- isfrag: ' + str(self.is_frag))
-        logger.info('- ofasta: ' + str(self.o_fasta))
-        logger.info('')
+
+        self.logger.info('')
+        self.logger.info('Parameters description:')
+        self.logger.info('- fasta filename: ' + self.fasta_fname)
+        self.logger.info('- gff filename: ' + self.gff_fname)
+        self.logger.info('- codon table id: ' + self.codon_table_id)
+        self.logger.info('- chr: ' + chr_asked)
+        self.logger.info('- chr_exclude: ' + chr_exclude)
+        self.logger.info('- types_only: ' + ', '.join(self.types_only))
+        self.logger.info('- types_except: ' + ', '.join(self.types_except))
+        self.logger.info('- o_include: ' + ', '.join(self.o_include))
+        self.logger.info('- o_exclude: ' + ', '.join(self.o_exclude))
+        self.logger.info('- orf_len: ' + str(self.orf_len))
+        self.logger.info('- co_ovp : ' + str(self.co_ovp))
+        self.logger.info('- outfile: ' + str(self.outfile))
+        self.logger.info('- bool_types: ' + str(self.bool_types))
+        self.logger.info('- bool_chrs: ' + str(self.bool_chrs))
+        self.logger.info('- isfrag: ' + str(self.is_frag))
+        self.logger.info('- ofasta: ' + str(self.o_fasta))
+        self.logger.info('')
 
 
 def set_parameters(args):
@@ -149,8 +155,11 @@ def set_parameters(args):
         config_values = {}
 
     provided_args = get_provided_args(parser=get_parser(), args=args, ignore_args=["--config"])
+    print(provided_args)
     for key, value in provided_args.items():
         config_values[key] = value
+
+    print(config_values)
 
     params = Parameter(**config_values)
 
@@ -175,21 +184,21 @@ def get_parser():
     optional_arguments = parser.add_argument_group('Optional arguments')
 
     mandatory_arguments.add_argument(
-        "-fna",
+        "--fna", "-F",
         required=True,
         nargs="?",
         help="Genomic fasta file (.fna)"
     )
 
     mandatory_arguments.add_argument(
-        "-gff",
+        "--gff", "-G",
         required=True,
         nargs="?",
         help="GFF annotation file (.gff)"
     )
 
     optional_arguments.add_argument(
-        "--codon-table",
+        "--codon-table", "-T",
         required=False,
         type=str,
         default="1",
@@ -200,7 +209,7 @@ def get_parser():
     )
 
     optional_arguments.add_argument(
-        "-chr",
+        "--chr", "-C",
         required=False,
         nargs="+",
         type=str,
@@ -211,7 +220,7 @@ def get_parser():
     )
 
     optional_arguments.add_argument(
-        "-chr_exclude",
+        "--chr-exclude",
         required=False,
         nargs="+",
         type=str,
@@ -220,7 +229,7 @@ def get_parser():
     )
 
     optional_arguments.add_argument(
-        "-types_only",
+        "--types-only",
         required=False,
         nargs="+",
         default=[],
@@ -228,7 +237,7 @@ def get_parser():
         )
     
     optional_arguments.add_argument(
-        "-types_except",
+        "--types-except",
         required=False,
         nargs="+",
         default=['gene', 'exon'],
@@ -236,7 +245,7 @@ def get_parser():
     )
 
     optional_arguments.add_argument(
-        "-o_include",
+        "--o-include",
         required=False,
         nargs="+",
         default=['all'],
@@ -244,7 +253,7 @@ def get_parser():
     )
 
     optional_arguments.add_argument(
-        "-o_exclude",
+        "--o-exclude",
         required=False,
         nargs="+",
         default=[],
@@ -252,9 +261,8 @@ def get_parser():
     )
 
     optional_arguments.add_argument(
-        "-orf_len",
+        "--orf-len",
         required=False,
-        nargs="?",
         default=60,
         type=int,
         help="Minimum number of coding nucleotides required to define a sequence between two consecutive stop codons\
@@ -262,7 +270,7 @@ def get_parser():
     )
 
     optional_arguments.add_argument(
-        "-co_ovp",
+        "--co-ovp",
         required=False,
         nargs="?",
         default=0.7,
@@ -272,7 +280,7 @@ def get_parser():
     )
 
     optional_arguments.add_argument(
-        "-out",
+        "--out", "-O",
         required=False,
         nargs="?",
         default='./',
@@ -317,6 +325,17 @@ def get_parser():
         type=str,
         help='Path to a INI configuration file for orftrack'
     )
+
+    optional_arguments.add_argument(
+        "--dry-run", "-D",
+        action='store_true',
+        default=False,
+        help="Flag used to show the docker command line. Must be used in conjonction with '--docker' or '--singularity'"
+    )
+
+    container_group = parser.add_mutually_exclusive_group()
+    container_group.add_argument("--docker", action='store_true', default=False, help="Flag used to run computations on a docker container")
+    container_group.add_argument("--singularity", action='store_true', default=False, help="Flag used to run computations on a singularity container")
 
     return parser
 
@@ -388,79 +407,4 @@ def parse_config(config_file):
     config_values['bool_isfrag'] = frag_cds
 
     return config_values
-
-
-class Param:
-    """
-    Wrapper of all input files and arguments
-    """
-    def __init__(self, args):
-        self.fasta_fname = args.fna
-        self.gff_fname = args.gff
-
-        self.chr = []
-        self.chr_exclude = []
-        if args.chr:
-            self.chr = list(set(args.chr))
-        if args.chr_exclude:
-            self.chr_exclude = list(set(args.chr_exclude))
-
-        self.types_only = []
-        self.types_except = []
-        if args.types_only:
-            self.types_only = list(set(['CDS'] + args.types_only))
-            self.types_except = []
-        elif args.types_except:
-            self.types_except = list(set(args.types_except))
-            self.types_only = []
-
-        self.o_include = args.o_include
-        self.o_exclude = args.o_exclude
-        self.orf_len = args.orf_len
-        self.co_ovp = args.co_ovp
-
-        self.bool_types = args.bool_types
-        self.bool_chrs = args.bool_chrs
-        self.is_frag = args.bool_isfrag
-        self.o_fasta = args.bool_ofasta
-
-        self.codon_table_id: str = args.codon_table
-
-        self.outpath = args.out if args.out.endswith('/') else args.out + '/'
-        os.makedirs(self.outpath, exist_ok=True)
-        self.default_basename = 'mapping_orf_'
-        self.default_mainname = '.'.join(os.path.basename(self.fasta_fname).split('.')[:-1])
-        self.outfile = self.outpath + self.default_basename + self.default_mainname
-
-    def description(self):
-        """
-
-        A formatted string describing all key index positions stored.
-
-        Returns:
-            object: str
-
-        """
-        chr_asked = 'None' if not self.chr else ', '.join(self.chr)
-        chr_exclude = 'None' if not self.chr_exclude else ', '.join(self.chr_exclude)
-        logger.info('')
-        logger.info('Parameters description:')
-        logger.info('- fasta filename: ' + self.fasta_fname)
-        logger.info('- gff filename: ' + self.gff_fname)
-        logger.info('- codon table id: ' + self.codon_table_id)
-        logger.info('- chr: ' + chr_asked)
-        logger.info('- chr_exclude: ' + chr_exclude)
-        logger.info('- types_only: ' + ', '.join(self.types_only))
-        logger.info('- types_except: ' + ', '.join(self.types_except))
-        logger.info('- o_include: ' + ', '.join(self.o_include))
-        logger.info('- o_exclude: ' + ', '.join(self.o_exclude))
-        logger.info('- orf_len: ' + str(self.orf_len))
-        logger.info('- co_ovp : ' + str(self.co_ovp))
-        logger.info('- outfile: ' + self.outfile)
-        logger.info('- bool_types: ' + str(self.bool_types))
-        logger.info('- bool_chrs: ' + str(self.bool_chrs))
-        logger.info('- isfrag: ' + str(self.is_frag))
-        logger.info('- ofasta: ' + str(self.o_fasta))
-        logger.info('')
-
 

@@ -1,17 +1,24 @@
 import os
+from pathlib import Path
+
 from orfmine.orftrack.lib import logHandler
 from orfmine.orftrack.lib import gff_parser
+from orfmine.utilities.lib.logging import get_logger
 
-logger = logHandler.Logger(name=__name__)
+# logger = logHandler.Logger(name=__name__)
+logger = get_logger(name=__name__)
+
+
+def remove_existing_files(basename: str):
+    for extension in ["gff", "faa", "fna"]:
+        filename = Path(f"{basename}.{extension}")
+        if filename.exists():
+            filename.unlink(missing_ok=True)
 
 
 def mapping(gff_data, param):
-    if os.path.exists(param.outfile + '.gff'):
-        os.remove(param.outfile + '.gff')
-    if os.path.exists(param.outfile + '.faa'):
-        os.remove(param.outfile + '.faa')
-    if os.path.exists(param.outfile + '.fna'):
-        os.remove(param.outfile + '.fna')
+    # remove files from previous runs if exist
+    remove_existing_files(basename=str(param.outfile))
 
     with open(param.outfile + '.gff', "a+") as out_gff:
         header = '# Input genomic fasta file: {}\n'.format(os.path.basename(param.fasta_fname))
@@ -58,7 +65,7 @@ def get_orfs(gff_chr, param, outfiles: list):
 
         for n, sequence in enumerate(subsequences):
 
-            logger.debug('    - reading frame {} of subsequence {}'.format(str(frame), str(n)))
+            logger.debug('- reading frame {} of subsequence {}'.format(str(frame), str(n)))
             codons = (sequence[i:i + 3].upper() for i in range(0, len(sequence), 3) if len(sequence[i:i + 3]) == 3)
 
             start_pos = start_pos if start_pos else frame + 1
@@ -176,7 +183,7 @@ def is_orf_exclude(orf=None, exclude=None):
 
 
 def summary(gff_outfile: str):
-    summary_logger = logHandler.Logger(name='summary')
+    # summary_logger = logHandler.Logger(name='summary')
 
     dict_summary = {}
     orfs_len = []
@@ -202,21 +209,20 @@ def summary(gff_outfile: str):
     if dict_summary:
         row_format = '{:<48}{:<20}{:<12}'
         header = row_format.format('ORF type', 'Quantity', 'Average length (aa)')
-        summary_logger.info('Summary')
-        summary_logger.info('-' * len('summary'))
+        logger.info('Summary')
+        logger.info('-' * len('summary'))
         for seqid in sorted(dict_summary):
-            summary_logger.info('')
-            summary_logger.info('')
-            summary_logger.info('# {}'.format(seqid))
-            summary_logger.info('')
-            summary_logger.info(header)
-            summary_logger.info(
+            logger.info('')
+            logger.info('')
+            logger.info('# {}'.format(seqid))
+            logger.info('')
+            logger.info(header)
+            logger.info(
                 row_format.format('-' * len('ORF type'), '-' * len('Quantity'), '-' * len('Average length (aa)')))
             for orf_type in sorted(dict_summary[seqid]):
                 avg_orf_len = sum(dict_summary[seqid][orf_type]['orf_len']) / len(
                     dict_summary[seqid][orf_type]['orf_len'])
-                summary_logger.info(row_format.format(orf_type,
+                logger.info(row_format.format(orf_type,
                                                       dict_summary[seqid][orf_type]['quantity'],
                                                       round(avg_orf_len, 2)))
 
-        summary_logger.info('')
