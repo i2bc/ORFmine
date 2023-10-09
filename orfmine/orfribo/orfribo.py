@@ -108,12 +108,6 @@ def generate_dag_svg(snakefile, output_svg_path):
         raise RuntimeError(f"Error executing the command: {cmd}.\nError: {str(e)}")
 
 
-def validate_container_type(container_type: str) -> None:
-    VALID_CONTAINERS = ["docker", "singularity"]
-    if container_type not in VALID_CONTAINERS:
-        raise ValueError(f"Unsupported container type '{container_type}'. Supported types are: {', '.join(VALID_CONTAINERS)}")
-
-
 def set_outdir(config: dict, args: Namespace):
     # set root directory of orfribo results; it must be created here for container usage
     if not config["out_base"]:        
@@ -137,13 +131,14 @@ def start_orfribo(args: Namespace, config: dict):
 
     snakemake.snakemake(
         snakefile=snakefile,
-        dryrun=args.dry_run,
+        dryrun=args.preview,
         nodes=args.jobs,
         resources=resources,
         forceall=args.forceall,
         printshellcmds=True,
         config=config,
         force_incomplete=True,
+        cores=args.cores
         # omit_from="select_read_lengths"
     )
 
