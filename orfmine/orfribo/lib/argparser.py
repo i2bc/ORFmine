@@ -41,10 +41,11 @@ def get_parser():
     parser.add_argument("--orfstats_median_threshold", help="Minimum median of in-frame reads", type=int, default=70)
     parser.add_argument("--final_counts", help="List of features in intergenic GFF", default="nc_intergenic")
     parser.add_argument("--mem_mb", help="Maximum allowed RAM to use in Mb (default: 2000Mb).", type=int, default=2000)
+    parser.add_argument("--cores", help="Number of provided cores (ignored when using cluster support). Defaults to 1.", type=int, default=1)
     parser.add_argument("--threads", help="Maximum number of threads to use", type=int, default=3)
     parser.add_argument("-j", "--jobs", type=int, default=1, help="Use at most N CPU cluster/cloud jobs in parallel. For local execution this is an alias for --cores. (default: 1)")
-    parser.add_argument("-n", "--dry-run", action='store_true', default=False, help="Only dry-run the workflow (default False)")
-    parser.add_argument('--dag', '-D', action='store_true', default=False, help='Generate a DAG image of the worfklow ("dag.svg")')
+    parser.add_argument("-P", "--preview", action='store_true', default=False, help="Only dry-run the workflow (default False)")
+    parser.add_argument('--dag', action='store_true', default=False, help='Generate a DAG image of the worfklow ("dag.svg")')
     parser.add_argument("-F", "--forceall", action='store_true', default=False, help="Force all output files to be re-created (default False)")
     parser.add_argument("-D", "--dry-run", action='store_true', default=False, help="Flag used to show the docker command line. Must be used in conjonction with '--docker' or '--singularity'")
 
