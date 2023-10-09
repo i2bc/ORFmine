@@ -15,6 +15,7 @@ class ContainerCLI:
         image_base (str): Docker image fullname (e.g. f"{DOCKER_REPOSITORY}/{IMAGE_NAME}:{IMAGE_TAG}").
         cmd_args (Optional[List[str]], optional): Command line arguments. If not provided, sys.argv is used.
         prog (str, optional): Name of the program to be executed.
+        workdir (str, optional): Path to the working directory to join on running a container
         software_bindings (dict, optional): Dictionary to hold software name and its path on the host system.
         container_type (str, optional): Type of container to be used ; either 'docker' or 'singularity'. Defaults to 'docker'.
         container_ipath (str, optional): The input path inside the container. Defaults to '/input'.
@@ -24,7 +25,20 @@ class ContainerCLI:
 
     VALID_CONTAINERS = ("docker", "singularity")
 
-    def __init__(self, args: Namespace, input_args: List[str], output_arg: str, image_base: str, cmd_args: Optional[List[str]] = None, prog: str="", software_bindings: Optional[Dict[str, str]] = None, container_type: str="docker", container_ipath: str='/input', container_opath: str='/output', extra_bindings: dict={}) -> None:
+    def __init__(self,
+                 args: Namespace,
+                 input_args: List[str],
+                 output_arg: str,
+                 image_base: str,
+                 cmd_args: Optional[List[str]] = None,
+                 prog: str="",
+                 workdir: str="",
+                 software_bindings: Optional[Dict[str, str]] = None,
+                 container_type: str="docker",
+                 container_ipath: str='/input',
+                 container_opath: str='/output',
+                 extra_bindings: dict={}
+                ) -> None:
         """
 
         Args:
@@ -47,6 +61,7 @@ class ContainerCLI:
 
         self.cmd_args = cmd_args or sys.argv
         self.prog = prog or Path(cmd_args[0]).name
+        self.workdir = str(Path(workdir).resolve()) if workdir else ""
         self.software_bindings = software_bindings
         
         self.container_type = container_type
@@ -58,11 +73,13 @@ class ContainerCLI:
             'docker': {
                 'base_cmd': ['docker', 'run', '-it', '--rm'],
                 'binding_flag': '-v',
+                'workdir_flag': '-w',
                 'image_url': [self.image_base]
             },
             'singularity': {
                 'base_cmd': ['singularity', 'exec'],
                 'binding_flag': '-B',
+                'workdir_flag': '--pwd',
                 'image_url': [f"docker://{self.image_base}"]
             }
         }
@@ -141,7 +158,13 @@ class ContainerCLI:
         """
         base_command = self.container_handler[self.container_type]['base_cmd']
         image_url = self.container_handler[self.container_type]['image_url']
-        self.cli = base_command + self._generate_volume_bindings() + image_url + [self.prog] + self._parse_arguments()
+
+        # set optional workdir path on the container
+        workdir_flag = self.container_handler[self.container_type]['workdir_flag']        
+        wd = [workdir_flag, self.workdir] if self.workdir else []
+
+        # translate the command line
+        self.cli = base_command + self._generate_volume_bindings() + wd + image_url + [self.prog] + self._parse_arguments()
 
     def get_inp_binding_path(self, file_path):
         return f"{Path(file_path).resolve()}:{self.container_ipath}/{Path(file_path).name}"

@@ -31,69 +31,10 @@ from pathlib import Path
 import pkg_resources
 import snakemake
 import time
-from yaml import safe_load as yaml_safe_load
 
 from orfmine import DOCKER_IMAGE
 from orfmine.utilities.container import ContainerCLI
 from orfmine.orfribo.lib import argparser
-
-
-def load_config(args: Namespace):
-    # load default yaml config file
-    config = get_default_config()
-
-    # update default config with from config file, if given
-    if args.config:
-        update_config(default_config=config, configfile=args.config)
-
-    # update default config from given command line args
-    provided_args = argparser.get_provided_args(parser=argparser.get_parser(), args=args)
-    for key, value in provided_args.items():
-        config[key] = value
-
-    # check that required args are given and valid
-    required_args = ["--fna", "--gff", "--gff_intergenic", "--path_to_fastq", "--already_trimmed"]
-    argparser.validate_required_args(config, required_args)
-
-    return config
-
-
-def get_default_config():
-    """Load the default snakefile configuration
-
-    Returns:
-        dict: default snakefile configuration
-    """
-    # 
-    default_config_path = pkg_resources.resource_filename("orfmine.orfribo", 'config.yaml')
-    default_config = None
-    try:
-        with open(default_config_path, "r") as f:
-                default_config = yaml_safe_load(f)
-    except:
-        print("Error occured while trying to load the default snakefile configuration")
-
-    return default_config
-
-
-def update_config(default_config: dict, configfile: str):
-    """ Update the default config from a yaml file
-
-    Args:
-        default_config (dict): dict to update
-        configfile (str): yaml file containing key:value pairs to update
-    """
-     
-    with open(configfile, "r") as f:
-        custom_config = yaml_safe_load(f)
-        
-    # ensure that only valid keys will be used for the update
-    for key in default_config:
-         if key not in custom_config:
-              print(f"Warning, key {key} in {configfile} is not allowed. It will not be considered.")
-              _ = custom_config.pop(key)
-
-    default_config.update(custom_config)
 
 
 def generate_dag_svg(snakefile, output_svg_path):
@@ -109,13 +50,23 @@ def generate_dag_svg(snakefile, output_svg_path):
 
 
 def set_outdir(config: dict, args: Namespace):
-    # set root directory of orfribo results; it must be created here for container usage
-    if not config["out_base"]:        
-        suffix_date = time.strftime("%Y%m%d-%H%M%S") 
-        outdir = f"orfribo_{suffix_date}"
-        config["out_base"] = outdir
+    """Set root directory of orfribo results; it must be created here for container usage
 
-    args.out_base = outdir
+    Args:
+        config (dict): preset config dictionary
+        args (Namespace): argparse.Namespace instance
+    """
+    # if outdir already defined, do nothing
+    if Path(config["out"]).stem:
+        return 
+
+    # else generate an oudtir name
+    suffix_date = time.strftime("%Y%m%d-%H%M%S") 
+    outdir = f"orfribo_{suffix_date}"
+    config["out"] = outdir
+
+    # set args.out value as the generated outdir name
+    args.out = outdir
     Path(outdir).mkdir(parents=True, exist_ok=True)
 
 
@@ -127,7 +78,7 @@ def start_orfribo(args: Namespace, config: dict):
         generate_dag_svg(snakefile=snakefile, output_svg_path="orfribo_dag.svg")
         exit()
 
-    resources = {"mem_mb": args.mem_mb}
+    resources = {"mem_mb": args.ram}
 
     snakemake.snakemake(
         snakefile=snakefile,
@@ -138,42 +89,42 @@ def start_orfribo(args: Namespace, config: dict):
         printshellcmds=True,
         config=config,
         force_incomplete=True,
-        cores=args.cores
-        # omit_from="select_read_lengths"
+        cores=args.cores,
+        debug=args.debug,
+        # omit_from="find_adapter_sequence"
     )
 
 
 def run_orfribo_containerized(args: Namespace):
     # load config file
-    config = load_config(args=args)
+    config = argparser.load_config(args=args)
 
     # list of flags related to input files
-    input_args = ["fna", "gff", "gff_intergenic", "path_to_fastq"]
-    # flag related to output path/file
-    output_arg = "--out_base" 
+    input_args = ["--fna", "--gff", "--gff-intergenic", "--fastq"]
+    if args.config:
+        input_args += ["--config"]
+
 
     # update default config with from config file, if given; add input file if present
     if args.config:
         input_args += ["config"]
 
     # add input file if present
-    if args.fasta_outRNA:
-        input_args += ["fasta_outRNA"]
+    if args.rna_to_exclude:
+        input_args += ["rna_to_exclude"]
 
     # set root directory of orfribo results
     set_outdir(config=config, args=args)
 
-    # get container type    
-    container_type = "docker" if args.docker else "singularity"
-
     # instantiate containerCLI handler
     cli = ContainerCLI(
             input_args=input_args,
-            output_arg=output_arg,
+            output_arg="--out",
             args=args,
+            workdir="/output",
             image_base=DOCKER_IMAGE,
             prog="orfribo",
-            container_type=container_type
+            container_type="docker" if args.docker else "singularity"
         )
 
     cli.show()
@@ -182,15 +133,16 @@ def run_orfribo_containerized(args: Namespace):
 
 
 def run_orfribo_locally(args: Namespace):
-    # load config file
-    config = load_config(args=args)
+    # load config file. Config sequence setting: default config.yaml -> optional given config file -> provided arguments
+    config = argparser.load_config(args=args)
+    # exit()
 
     # set root directory of orfribo results
     set_outdir(config=config, args=args)
 
     # if not exist, create empty file of ribosomic RNAs to exclude
-    if not Path(config["fasta_outRNA"]).exists():
-        with open(Path(config["fasta_outRNA"]), "x") as _f:
+    if not Path(config["rna_to_exclude"]).exists():
+        with open(Path(config["rna_to_exclude"]), "x") as _f:
             pass
 
     # print config
@@ -211,5 +163,5 @@ def main():
 
 
 if __name__ == "__main__":
-    # orfribo --fna database/Scer.fna --gff database/Scer.gff --gff_intergenic database/mapping_orf_Scer.gff --path_to_fastq fastq/ --already_trimmed yes --fasta_outRNA database/Scer_rRNA.fa -j 4
+    # orfribo --fna database/Scer.fna --gff database/Scer.gff --gff_intergenic database/mapping_orf_Scer.gff --fastq fastq/ --already_trimmed yes --rna_to_exclude database/Scer_rRNA.fa -j 4
     main()

@@ -19,7 +19,7 @@ periodicity_riboWaltz_exome = str(Path(RSCRIPTS_PATH) / "periodicity_riboWaltz_e
 
 # Sets resources (threads number, maximum RAM ...)
 THREADS_NB = config['threads']
-MEM_MB = config['mem_mb']
+MEM_MB = config['ram']
 
 # set project name
 PROJECT_NAME = config['project_name']
@@ -28,14 +28,13 @@ PROJECT_NAME = config['project_name']
 GFF_PATH = Path(config['gff']).resolve()
 GFF_INTERGENIC_PATH = Path(config["gff_intergenic"]).resolve()
 FASTA_PATH = Path(config['fna']).resolve()
-RNA_TO_EXCLUDE_PATH = Path(config['fasta_outRNA']).resolve()
-FASTQ_PATH = Path(config['path_to_fastq']).resolve()
+RNA_TO_EXCLUDE_PATH = Path(config['rna_to_exclude']).resolve()
+FASTQ_PATH = Path(config['fastq']).resolve()
 
 
 # set intermediary output path
-OUT_BASE_PATH = Path(config["out_base"])
+OUT_BASE_PATH = Path(config["out"])
 OUT_BASE_PATH.mkdir(parents=True, exist_ok=True)
-
 
 RESULTS_PATH = OUT_BASE_PATH / "RESULTS"
 RESULTS_PATH.mkdir(parents=True, exist_ok=True)
@@ -63,15 +62,15 @@ CUTADAPT_PATH.mkdir(parents=True, exist_ok=True)
 
 
 # set vars
-MIN_READ_LENGTH = str(config['readsLength_min'])
-MAX_READ_LENGTH = str(config['readsLength_max'])
-NAME_GFF_ATTRIBUTE = config['gff_name_attribute']
-ORFSTATS_THRESHOLD_MEAN = config['orfstats_mean_threshold']
-ORFSTATS_THRESHOLD_MEDIAN = config['orfstats_median_threshold']
-GFF_ELEMENT_TO_COUNT = config['gff_cds_feature']
-ARE_ADAPTERS_TRIMMED = config['already_trimmed']
-SEQUENCE_ADAPTER = config['adapt_sequence']
-FEATURES_TO_COUNT = config['final_counts']
+MIN_READ_LENGTH = str(config['min_read_length'])
+MAX_READ_LENGTH = str(config['max_read_length'])
+NAME_GFF_ATTRIBUTE = config['gff_attribute']
+ORFSTATS_THRESHOLD_MEAN = config['mean_threshold']
+ORFSTATS_THRESHOLD_MEDIAN = config['median_threshold']
+GFF_ELEMENT_TO_COUNT = config['gff_feature']
+ARE_ADAPTERS_TRIMMED = "1" if config['trimmed'] else "0"
+SEQUENCE_ADAPTER = config['adapter']
+FEATURES_TO_COUNT = ' '.join(config['intergenic_features'])
 
 # Wildcards definition
 SAMPLES, = glob_wildcards(FASTQ_PATH / "{sample}.fastq.gz")
@@ -141,7 +140,7 @@ rule find_adapter_sequence:
         "touch {output.adapter} 2> {log.touch};"
         "if [ -z " + SEQUENCE_ADAPTER + " ]; then "
         "Rscript " + find_adapter_sequence + " {input.fastq} " + str(RESULTS_PATH / "adapter_lists") + " 2> {log.rscript} ;"
-        "elif [ '" + ARE_ADAPTERS_TRIMMED + "' = 'no' ]; then echo " + SEQUENCE_ADAPTER + " 1> {output.adapter} 2> {log.echo};"
+        "elif [[ '" + ARE_ADAPTERS_TRIMMED + "' -eq 0 ]]; then echo " + SEQUENCE_ADAPTER + " 1> {output.adapter} 2> {log.echo};"
         "fi;"
 
 # Adds transcript names and gene IDs to the CDS and exon lines if possible
@@ -213,7 +212,7 @@ rule adapt_trimming:
     shell:
         "touch {output.cut_fastq}; "
         "adapter_sequence=`cat {input.adapt_seq}` ;"
-        "if [ '" + ARE_ADAPTERS_TRIMMED + "' = 'no' ]; then trim=\"-a ${{adapter_sequence}} --trimmed-only\"; else trim=''; fi 2> {log.trim_value};"
+        "if [[ '" + ARE_ADAPTERS_TRIMMED + "' -eq 0 ]]; then trim=\"-a ${{adapter_sequence}} --trimmed-only\"; else trim=''; fi 2> {log.trim_value};"
         "cutadapt ${{trim}} -e 0.125 -j {threads} --max-n=1 -m " + MIN_READ_LENGTH + " -M " + MAX_READ_LENGTH + " -o {output.cut_fastq} {input.fastq} 1>> {log.cutadapt_out} 2> {log.cutadapt} ;"
 
 # Builds the index of bowtie2 mapping on sequences for reads remove
@@ -400,7 +399,7 @@ rule stats_report:
                                 data_report.write(line)
                 data_report.write("\n\n")
 
-# In case there are no UTRs in the original GFF, call for ORFelongate functions (@TODO replace orfget by gff2prot)
+# In case there are no UTRs in the original GFF, call for ORFelongate functions
 rule ORFget:
     input:
         fasta = str(FASTA_PATH),
