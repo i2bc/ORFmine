@@ -111,7 +111,7 @@ RUN printf "[EXTERNAL_SOFTWARE]\niupred = \"/opt/iupred2a\"\ntango = \"/opt/tang
 RUN pip3 install -e .
 
 # # make current workdir content owns by user
-# RUN chown -R orfmine:orfmine ./
+# RUN chown -R orfuser:orfuser ./
 
 
 # create /inputs and /outputs directries with relevant user permissions
@@ -119,6 +119,8 @@ RUN mkdir /input /output && \
     chown orfuser:orfuser /input && \ 
     chown orfuser:orfuser /output && \
     chmod 755 /input /output
+
+WORKDIR /input
 
 # log as user himself
 USER orfuser

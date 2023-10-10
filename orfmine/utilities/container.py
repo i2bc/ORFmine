@@ -1,8 +1,47 @@
 from argparse import Namespace
+import importlib.util
 from pathlib import Path
 import subprocess
 import sys
 from typing import Dict, List, Optional, Union
+
+
+def get_package_path(package_name):
+    """Retrieve the directory path of a package based on its name."""
+    spec = importlib.util.find_spec(package_name)
+    if spec and spec.origin:
+        return str(Path(spec.origin).parent.resolve())
+    
+    return None
+
+
+def add_container_args(parser):
+    parser.add_argument(
+        "--dry-run", "-D",
+        required=False,
+        action='store_true',
+        default=False,
+        help="Flag used to show the docker command line. Must be used in conjunction with '--docker' or '--singularity'"
+    )
+
+    parser.add_argument(
+        "--dev-mode",
+        required=False,
+        action='store_true',
+        default=False,
+        help=(
+            "Enables development mode. Binds the local package directory to its "
+            "corresponding path inside the container, allowing for real-time testing "
+            "and changes without rebuilding the container. Should be used with either "
+            "'--docker' or '--singularity'."
+        )
+    )
+
+    container_group = parser.add_mutually_exclusive_group()
+    container_group.add_argument("--docker", action='store_true', default=False, help="Flag used to run computations on a docker container")
+    container_group.add_argument("--singularity", action='store_true', default=False, help="Flag used to run computations on a singularity container")
+
+    return parser
 
 
 class ContainerCLI:
@@ -15,29 +54,33 @@ class ContainerCLI:
         image_base (str): Docker image fullname (e.g. f"{DOCKER_REPOSITORY}/{IMAGE_NAME}:{IMAGE_TAG}").
         cmd_args (Optional[List[str]], optional): Command line arguments. If not provided, sys.argv is used.
         prog (str, optional): Name of the program to be executed.
-        workdir (str, optional): Path to the working directory to join on running a container
         software_bindings (dict, optional): Dictionary to hold software name and its path on the host system.
         container_type (str, optional): Type of container to be used ; either 'docker' or 'singularity'. Defaults to 'docker'.
         container_ipath (str, optional): The input path inside the container. Defaults to '/input'.
         container_opath (str, optional): The output path inside the container. Defaults to '/output'.
         extra_binding (dict, optional): A dictionary that maps external files to their respective paths inside the container for mounting.
+        dev_mode (bool, optional): Flag used to set up a development mode.
+        package_binding (dict, optional): A dictionary that maps a local package to its respective path inside the container.
     """
 
-    VALID_CONTAINERS = ("docker", "singularity")
+    VALID_CONTAINERS = ["docker", "singularity"]
 
-    def __init__(self,
-                 args: Namespace,
-                 input_args: List[str],
-                 output_arg: str,
-                 image_base: str,
-                 cmd_args: Optional[List[str]] = None,
-                 prog: str="",
-                 workdir: str="",
-                 software_bindings: Optional[Dict[str, str]] = None,
-                 container_type: str="docker",
-                 container_ipath: str='/input',
-                 container_opath: str='/output',
-                 extra_bindings: dict={}
+    def __init__(
+            self,
+            args: Namespace,
+            input_args: List[str],
+            output_arg: str,
+            image_base: str,
+            cmd_args: Optional[List[str]] = None,
+            prog: str="",
+            workdir: str="",
+            software_bindings: Optional[Dict[str, str]] = None,
+            container_type: str="docker",
+            container_ipath: str='/input',
+            container_opath: str='/output',
+            extra_bindings: dict={},
+            package_binding: dict={},
+            dev_mode: bool=False
                 ) -> None:
         """
 
@@ -53,6 +96,8 @@ class ContainerCLI:
             container_ipath (str, optional): The input path inside the container. Defaults to '/input'.
             container_opath (str, optional): The output path inside the container. Defaults to '/output'.
             extra_binding (dict, optional): A dictionary that maps external files to their respective paths inside the container for mounting.
+            dev_mode (bool, optional): Flag used to set up a development mode.
+            package_binding (dict, optional): A dictionary that maps a local package to its respective path inside the container.
         """        
         self.args = args
         self.input_args = input_args
@@ -68,6 +113,9 @@ class ContainerCLI:
         self.container_ipath = container_ipath
         self.container_opath = container_opath
         self.extra_bindings = extra_bindings
+
+        self.package_binding = package_binding
+        self.dev_mode = dev_mode
 
         self.container_handler = {
             'docker': {
@@ -160,11 +208,17 @@ class ContainerCLI:
         image_url = self.container_handler[self.container_type]['image_url']
 
         # set optional workdir path on the container
-        workdir_flag = self.container_handler[self.container_type]['workdir_flag']        
-        wd = [workdir_flag, self.workdir] if self.workdir else []
+        workdir_flag = self.container_handler[self.container_type]['workdir_flag']
+        if not self.dev_mode:
+            wd = [workdir_flag, self.workdir] if self.workdir else []
+        else:
+            wd = [workdir_flag, self.container_ipath]
 
         # translate the command line
-        self.cli = base_command + self._generate_volume_bindings() + wd + image_url + [self.prog] + self._parse_arguments()
+        self.cli = base_command + self._generate_volume_bindings() + wd + image_url
+
+        if not self.dev_mode:
+            self.cli +=  [self.prog] + self._parse_arguments()
 
     def get_inp_binding_path(self, file_path):
         return f"{Path(file_path).resolve()}:{self.container_ipath}/{Path(file_path).name}"
@@ -192,6 +246,14 @@ class ContainerCLI:
                 container_path = f"{container_path}/{Path(host_file).name}"
                 mnt_point += [binding_flag, f"{Path(host_file).resolve()}:{container_path}"]
 
+        # add package binding - dev-mode
+        if self.dev_mode:
+            if not self.package_binding:
+                print("Error: package_binding must be given as arguments with dev-mode")
+                exit(0)
+            for package_name, container_path in self.package_binding.items():
+                mnt_point += [binding_flag, f"{get_package_path(package_name=package_name)}:{container_path}"]
+
         return mnt_point
 
     def _parse_arguments(self):
@@ -201,7 +263,7 @@ class ContainerCLI:
             cmd_arguments (List): List of strings defining the container suited arguments
         """
         # add all command line arguments except --docker or --singularity if present
-        cmd_arguments = [ argv for argv in self.cmd_args[1:] if argv not in [f"--{x}" for x in self.VALID_CONTAINERS] ]
+        cmd_arguments = [ argv for argv in self.cmd_args[1:] if argv not in [f"--{x}" for x in self.VALID_CONTAINERS+["dev-mode"] ] ]
 
         # flatten input_files
         input_files = [item for input_file in self.input_files for item in input_file]
@@ -248,6 +310,8 @@ class ContainerCLI:
             print(final_error_msg)
             exit(1)
 
+
+    
 
 if __name__ == "__main__":
     # orftrack cmd line: orftrack -fna data/foo.fna -gff data/foo.gff -out test
