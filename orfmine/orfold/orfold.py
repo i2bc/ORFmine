@@ -318,7 +318,7 @@ def run_orfold_containerized(parameters: arguments.argparse.Namespace):
             prog="orfold",
             container_type="docker" if parameters.docker else "singularity",
             extra_bindings=extra_bindings,
-            dev_mode=parameters.dev_mode,
+            dev_mode=parameters.dev,
             package_binding={"orfmine": "/home/orfuser/orfmine/orfmine"}
         )
 

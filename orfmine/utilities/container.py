@@ -25,7 +25,7 @@ def add_container_args(parser):
     )
 
     parser.add_argument(
-        "--dev-mode",
+        "--dev",
         required=False,
         action='store_true',
         default=False,

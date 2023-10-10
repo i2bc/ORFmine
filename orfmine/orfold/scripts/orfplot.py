@@ -168,7 +168,7 @@ def run_orfplot_containerized(parameters: argparse.Namespace):
             image_base=DOCKER_IMAGE,
             prog="orfplot",
             container_type="docker" if parameters.docker else "singularity",
-            dev_mode=parameters.dev_mode,
+            dev_mode=parameters.dev,
             package_binding={"orfmine": "/home/orfuser/orfmine/orfmine"}
         )
 
