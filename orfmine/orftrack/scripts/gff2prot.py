@@ -5,11 +5,15 @@ import sys
 from typing import List
 import time
 from os import stat as ostat
+from orfmine import DOCKER_IMAGE
 
 from orfmine.orftrack.lib import gff_parser, fasta_parser
 from orfmine.orftrack.lib.utils import CDSQueue, get_chunks, index_genomes, validate_chromosomes, merge_outfiles
 
 import multiprocessing
+
+from orfmine.utilities.container import ContainerCLI
+from orfmine.utilities.container import add_container_args
 
 
 def get_args():
@@ -45,7 +49,7 @@ def get_args():
     )
 
     parser.add_argument(
-        "-D", "--outdir",
+        "-O", "--outdir",
         required=False,
         nargs="?",
         default='./',
@@ -139,6 +143,9 @@ def get_args():
         default=False,
         help="Quality flag used to process only proteins that does not possess a STOP codon inside their sequence. Defauts to False."
     )
+
+    parser = add_container_args(parser=parser)
+
 
     args = parser.parse_args()
 
@@ -286,8 +293,7 @@ def process_chromosome(
     print(f"{process_name} -  Chromosome {chr_id} successfully processed in {round(time.time()-start_time, 2)} seconds")
                                 
 
-def main():
-    args = get_args()
+def run_gff2prot(args):
 
     genomic_fna = args.fna
     genomic_gff = args.gff
@@ -361,6 +367,31 @@ def main():
     merge_outfiles(inpath=outpath, infiles=merged_files, extensions=out_formats, outbasename=str(Path(basename_out).stem))
     
 
+def run_gff2prot_containerized(args):
+    # instantiate containerCLI handler
+    cli = ContainerCLI(
+            input_args=["--fna", "--gff"],
+            output_arg="--outdir",
+            args=args,
+            image_base=DOCKER_IMAGE,
+            prog="gff2prot",
+            container_type="docker" if args.docker else "singularity",
+            dev_mode=args.dev,
+            package_binding={"orfmine": "/home/orfuser/orfmine/orfmine"}
+        )
+    
+    cli.show()
+    if not args.dry_run:
+        cli.run()
+
+
+def main():
+    args = get_args()
+
+    if args.docker or args.singularity:
+        run_gff2prot_containerized(args=args)
+    else:
+        run_gff2prot(args=args)
 
 if __name__ == '__main__':
-    sys.exit(main())
+    main()
