@@ -26,9 +26,6 @@ def run_orftrack(args):
 
     params = set_parameters(args=get_args())
 
-    # exit()
-
-
     if params.bool_chrs:
         get_infos(_input=params.gff_fname, option='chrs')
         exit(1)
