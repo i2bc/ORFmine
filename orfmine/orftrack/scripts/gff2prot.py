@@ -22,26 +22,26 @@ def get_args():
     group = parser.add_mutually_exclusive_group()
 
     parser.add_argument(
-        "-fna",
+        "--fna",
         required=True,
         nargs="?",
         help="Genomic fasta file (.fna)"
     )
     
     parser.add_argument(
-        "-gff",
+        "--gff",
         required=True,
         nargs="?",
         help="GFF annotation file (.gff)"
     )
 
     parser.add_argument(
-        "-chrs",
+        "--chromosomes",
         required=False,
         nargs="*",
         type=str,
         default=[],
-        help="Chromosome names to processed. By default, all chromosomes are processed (default: [])."
+        help="Chromosome names to process. By default, all chromosomes are processed (default: [])."
     )
 
     parser.add_argument(
@@ -74,7 +74,7 @@ def get_args():
     )
     
     parser.add_argument(
-            "--features-include",
+            "--features",
             type=str,
             required=True, 
             nargs="*",
@@ -288,11 +288,12 @@ def process_chromosome(
 
 def main():
     args = get_args()
+
     genomic_fna = args.fna
     genomic_gff = args.gff
-    chromosomes_to_process = args.chrs
+    chromosomes_to_process = args.chromosomes
     chromosomes_to_exclude = args.chr_exclude
-    features = args.features_include
+    features = args.features
     elongation = args.elongate
     cpus = args.cpus
     codon_table_id = args.codon_table

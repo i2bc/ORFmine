@@ -417,7 +417,7 @@ rule ORFget:
         outname = "exome_elongated",
         features = GFF_ELEMENT_TO_COUNT
     shell:
-        "gff2prot -fna {input.fasta} -gff {input.gff} --features-include {params.features} --outdir {params.dirbase} --out-basename {params.outname} --nucleic --elongate 50 --stop-end; "
+        "gff2prot --fna {input.fasta} --gff {input.gff} --features {params.features} --outdir {params.dirbase} --out-basename {params.outname} --nucleic --elongate 50 --stop-end; "
         "mv {output.gff} {output.gff_with_genes};"
         "awk '$3 !~ /gene/' {output.gff_with_genes} > {output.gff};"
 

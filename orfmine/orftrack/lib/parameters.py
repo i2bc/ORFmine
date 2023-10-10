@@ -155,11 +155,8 @@ def set_parameters(args):
         config_values = {}
 
     provided_args = get_provided_args(parser=get_parser(), args=args, ignore_args=["--config"])
-    print(provided_args)
     for key, value in provided_args.items():
         config_values[key] = value
-
-    print(config_values)
 
     params = Parameter(**config_values)
 
