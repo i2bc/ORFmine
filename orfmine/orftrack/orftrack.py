@@ -79,7 +79,6 @@ def run_orftrack_containerized(args: Namespace):
 
 
 def main():
-    start_time = time.time()
 
     # gets arguments
     args = get_args()
@@ -87,11 +86,13 @@ def main():
     if args.docker or args.singularity:
         run_orftrack_containerized(args=args)
     else:
+        start_time = time.time()
+
         # set root logger
         set_root_logger(outpath=args.out, root="orfmine.orftrack", filename="orftrack.log", level=logging.INFO)
         run_orftrack(args=args)
 
-    logger.info("-- Execution time: {} seconds --".format(round((time.time() - start_time), 2)))
+        logger.info("-- Execution time: {} seconds --".format(round((time.time() - start_time), 2)))
 
 
 if __name__ == '__main__':
