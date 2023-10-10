@@ -2,8 +2,9 @@ import argparse
 import pkg_resources
 import sys
 from typing import List
-
 from yaml import safe_load as yaml_safe_load
+
+from orfmine.utilities.container import add_container_args
 
 
 def get_args() -> argparse.Namespace:
@@ -51,15 +52,12 @@ def get_parser():
     parser.add_argument("-F", "--forceall", action='store_true', default=False, help="Force all output files to be re-created (default False)")
     parser.add_argument("--debug", action="store_true", default=False, help="Allow to debug rules with e.g. PDB. This flag allows to set breakpoints in run blocks.")
 
-    parser.add_argument("-D", "--dry-run", action='store_true', default=False, help="Flag used to show the docker command line. Must be used in conjonction with '--docker' or '--singularity'")
 
     trim_group = parser.add_mutually_exclusive_group(required=False)
     trim_group.add_argument("--trimmed", action='store_true', help="Flag indicating that the sequence adapters are already removed.")
     trim_group.add_argument("--not-trimmed", action='store_true', help="Flag indicating that the sequence adapters are not removed.")
 
-    container_group = parser.add_mutually_exclusive_group()
-    container_group.add_argument("--docker", action='store_true', default=False, help="Flag used to run computations on a docker container")
-    container_group.add_argument("--singularity", action='store_true', default=False, help="Flag used to run computations on a singularity container")
+    parser = add_container_args(parser=parser)
 
     return parser
 
@@ -73,20 +71,48 @@ def get_provided_args(parser: argparse.ArgumentParser, args: argparse.Namespace,
     return provided_args
 
 
+def check_provided_args(provided_args: dict, required_args: List[str], mutually_exclusive: List[tuple]):
+    if not provided_args:
+        get_parser().print_usage()
+        print(f"\nMissing required arguments: {', '.join(required_args)}")
+        exit(1)
+
+    missing_args = []
+    for r_arg in required_args:            
+        if r_arg.lstrip("-").replace("-", "_") not in provided_args:
+            missing_args.append(r_arg)
+
+    inconsistencies = []
+    if mutually_exclusive:
+        for m_excl in mutually_exclusive:
+            a, b = m_excl
+            if a.lstrip("-").replace("-", "_") not in provided_args and b.lstrip("-").replace("-", "_") not in provided_args:
+                missing_args.append(f"{a}/{b}")
+            elif a.lstrip("-") in provided_args and b.lstrip("-") in provided_args:
+                inconsistencies.append(f"{a}/{b}")
+
+
+    if missing_args:
+        get_parser().print_usage()
+        print(f"\nMissing required arguments: {', '.join(missing_args)}")
+    if inconsistencies:
+        get_parser().print_usage()
+        print(f"\Mutually exclusive arguments: {', '.join(inconsistencies)}")
+
+    if missing_args or inconsistencies:
+        exit(1)
+
+
 def validate_required_args(config, required_args):
     missing_args = []
-    for arg in required_args:
-        parsed_arg = arg
-        while str(parsed_arg).startswith("-"):
-            parsed_arg = parsed_arg[1:]
-        
-        if parsed_arg not in config:
+    for arg in required_args:        
+        if arg.lstrip("-").replace("-", "_") not in config:
             missing_args.append(arg)
 
     if missing_args:
         get_parser().print_usage()
         print(f"\nMissing required arguments: {', '.join(missing_args)}")
-        sys.exit(1)
+        exit(1)
 
 
 def get_default_config():
@@ -127,10 +153,7 @@ def update_config_from_file(default_config: dict, configfile: str):
     default_config.update(custom_config)
 
 
-def update_config_from_args(args: argparse.Namespace, config: dict):
-
-    # get provided arguments into a dictionary
-    provided_args = get_provided_args(parser=get_parser(), args=args)
+def update_config_from_args(provided_args: dict, config: dict):
 
     # set --trimmed args value. "--not-trimmed" flag is used as a proxy to set --trimmed value to False if --not-trimmed is in provided_args, True otherwise
     if "not_trimmed" in provided_args:
@@ -145,6 +168,15 @@ def update_config_from_args(args: argparse.Namespace, config: dict):
 
 
 def load_config(args: argparse.Namespace):
+    required_args = ["--fna", "--gff", "--gff-intergenic", "--fastq"]
+    mutually_exclusive_args = [("--trimmed", "--not-trimmed")]
+
+    # get provided arguments into a dictionary
+    provided_args = get_provided_args(parser=get_parser(), args=args)
+
+    # check that provided arguments contains mandatories one
+    check_provided_args(provided_args=provided_args, required_args=required_args, mutually_exclusive=mutually_exclusive_args)
+    
     # load default yaml config file
     config = get_default_config()
 
@@ -153,10 +185,9 @@ def load_config(args: argparse.Namespace):
         update_config_from_file(default_config=config, configfile=args.config)
 
     # update default config with given command line args
-    config = update_config_from_args(args=args, config=config)
+    config = update_config_from_args(provided_args=provided_args, config=config)
 
     # check that mandatory arguments are given and valid
-    required_args = ["--fna", "--gff", "--gff_intergenic", "--fastq", "--trimmed"]
-    validate_required_args(config, required_args)
+    validate_required_args(config, required_args+["--trimmed"])
 
     return config

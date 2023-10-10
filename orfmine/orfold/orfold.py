@@ -105,6 +105,7 @@ def calculate_tango_one_sequence(tango_path, seq, seqid, to_keep):
     if str(tango_output[0]).replace("\\n", "").replace("\'", "").strip() == "b88, File not properly written, try writing it up again,": 
         b_aggregation = 'None'
         TANGO_portion = "NaN"
+        print("Warning:", tango_output)
     else:
         try:
             aa_seq, b_aggregation, h_aggregation = orfold_utils.read_tango_seq(tmp_name + '.txt')
@@ -112,6 +113,8 @@ def calculate_tango_one_sequence(tango_path, seq, seqid, to_keep):
         except:
             # The txt file was never created :(
             TANGO_portion = "NaN"
+            print("Error: tango tmp file might not have been created. Process aborted...")
+            exit(0)
        
     if os.path.exists(tmp_name + ".txt"):
         if not to_keep:
@@ -119,8 +122,6 @@ def calculate_tango_one_sequence(tango_path, seq, seqid, to_keep):
         else:
             os.system("mv " + tmp_name + ".txt " + seqid + ".txt" )
             os.system("mv " + seqid + ".txt ./TANGO/")
-    else:
-        pass
     
     return TANGO_portion
 
@@ -179,6 +180,10 @@ def calculate_score(option, seq, iupred2a_lib=None, tango_path=None, to_keep: bo
 
     elif option == "T":
         score = calculate_tango_one_sequence(tango_path=tango_path, seq=seq, seqid=seqid, to_keep=to_keep)
+
+    if score == "NaN":
+        print("Error in computing the score for option {option}. Process aborted...")
+        exit(0)
 
     return round(score, 3), pvalue, mean
 
@@ -312,7 +317,9 @@ def run_orfold_containerized(parameters: arguments.argparse.Namespace):
             image_base=DOCKER_IMAGE,
             prog="orfold",
             container_type="docker" if parameters.docker else "singularity",
-            extra_bindings=extra_bindings
+            extra_bindings=extra_bindings,
+            dev_mode=parameters.dev_mode,
+            package_binding={"orfmine": "/home/orfuser/orfmine/orfmine"}
         )
 
     cli.show()
@@ -321,14 +328,14 @@ def run_orfold_containerized(parameters: arguments.argparse.Namespace):
 
 
 def main():
-    start_time = datetime.now()
-
     parameters = arguments.get_args()
 
     if parameters.docker or parameters.singularity:
         parameters.is_container = True
         run_orfold_containerized(parameters=parameters)
     else:
+        start_time = datetime.now()
+
         run_orfold(
             fasta_file=parameters.faa,
             out_path=parameters.out,
@@ -338,8 +345,8 @@ def main():
             to_keep=parameters.keep,
         )
 
-    end_time = datetime.now()
-    print('\nDuration: {}'.format(end_time - start_time))
+        end_time = datetime.now()
+        print('\nDuration: {}'.format(end_time - start_time))
 
 
 if __name__ == "__main__":

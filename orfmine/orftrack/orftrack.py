@@ -71,7 +71,7 @@ def run_orftrack_containerized(args: Namespace):
             args=args,
             image_base=DOCKER_IMAGE,
             prog="orftrack",
-            container_type="docker" if args.docker else "singularity"
+            container_type="docker" if args.docker else "singularity",
         )
     
     cli.show()

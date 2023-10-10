@@ -63,7 +63,8 @@ st.setup(
             'orfribo=orfmine.orfribo.orfribo:main',
             'bam2reads=orfmine.orfribo.scripts.BAM2Reads:main',
             'orfstats=orfmine.orfribo.scripts.ORFstats:main',
-            'merge_read_tables=orfmine.orfribo.scripts.concatenate:main',            
+            'merge_read_tables=orfmine.orfribo.scripts.concatenate:main', 
+            'orfmine=orfmine.scripts:main',
         ]
     }
 )

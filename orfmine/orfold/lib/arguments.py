@@ -1,4 +1,5 @@
 import argparse
+from orfmine.utilities.container import add_container_args
 
 
 def get_args():
@@ -15,17 +16,13 @@ def get_args():
     parser.add_argument("--barcodes", required=False, action='store_true', default=False, help=argparse.SUPPRESS)
     parser.add_argument("--keep", "-K", required=False, action='store_true', default=False, help="Option for keeping the Tango output files")
     parser.add_argument("--sample", "-N", type=int, required=False, default=-1, help="Size of the sample to use for the fasta sequences. Defaults to -1 (i.e. all sequences).")
-    parser.add_argument("--dry-run", "-D", required=False, action='store_true', default=False, help="Flag used to show the docker command line. Must be used in conjonction with '--docker' or '--singularity'")
 
-    container_group = parser.add_mutually_exclusive_group()
-    container_group.add_argument("--docker", action='store_true', default=False, help="Flag used to run computations on a docker container")
-    container_group.add_argument("--singularity", action='store_true', default=False, help="Flag used to run computations on a singularity container")
+    parser = add_container_args(parser=parser)
 
     args = parser.parse_args()
 
     if args.options is None or args.options not in "HIT":
         parser.error("-options requires at least one argument amongst: H, I, T (e.g. `-options HI` or `-options -HT` or `-options HIT` ...)")
-
     
     return args
 
