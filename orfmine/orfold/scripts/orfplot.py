@@ -18,7 +18,7 @@ from typing import List, Union
 
 from orfmine import DOCKER_IMAGE
 from orfmine.orfold.lib.utils import parse_orfold_tab, generate_the_plot
-from orfmine.utilities.container import ContainerCLI
+from orfmine.utilities.container import ContainerCLI, add_container_args
 
 
 def get_args():
@@ -27,8 +27,9 @@ def get_args():
         Parameters
     """
     parser = argparse.ArgumentParser(description='ORF Foldability Distribution Plot')
+
     parser.add_argument(
-        "--tabs", "-T",
+        "--tab", "-T",
         type=str,
         required=True, 
         nargs="*",
@@ -53,10 +54,8 @@ def get_args():
         help="Output directory ('./' by default)."
     )
 
-    container_group = parser.add_mutually_exclusive_group()
-    container_group.add_argument("--docker", action='store_true', default=False, help="Flag used to run computations on a docker container")
-    container_group.add_argument("--singularity", action='store_true', default=False, help="Flag used to run computations on a singularity container")
-    
+    parser = add_container_args(parser=parser)
+
     args = parser.parse_args()
 
     return args
@@ -169,6 +168,8 @@ def run_orfplot_containerized(parameters: argparse.Namespace):
             image_base=DOCKER_IMAGE,
             prog="orfplot",
             container_type="docker" if parameters.docker else "singularity",
+            dev_mode=parameters.dev_mode,
+            package_binding={"orfmine": "/home/orfuser/orfmine/orfmine"}
         )
 
     cli.show()
@@ -177,17 +178,18 @@ def run_orfplot_containerized(parameters: argparse.Namespace):
 
 
 def main():
-    start_time = datetime.now()
 
     parameters = get_args()
 
     if parameters.docker or parameters.singularity:
         run_orfplot_containerized(parameters=parameters)
     else:
-        run_orfplot(tabfiles=parameters.tabs, outpath=parameters.out, labels=parameters.labels)
+        start_time = datetime.now()
 
-    end_time = datetime.now()
-    print('\nDuration: {}'.format(end_time - start_time))
+        run_orfplot(tabfiles=parameters.tab, outpath=parameters.out, labels=parameters.labels)
+
+        end_time = datetime.now()
+        print('\nDuration: {}'.format(end_time - start_time))
 
 
 if __name__ == "__main__":
