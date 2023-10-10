@@ -313,7 +313,9 @@ def run_orfdate_containerized(args: arguments.argparse.Namespace):
             image_base=DOCKER_IMAGE,
             prog="orfdate",
             container_type="docker" if args.docker else "singularity",
-            extra_bindings=extra_bindings
+            extra_bindings=extra_bindings,
+            dev_mode=args.dev_mode,
+            package_binding={"orfmine": "/home/orfuser/orfmine/orfmine"}
         )
 
     cli.show()
