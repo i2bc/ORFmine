@@ -5,14 +5,14 @@ Created on Fri Jul 24 15:37:10 2020
 @author: nicolas
 """
 
-import logging
-import os
+
 import argparse
 import configparser
 from pathlib import Path
 from typing import List, Union
 import sys
 
+from orfmine.utilities.container import add_container_args
 from orfmine.utilities.lib.logging import get_logger
 
 
@@ -326,17 +326,8 @@ def get_parser():
         help='Path to a INI configuration file for orftrack'
     )
 
-    optional_arguments.add_argument(
-        "--dry-run", "-D",
-        action='store_true',
-        default=False,
-        help="Flag used to show the docker command line. Must be used in conjonction with '--docker' or '--singularity'"
-    )
-
-    container_group = parser.add_mutually_exclusive_group()
-    container_group.add_argument("--docker", action='store_true', default=False, help="Flag used to run computations on a docker container")
-    container_group.add_argument("--singularity", action='store_true', default=False, help="Flag used to run computations on a singularity container")
-
+    parser = add_container_args(parser=parser)
+    
     return parser
 
 
