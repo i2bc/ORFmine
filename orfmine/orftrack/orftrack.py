@@ -72,6 +72,8 @@ def run_orftrack_containerized(args: Namespace):
             image_base=DOCKER_IMAGE,
             prog="orftrack",
             container_type="docker" if args.docker else "singularity",
+            dev_mode=args.dev_mode,
+            package_binding={"orfmine": "/home/orfuser/orfmine/orfmine"}
         )
     
     cli.show()
