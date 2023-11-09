@@ -8,8 +8,7 @@ ORFmine is an open-source package that aims at extracting, annotating, and chara
 - ORFdate estimates the evolutionary of ORFs based on phylostratigraphy.
 
 
-, ORFtrack, ORFold, ORFribo, and ORFdate,
-
+![image](./docs/img/icons/ORFmine.png)
  
 Both these tools have been developed in python3 (version >= 3.6).
 The install.sh  script will install both ORFtrack and ORFold with their dependancies.
