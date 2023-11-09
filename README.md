@@ -1,5 +1,9 @@
 # ORFmine
 
+<div align="center">
+  <img src="./docs/img/icons/ORFmine.png" width="80%"/>  
+</div>
+
 ORFmine is an open-source package that aims at extracting, annotating, and characterizing the sequence and structural properties of all Open Reading Frames (ORFs) of a genome, including coding as well as noncoding sequences, along with their translation activity. ORFmine consists of several independent programs that can be used together or independently:
 
 - ORFtrack searches for all possible ORFs longer than 60 nucleotides in the six frames of an input genome, and annotate them according to a set of genomic features
@@ -7,12 +11,6 @@ ORFmine is an open-source package that aims at extracting, annotating, and chara
 - ORFribo probes the translation activity of ORFs  based on Ribosome Profilng data (Ribo-Seq)
 - ORFdate estimates the evolutionary of ORFs based on phylostratigraphy.
 
-
-![image](./docs/img/icons/ORFmine.png)
- 
-Both these tools have been developed in python3 (version >= 3.6).
-The install.sh  script will install both ORFtrack and ORFold with their dependancies.
-They can be used together or independently. 
 
 ## Documentation
 You will find complete documentation on [https://i2bc.github.io/ORFmine/](https://i2bc.github.io/ORFmine/)
