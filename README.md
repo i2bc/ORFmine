@@ -1,8 +1,15 @@
-## Overview
+# ORFmine
 
-Recent studies attribute a new role to the noncoding genome in the production of novel peptides. The widespread transcription of noncoding regions and the pervasive translation of the resulting RNAs offer a vast reservoir of novel peptides to the organisms.
+ORFmine is an open-source package that aims at extracting, annotating, and characterizing the sequence and structural properties of all Open Reading Frames (ORFs) of a genome, including coding as well as noncoding sequences, along with their translation activity. ORFmine consists of several independent programs that can be used together or independently:
 
-ORFmine is an open-source package that aims at extracting, annotating, and characterizing the fold potential and the structural properties of all Open Reading Frames (ORF) encoded in a genome (including coding and noncoding sequences). ORFmine consists of two independent programs, ORFtrack and ORFold that can be used together or independently (see here for an example of application).
+- ORFtrack searches for all possible ORFs longer than 60 nucleotides in the six frames of an input genome, and annotate them according to a set of genomic features
+- ORFold predicts the fold potential and the disorder and aggregation propensities of a set of amino acid sequences
+- ORFribo probes the translation activity of ORFs  based on Ribosome Profilng data (Ribo-Seq)
+- ORFdate estimates the evolutionary of ORFs based on phylostratigraphy.
+
+
+, ORFtrack, ORFold, ORFribo, and ORFdate,
+
  
 Both these tools have been developed in python3 (version >= 3.6).
 The install.sh  script will install both ORFtrack and ORFold with their dependancies.
