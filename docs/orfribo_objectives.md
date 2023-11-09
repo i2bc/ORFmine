@@ -1,0 +1,5 @@
+![LOGO_ORFold](./img/icons/Logo_ORFribo.png){ width=30% }
+
+# Aims and general description of ORFribo
+
+ORFribo probes the translation activity of a set of ORFs of a genome based on Ribosome Profilng data (Ribo-Seq). ORFribo is very flexible and handles any type of ORFs once annotated in a gff file (e.g. coding sequences, alternative ORFs (i.e., noncoding ORFs located in the alternative frames of CDSs), intergenic ORFs or a combination of these ORF categories). ORFribo does not predict the translation status of ORFs. In contrast, it calculates the number of reads that map on the genomic coordinates of each ORF of the ORF category of interest and detects their corresponding frame. As a result, for each ORF, it provides the number of reads that map in-frame (i.e. in the reading frame of the ORF named also F0 or P0 frame) and the number of reads that map in its +1 and +2 frames. The user can then classify and/or infer the translation status of each ORF according to these numbers. In other words, ORFribo has no a priori and only aims at calculating these numbers for you, you are then free to take decision based on these numbers and your own criteria.
