@@ -5,7 +5,7 @@ import os
 ROOT_PATH = Path(__file__).resolve().parent.parent
 
 
-IMAGE_TAGS = ["latest", "2.0"]
+IMAGE_TAGS = ["latest", "2.0.0"]
 
 # docker infos
 DOCKER_REPOSITORY = os.getenv("DOCKER_REPOSITORY", "lopesi2bc")

@@ -21,6 +21,7 @@ ORFmine requires several dependencies and external softwares. To simplify instal
 <details open>
 <summary><h4>Minimal requirements for a container usage (recommended)</h4></summary>
 To use the Docker image, you will need:
+
 - Python >= 3.9
 - ORFmine >= 2.0.0
 - Docker or Singularity
@@ -30,6 +31,7 @@ To use the Docker image, you will need:
 <details>
 <summary><h4>Minimal requirements for a local installation</h4></summary>
 Alternatively, if you want to set up your environment for a local usage of ORFmine:
+
 - Python >= 3.9
 - blast >= 2.13
 - bowtie2 == 2.5.0
@@ -43,6 +45,7 @@ Alternatively, if you want to set up your environment for a local usage of ORFmi
 <details>
 <summary><h4>Optional requirements</h4></summary>
 Two other external softwares may be used for ORFold computations:
+
 - Tango == 3.1 
 - IUPred2A
 </details>
@@ -155,5 +158,6 @@ The ORFmine project is under the MIT licence. Please check [here](https://github
 
 If you use ORFmine for your research, please cite:
 > Papadopoulos, C., Chevrollier, N., Lopes, A. Exploring the peptide potential of genomes. Meth. Mol. Biol. (2022)
+
 > Papadopoulos, C., Arbes, H., Chevrollier, N., Blanchet, S., Cornu, D., Roginski, P., Rabier, C., Atia, S., Lespinet, O., Namy, O., Lopes, A. The Ribosome Profiling landscape of yeast reveals a high diversity in pervasive translation. bioRxiv (2023)
 
