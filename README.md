@@ -6,42 +6,46 @@
 
 ORFmine is an open-source package that aims at extracting, annotating, and characterizing the sequence and structural properties of all Open Reading Frames (ORFs) of a genome, including coding as well as noncoding sequences, along with their translation activity. ORFmine consists of several independent programs that can be used together or independently:
 
-<br>
+- <i>**ORFtrack** searches for all possible ORFs longer than 60 nucleotides in the six frames of an input genome, and annotate them according to a set of genomic features</i>
+- <i>**ORFold** predicts the fold potential and the disorder and aggregation propensities of a set of amino acid sequences</i>
+- <i>**ORFribo** probes the translation activity of ORFs  based on Ribosome Profilng data (Ribo-Seq)</i>
+- <i>**ORFdate** estimates the evolutionary of ORFs based on phylostratigraphy</i>
 
-- <i>ORFtrack searches for all possible ORFs longer than 60 nucleotides in the six frames of an input genome, and annotate them according to a set of genomic features</i>
-- <i>ORFold predicts the fold potential and the disorder and aggregation propensities of a set of amino acid sequences</i>
-- <i>ORFribo probes the translation activity of ORFs  based on Ribosome Profilng data (Ribo-Seq)</i>
-- <i>ORFdate estimates the evolutionary of ORFs based on phylostratigraphy</i>
-
-More information can be found in our full [documentation](https://i2bc.github.io/ORFmine/) pages.
+More information can be found in our full [documentation pages](https://i2bc.github.io/ORFmine/).
 
 
 ## Requirements
 
 ORFmine requires several dependencies and external softwares. To simplify installation, we offer a Docker image that includes the entire environment needed to use ORFmine: `nchenche/orfmine:v2.0.0`.
 
-
-#### For a Docker usage (recommended)
+<details open>
+<summary><h4>Minimal requirements for a container usage (recommended)</h4></summary>
 To use the Docker image, you will need:
 - Python >= 3.9
 - ORFmine >= 2.0.0
-- Docker
-- Tango == 3.1 (optional, might be useful for orfold)
-- IUPred2A (optional, might be useful for orfold)
+- Docker or Singularity
+</details>
 
 
-#### For a fully local installation
+<details>
+<summary><h4>Minimal requirements for a local installation</h4></summary>
 Alternatively, if you want to set up your environment for a local usage of ORFmine:
 - Python >= 3.9
-- python dependencies (-> `pip3 install -r requirements.txt`)
 - blast >= 2.13
 - bowtie2 == 2.5.0
 - hisat2 == 2.2.1
 - gffread == 0.12.7
 - samtools == 1.16.1
 - FastQC == 0.11.9
-- Tango == 3.1 (optional, might be useful for orfold)
-- IUPred2A (optional, might be useful for orfold)
+</details>
+
+
+<details>
+<summary><h4>Optional requirements</h4></summary>
+Two other external softwares may be used for ORFold computations:
+- Tango == 3.1 
+- IUPred2A
+</details>
 
 
 ## Recommendation
@@ -139,7 +143,7 @@ python3 -m pip install -e .
 
 ## Documentation
 
-Details about the four programs of ORFmine and their usage can be found in our full [documentation](https://i2bc.github.io/ORFmine/) pages.
+All details about [ORFtrack](), [ORFold](), [ORFdate]() and [ORFribo]()  and their usage can be found in the [ORFmine documentation](https://i2bc.github.io/ORFmine/).
 
 
 ## Licence
@@ -147,14 +151,9 @@ Details about the four programs of ORFmine and their usage can be found in our f
 The ORFmine project is under the MIT licence. Please check [here](https://github.com/i2bc/ORFmine/blob/ORFmine_complete/LICENSE.md) for more details.
 
 
+## Citing
 
-## References
-
-1. Bitard-Feildel, T. & Callebaut, I. HCAtk and pyHCA: A Toolkit and Python API for the Hydrophobic Cluster Analysis of Protein Sequences. bioRxiv 249995 (2018).
-2. Dosztanyi, Z., Csizmok, V., Tompa, P. & Simon, I. The pairwise energy content estimated from amino acid composition discriminates between folded and intrinsically unstructured proteins. Journal of molecular biology 347, 827–839 (2005).
-3. Dosztányi, Z. Prediction of protein disorder based on IUPred. Protein Science 27, 331– 340 (2018).
-4. Mészáros, B., Erdős, G. & Dosztányi, Z. IUPred2A: context-dependent prediction of protein disorder as a function of redox state and protein binding. Nucleic acids research 46, W329–W337 (2018).
-5. Fernandez-Escamilla, A.-M., Rousseau, F., Schymkowitz, J. & Serrano, L. Prediction of sequence-dependent and mutational effects on the aggregation of peptides and proteins. Nature biotechnology 22, 1302–1306 (2004).
-6. Linding, R., Schymkowitz, J., Rousseau, F., Diella, F. & Serrano, L. A comparative study of the relationship between protein structure and β-aggregation in globular and intrinsically disordered proteins. Journal of molecular biology 342, 345–353 (2004). 
-7. Rousseau, F., Schymkowitz, J. & Serrano, L. Protein aggregation and amyloidosis: confusion of the kinds? Current opinion in structural biology 16, 118–126 (2006).
+If you use ORFmine for your research, please cite:
+> Papadopoulos, C., Chevrollier, N., Lopes, A. Exploring the peptide potential of genomes. Meth. Mol. Biol. (2022)
+> Papadopoulos, C., Arbes, H., Chevrollier, N., Blanchet, S., Cornu, D., Roginski, P., Rabier, C., Atia, S., Lespinet, O., Namy, O., Lopes, A. The Ribosome Profiling landscape of yeast reveals a high diversity in pervasive translation. bioRxiv (2023)
 
