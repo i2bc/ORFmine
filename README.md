@@ -6,180 +6,146 @@
 
 ORFmine is an open-source package that aims at extracting, annotating, and characterizing the sequence and structural properties of all Open Reading Frames (ORFs) of a genome, including coding as well as noncoding sequences, along with their translation activity. ORFmine consists of several independent programs that can be used together or independently:
 
-- ORFtrack searches for all possible ORFs longer than 60 nucleotides in the six frames of an input genome, and annotate them according to a set of genomic features
-- ORFold predicts the fold potential and the disorder and aggregation propensities of a set of amino acid sequences
-- ORFribo probes the translation activity of ORFs  based on Ribosome Profilng data (Ribo-Seq)
-- ORFdate estimates the evolutionary of ORFs based on phylostratigraphy.
-
-
-## Documentation
-You will find complete documentation on [https://i2bc.github.io/ORFmine/](https://i2bc.github.io/ORFmine/)
-
-## Installation
-
-### 1. Download and uncompress the latest release
-
-
-You can clone the whole project with the following command:
-``` 
-git clone https://github.com/i2bc/ORFmine.git
-```
-
-Alternatively, you can click [here](https://github.com/i2bc/ORFmine/releases/latest/) to access the latest release.
-
-Then uncompress the archive. If you downloaded:
-* the *.zip* file: ```unzip ORFmine-x.x.x.zip```
-* the *.tar.gz* file: ```tar xzvf ORFmine-x.x.x.tar.gz```
-
 <br>
 
+- <i>ORFtrack searches for all possible ORFs longer than 60 nucleotides in the six frames of an input genome, and annotate them according to a set of genomic features</i>
+- <i>ORFold predicts the fold potential and the disorder and aggregation propensities of a set of amino acid sequences</i>
+- <i>ORFribo probes the translation activity of ORFs  based on Ribosome Profilng data (Ribo-Seq)</i>
+- <i>ORFdate estimates the evolutionary of ORFs based on phylostratigraphy</i>
 
-### 2. Create an isolated environment
-Although not strictly necessary, this step is highly recommended 
-(it will allow you to work on different projects without having any conflicting library versions).
-If you do not want to create a virtual environment, please go directly to the [install section](#general_install).
- 
-#### Install virtualenv
-``` python
+More information can be found in our full [documentation](https://i2bc.github.io/ORFmine/) pages.
+
+
+## Requirements
+
+ORFmine requires several dependencies and external softwares. To simplify installation, we offer a Docker image that includes the entire environment needed to use ORFmine: `nchenche/orfmine:v2.0.0`.
+
+
+#### For a Docker usage (recommended)
+To use the Docker image, you will need:
+- Python >= 3.9
+- ORFmine >= 2.0.0
+- Docker
+- Tango == 3.1 (optional, might be useful for orfold)
+- IUPred2A (optional, might be useful for orfold)
+
+
+#### For a fully local installation
+Alternatively, if you want to set up your environment for a local usage of ORFmine:
+- Python >= 3.9
+- python dependencies (-> `pip3 install -r requirements.txt`)
+- blast >= 2.13
+- bowtie2 == 2.5.0
+- hisat2 == 2.2.1
+- gffread == 0.12.7
+- samtools == 1.16.1
+- FastQC == 0.11.9
+- Tango == 3.1 (optional, might be useful for orfold)
+- IUPred2A (optional, might be useful for orfold)
+
+
+## Recommendation
+
+Before installing ORFmine, we strongly recommend to set up an Python isolated environment in order to avoid potential version conflicts between python libraries when working on different projects or different ORFmine versions.
+
+Click in the section below for a short illustration on how to use an Python isolated environment.
+
+<details style="margin-left: 32px">
+<summary>How to use an isolated environment (recommended)</summary>
+<br>
+<p>
+By using an isolated environment you will avoid potential version conflicts between python libraries when working on different projects. Some of the most popular tools to work with isolated python environments are [virtualenv](https://pypi.org/project/virtualenv/), [pyenv](https://pypi.org/project/pyenv/), [pipenv](https://pypi.org/project/pipenv/). 
+</p>
+
+Below is an example on how to use [virtualenv](https://pypi.org/project/virtualenv/).
+
+#### 1. Install virtualenv
+```bash
+# upgrade pip to its latest version
+python3 -m pip install --upgrade pip
+
+# install virtualenv
 python3 -m pip install virtualenv
 ```
 
-#### Create a virtual environment
+#### 2. Create and activate an isolated environment
 ```bash
-virtualenv -p python3 orfmine_env
-```
+# create an isolated environment named 'orfmine_env' (to adapt)
+virtualenv orfmine_env
 
-#### Activate the created environment
-```bash
+# activate your isolated environment
 source orfmine_env/bin/activate
 ```
 
-Once activated, any python library you will install using pip 
-will be installed solely in this isolated environment.
-You must activate this environment any time you need libraries installed 
-in this environment. 
+Once activated, any python library you'll install using pip will be installed in this isolated environment, and python will only have access to these packages.
 
-Once you are done working on your project, 
-simply type `deactivate` to exit the environment.
+Once you're done working on your project, simply type `deactivate` to exit the environment.
+</details>
 
 
-<div class="admonition note">
-    <p class="first admonition-title">
-        Note
-    </p>
-    <p class="last">
-        To delete definitely your virutal environment, you can simply
-        remove the directory with the following instruction:
-        <code>rm -r orfmine_env/</code>
-    </p>
-</div>
+## Installation
 
-<div class="admonition note">
-    <p class="first admonition-title">
-        Note
-    </p>
-    <p class="last">
-        We remind to the user that some external packages used in ORFmine 
-	(such as Biopython) require python version >= 3.6. Before creating 
-	your virtual environment make sure that your python version is up-to-date. 
-    </p>
-</div>
-
-<a name="general_install"></a>
-
-### 3. Install ORFMine 
-
-#### Preparation before the Installation
-
-Please note that we will refer below to the root directory of ORFmine as ORFmine-x-x-x where x-x-x refers to the version downloaded from an archive file (either .zip or .tar.gz).
-If you just cloned the project, the root directory of ORFmine will be ORFmine instead.
-
-If you just want to use **ORFtrack** in order to annotate all
-the possible ORFs of a genome, you have no other dependencies 
-to install, and you simply have to **Launch the Installation** 
-presented [below](#launch_install). 
-
-The installation of **ORFold** becomes a bit more demanding as
-there are some external tools to be downloaded and/or installed 
-before launching the installation.
-
-Firstly, **ORFold** is based on the HCA method for the calcluation of the
-fold potential. As a result [pyHCA](https://github.com/T-B-F/pyHCA) 
-[[1](https://www.biorxiv.org/content/10.1101/249995v1)]
-is essential to be pre-installed in your machine before installing 
-**ORFold**. You can [download](https://github.com/T-B-F/pyHCA)  for free and install **pyHCA** using 
-the instructions of the developers.  
-<br>
-If you are not interested in the calculation of the disorder
-and/or aggregation propensities with **ORFold** and you already
-have installed pyHCA, you can simply launch the installation
-presented [below](#launch_install).
-
-However, in the case you want to use [IUPred](https://iupred2a.elte.hu) 
-[2][3][4] and/or [Tango](http://tango.crg.es) [5][6][7] with **ORFold** you have to 
-first contact their developers through the respective links and have access 
-to their programs. These two softwares are not freely available for 
-non-academic users.
-
-Once you have access to the IUPred and Tango you have to place them in a directory
-called ```softwares``` placed in the path: ```ORFmine-x.x.x/orfold_v1/orfold/```. To do so:
+> :bell: Important: The ORFmine package must be installed locally even if you plan to use the Docker image. This is because ORFmine includes a feature that simplifies the Docker usage, eliminating the need for complex volume mounting commands. For more details, see Usage with and without Docker.
 
 
-* First create the ```softwares``` directory if not already created:
+ORFmine can be accessed in different ways. Follow instructions described in option 1 or 2 if you're not interested in accessing/modifying the source code, otherwise prefer option 3. 
+
+<a id="install_option1"></a>
+<details open>
+<summary><h4>Option 1: from the archive (git not required)</h4></summary>
+
+First download an archive of our latest release <a href="https://github.com/i2bc/ORFmine/releases/latest" target="_blank">here</a>.
 
 ```bash
-mkdir ORFmine-x.x.x/orfold_v1/orfold/softwares
+# upgrade pip to its latest version
+python3 -m pip install --upgrade pip
+
+# install ORFmine vx.x.x
+python3 -m pip install ORFmine-vx.x.x.zip # (or .tar.gz)
 ```
-
-* Move the IUPred source code and data (provided by the developer):
-	
-		mv iupred2a.py ORFmine-x.x.x/orfold_v1/orfold/softwares
-		mv iupred2a.py ORFmine-x.x.x/orfold_v1/orfold/softwares
-		mv data ORFmine-x.x.x/orfold_v1/orfold/softwares
-	
-* Move Tango source code:
-	* For MacOS:
-		
-			mv tango2_3_1 ORFmine-x.x.x/orfold_v1/orfold/softwares
-
-	* For linux:
-
-			mv tango_x86_64_release ORFmine-x.x.x/orfold_v1/orfold/softwares
-
-	* For windows:
-		
-			mv Tango.exe ORFmine-x.x.x/orfold_v1/orfold/softwares
-
-<div class="admonition note">
-    <p class="first admonition-title">
-        Note
-    </p>
-    <p class="last">
-        The calculation of the disorder or aggregation propensities  are both optional and 
-	complementary to the HCA score. As a result, IUPred and 
-	Tango tools are not mandatory for the installation of ORFold. In addition,
-	they are not necessarily coupled together. ORFold will properly be 
-	installed without them or even with only one of them.    
-    </p>
-</div>
-<a name="launch_install"></a>
+</details>
 
 
-#### Installation
+<details>
+<summary><h4>Option 2: from the version control systems</h4></summary>
 
-If you use a virtual environment, be sure that your virtual environment is activated.
-Then, in any case, follow the procedure described below:
-
- 
 ```bash
-cd ORFmine-x.x.x
-chmod u+x install.sh
-./install.sh
-```
+# upgrade pip to its latest version
+python3 -m pip install --upgrade pip
 
-This script will first uninstall ORFmine if it was already installed and will
-re-install it. In addition, it will install all the dependency packages needed for 
-ORFtrack and ORFold.   
+# install ORFmine vx.x.x
+python -m pip install -e git+https://github.com/i2bc/ORFmine.git@v2.0.0#egg=orfmine
+```
+</details>
+
+<details>
+<summary><h4>Option 3: from this project repository</h4></summary>
+
+```bash
+# clone ORFmine on your machine
+git clone https://github.com/i2bc/ORFmine.git
+
+# go in the ORFmine/ directory
+cd ORFmine
+
+# upgrade pip to its latest version
+python3 -m pip install --upgrade pip
+
+# install ORFmine in edition mode (useful for a development process)
+python3 -m pip install -e .
+```
+</details>
+
+
+## Documentation
+
+Details about the four programs of ORFmine and their usage can be found in our full [documentation](https://i2bc.github.io/ORFmine/) pages.
+
+
+## Licence
+
+The ORFmine project is under the MIT licence. Please check [here](https://github.com/i2bc/ORFmine/blob/ORFmine_complete/LICENSE.md) for more details.
+
 
 
 ## References
