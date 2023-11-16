@@ -6,17 +6,17 @@
 
 ORFmine is an open-source package that aims at extracting, annotating, and characterizing the sequence and structural properties of all Open Reading Frames (ORFs) of a genome, including coding as well as noncoding sequences, along with their translation activity. ORFmine consists of several independent programs that can be used together or independently:
 
-- <i>**ORFtrack** searches for all possible ORFs longer than 60 nucleotides in the six frames of an input genome, and annotate them according to a set of genomic features</i>
-- <i>**ORFold** predicts the fold potential and the disorder and aggregation propensities of a set of amino acid sequences</i>
-- <i>**ORFribo** probes the translation activity of ORFs  based on Ribosome Profilng data (Ribo-Seq)</i>
-- <i>**ORFdate** estimates the evolutionary of ORFs based on phylostratigraphy</i>
+- <i>**ORFtrack** searches for all possible ORFs longer than 60 nucleotides in the six frames of an input genome, and annotate them according to a set of genomic features.</i>
+- <i>**ORFold** predicts the fold potential and the disorder and aggregation propensities of amino acid sequences.</i>
+- <i>**ORFribo** probes the ORFs translation activity based on Ribosome Profiling data (Ribo-Seq).</i>
+- <i>**ORFdate** estimates the ORFs evolutionary age based on phylostratigraphy information.</i>
 
-More information can be found in our full [documentation pages](https://i2bc.github.io/ORFmine/).
+More information can be found in the ORFmine [documentation](https://i2bc.github.io/ORFmine/).
 
 
 ## Requirements
 
-ORFmine requires several dependencies and external softwares. To simplify installation, we offer a Docker image that includes the entire environment needed to use ORFmine: `nchenche/orfmine:v2.0.0`.
+ORFmine requires several dependencies and external softwares. To simplify installation, we offer a Docker image providing the complete environment required to use all of the ORFmine tools.
 
 <details open>
 <summary><h4>Minimal requirements for a container usage (recommended)</h4></summary>
@@ -92,12 +92,12 @@ Once you're done working on your project, simply type `deactivate` to exit the e
 
 ## Installation
 
-> :bell: Important: The ORFmine package must be installed locally even if you plan to use the Docker image. This is because ORFmine includes a feature that simplifies the Docker usage, eliminating the need for complex volume mounting commands. For more details, see Usage with and without Docker.
+> :bell: **Note**
+ The ORFmine package must be installed locally even if you plan to use the Docker image. This is because ORFmine includes a feature that simplifies the Docker usage, eliminating the need for complex volume mounting commands.
 
 
 ORFmine can be accessed in different ways. Follow instructions described in option 1 or 2 if you're not interested in accessing/modifying the source code, otherwise prefer option 3. 
 
-<a id="install_option1"></a>
 <details open>
 <summary><h4>Option 1: from the archive (git not required)</h4></summary>
 
@@ -146,7 +146,7 @@ python3 -m pip install -e .
 
 ## Documentation
 
-All details about [ORFtrack](), [ORFold](), [ORFdate]() and [ORFribo]()  and their usage can be found in the [ORFmine documentation](https://i2bc.github.io/ORFmine/).
+All details about ORFtrack, ORFold, ORFdate, ORFribo and their usage can be found in the ORFmine [documentation](https://i2bc.github.io/ORFmine/).
 
 
 ## Licence
