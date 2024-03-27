@@ -6,25 +6,27 @@ from pathlib import Path
 import pkg_resources
 import time
 
+
 from orfmine.orfribo import __version__
 
 # set default config file (key:value pairs can be overriden with '--config key=value' in snakemake command)
 configfile: pkg_resources.resource_filename("orfribo", "config.yaml")
 
-
-# get location of Rscript files 
+# get location of Rscript files
 RSCRIPTS_PATH = pkg_resources.resource_filename("orfribo", 'Rscripts')
 find_adapter_sequence = str(Path(RSCRIPTS_PATH) / "find_adapter_sequence.R")
 periodicity_riboWaltz_exome = str(Path(RSCRIPTS_PATH) / "periodicity_riboWaltz_exome.R")
 
-# Sets resources (threads number, maximum RAM ...)
+
+#Sets resources (threads number, maximum RAM ...)
 THREADS_NB = config['threads']
 MEM_MB = config['ram']
 
-# set project name
+# set project name 
 PROJECT_NAME = config['project_name']
 
-# get input path
+#get input path 
+
 GFF_PATH = Path(config['gff']).resolve()
 GFF_INTERGENIC_PATH = Path(config["gff_intergenic"]).resolve()
 FASTA_PATH = Path(config['fna']).resolve()
@@ -32,36 +34,31 @@ RNA_TO_EXCLUDE_PATH = Path(config['rna_to_exclude']).resolve()
 FASTQ_PATH = Path(config['fastq']).resolve()
 
 
-# set intermediary output path
+# set intermediary output path 
+
 OUT_BASE_PATH = Path(config["out"])
 OUT_BASE_PATH.mkdir(parents=True, exist_ok=True)
 
 RESULTS_PATH = OUT_BASE_PATH / "RESULTS"
 RESULTS_PATH.mkdir(parents=True, exist_ok=True)
 
-ANNEX_DB_PATH = RESULTS_PATH / "annex_database"
-ANNEX_DB_PATH.mkdir(parents=True, exist_ok=True)
+DATA_PROCESSING_PATH = OUT_BASE_PATH / "DATA_PROCESSING"
+DATA_PROCESSING_PATH.mkdir(parents=True, exist_ok=True)
 
-ORFRIBO_PATH = RESULTS_PATH / "ORFribo"
-ORFRIBO_PATH.mkdir(parents=True, exist_ok=True)
+SUPPLEMENTARY_DATA_PATH = OUT_BASE_PATH / "SUPPLEMENTARY_DATA"
+SUPPLEMENTARY_DATA_PATH.mkdir(parents=True, exist_ok=True)
 
-DATABASE_PATH = ORFRIBO_PATH / "database"
-DATABASE_PATH.mkdir(parents=True, exist_ok=True)
 
-SELECTED_LENGTH_TABLES = RESULTS_PATH / "selected_length_tables"
-SELECTED_LENGTH_TABLES.mkdir(parents=True, exist_ok=True)
-
-LOGS_PATH = OUT_BASE_PATH / "logs"
+#set supplementary data (logs & benchmark) output path 
+LOGS_PATH = OUT_BASE_PATH / "SUPPLEMENTARY_DATA" / "Logs"
 LOGS_PATH.mkdir(parents=True, exist_ok=True)
 
-BENCHMARKS_PATH = OUT_BASE_PATH / "benchmarks"
+BENCHMARKS_PATH = OUT_BASE_PATH / "SUPPLEMENTARY_DATA" / "Benchmarks"
 BENCHMARKS_PATH.mkdir(parents=True, exist_ok=True)
 
-CUTADAPT_PATH = RESULTS_PATH / "cutadapt"
-CUTADAPT_PATH.mkdir(parents=True, exist_ok=True)
 
+# set vars 
 
-# set vars
 MIN_READ_LENGTH = str(config['min_read_length'])
 MAX_READ_LENGTH = str(config['max_read_length'])
 NAME_GFF_ATTRIBUTE = config['gff_attribute']
@@ -71,17 +68,20 @@ GFF_ELEMENT_TO_COUNT = config['gff_feature']
 ARE_ADAPTERS_TRIMMED = "1" if config['trimmed'] else "0"
 SEQUENCE_ADAPTER = config['adapter']
 FEATURES_TO_COUNT = ' '.join(config['intergenic_features'])
+MULTI_MAPPING = config["multi_mapping"]
 
-# Wildcards definition
+# Wildcards definition 
+
 SAMPLES, = glob_wildcards(FASTQ_PATH / "{sample}.fastq.gz")
-BOWTIE2 = ["1", "2", "3", "4", "rev.1", "rev.2"]
-HISAT2 = ["1", "2", "3", "4", "5", "6", "7", "8"]
 LENGTHS = list(map(str, range(int(MIN_READ_LENGTH), int(MAX_READ_LENGTH) + 1)))
+HISAT2 = ["1", "2", "3", "4", "5", "6", "7", "8"]
+BOWTIE2 = ["1", "2", "3", "4", "rev.1", "rev.2"]
 
 
 # Strings with minimum and maximum read lengths to be used in file names
 FRAG_LENGTH_S = "." + LENGTHS[0]
 FRAG_LENGTH_L = "." + LENGTHS[0] + "-" + LENGTHS[-1]
+
 
 
 def is_name_in_gff():
@@ -95,663 +95,73 @@ def is_name_in_gff():
                 break
     
     return is_name_found
+        
 
-rule all:
-    input:
-        # Call for fastqc quality control rule
-        expand(str(RESULTS_PATH / "fastqc" / "{sample}_fastqc.html"), sample=SAMPLES),
-        # Alignment statistics report
-        str(RESULTS_PATH / f"{PROJECT_NAME}.Analysis_Report.txt"),
-        # Call for count matrix creations on all ORFs
-        str(RESULTS_PATH / "Bam2Reads_genome_output" / f"all_samples_genome{FRAG_LENGTH_L}.mean{ORFSTATS_THRESHOLD_MEAN}_median{ORFSTATS_THRESHOLD_MEDIAN}_reads_concatenated.tab")
+
+include: "rules/01_quality_control.smk"
+include: "rules/02_gff_name_editing.smk"
+include: "rules/03_find_adapter_trimming.smk"
+if config.get('rna_to_exclude'):
+	include: "rules/04_filter_outRNA.smk"
+	include: "rules/05_mapping_genome_filter_outRNA.smk"
+else:
+	include: "rules/06_mapping_genome_without_filter_outRNA.smk"
+include: "rules/07_samtools_genome.smk"
+include: "rules/08_Exome_construction.smk"
+include: "rules/09_mapping_exome.smk"
+include: "rules/10_samtools_exome.smk"
+include: "rules/11_ribowaltz.smk"
+include: "rules/12_Bam2Reads_Exome.smk"
+include: "rules/13_ORFstat.smk"
+#include: "rules/14_Selected_length.smk"
+#include: "rules/15_bam2reads_orfeum.smk"
+#include: "rules/16_concatenate.smk"
+
+
+
+if config.get('rna_to_exclude'):   
+    rule all:
+        input:
+            expand(str(DATA_PROCESSING_PATH / "Quality_control" / "{sample}" / "{sample}_fastqc.html"), sample=SAMPLES),
+            str(DATA_PROCESSING_PATH / "Edited_Gff" / ("Named.CDS_" + Path(str(GFF_PATH)).name)),
+            expand(str(DATA_PROCESSING_PATH / "Trimming" / "Trimmed_fastq" / "{sample}" / ("{sample}.cutadapt" + FRAG_LENGTH_L + ".fastq.gz")), sample=SAMPLES),
+            expand(str(DATA_PROCESSING_PATH / "Mapping"/ "Orfium"/ "Bowtie2" / "Results" / "{sample}" / "{sample}.sam"), sample=SAMPLES),
+            expand(expand(str(RESULTS_PATH / "BAM" / "Orfium" / "{sample}" / "{sample}.bam.bai"), sample=SAMPLES)),
+            str(DATA_PROCESSING_PATH / "Exome" / f"Exome_elongated.nfasta"),
+            expand(str( DATA_PROCESSING_PATH / "Exome_Fastq" / "{sample}" / "{sample}_Unmapped.fastq.gz"), sample=SAMPLES),
+            expand(str( DATA_PROCESSING_PATH / "Mapping" / "Exome" / "Bowtie2" / "Results" / "{sample}" / "{sample}.sam"), sample=SAMPLES),
+            expand(expand(str(RESULTS_PATH / "BAM" / "Exome" / "{sample}" / "{sample}.bam.bai"), sample=SAMPLES)),
+            expand(str(DATA_PROCESSING_PATH / "RiboWaltz" / "{sample}" / "psite_offset.csv"), sample=SAMPLES),
+            expand(str(DATA_PROCESSING_PATH / "Bam2Reads_Exome" / "{sample}"/ ("{sample}_{length}/Exome" + FRAG_LENGTH_L + "_reads.tab")), sample=SAMPLES, length=LENGTHS),
+            expand(str(DATA_PROCESSING_PATH / "Bam2Reads_Exome" / "{sample}" / "{sample}_{length}" / ("Exome" + FRAG_LENGTH_L + "_reads.stats")), sample=SAMPLES, length=LENGTHS)           
+
+if not config.get('rna_to_exclude'):
+    rule all:
+        input:
+#             expand(str(DATA_PROCESSING_PATH / "Trimming" / "Adapters" / "{sample}" / "{sample}.txt"), sample=SAMPLES),
+             expand(str(DATA_PROCESSING_PATH / "Trimming" / "Trimmed_fastq" / "{sample}" / ("{sample}.cutadapt" + FRAG_LENGTH_L + ".fastq.gz")), sample=SAMPLES)
+#            expand(str(DATA_PROCESSING_PATH / "Quality_control" / "{sample}" / "{sample}_fastqc.html"), sample=SAMPLES),
+#            str(DATA_PROCESSING_PATH / "Edited_Gff" / ("Named.CDS_" + Path(str(GFF_PATH)).name)),
+#            expand(str(DATA_PROCESSING_PATH / "Mapping"/ "Orfium"/ "Bowtie2" / "Results" / "{sample}" / "{sample}.sam"), sample=SAMPLES),
+#            str(DATA_PROCESSING_PATH / "Exome" / f"Exome_elongated.nfasta"),
+#            expand(str( DATA_PROCESSING_PATH / "Exome_Fastq" / "{sample}" / "{sample}_Unmapped.fastq.gz"), sample=SAMPLES),
+#            expand(str( DATA_PROCESSING_PATH / "Mapping" / "Exome" / "Bowtie2" / "Results" / "{sample}" / "{sample}.sam"), sample=SAMPLES),
+#            expand(expand(str(RESULTS_PATH / "BAM" / "Exome" / "{sample}" / "{sample}.bam.bai"), sample=SAMPLES)),
+#            expand(str(DATA_PROCESSING_PATH / "RiboWaltz" / "{sample}" / "psite_offset.csv"), sample=SAMPLES),
+
+
+
 
 
 onstart:
     shell("mkdir -p " + str(OUT_BASE_PATH / 'logs'))
     shell("echo 'RiboDoc version : " + __version__ + "' > " + str(LOGS_PATH / "RiboDoc_package_versions.txt"))
-    # shell("conda list >> " + str(Path(OUT_BASE_PATH) / "logs" / "RiboDoc_package_versions.txt"))
 
 
 onsuccess:
-    # Copy config file to keep trace of parameters used
-    # shell("cp /workdir/config.yaml " + local_path + "RESULTS/ ;")
-    with open(str(RESULTS_PATH / "config.yaml"), "w") as updated_config:
+    with open(str(RESULTS_PATH / "config.yml"), "w") as updated_config:
         updated_config.write(yaml.dump(config, default_flow_style=False))
 
 onerror:
-    # Copy config file to keep trace of parameters used
-    # shell("cp /workdir/config.yaml " + local_path + "RESULTS/ ;")
-    with open(str(RESULTS_PATH / "config.yaml"), "w") as updated_config:
+    with open(str(RESULTS_PATH / "config.yml"), "w") as updated_config:
         updated_config.write(yaml.dump(config, default_flow_style=False))
-
-
-# Find the adapter sequence if not set in config file
-rule find_adapter_sequence:
-    input:
-        fastq = str(FASTQ_PATH / "{sample}.fastq.gz")
-    output:
-        adapter = str(RESULTS_PATH / "adapter_lists" / "{sample}.txt")
-    log:
-        rscript = str(LOGS_PATH / "find_adapter_sequence" / "{sample}.rscript.log"),
-        sed = str(LOGS_PATH / "find_adapter_sequence" / "{sample}.sed.log"),
-        echo = str(LOGS_PATH / "find_adapter_sequence" / "{sample}.echo.log"),
-        touch = str(LOGS_PATH / "find_adapter_sequence" / "{sample}.touch.log")
-    shell:
-        "touch {output.adapter} 2> {log.touch};"
-        "if [ -z " + SEQUENCE_ADAPTER + " ]; then "
-        "Rscript " + find_adapter_sequence + " {input.fastq} " + str(RESULTS_PATH / "adapter_lists") + " 2> {log.rscript} ;"
-        "elif [[ '" + ARE_ADAPTERS_TRIMMED + "' -eq 0 ]]; then echo " + SEQUENCE_ADAPTER + " 1> {output.adapter} 2> {log.echo};"
-        "fi;"
-
-# Adds transcript names and gene IDs to the CDS and exon lines if possible
-rule name_CDS:
-    input:
-        gff = str(GFF_PATH)
-    output:
-        gff_namedCDS = str(ANNEX_DB_PATH / ("NamedCDS_" + Path(str(GFF_PATH)).name))
-    run:
-        gene_id_bool = True
-        if is_name_in_gff():
-            db = gffutils.create_db(input.gff, ':memory:', merge_strategy='create_unique', keep_order=True)
-            with open(output.gff_namedCDS, 'w') as fout:
-                for d in db.directives:
-                    fout.write('##{0}\n'.format(d))
-                for feature in db.all_features():
-                    if feature.featuretype == GFF_ELEMENT_TO_COUNT or feature.featuretype == "exon":
-                        parent = list(db.parents(feature, level=1))
-                        if len(parent) > 0:
-                            parent = parent[0]
-                            if parent.attributes.get(NAME_GFF_ATTRIBUTE) and not feature.attributes.get(NAME_GFF_ATTRIBUTE):
-                                feature.attributes[NAME_GFF_ATTRIBUTE] = [i.replace("mRNA","cds") for i in parent.attributes.get(NAME_GFF_ATTRIBUTE)]
-                                feature.attributes[NAME_GFF_ATTRIBUTE][0] + "_name"
-                            if parent.attributes.get('ID') and not feature.attributes.get('ID'):
-                                feature.attributes["ID"] = parent.attributes["ID"]
-                                feature.attributes['ID'] = feature.attributes['ID'][0] + "_CDS"
-                    fout.write(str(feature) + '\n')
-        else:
-            shell("cp {input.gff} {output.gff_namedCDS} ;")
-        if gene_id_bool:
-            print("'gene_id' attributes are present.")
-        else:
-            print("Missing at least some 'gene_id' attribute in this gff.")
-        shell("sed -i -E 's/\\s/\\t/8' {output.gff_namedCDS} ;")
-
-# Quality control of data : build of the fastqc
-rule make_fastqc:
-    input:
-        str(FASTQ_PATH / "{sample}.fastq.gz")
-    output:
-        str(RESULTS_PATH / "fastqc" / "{sample}_fastqc.zip"),
-        str(RESULTS_PATH / "fastqc" / "{sample}_fastqc.html")
-    log:
-        str(LOGS_PATH / "make_fastqc" / "{sample}.log")
-    benchmark:
-        str(BENCHMARKS_PATH / "make_fastqc" / "{sample}.benchmark.txt")
-    params:
-       outdir = str(RESULTS_PATH / "fastqc")
-    shell:
-        "fastqc {input} --outdir {params.outdir} 2> {log} ;"
-
-# Removes/cuts potential adapters on the reads
-rule adapt_trimming:
-    input:
-        fastq = str(FASTQ_PATH / "{sample}.fastq.gz"),
-        adapt_seq = str(RESULTS_PATH / "adapter_lists" / "{sample}.txt")
-    output:
-        cut_fastq = temp(str(CUTADAPT_PATH / ("{sample}.cutadapt" + FRAG_LENGTH_L + ".fastq.gz")))
-    log:
-        trim_value = str(LOGS_PATH / "adapt_trimming" / "{sample}_trim_value.log"),
-        cutadapt = str(LOGS_PATH / "adapt_trimming" / "{sample}_cutadapt.log"),
-        cutadapt_out = str(OUT_BASE_PATH / "logsTmp" / "{sample}_adapt_trimming.log")
-    benchmark:
-        str(BENCHMARKS_PATH / "adapt_trimming/{sample}.benchmark.txt")
-    resources:
-        mem_mb = MEM_MB
-    threads:
-        THREADS_NB
-    shell:
-        "touch {output.cut_fastq}; "
-        "adapter_sequence=`cat {input.adapt_seq}` ;"
-        "if [[ '" + ARE_ADAPTERS_TRIMMED + "' -eq 0 ]]; then trim=\"-a ${{adapter_sequence}} --trimmed-only\"; else trim=''; fi 2> {log.trim_value};"
-        "cutadapt ${{trim}} -e 0.125 -j {threads} --max-n=1 -m " + MIN_READ_LENGTH + " -M " + MAX_READ_LENGTH + " -o {output.cut_fastq} {input.fastq} 1>> {log.cutadapt_out} 2> {log.cutadapt} ;"
-
-# Builds the index of bowtie2 mapping on sequences for reads remove
-rule bowtie2_build_outRNA:
-    input:
-        outRNA = str(RNA_TO_EXCLUDE_PATH)
-    output:
-        expand(str(ANNEX_DB_PATH / "outRNA_bowtie2.{extb}.bt2"), extb=BOWTIE2)
-    params:
-        outNames = str(ANNEX_DB_PATH / "outRNA_bowtie2")
-    log:
-        str(LOGS_PATH / "bowtie2_build_outRNA" / "bowtie2_build_outRNA.log")
-    benchmark:
-        str(BENCHMARKS_PATH / "bowtie2_build_outRNA" / "bowtie2_build_outRNA.benchmark.txt")
-    threads:
-        THREADS_NB
-    shell:
-        "bowtie2-build --threads {threads} {input.outRNA} {params.outNames} &> {log} ;"
-
-# Mapping of non-coding RNA
-rule bowtie2_run_outRNA:
-    input:
-        expand(str(ANNEX_DB_PATH / "outRNA_bowtie2.{extb}.bt2"), extb=BOWTIE2),
-        fastq = str(RESULTS_PATH / "cutadapt" / ("{sample}.cutadapt" + FRAG_LENGTH_L + ".fastq.gz"))
-    output:
-        str(RESULTS_PATH / "no-outRNA"/ ("{sample}" + FRAG_LENGTH_L + ".no-outRNA.fastq.gz"))
-    log:
-        bt2 = str(OUT_BASE_PATH / "logsTmp" / "{sample}_bowtie2_run_outRNA.log")
-    benchmark:
-        str(BENCHMARKS_PATH / "bowtie2_run_outRNA" / "{sample}.benchmark.txt")
-    resources:
-        mem_mb = MEM_MB
-    params:
-        sample_names = "{sample}",
-        outNames = str(ANNEX_DB_PATH / "outRNA_bowtie2")
-    threads:
-        THREADS_NB
-    shell:
-        "bowtie2 -x {params.outNames} --threads {threads} -U {input.fastq} --un-gz {output} > /dev/null 2>> {log.bt2} ;"
-
-# Builds the index of bowtie2 mapping for all RNA
-rule bowtie2_build:
-    input:
-        fasta = str(FASTA_PATH)
-    output:
-        expand(str(ANNEX_DB_PATH / "index_bowtie2.{extb}.bt2"), extb=BOWTIE2)
-    log:
-        str(LOGS_PATH / "bowtie2_build" / "bowtie2_build.log")
-    benchmark:
-        str(BENCHMARKS_PATH / "bowtie2_build" / "bowtie2_build.benchmark.txt")
-    params:
-        outNames = str(ANNEX_DB_PATH / "index_bowtie2")
-    threads:
-        THREADS_NB
-    shell:
-        "bowtie2-build --threads {threads} {input.fasta} {params.outNames} &> {log} ;"
-
-# Builds the index of hisat2 mapping for all RNA
-rule hisat2_build:
-    input:
-        fasta = str(FASTA_PATH)
-    output:
-        expand(str(ANNEX_DB_PATH / "index_hisat2.{exth}.ht2"), exth=HISAT2)
-    log:
-        str(LOGS_PATH / "hisat2_build" /"hisat2_build.log")
-    benchmark:
-        str(BENCHMARKS_PATH / "hisat2_build" / "hisat2_build.benchmark.txt")
-    params:
-        outNames = str(ANNEX_DB_PATH / "index_hisat2")
-    threads:
-        THREADS_NB
-    shell:
-        "hisat2-build --threads {threads} {input.fasta} {params.outNames} &> {log} ;"
-
-# Mapping of all RNA by bowtie2 and hisat2
-rule run_mapping:
-    input:
-        expand(str(ANNEX_DB_PATH / "index_hisat2.{exth}.ht2"), exth=HISAT2),
-        expand(str(ANNEX_DB_PATH / "index_bowtie2.{extb}.bt2"), extb=BOWTIE2),
-        fastq = str(RESULTS_PATH / "no-outRNA"/ ("{sample}" + FRAG_LENGTH_L + ".no-outRNA.fastq.gz"))
-    output:
-        fastq = temp(str(RESULTS_PATH / "no-outRNA"/ ("{sample}" + FRAG_LENGTH_L + ".no-outRNA.notAlign.fastq.gz"))),
-        sam_hisat2 = temp(str(RESULTS_PATH / "BAM" / ("{sample}" + FRAG_LENGTH_L + ".hisat2.sam"))),
-        sam_bowtie2 = temp(str(RESULTS_PATH / "BAM" / ("{sample}" + FRAG_LENGTH_L + ".bowtie2.sam")))
-    log:
-        hisat2_out = str(OUT_BASE_PATH / "logsTmp" / "{sample}_run_mapping_hisat2.log"),
-        bowtie2_out = str(OUT_BASE_PATH / "logsTmp" / "{sample}_run_mapping_bowtie2.log")
-    benchmark:
-        str(BENCHMARKS_PATH / "run_mapping" / "{sample}.benchmark.txt")
-    resources:
-        mem_mb = MEM_MB
-    params:
-        index_names_hisat2 = str(ANNEX_DB_PATH / "index_hisat2"),
-        index_names_bowtie2 = str(ANNEX_DB_PATH / "index_bowtie2"),
-        sample_names="{sample}"
-    threads:
-        THREADS_NB
-    shell:
-        "hisat2 -x {params.index_names_hisat2} --threads {threads} -U {input.fastq} --un-gz {output.fastq} -S {output.sam_hisat2} 2>> {log.hisat2_out} ;"
-        "bowtie2 -x {params.index_names_bowtie2} --threads {threads} -U {output.fastq} -S {output.sam_bowtie2} 2>> {log.bowtie2_out} ;"
-
-# Creates bam and sam files
-rule samtools_filter:
-    input:
-        sam_hisat2 = str(RESULTS_PATH / "BAM" / ("{sample}" + FRAG_LENGTH_L + ".hisat2.sam")),
-        sam_bowtie2 = str(RESULTS_PATH / "BAM" / ("{sample}" + FRAG_LENGTH_L + ".bowtie2.sam"))
-    output:
-        bam = str(RESULTS_PATH / "BAM" / ("{sample}" + FRAG_LENGTH_L + ".bam"))
-    log:
-        grep_header_hisat2 = str(LOGS_PATH / "samtools_filter" / "{sample}.grep_hisat2.log"),
-        grep_core_hisat2 =  str(LOGS_PATH / "samtools_filter" / "{sample}.grep_core_hisat2.log"),
-        ZS_filter_hisat2 = str(LOGS_PATH / "samtools_filter" / "{sample}.NH_filter_hisat2.log"),
-        XM_filter_hisat2 = str(LOGS_PATH / "samtools_filter" / "{sample}.XM_filter_hisat2.log"),
-        grep_core_bowtie2 =  str(LOGS_PATH / "samtools_filter" / "{sample}.grep_core_bowtie2.log"),
-        XS_filter_bowtie2 = str(LOGS_PATH / "samtools_filter" / "{sample}.XS_filter_bowtie2.log"),
-        XM_filter_bowtie2 = str(LOGS_PATH / "samtools_filter" / "{sample}.XM_filter_bowtie2.log"),
-        view_bam = str(LOGS_PATH / "samtools_filter" / "{sample}.view_bam.log"),
-        sort_bam = str(LOGS_PATH / "samtools_filter" / "{sample}.sort_bam.log"),
-        rm = str(LOGS_PATH / "samtools_filter" / "{sample}.rm.log")
-    benchmark:
-        str(BENCHMARKS_PATH / "samtools_filter" / "{sample}.benchmark.txt")
-    resources:
-        mem_mb = round(MEM_MB / 3)
-    params:
-        sam = str(RESULTS_PATH / "BAM" / ("{sample}" + FRAG_LENGTH_L + ".sam"))
-    threads:
-        THREADS_NB
-    shell:
-        "set +o pipefail ;"
-        "grep '^@' {input.sam_hisat2}  2> {log.grep_header_hisat2} 1> {params.sam} ;"
-        "grep -v '^@' {input.sam_hisat2} 2> {log.grep_core_hisat2} | grep -v 'ZS:i:' 2> {log.ZS_filter_hisat2} | egrep -i 'XM:i:0|XM:i:1' 2> {log.XM_filter_hisat2} 1>> {params.sam} ;"
-        "grep -v '^@' {input.sam_bowtie2} 2> {log.grep_core_bowtie2} | grep -v 'XS:i:' 2> {log.XS_filter_bowtie2} | egrep -i 'XM:i:0|XM:i:1' 2> {log.XM_filter_bowtie2} 1>> {params.sam} ;"
-        "samtools view -@ {threads} -F 3844 -q 1 -h -b {params.sam} 2> {log.view_bam} | samtools sort -@ {threads} -o {output.bam} 2> {log.sort_bam} ;"
-        "rm -f {params.sam} 2> {log.rm};"
-
-# Index BAMs
-rule index_bam:
-    input:
-        bam = str(RESULTS_PATH / "BAM" / ("{sample}" + FRAG_LENGTH_L + ".bam"))
-    output:
-        bai = str(RESULTS_PATH / "BAM" / ("{sample}" + FRAG_LENGTH_L + ".bam.bai"))
-    log:
-        index_bam = str(LOGS_PATH / "index_bam" / "{sample}.index_bam.log")
-    benchmark:
-        str(BENCHMARKS_PATH / "index_bam" / "{sample}.benchmark.txt")
-    shell:
-        "samtools index {input.bam} 2> {log.index_bam} ;"
-
-# Creates an analysis report with trimming and alignment statistics
-rule stats_report:
-    input:
-        ready = expand(rules.samtools_filter.output, sample=SAMPLES)
-    output:
-        stat_report = str(RESULTS_PATH / (PROJECT_NAME + ".Analysis_Report.txt"))
-    run:
-        # List of interesting logs to make the report
-        logs_names = ["adapt_trimming", "bowtie2_run_outRNA", "run_mapping_hisat2", "run_mapping_bowtie2"]
-        # File for the statistical report
-        with open(output.stat_report, "w") as data_report:
-            for sample in SAMPLES:
-                # Data treatment report creation
-                data_report.write("##################\n## NEXT SAMPLE ##\n##################\n\n" + sample + "\n")
-
-                for log in logs_names:
-                    data_report.write("\n" + ("#" * (len(log)+6)) + "\n## " + log + " ##\n" + ("#" * (len(log)+6)) + "\n")
-
-                    log_filename = str(OUT_BASE_PATH / "logsTmp" / f"{sample}_{log}.log") 
-
-                    with open(log_filename ,"r") as logs_files:
-                        # Keep only lines of interest from cutadapt report1,2
-                        i=-1
-                        if log == "adapt_trimming":
-                            if int(2) > 1:
-                                lines_to_read = range(22)
-                            else:
-                                lines_to_read = range(20)
-                            for position, line in enumerate(logs_files):
-                                if position in lines_to_read:
-                                    data_report.write(line)
-                                else:
-                                    break
-                        else:
-                            for line in logs_files:
-                                data_report.write(line)
-                data_report.write("\n\n")
-
-# In case there are no UTRs in the original GFF, call for ORFelongate functions
-rule ORFget:
-    input:
-        fasta = str(FASTA_PATH),
-        gff = str(ANNEX_DB_PATH / ("NamedCDS_" + Path(str(GFF_PATH)).name))
-    output:
-        fasta = str(DATABASE_PATH / f"exome_elongated.nfasta"),
-        gff = str(DATABASE_PATH / "exome_elongated.gff"),
-        gff_with_genes = str(DATABASE_PATH / "exome_elongated_with_gene_features.gff")
-    log:
-        orf_get = str(LOGS_PATH / "ORFget" / "orf_get.log")
-    benchmark:
-        str(BENCHMARKS_PATH / "ORFget" / "ORFget.benchmark.txt")
-    params:
-        dirbase = str(DATABASE_PATH),
-        outname = "exome_elongated",
-        features = GFF_ELEMENT_TO_COUNT
-    shell:
-        "gff2prot --fna {input.fasta} --gff {input.gff} --features {params.features} --outdir {params.dirbase} --out-basename {params.outname} --nucleic --elongate 50 --stop-end; "
-        "mv {output.gff} {output.gff_with_genes};"
-        "awk '$3 !~ /gene/' {output.gff_with_genes} > {output.gff};"
-
-# Create GTF file for riboWaltz
-rule exome_construction_gtf:
-    input:
-        fasta = str(DATABASE_PATH / "exome_elongated.nfasta"),
-        gff_with_genes = str(DATABASE_PATH / "exome_elongated_with_gene_features.gff")
-    output:
-        fasta = str(ORFRIBO_PATH / "annex_database" / ("exome_elongated.exons_" + Path(str(FASTA_PATH)).name)),
-        gtf = str(ORFRIBO_PATH / "annex_database" / ("exome_elongated.exons_" + Path(str(GFF_PATH)).stem + ".gtf"))
-    log:
-        samtools_index = str(LOGS_PATH /"exome_construction_gtf" / "samtools_index.log"),
-        gffread_gtf = str(LOGS_PATH / "exome_construction_gtf" / "gffread.log"),
-        sed = str(LOGS_PATH / "exome_construction_gtf"/ "sed.log"),
-        awk = str(LOGS_PATH / "exome_construction_gtf"/ "awk.log")
-    benchmark:
-        str(BENCHMARKS_PATH / "exome_construction_gtf" / "exome_construction_gtf.benchmark.txt")
-    params:
-        tmp_gtf = str(ORFRIBO_PATH / "annex_database" / "exome_elongated.exons_tmp.gtf")
-    shell:
-        "samtools faidx {input.fasta} 2> {log.samtools_index} ;"
-        "gffread -F -T -w {output.fasta} -o {params.tmp_gtf} -g {input.fasta} {input.gff_with_genes} 2> {log.gffread_gtf} ;"
-        "sed -i 's/description[^\;]*\;//' {params.tmp_gtf} 2>> {log.sed} ;"
-        "sed -i 's/\\t[A-Z]*[_]*gene_segment\\t/\\ttranscript\\t/' {params.tmp_gtf} 2>> {log.sed} ;"
-        """awk -F '\\t' '{{if(NF<=9) {{print($0);}} else {{for(field=1;field<9;field++) {{printf("%s\\t",$field);}} for(field=9;field<=NF;field++) {{printf("%s ",$field);}} printf("\\n");}}}}' {params.tmp_gtf} > {output.gtf} 2>> {log.awk} ;"""
-        "rm -f {params.tmp_gtf};"
-        "sed -i 's/\\s$//' {output.gtf} 2>> {log.sed} ;"
-
-# Builds the index of bowtie2 mapping for all RNA
-rule bowtie2_build_exome:
-    input:
-        fasta = str(DATABASE_PATH / "exome_elongated.nfasta")
-    output:
-        expand(str(ORFRIBO_PATH / "annex_database" / "exome_elongated.exome_index_bowtie2.{extb}.bt2"), extb=BOWTIE2)
-    log:
-        str(LOGS_PATH / "bowtie2_build_exome" / "bowtie2_build.log")
-    benchmark:
-        str(BENCHMARKS_PATH / "bowtie2_build_exome" / "exome_index_bowtie2.benchmark.txt")
-    params:
-        index_names = str(ORFRIBO_PATH / "annex_database" / "exome_elongated.exome_index_bowtie2")
-    threads:
-        THREADS_NB
-    shell:
-        "bowtie2-build --threads {threads} {input.fasta} {params.index_names} &> {log} ;"
-
-# Builds the index of hisat2 mapping for all RNA
-rule hisat2_build_exome:
-    input:
-        fasta = str(DATABASE_PATH/ "exome_elongated.nfasta")
-    output:
-        expand(str(ORFRIBO_PATH / "annex_database" / "exome_elongated.exome_index_hisat2.{exth}.ht2"),exth=HISAT2)
-    log:
-        str(LOGS_PATH / "hisat2_build_exome" / "hisat2_build.log")
-    benchmark:
-        str(BENCHMARKS_PATH / "hisat2_build_exome" / "hisat2_build_exome.benchmark.txt")
-    params:
-        index_names = str(ORFRIBO_PATH / "annex_database" / "exome_elongated.exome_index_hisat2")
-    threads:
-        THREADS_NB
-    shell:
-        "hisat2-build --threads {threads} {input.fasta} {params.index_names} &> {log} ;"
-
-# Performs mapping on exome
-rule run_mapping_exome:
-    input:
-        expand(str(ORFRIBO_PATH / "annex_database" / "exome_elongated.exome_index_hisat2.{exth}.ht2"), exth=HISAT2),
-        expand(str(ORFRIBO_PATH / "annex_database" / "exome_elongated.exome_index_bowtie2.{extb}.bt2"), extb=BOWTIE2),
-        fastq = str(RESULTS_PATH / "no-outRNA" / ("{sample}" + FRAG_LENGTH_L + ".no-outRNA.fastq.gz"))
-    output:
-        sam_hisat2 = temp(str(ORFRIBO_PATH / "BAM_exome" / ("{sample}" + FRAG_LENGTH_L + ".hisat2.sam"))),
-        sam_bowtie2 = temp(str(ORFRIBO_PATH / "BAM_exome" / ("{sample}" + FRAG_LENGTH_L + ".bowtie2.sam"))),
-        fastq = str(RESULTS_PATH / "no-outRNA" / ("{sample}" + FRAG_LENGTH_L + ".no-outRNA.notAlign.exome.fastq.gz"))
-    log:
-        hisat2_out = str(LOGS_PATH / "run_mapping_exome" / "{sample}_run_mapping_exome_hisat2.log"),
-        bowtie2_out = str(LOGS_PATH / "run_mapping_exome" / "{sample}_run_mapping_exome_bowtie2.log")
-    benchmark:
-        str(BENCHMARKS_PATH / "run_mapping_exome" / "{sample}.benchmark.txt")
-    resources:
-        mem_mb = MEM_MB
-    params:
-        index_names_hisat2 = str(ORFRIBO_PATH / "annex_database" / "exome_elongated.exome_index_hisat2"),
-        index_names_bowtie2 = str(ORFRIBO_PATH / "annex_database" / "exome_elongated.exome_index_bowtie2"),
-        sample_names = "{sample}"
-    threads:
-        THREADS_NB
-    shell:
-        "hisat2 -x {params.index_names_hisat2} --threads {threads} -k 10 -U {input.fastq} --un-gz {output.fastq} -S {output.sam_hisat2} 2>> {log.hisat2_out} ;"
-        "bowtie2 -x {params.index_names_bowtie2} --threads {threads} -k 10 -U {output.fastq} -S {output.sam_bowtie2} 2>> {log.bowtie2_out} ;"
-
-# Creates bam and sam files
-rule samtools_filter_exome:
-    input:
-        sam_hisat2 = str(ORFRIBO_PATH / "BAM_exome" / ("{sample}" + FRAG_LENGTH_L + ".hisat2.sam")),
-        sam_bowtie2 = str(ORFRIBO_PATH / "BAM_exome" / ("{sample}" + FRAG_LENGTH_L + ".bowtie2.sam"))
-    output:
-        bam = str(ORFRIBO_PATH / "BAM_exome" / ("exome_elongated.{sample}" + FRAG_LENGTH_L + ".bam"))
-    log:
-        grep_header_hisat2 = str(LOGS_PATH / "samtools_filter_exome" / "{sample}.grep_hisat2.log"),
-        uniq_header = str(LOGS_PATH / "samtools_filter_exome" / "{sample}.uniq_header.log"),
-        grep_core_hisat2 =  str(LOGS_PATH / "samtools_filter_exome" / "{sample}.grep_core_hisat2.log"),
-        XM_filter_hisat2 = str(LOGS_PATH / "samtools_filter_exome" / "{sample}.XM_filter_hisat2.log"),
-        grep_core_bowtie2 =  str(LOGS_PATH / "samtools_filter_exome" / "{sample}.grep_core_bowtie2.log"),
-        view_bam = str(LOGS_PATH / "samtools_filter_exome" / "{sample}.view_bam.log"),
-        sort_bam = str(LOGS_PATH / "samtools_filter_exome" / "{sample}.sort_bam.log"),
-        rm = str(LOGS_PATH / "samtools_filter_exome" / "{sample}.rm.log")
-    benchmark:
-        str(BENCHMARKS_PATH / "samtools_filter_exome" / "{sample}.benchmark.txt")
-    resources:
-        mem_mb = round(MEM_MB / 3)
-    params:
-        sample = "{sample}",
-        sam = str(ORFRIBO_PATH / "BAM_exome" / ("{sample}" + FRAG_LENGTH_L + ".sam"))
-    threads:
-        THREADS_NB
-    shell:
-        "set +o pipefail ;"
-        "grep '^@' {input.sam_hisat2}  2> {log.grep_header_hisat2} | uniq 2> {log.uniq_header} 1> {params.sam} ;"
-        "grep -v '^@' {input.sam_hisat2} 2> {log.grep_core_hisat2} | egrep -i 'XM:i:0|XM:i:1' 2> {log.XM_filter_hisat2} 1>> {params.sam} ;"
-        "grep -v '^@' {input.sam_bowtie2} 2> {log.grep_core_bowtie2} 1>> {params.sam} ;"
-        "samtools view -@ {threads} -F 3588 -h -b {params.sam} 2> {log.view_bam} | samtools sort -@ {threads} -o {output.bam} 2> {log.sort_bam} ;"
-        "rm -f {params.sam}  2> {log.rm};"
-
-# Index BAMs
-rule index_bam_exome:
-    input:
-        bam = str(ORFRIBO_PATH / "BAM_exome" / ("exome_elongated.{sample}" + FRAG_LENGTH_L + ".bam"))
-    output:
-        bai = str(ORFRIBO_PATH / "BAM_exome" / ("exome_elongated.{sample}" + FRAG_LENGTH_L + ".bam.bai"))
-    log:
-        index_bam = str(LOGS_PATH / "index_bam_exome" / "{sample}.index_bam.log"),
-    benchmark:
-        str(BENCHMARKS_PATH / "index_bam_exome" / "{sample}.benchmark.txt")
-    shell:
-        "samtools index {input.bam} 2> {log.index_bam} ;"
-
-# Performs qualitative analysis with riboWaltz
-rule riboWaltz_exome:
-    input:
-        exome_gtf = str(ORFRIBO_PATH / "annex_database" / ("exome_elongated.exons_" + Path(str(GFF_PATH)).stem + ".gtf")),
-        exome_bam = expand(rules.samtools_filter_exome.output, sample=SAMPLES)
-    output:
-        psite_table = str(ORFRIBO_PATH / "riboWaltz" / "psite_offset.csv")
-    log:
-        periodicity = str(LOGS_PATH / "riboWaltz_exome" / "riboWaltz.log")
-    resources:
-        mem_mb = MEM_MB
-    benchmark:
-        str(BENCHMARKS_PATH / "riboWaltz_exome" / "riboWaltz.benchmark.txt")
-    params:
-        bam_folder = str(ORFRIBO_PATH / "BAM_exome") + "/",
-        outdir = str(ORFRIBO_PATH / "riboWaltz") + "/"
-    shell:
-        "touch {output.psite_table};"
-        "Rscript " + periodicity_riboWaltz_exome + " {input.exome_gtf} {params.bam_folder} {params.outdir} 2> {log} ;"
-        "rm -f " + str(OUT_BASE_PATH / "Rplots.pdf")
-
-# Calls Bam2Reads functions
-rule Bam2Reads_exome:
-    input:
-        gff = str(DATABASE_PATH / "exome_elongated.gff"),
-        bam = str(ORFRIBO_PATH / "BAM_exome" / ("exome_elongated.{sample}" + FRAG_LENGTH_L + ".bam")),
-        bai = str(ORFRIBO_PATH / "BAM_exome" / ("exome_elongated.{sample}" + FRAG_LENGTH_L + ".bam.bai")),
-        psite_table = str(ORFRIBO_PATH / "riboWaltz" / "psite_offset.csv")
-    output:
-        reads = str(ORFRIBO_PATH / "Bam2Reads_exome_output" / ("{sample}_{length}/exome" + FRAG_LENGTH_L + "_reads.tab"))
-    log:
-        bam2read = str(LOGS_PATH / "Bam2Reads_exome" / "{sample}.{length}.bam2read.log"),
-        offset_grep = str(LOGS_PATH / "Bam2Reads_exome" / "{sample}.{length}.offset_grep.log")
-    benchmark:
-        str(BENCHMARKS_PATH / "Bam2Reads_exome" / "{sample}.{length}.bam2read.benchmark.txt")
-    resources:
-        mem_mb = round(MEM_MB / 2)
-    params:
-        outdir = str(ORFRIBO_PATH / "Bam2Reads_exome_output" / "{sample}_{length}/"),
-        outname = "exome" + FRAG_LENGTH_L + " -features_include " + GFF_ELEMENT_TO_COUNT,
-        sample_name = "{sample}",
-        read_length = "{length}"
-    shell:
-        "set +o pipefail;"
-        "offset=$(grep {params.sample_name} {input.psite_table} 2> {log.offset_grep} | grep ^{params.read_length} 2>> {log.offset_grep} | cut -f7 2>> {log.offset_grep}) 2>> {log.offset_grep};"
-        "if [ $offset = '' ]; then offset=12; fi;"
-        "bam2reads -shift ${{offset}} -kmer {params.read_length} -gff {input.gff} -bam {input.bam} -outpath {params.outdir} -outname {params.outname}" + " 2> {log.bam2read};"
-        ""
-
-# Calls ORFstat functions
-rule ORFstats:
-    input:
-        psite_table = str(ORFRIBO_PATH / "riboWaltz" / "psite_offset.csv"),
-        reads = str(ORFRIBO_PATH / "Bam2Reads_exome_output" / "{sample}_{length}" / ("exome" + FRAG_LENGTH_L + "_reads.tab"))
-    output:
-        stats = str(ORFRIBO_PATH / "Bam2Reads_exome_output"/ "{sample}_{length}" / ("exome" + FRAG_LENGTH_L + "_reads.stats"))
-    log:
-        orfstats = str(LOGS_PATH / "ORFstats" / "{sample}.{length}.orfstats.log")
-    benchmark:
-        str(BENCHMARKS_PATH / "ORFstats" / "{sample}.{length}.orfstats.benchmark.txt")
-    params:
-        sample_name = "{sample}",
-        read_length = "{length}",
-        outdir = str(ORFRIBO_PATH / "Bam2Reads_exome_output" / "{sample}_{length}")
-    shell:
-        "set +o pipefail;"
-        "orfstats -tab {input.reads} -N 10 -out {params.outdir} 2> {log.orfstats};"
-
-# Select reads of specific length (determined by ORFstats)
-rule select_read_lengths:
-    input:
-        orfstats = expand(str(ORFRIBO_PATH / "Bam2Reads_exome_output" / "{sample}_{length}" / ("exome" + FRAG_LENGTH_L + "_reads.stats")), sample=SAMPLES, length=LENGTHS)
-    output:
-        table = str(SELECTED_LENGTH_TABLES / Path(f"threshold_mean{ORFSTATS_THRESHOLD_MEAN}_median{ORFSTATS_THRESHOLD_MEDIAN}") / "{sample}.txt")
-    benchmark:
-        str(BENCHMARKS_PATH / "select_read_lengths" / ("{sample}" + f"_select_read_lengths.benchmark_mean{ORFSTATS_THRESHOLD_MEAN}_median{ORFSTATS_THRESHOLD_MEDIAN}.txt"))
-    params:
-        orfstats_path = str(ORFRIBO_PATH / "Bam2Reads_exome_output" / "{sample}_"),
-        # orfstats_path = lambda wildcards: str(ORFRIBO_PATH / "Bam2Reads_exome_output" / f"{wildcards.sample}_"),
-        orfstats_name = f"/exome{FRAG_LENGTH_L}_reads.stats"
-    threads:
-        THREADS_NB
-    run:
-        pattern_mean = re.compile("^Mean[\s\t]+([\w.]+)")
-        pattern_median = re.compile("^Median[\s\t]+([\w.]+)")
-
-        with open(output.table, "x") as file_table:
-            for length in LENGTHS:
-                mean_med = 0
-                with open(params.orfstats_path + length + params.orfstats_name, "r") as file_gff:
-                    for line in file_gff:
-                        match_mean = pattern_mean.match(line)
-                        match_median = pattern_median.match(line)
-                        if bool(match_mean):
-                            if float(match_mean.group(1)) >= float(ORFSTATS_THRESHOLD_MEAN):
-                                mean_med = 1
-                        if bool(match_median):
-                            if float(match_median.group(1)) >= float(ORFSTATS_THRESHOLD_MEDIAN):
-                                mean_med += 1
-                    if mean_med == 2:
-                        file_table.write(length + "\n")
-
-
-# Copies the output of ORFtrack into the 'database' directory if it is not already in it
-# rule ORFtrack_output_copy:
-#     input:
-#         intergenic_gff = "/workdir/mapping_orf_" + os.path.splitext(os.path.basename(str(FASTA_PATH)))[0] + ".gff"
-#     output:
-#         intergenic_gff = database_path + "mapping_orf_" + os.path.splitext(os.path.basename(str(FASTA_PATH)))[0] + ".gff"
-#     shell:
-#         "cp {input.intergenic_gff} {output.intergenic_gff};"
-
-
-
-
-# Calls Bam2Reads functions for the genome steps
-rule Bam2Reads_genome:
-    input:
-        intergenic_gff = str(GFF_INTERGENIC_PATH),
-        bam = str(RESULTS_PATH / "BAM" / ("{sample}" + f"{FRAG_LENGTH_L}.bam")),
-        bai = str(RESULTS_PATH / "BAM" / ("{sample}" + f"{FRAG_LENGTH_L}.bam.bai")),
-        psite_table = str(ORFRIBO_PATH / "riboWaltz" / "psite_offset.csv"),
-        table = str(RESULTS_PATH / "selected_length_tables" / f"threshold_mean{ORFSTATS_THRESHOLD_MEAN}_median{ORFSTATS_THRESHOLD_MEDIAN}" / ("{sample}" + ".txt"))
-    output:
-        reads_table = str(RESULTS_PATH / "Bam2Reads_genome_output" / "{sample}" / "length_{length}" / f"genome{FRAG_LENGTH_L}.mean{ORFSTATS_THRESHOLD_MEAN}_median{ORFSTATS_THRESHOLD_MEDIAN}_reads.tab")
-    log:
-        bam2read = str(LOGS_PATH / "Bam2Reads_genome" / ("{sample}.{length}.bam2read_mean" + f"{ORFSTATS_THRESHOLD_MEAN}_median{ORFSTATS_THRESHOLD_MEDIAN}.log")),
-        offset_grep = str(LOGS_PATH / "Bam2Reads_genome" / ("{sample}.{length}.offset_grep_mean" + f"{ORFSTATS_THRESHOLD_MEAN}_median{ORFSTATS_THRESHOLD_MEDIAN}.log")),
-    benchmark:
-        str(BENCHMARKS_PATH / "Bam2Reads_genome" / ("{sample}.{length}.Bam2Reads_genome.benchmark._mean" + f"{ORFSTATS_THRESHOLD_MEAN}_median{ORFSTATS_THRESHOLD_MEDIAN}.txt"))
-    resources:
-        mem_mb = MEM_MB
-    params:
-        outdir = str(RESULTS_PATH / "Bam2Reads_genome_output" / "{sample}" / "length_{length}"),
-        outname = f"genome{FRAG_LENGTH_L}.mean{ORFSTATS_THRESHOLD_MEAN}_median{ORFSTATS_THRESHOLD_MEDIAN}",
-        sample_name = "{sample}",
-        reads_length = "{length}"
-    shell:
-        """
-        lengths_list=$(cat {input.table})
-        in_lengths_list=""
-
-        for length in $lengths_list; do
-            if [ "$length" == "{params.reads_length}" ]; then
-                offset=$(grep '{params.sample_name}' {input.psite_table} 2> {log.offset_grep} | grep '^{params.reads_length}' 2>> {log.offset_grep} | cut -f7 2>> {log.offset_grep}) 2>> {log.offset_grep};
-                bam2reads -shift ${{offset}} -kmer {params.reads_length} -gff {input.intergenic_gff} -bam {input.bam} -outpath {params.outdir} -outname {params.outname} -features_include {FEATURES_TO_COUNT} 2> {log.bam2read};
-                in_lengths_list="True"
-                break
-            fi
-        done
-
-        if [ -z "$in_lengths_list" ]; then
-            touch {output.reads_table}
-        fi
-        """
-
-# Concatenate counts tables selected into one by sample
-rule concatenate_count_tables_genome:
-    input:
-        tables_list = expand(rules.Bam2Reads_genome.output, sample=SAMPLES, length=LENGTHS)
-    output:
-        table = str(RESULTS_PATH / "Bam2Reads_genome_output" / "{sample}"/ f"genome{FRAG_LENGTH_L}.mean{ORFSTATS_THRESHOLD_MEAN}_median{ORFSTATS_THRESHOLD_MEDIAN}_reads_concatenated.tab")
-    log:
-        str(LOGS_PATH / "concatenate_count_tables_genome" / ("{sample}.concatenate_mean" + f"{ORFSTATS_THRESHOLD_MEAN}_median{ORFSTATS_THRESHOLD_MEDIAN}.log"))
-    benchmark:
-        str(BENCHMARKS_PATH / "concatenate_count_tables_genome" / ("{sample}.concatenate.benchmark_mean" + f"{ORFSTATS_THRESHOLD_MEAN}_median{ORFSTATS_THRESHOLD_MEDIAN}.txt"))
-    params:
-        outdir = str(RESULTS_PATH / "Bam2Reads_genome_output" / "{sample}"),
-        outname = f"genome{FRAG_LENGTH_L}.mean{ORFSTATS_THRESHOLD_MEAN}_median{ORFSTATS_THRESHOLD_MEDIAN}",
-        sample_name = "{sample}"
-    run:
-        selected_tables = []
-        for table in input.tables_list:
-            if os.stat(table).st_size > 0:
-                if params.sample_name in str(table):
-                    selected_tables.append(table)
-        table_string = ' '.join(selected_tables)
-        print(table_string)
-        shell("merge_read_tables -tables " + table_string + " -outpath {params.outdir} -outname {params.outname}")
-
-# Concatenate all samples concatenated tables together :
-rule concatenate_all_tables:
-    input:
-        tables_list = expand(rules.concatenate_count_tables_genome.output, sample=SAMPLES)
-    output:
-        table = str(RESULTS_PATH / "Bam2Reads_genome_output" / f"all_samples_genome{FRAG_LENGTH_L}.mean{ORFSTATS_THRESHOLD_MEAN}_median{ORFSTATS_THRESHOLD_MEDIAN}_reads_concatenated.tab")
-    log:
-        str(LOGS_PATH / "concatenate_all_tables" / f"concatenate_mean{ORFSTATS_THRESHOLD_MEAN}_median{ORFSTATS_THRESHOLD_MEDIAN}.log")
-    benchmark:
-        str(BENCHMARKS_PATH / "concatenate_all_tables" / f"concatenate.benchmark_mean{ORFSTATS_THRESHOLD_MEAN}_median{ORFSTATS_THRESHOLD_MEDIAN}.txt")
-    params:
-        outdir = str(RESULTS_PATH / "Bam2Reads_genome_output"),
-        outname = f"all_samples_genome{FRAG_LENGTH_L}.mean{ORFSTATS_THRESHOLD_MEAN}_median{ORFSTATS_THRESHOLD_MEDIAN}"
-    run:
-        selected_tables = []
-        for table in input.tables_list:
-            if os.stat(table).st_size > 0:
-                selected_tables.append(table)
-        table_string = ' '.join(selected_tables)
-        print(table_string)
-        shell("merge_read_tables -tables " + table_string + " -outpath {params.outdir} -outname {params.outname}")

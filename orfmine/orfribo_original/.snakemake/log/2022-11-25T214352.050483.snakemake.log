@@ -1,0 +1,78 @@
+Config file /home/nchenche/projects/ORFmine/packages/orfribo/config.yaml is extended by additional config specified via the command line.
+Building DAG of jobs...
+Using shell: /usr/bin/bash
+Provided cores: 1 (use --cores to define parallelism)
+Rules claiming more threads will be scaled down.
+Provided resources: mem_mb=50000
+Job stats:
+job                                count    min threads    max threads
+-------------------------------  -------  -------------  -------------
+Bam2Reads_exome                       11              1              1
+Bam2Reads_genome                      11              1              1
+ORFget                                 1              1              1
+ORFstats                              11              1              1
+adapt_trimming                         1              1              1
+all                                    1              1              1
+bowtie2_build                          1              1              1
+bowtie2_build_exome                    1              1              1
+bowtie2_build_outRNA                   1              1              1
+bowtie2_run_outRNA                     1              1              1
+concatenate_all_tables                 1              1              1
+concatenate_count_tables_genome        1              1              1
+exome_construction_gtf                 1              1              1
+find_adapter_sequence                  1              1              1
+hisat2_build                           1              1              1
+hisat2_build_exome                     1              1              1
+index_bam                              1              1              1
+index_bam_exome                        1              1              1
+make_fastqc                            1              1              1
+name_CDS                               1              1              1
+riboWaltz_exome                        1              1              1
+run_mapping                            1              1              1
+run_mapping_exome                      1              1              1
+samtools_filter                        1              1              1
+samtools_filter_exome                  1              1              1
+select_read_lengths                    1              1              1
+stats_report                           1              1              1
+total                                 57              1              1
+
+Select jobs to execute...
+
+[Fri Nov 25 21:43:52 2022]
+rule make_fastqc:
+    input: /home/nchenche/projects/orfmine_workdir/examples/fastq/SRR1520313_17031088.fastq.gz
+    output: orfribo_20221125-214352/RESULTS/fastqc/SRR1520313_17031088_fastqc.zip, orfribo_20221125-214352/RESULTS/fastqc/SRR1520313_17031088_fastqc.html
+    log: orfribo_20221125-214352/logs/make_fastqc/SRR1520313_17031088.log
+    jobid: 1
+    benchmark: orfribo_20221125-214352/benchmarks/make_fastqc/SRR1520313_17031088.benchmark.txt
+    reason: Missing output files: orfribo_20221125-214352/RESULTS/fastqc/SRR1520313_17031088_fastqc.html
+    wildcards: sample=SRR1520313_17031088
+    resources: tmpdir=/tmp
+
+[Fri Nov 25 21:44:04 2022]
+Finished job 1.
+1 of 57 steps (2%) done
+Select jobs to execute...
+
+[Fri Nov 25 21:44:04 2022]
+rule hisat2_build:
+    input: /home/nchenche/projects/orfmine_workdir/examples/database/Scer.fna
+    output: orfribo_20221125-214352/RESULTS/annex_database/index_hisat2.1.ht2, orfribo_20221125-214352/RESULTS/annex_database/index_hisat2.2.ht2, orfribo_20221125-214352/RESULTS/annex_database/index_hisat2.3.ht2, orfribo_20221125-214352/RESULTS/annex_database/index_hisat2.4.ht2, orfribo_20221125-214352/RESULTS/annex_database/index_hisat2.5.ht2, orfribo_20221125-214352/RESULTS/annex_database/index_hisat2.6.ht2, orfribo_20221125-214352/RESULTS/annex_database/index_hisat2.7.ht2, orfribo_20221125-214352/RESULTS/annex_database/index_hisat2.8.ht2
+    log: orfribo_20221125-214352/logs/hisat2_build/ hisat2_build.log
+    jobid: 5
+    benchmark: orfribo_20221125-214352/benchmarks/hisat2_build/hisat2_build.benchmark.txt
+    reason: Missing output files: orfribo_20221125-214352/RESULTS/annex_database/index_hisat2.3.ht2, orfribo_20221125-214352/RESULTS/annex_database/index_hisat2.7.ht2, orfribo_20221125-214352/RESULTS/annex_database/index_hisat2.5.ht2, orfribo_20221125-214352/RESULTS/annex_database/index_hisat2.1.ht2, orfribo_20221125-214352/RESULTS/annex_database/index_hisat2.2.ht2, orfribo_20221125-214352/RESULTS/annex_database/index_hisat2.4.ht2, orfribo_20221125-214352/RESULTS/annex_database/index_hisat2.6.ht2, orfribo_20221125-214352/RESULTS/annex_database/index_hisat2.8.ht2
+    resources: tmpdir=/tmp
+
+[Fri Nov 25 21:44:04 2022]
+Error in rule hisat2_build:
+    jobid: 5
+    output: orfribo_20221125-214352/RESULTS/annex_database/index_hisat2.1.ht2, orfribo_20221125-214352/RESULTS/annex_database/index_hisat2.2.ht2, orfribo_20221125-214352/RESULTS/annex_database/index_hisat2.3.ht2, orfribo_20221125-214352/RESULTS/annex_database/index_hisat2.4.ht2, orfribo_20221125-214352/RESULTS/annex_database/index_hisat2.5.ht2, orfribo_20221125-214352/RESULTS/annex_database/index_hisat2.6.ht2, orfribo_20221125-214352/RESULTS/annex_database/index_hisat2.7.ht2, orfribo_20221125-214352/RESULTS/annex_database/index_hisat2.8.ht2
+    log: orfribo_20221125-214352/logs/hisat2_build/ hisat2_build.log (check log file(s) for error message)
+    shell:
+        hisat2-build --threads 1 /home/nchenche/projects/orfmine_workdir/examples/database/Scer.fna orfribo_20221125-214352/RESULTS/annex_database/index_hisat2 &> orfribo_20221125-214352/logs/hisat2_build/ hisat2_build.log ;
+        (one of the commands exited with non-zero exit code; note that snakemake uses bash strict mode!)
+
+Shutting down, this might take some time.
+Exiting because a job execution failed. Look above for error message
+Complete log: .snakemake/log/2022-11-25T214352.050483.snakemake.log

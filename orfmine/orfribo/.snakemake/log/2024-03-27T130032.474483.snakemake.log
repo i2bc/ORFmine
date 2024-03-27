@@ -1,0 +1,61 @@
+Config file /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/config.yaml is extended by additional config specified via the command line.
+Building DAG of jobs...
+Using shell: /usr/bin/bash
+Provided cores: 1 (use --cores to define parallelism)
+Rules claiming more threads will be scaled down.
+Provided resources: mem_mb=2000000
+Job stats:
+job               count    min threads    max threads
+--------------  -------  -------------  -------------
+adapt_trimming        1              1              1
+all                   1              1              1
+total                 2              1              1
+
+mkdir -p /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/logs
+echo 'RiboDoc version : 0.8.7' > /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/RiboDoc_package_versions.txt
+Select jobs to execute...
+
+[Wed Mar 27 13:00:36 2024]
+rule adapt_trimming:
+    input: /data/work/I2BC/fadwa.elkhaddar/BIM/fastq/SRR1562874.fastq.gz, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Trimming/Adapters/SRR1562874/SRR1562874.txt
+    output: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Trimming/Trimmed_fastq/SRR1562874/SRR1562874.cutadapt.25-35.fastq.gz
+    log: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Trimming/Trimmed_fastq/SRR1562874_trim_value.log, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Trimming/Trimmed_fastq/SRR1562874_cutadapt.log, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Trimming/Trimmed_fastq/SRR1562874_adapt_trimming.log
+    jobid: 1
+    benchmark: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Benchmarks/Trimming/Trimmed_fastq/SRR1562874_adapt_trimming.txt
+    reason: Missing output files: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Trimming/Trimmed_fastq/SRR1562874/SRR1562874.cutadapt.25-35.fastq.gz
+    wildcards: sample=SRR1562874
+    resources: tmpdir=/var/tmp/pbs.951492.pbsserver, mem_mb=2000
+
+
+        adapter_sequence=$(cat /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Trimming/Adapters/SRR1562874/SRR1562874.txt)
+        echo $adapter_sequence        
+        if [ 0 == 0 ]; then
+            cutadapt -a $adapter_sequence --trimmed-only -e 0.125 -j 1 --max-n=1 -m  25  -M 35 -o /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Trimming/Trimmed_fastq/SRR1562874/SRR1562874.cutadapt.25-35.fastq.gz /data/work/I2BC/fadwa.elkhaddar/BIM/fastq/SRR1562874.fastq.gz 1>> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Trimming/Trimmed_fastq/SRR1562874_adapt_trimming.log 2> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Trimming/Trimmed_fastq/SRR1562874_cutadapt.log
+        else
+            ln -s /data/work/I2BC/fadwa.elkhaddar/BIM/fastq/SRR1562874.fastq.gz /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Trimming/Trimmed_fastq/SRR1562874/SRR1562874.cutadapt.25-35.fastq.gz
+            echo "Reads are already trimmed." > /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Trimming/Trimmed_fastq/SRR1562874_adapt_trimming.log
+        fi
+        
+[Wed Mar 27 13:06:17 2024]
+Error in rule adapt_trimming:
+    jobid: 1
+    output: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Trimming/Trimmed_fastq/SRR1562874/SRR1562874.cutadapt.25-35.fastq.gz
+    log: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Trimming/Trimmed_fastq/SRR1562874_trim_value.log, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Trimming/Trimmed_fastq/SRR1562874_cutadapt.log, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Trimming/Trimmed_fastq/SRR1562874_adapt_trimming.log (check log file(s) for error message)
+    shell:
+        
+        adapter_sequence=$(cat /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Trimming/Adapters/SRR1562874/SRR1562874.txt)
+        echo $adapter_sequence        
+        if [ 0 == 0 ]; then
+            cutadapt -a $adapter_sequence --trimmed-only -e 0.125 -j 1 --max-n=1 -m  25  -M 35 -o /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Trimming/Trimmed_fastq/SRR1562874/SRR1562874.cutadapt.25-35.fastq.gz /data/work/I2BC/fadwa.elkhaddar/BIM/fastq/SRR1562874.fastq.gz 1>> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Trimming/Trimmed_fastq/SRR1562874_adapt_trimming.log 2> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Trimming/Trimmed_fastq/SRR1562874_cutadapt.log
+        else
+            ln -s /data/work/I2BC/fadwa.elkhaddar/BIM/fastq/SRR1562874.fastq.gz /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Trimming/Trimmed_fastq/SRR1562874/SRR1562874.cutadapt.25-35.fastq.gz
+            echo "Reads are already trimmed." > /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Trimming/Trimmed_fastq/SRR1562874_adapt_trimming.log
+        fi
+        
+        (one of the commands exited with non-zero exit code; note that snakemake uses bash strict mode!)
+
+Removing output files of failed job adapt_trimming since they might be corrupted:
+/data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Trimming/Trimmed_fastq/SRR1562874/SRR1562874.cutadapt.25-35.fastq.gz
+Shutting down, this might take some time.
+Exiting because a job execution failed. Look above for error message
+Complete log: .snakemake/log/2024-03-27T130032.474483.snakemake.log

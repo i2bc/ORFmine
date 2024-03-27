@@ -18,10 +18,12 @@ echo "Maximum CPU used for the analysis : "$((${cpu_use}*2));
 
 used_memory="--resources mem_mb=${available_memory_mb}"
 
-mkdir /workdir/orfribo/;
-# conda list;
+# Supprimez la ligne suivante pour éviter la création d'un nouveau dossier
+# mkdir /workdir/orfribo/;
+
+# Modifiez les appels à Snakemake pour spécifier le répertoire de travail existant
 snakemake -s /ORFmine/orfribo/RiboDoc_BAM2Reads/Snakefile -j --dag -np --directory /workdir/orfribo/ --nolock | dot -Tsvg > /workdir/orfribo/dag_last-run.svg;
-snakemake -s /ORFmine/orfribo/RiboDoc_BAM2Reads/Snakefile -j --dag -np --forceall --directory /workdir/orfribo/ --nolock | dot -Tsvg > /workdir/orfribo/dag_all.svg;
+#snakemake -s /ORFmine/orfribo/RiboDoc_BAM2Reads/Snakefile -j --dag -np --forceall --directory /workdir/orfribo/ --nolock | dot -Tsvg > /workdir/orfribo/dag_all.svg;
 snakemake -s /ORFmine/orfribo/RiboDoc_BAM2Reads/Snakefile -j ${cpu_use} ${used_memory} --directory /workdir/orfribo/ -k --nolock;
 
 """
@@ -50,25 +52,26 @@ def generate_dag_svg(snakefile, output_svg_path):
 
 
 def set_outdir(config: dict, args: Namespace):
-    """Set root directory of orfribo results; it must be created here for container usage
+    """Set root directory of orfribo results if not already set.
 
     Args:
         config (dict): preset config dictionary
         args (Namespace): argparse.Namespace instance
     """
-    # if outdir already defined, do nothing
-    if Path(config["out"]).stem:
-        return 
+    # Si le répertoire de sortie est déjà défini, ne rien faire
+    if config.get("out"):
+        return
 
-    # else generate an oudtir name
+    # Générer un nom de répertoire de sortie
     suffix_date = time.strftime("%Y%m%d-%H%M%S") 
     outdir = f"orfribo_{suffix_date}"
     config["out"] = outdir
 
-    # set args.out value as the generated outdir name
+    # Définir la valeur de args.out comme le nom du répertoire généré
     args.out = outdir
-    Path(outdir).mkdir(parents=True, exist_ok=True)
 
+    # Créer le répertoire s'il n'existe pas déjà
+    Path(outdir).mkdir(parents=True, exist_ok=True)
 
 def start_orfribo(args: Namespace, config: dict):
     # get the orfribo snakefile 

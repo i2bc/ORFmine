@@ -1,0 +1,3 @@
+KeyError in file /home/fadwa.el-khaddar/Workflow/rules/mapping_genome.smk, line 4:
+'fasta'
+  File "/home/fadwa.el-khaddar/Workflow/rules/mapping_genome.smk", line 4, in <module>

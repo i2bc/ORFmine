@@ -1,0 +1,64 @@
+Config file /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/config.yaml is extended by additional config specified via the command line.
+Building DAG of jobs...
+Using shell: /usr/bin/bash
+Provided cores: 1 (use --cores to define parallelism)
+Rules claiming more threads will be scaled down.
+Provided resources: mem_mb=2000000
+Job stats:
+job                             count    min threads    max threads
+----------------------------  -------  -------------  -------------
+Exome_construction_gtf              1              1              1
+Mapping_Exome_STAR_Bowtie2          1              1              1
+Mapping_Genome_HISAT_Bowtie2        1              1              1
+ORFget                              1              1              1
+adapt_trimming                      1              1              1
+all                                 1              1              1
+find_adapter_sequence               1              1              1
+index_Exome_BOWTIE2                 1              1              1
+index_Exome_HISAT2                  1              1              1
+index_reference_BOWTIE2             1              1              1
+index_reference_HISAT2              1              1              1
+make_fastqc                         1              1              1
+name_CDS                            1              1              1
+riboWaltz_Exome                     1              1              1
+total                              14              1              1
+
+mkdir -p logs
+echo 'RiboDoc version : 0.8.7' > SUPPLEMENTARY_DATA/Logs/RiboDoc_package_versions.txt
+Select jobs to execute...
+
+[Tue Mar 26 18:45:03 2024]
+rule name_CDS:
+    input: /data/work/I2BC/fadwa.elkhaddar/BIM/orfmine_tutorial/ORFmine/examples/database/Scer.gff
+    output: DATA_PROCESSING/Edited_Gff/Named.CDS_Scer.gff
+    jobid: 2
+    reason: Missing output files: DATA_PROCESSING/Edited_Gff/Named.CDS_Scer.gff
+    resources: tmpdir=/var/tmp/pbs.951401.pbsserver
+
+[Tue Mar 26 18:45:05 2024]
+Finished job 2.
+1 of 14 steps (7%) done
+Select jobs to execute...
+
+[Tue Mar 26 18:45:05 2024]
+rule ORFget:
+    input: /data/work/I2BC/fadwa.elkhaddar/BIM/orfmine_tutorial/ORFmine/examples/database/Scer.fna, DATA_PROCESSING/Edited_Gff/Named.CDS_Scer.gff
+    output: DATA_PROCESSING/Exome/Exome_elongated.nfasta, DATA_PROCESSING/Exome/Exome_elongated.gff, DATA_PROCESSING/Exome/Exome_elongated_with_gene_features.gff
+    log: SUPPLEMENTARY_DATA/Logs/Exome/Exome_ORFget.log
+    jobid: 8
+    benchmark: SUPPLEMENTARY_DATA/Benchmarks/Exome/Exome_ORFget.benchmark.txt
+    reason: Missing output files: DATA_PROCESSING/Exome/Exome_elongated_with_gene_features.gff, DATA_PROCESSING/Exome/Exome_elongated.nfasta; Input files updated by another job: DATA_PROCESSING/Edited_Gff/Named.CDS_Scer.gff
+    resources: tmpdir=/var/tmp/pbs.951401.pbsserver
+
+gff2prot --fna /data/work/I2BC/fadwa.elkhaddar/BIM/orfmine_tutorial/ORFmine/examples/database/Scer.fna --gff DATA_PROCESSING/Edited_Gff/Named.CDS_Scer.gff --features CDS --outdir DATA_PROCESSING/Exome --out-basename Exome_elongated --nucleic --elongate 50 --stop-end; mv DATA_PROCESSING/Exome/Exome_elongated.gff DATA_PROCESSING/Exome/Exome_elongated_with_gene_features.gff;awk '$3 !~ /gene/' DATA_PROCESSING/Exome/Exome_elongated_with_gene_features.gff > DATA_PROCESSING/Exome/Exome_elongated.gff;
+Terminating processes on user request, this might take some time.
+[Tue Mar 26 18:45:09 2024]
+Error in rule ORFget:
+    jobid: 8
+    output: DATA_PROCESSING/Exome/Exome_elongated.nfasta, DATA_PROCESSING/Exome/Exome_elongated.gff, DATA_PROCESSING/Exome/Exome_elongated_with_gene_features.gff
+    log: SUPPLEMENTARY_DATA/Logs/Exome/Exome_ORFget.log (check log file(s) for error message)
+    shell:
+        gff2prot --fna /data/work/I2BC/fadwa.elkhaddar/BIM/orfmine_tutorial/ORFmine/examples/database/Scer.fna --gff DATA_PROCESSING/Edited_Gff/Named.CDS_Scer.gff --features CDS --outdir DATA_PROCESSING/Exome --out-basename Exome_elongated --nucleic --elongate 50 --stop-end; mv DATA_PROCESSING/Exome/Exome_elongated.gff DATA_PROCESSING/Exome/Exome_elongated_with_gene_features.gff;awk '$3 !~ /gene/' DATA_PROCESSING/Exome/Exome_elongated_with_gene_features.gff > DATA_PROCESSING/Exome/Exome_elongated.gff;
+        (one of the commands exited with non-zero exit code; note that snakemake uses bash strict mode!)
+
+Cancelling snakemake on user request.

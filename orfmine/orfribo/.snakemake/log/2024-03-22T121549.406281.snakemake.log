@@ -1,0 +1,39 @@
+Config file /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/config.yaml is extended by additional config specified via the command line.
+Building DAG of jobs...
+Using shell: /usr/bin/bash
+Provided cores: 1 (use --cores to define parallelism)
+Rules claiming more threads will be scaled down.
+Provided resources: mem_mb=2000000
+Job stats:
+job                      count    min threads    max threads
+---------------------  -------  -------------  -------------
+all                          1              1              1
+find_adapter_sequence        2              1              1
+total                        3              1              1
+
+mkdir -p orfribo_20240322-121549/logs
+echo 'RiboDoc version : 0.8.7' > orfribo_20240322-121549/SUPPLEMENTARY_DATA/Logs/RiboDoc_package_versions.txt
+Select jobs to execute...
+
+[Fri Mar 22 12:15:51 2024]
+rule find_adapter_sequence:
+    input: /data/work/I2BC/fadwa.elkhaddar/BIM/fastq/SRR1562875.fastq.gz
+    output: orfribo_20240322-121549/DATA_PROCESSING/Trimming/Adapters/SRR1562875/SRR1562875.txt
+    log: orfribo_20240322-121549/SUPPLEMENTARY_DATA/Logs/Trimming/Adapters/SRR1562875.rscript.log, orfribo_20240322-121549/SUPPLEMENTARY_DATA/Logs/Trimming/Adapters/SRR1562875.sed.log, orfribo_20240322-121549/SUPPLEMENTARY_DATA/Logs/Trimming/Adapters/SRR1562875.echo.log, orfribo_20240322-121549/SUPPLEMENTARY_DATA/Logs/Trimming/Adapters/SRR1562875.touch.log
+    jobid: 2
+    reason: Missing output files: orfribo_20240322-121549/DATA_PROCESSING/Trimming/Adapters/SRR1562875/SRR1562875.txt
+    wildcards: sample=SRR1562875
+    resources: tmpdir=/tmp
+
+touch orfribo_20240322-121549/DATA_PROCESSING/Trimming/Adapters/SRR1562875/SRR1562875.txt 2> orfribo_20240322-121549/SUPPLEMENTARY_DATA/Logs/Trimming/Adapters/SRR1562875.touch.log;if [ -z  ]; then Rscript /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Rscripts/find_adapter_sequence.R /data/work/I2BC/fadwa.elkhaddar/BIM/fastq/SRR1562875.fastq.gz  orfribo_20240322-121549/DATA_PROCESSING/Trimming/Adapters/SRR1562875 2> orfribo_20240322-121549/SUPPLEMENTARY_DATA/Logs/Trimming/Adapters/SRR1562875.rscript.log ;elif [ '0' = 'no' ]; then echo  1> orfribo_20240322-121549/DATA_PROCESSING/Trimming/Adapters/SRR1562875/SRR1562875.txt 2> orfribo_20240322-121549/SUPPLEMENTARY_DATA/Logs/Trimming/Adapters/SRR1562875.echo.log;fi;
+Terminating processes on user request, this might take some time.
+[Fri Mar 22 12:16:00 2024]
+Error in rule find_adapter_sequence:
+    jobid: 2
+    output: orfribo_20240322-121549/DATA_PROCESSING/Trimming/Adapters/SRR1562875/SRR1562875.txt
+    log: orfribo_20240322-121549/SUPPLEMENTARY_DATA/Logs/Trimming/Adapters/SRR1562875.rscript.log, orfribo_20240322-121549/SUPPLEMENTARY_DATA/Logs/Trimming/Adapters/SRR1562875.sed.log, orfribo_20240322-121549/SUPPLEMENTARY_DATA/Logs/Trimming/Adapters/SRR1562875.echo.log, orfribo_20240322-121549/SUPPLEMENTARY_DATA/Logs/Trimming/Adapters/SRR1562875.touch.log (check log file(s) for error message)
+    shell:
+        touch orfribo_20240322-121549/DATA_PROCESSING/Trimming/Adapters/SRR1562875/SRR1562875.txt 2> orfribo_20240322-121549/SUPPLEMENTARY_DATA/Logs/Trimming/Adapters/SRR1562875.touch.log;if [ -z  ]; then Rscript /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Rscripts/find_adapter_sequence.R /data/work/I2BC/fadwa.elkhaddar/BIM/fastq/SRR1562875.fastq.gz  orfribo_20240322-121549/DATA_PROCESSING/Trimming/Adapters/SRR1562875 2> orfribo_20240322-121549/SUPPLEMENTARY_DATA/Logs/Trimming/Adapters/SRR1562875.rscript.log ;elif [ '0' = 'no' ]; then echo  1> orfribo_20240322-121549/DATA_PROCESSING/Trimming/Adapters/SRR1562875/SRR1562875.txt 2> orfribo_20240322-121549/SUPPLEMENTARY_DATA/Logs/Trimming/Adapters/SRR1562875.echo.log;fi;
+        (one of the commands exited with non-zero exit code; note that snakemake uses bash strict mode!)
+
+Complete log: .snakemake/log/2024-03-22T121549.406281.snakemake.log

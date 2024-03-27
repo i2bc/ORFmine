@@ -4,23 +4,23 @@ project_name: ""
 # Path to the genome/transcriptome fasta file to align on (required)
 fna: ""
 
-# Path to the GFF annotation file (required)
+# Path to the genome/transcriptome fasta file to align on (required)
 gff: ""
 
 # Path to the GFF annotation mapping file from orftrack (required)
 gff_intergenic: ""
 
+# Fasta file with sequences you don't want to consider. (optional)
+rna_to_exclude: "/data/work/I2BC/fadwa.elkhaddar/BIM/orfmine_tutorial/ORFmine/examples/database/Scer_rRNA.fa"
+
 # Path of the directory containing your .fastq.gz file(s) (required)
 fastq: ""
 
 # set base directory location for orfribo outputs (optional - default='./orfribo_%datetime')
-out: "."
-
-# Fasta file with sequences you don't want to consider. (required) - @TODO: not working with empty file, either make it required or add condition in snakefile
-rna_to_exclude: ""
+out: "/data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test"
 
 # Are the sequencing adapters already removed in fastq files ? True or False
-trimmed: 
+trimmed: 0 
 
 # Adapter sequence (Example sequence for Illumina TruSeq™ single or CD index : "AGATCGGAAGAGCACACGTCTGAACTCCAGTCA")
 # Put "" if unknown, RiboDoc_BAM2Reads will try to find it for you
@@ -32,7 +32,6 @@ min_read_length: 25
 # Maximum read length kept for ribosome profiling
 max_read_length: 35
 
-
 # Elements to select during counting
 gff_feature: "CDS"
 
@@ -42,15 +41,19 @@ gff_attribute: "Name"
 
 # Minimum mean of in-frame reads in coding region to select specific read lengths
 mean_threshold: 70
-
-# Minimum median of in-frame reads in coding region to select specific read lengths
 median_threshold: 70
 
 # List of features to look for in the intergenic gff of the genome
-intergenic_features: ["nc_intergenic"]
+intergenic_features: "nc_intergenic"
+
+
+#Number of multiple alignement (10 by default)
+multi_mapping: 10 
 
 # Maximum allowed RAM to use (Mb)
 ram: 2000
 
 # Number of maximum thread to use
 threads: 3
+
+

@@ -1,0 +1,31 @@
+Config file /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/config.yaml is extended by additional config specified via the command line.
+Building DAG of jobs...
+Using shell: /usr/bin/bash
+Provided cores: 1 (use --cores to define parallelism)
+Rules claiming more threads will be scaled down.
+Provided resources: mem_mb=2000000
+Job stats:
+job                       count    min threads    max threads
+----------------------  -------  -------------  -------------
+Exome_construction_gtf        1              1              1
+ORFget                        1              1              1
+all                           1              1              1
+make_fastqc                   1              1              1
+name_CDS                      1              1              1
+total                         5              1              1
+
+mkdir -p orfribo_20240325-150709/logs
+echo 'RiboDoc version : 0.8.7' > orfribo_20240325-150709/SUPPLEMENTARY_DATA/Logs/RiboDoc_package_versions.txt
+Select jobs to execute...
+
+[Mon Mar 25 15:07:11 2024]
+rule name_CDS:
+    input: /data/work/I2BC/fadwa.elkhaddar/BIM/orfmine_tutorial/ORFmine/examples/database/Scer.gff
+    output: orfribo_20240325-150709/DATA_PROCESSING/Edited_Gff/Named.CDS_Scer.gff
+    jobid: 2
+    reason: Missing output files: orfribo_20240325-150709/DATA_PROCESSING/Edited_Gff/Named.CDS_Scer.gff
+    resources: tmpdir=/tmp
+
+Shutting down, this might take some time.
+Exiting because a job execution failed. Look above for error message
+Complete log: .snakemake/log/2024-03-25T150709.655815.snakemake.log

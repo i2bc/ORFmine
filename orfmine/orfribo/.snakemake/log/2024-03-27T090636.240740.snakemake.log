@@ -1,0 +1,6 @@
+Config file /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/config.yaml is extended by additional config specified via the command line.
+Building DAG of jobs...
+Nothing to be done (all requested files are present and up to date).
+mkdir -p /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/logs
+echo 'RiboDoc version : 0.8.7' > /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/RiboDoc_package_versions.txt
+Complete log: .snakemake/log/2024-03-27T090636.240740.snakemake.log

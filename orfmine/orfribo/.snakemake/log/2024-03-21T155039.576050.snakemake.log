@@ -1,0 +1,4 @@
+NameErrorin line 29 of /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/rules/08_Exome_construction.smk:
+name 'PATH' is not defined
+  File "/data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Snakefile", line 113, in <module>
+  File "/data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/rules/08_Exome_construction.smk", line 29, in <module>

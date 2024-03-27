@@ -1,0 +1,96 @@
+Config file /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/config.yaml is extended by additional config specified via the command line.
+Building DAG of jobs...
+Using shell: /usr/bin/bash
+Provided cores: 1 (use --cores to define parallelism)
+Rules claiming more threads will be scaled down.
+Provided resources: mem_mb=2000000
+Job stats:
+job                             count    min threads    max threads
+----------------------------  -------  -------------  -------------
+Exome_construction_gtf              1              1              1
+Mapping_Exome_STAR_Bowtie2          1              1              1
+Mapping_Genome_HISAT_Bowtie2        1              1              1
+ORFget                              1              1              1
+adapt_trimming                      1              1              1
+all                                 1              1              1
+find_adapter_sequence               1              1              1
+index_Exome_BOWTIE2                 1              1              1
+index_Exome_HISAT2                  1              1              1
+index_reference_BOWTIE2             1              1              1
+index_reference_HISAT2              1              1              1
+make_fastqc                         1              1              1
+name_CDS                            1              1              1
+riboWaltz_Exome                     1              1              1
+total                              14              1              1
+
+mkdir -p /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/logs
+echo 'RiboDoc version : 0.8.7' > /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/RiboDoc_package_versions.txt
+Select jobs to execute...
+
+[Tue Mar 26 18:45:40 2024]
+rule name_CDS:
+    input: /data/work/I2BC/fadwa.elkhaddar/BIM/orfmine_tutorial/ORFmine/examples/database/Scer.gff
+    output: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Edited_Gff/Named.CDS_Scer.gff
+    jobid: 2
+    reason: Missing output files: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Edited_Gff/Named.CDS_Scer.gff
+    resources: tmpdir=/var/tmp/pbs.951401.pbsserver
+
+[Tue Mar 26 18:45:42 2024]
+Finished job 2.
+1 of 14 steps (7%) done
+Select jobs to execute...
+
+[Tue Mar 26 18:45:42 2024]
+rule ORFget:
+    input: /data/work/I2BC/fadwa.elkhaddar/BIM/orfmine_tutorial/ORFmine/examples/database/Scer.fna, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Edited_Gff/Named.CDS_Scer.gff
+    output: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Exome/Exome_elongated.nfasta, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Exome/Exome_elongated.gff, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Exome/Exome_elongated_with_gene_features.gff
+    log: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Exome/Exome_ORFget.log
+    jobid: 8
+    benchmark: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Benchmarks/Exome/Exome_ORFget.benchmark.txt
+    reason: Missing output files: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Exome/Exome_elongated_with_gene_features.gff, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Exome/Exome_elongated.nfasta; Input files updated by another job: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Edited_Gff/Named.CDS_Scer.gff
+    resources: tmpdir=/var/tmp/pbs.951401.pbsserver
+
+gff2prot --fna /data/work/I2BC/fadwa.elkhaddar/BIM/orfmine_tutorial/ORFmine/examples/database/Scer.fna --gff /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Edited_Gff/Named.CDS_Scer.gff --features CDS --outdir /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Exome --out-basename Exome_elongated --nucleic --elongate 50 --stop-end; mv /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Exome/Exome_elongated.gff /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Exome/Exome_elongated_with_gene_features.gff;awk '$3 !~ /gene/' /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Exome/Exome_elongated_with_gene_features.gff > /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Exome/Exome_elongated.gff;
+[Tue Mar 26 18:46:38 2024]
+Finished job 8.
+2 of 14 steps (14%) done
+Select jobs to execute...
+
+[Tue Mar 26 18:46:38 2024]
+rule index_Exome_HISAT2:
+    input: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Exome/Exome_elongated.nfasta
+    output: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Mapping/Exome/Hisat2/Index/index_hisat2.1.ht2, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Mapping/Exome/Hisat2/Index/index_hisat2.2.ht2, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Mapping/Exome/Hisat2/Index/index_hisat2.3.ht2, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Mapping/Exome/Hisat2/Index/index_hisat2.4.ht2, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Mapping/Exome/Hisat2/Index/index_hisat2.5.ht2, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Mapping/Exome/Hisat2/Index/index_hisat2.6.ht2, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Mapping/Exome/Hisat2/Index/index_hisat2.7.ht2, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Mapping/Exome/Hisat2/Index/index_hisat2.8.ht2
+    log: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Mapping/Exome/Hisat2/Index/Exome_index.log
+    jobid: 10
+    benchmark: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Benchmarks/Mapping/Exome/Hisat2/Index/Exome_index.benchmark.txt
+    reason: Missing output files: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Mapping/Exome/Hisat2/Index/index_hisat2.8.ht2, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Mapping/Exome/Hisat2/Index/index_hisat2.3.ht2, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Mapping/Exome/Hisat2/Index/index_hisat2.5.ht2, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Mapping/Exome/Hisat2/Index/index_hisat2.2.ht2, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Mapping/Exome/Hisat2/Index/index_hisat2.7.ht2, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Mapping/Exome/Hisat2/Index/index_hisat2.1.ht2, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Mapping/Exome/Hisat2/Index/index_hisat2.4.ht2, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Mapping/Exome/Hisat2/Index/index_hisat2.6.ht2; Input files updated by another job: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Exome/Exome_elongated.nfasta
+    resources: tmpdir=/var/tmp/pbs.951401.pbsserver
+
+hisat2-build --threads 1 /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Exome/Exome_elongated.nfasta /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Mapping/Exome/Hisat2/Index/index_hisat2 &> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Mapping/Exome/Hisat2/Index/Exome_index.log ;
+[Tue Mar 26 18:46:50 2024]
+Finished job 10.
+3 of 14 steps (21%) done
+Select jobs to execute...
+
+[Tue Mar 26 18:46:50 2024]
+rule find_adapter_sequence:
+    input: /data/work/I2BC/fadwa.elkhaddar/BIM/fastq/SRR1562874.fastq.gz
+    output: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Trimming/Adapters/SRR1562874/SRR1562874.txt
+    log: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Trimming/Adapters/SRR1562874.rscript.log, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Trimming/Adapters/SRR1562874.sed.log, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Trimming/Adapters/SRR1562874.echo.log, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Trimming/Adapters/SRR1562874.touch.log
+    jobid: 5
+    reason: Missing output files: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Trimming/Adapters/SRR1562874/SRR1562874.txt
+    wildcards: sample=SRR1562874
+    resources: tmpdir=/var/tmp/pbs.951401.pbsserver
+
+touch /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Trimming/Adapters/SRR1562874/SRR1562874.txt 2> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Trimming/Adapters/SRR1562874.touch.log;if [ -z  ]; then Rscript /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Rscripts/find_adapter_sequence.R /data/work/I2BC/fadwa.elkhaddar/BIM/fastq/SRR1562874.fastq.gz  /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Trimming/Adapters/SRR1562874 2> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Trimming/Adapters/SRR1562874.rscript.log ;elif [ '0' = 'no' ]; then echo  1> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Trimming/Adapters/SRR1562874/SRR1562874.txt 2> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Trimming/Adapters/SRR1562874.echo.log;fi;
+Terminating processes on user request, this might take some time.
+[Tue Mar 26 18:48:24 2024]
+Error in rule find_adapter_sequence:
+    jobid: 5
+    output: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Trimming/Adapters/SRR1562874/SRR1562874.txt
+    log: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Trimming/Adapters/SRR1562874.rscript.log, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Trimming/Adapters/SRR1562874.sed.log, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Trimming/Adapters/SRR1562874.echo.log, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Trimming/Adapters/SRR1562874.touch.log (check log file(s) for error message)
+    shell:
+        touch /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Trimming/Adapters/SRR1562874/SRR1562874.txt 2> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Trimming/Adapters/SRR1562874.touch.log;if [ -z  ]; then Rscript /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Rscripts/find_adapter_sequence.R /data/work/I2BC/fadwa.elkhaddar/BIM/fastq/SRR1562874.fastq.gz  /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Trimming/Adapters/SRR1562874 2> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Trimming/Adapters/SRR1562874.rscript.log ;elif [ '0' = 'no' ]; then echo  1> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Trimming/Adapters/SRR1562874/SRR1562874.txt 2> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Trimming/Adapters/SRR1562874.echo.log;fi;
+        (one of the commands exited with non-zero exit code; note that snakemake uses bash strict mode!)
+
+Complete log: .snakemake/log/2024-03-26T184539.557614.snakemake.log

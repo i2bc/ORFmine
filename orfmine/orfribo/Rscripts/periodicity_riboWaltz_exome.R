@@ -219,26 +219,46 @@ psite_ribowaltz <- function(data, flanking = 6, start = TRUE, extremity = "auto"
 
 
 
-result = tryCatch({
+#result = tryCatch({
 
-# setwd("/workdir/")
-  
-# Path to working directory
-# local_path <- "/workdir/orfribo/"
+#args <- commandArgs(trailingOnly=TRUE)
+
+#config <- args[1]
+#gtf_file <- args[2]
+#bam_folder <- args[3]
+#outdir <- args[4] 
+
+#dir.create(file.path(outdir), showWarnings=F, recursive=TRUE)
+
 
 # Read config file
-# params <- scan(file = paste0("/workdir/config.yaml"),
-#                what = "character",
-#                sep = ":"
-# )
-args <- commandArgs(trailingOnly=TRUE)
-
-gtf_file <- args[1]
-bam_folder <- args[2]
-outdir <- args[3]
-
-dir.create(file.path(outdir), showWarnings=F, recursive=TRUE)
-
+#params <- scan(file = file.path(config),
+#               what = "character",
+#               sep = ":"
+#)
+result = tryCatch({
+  
+  args <- commandArgs(trailingOnly=TRUE)
+  
+  config <- args[1]
+  gtf_file <- args[2]
+  bam_folder <- args[3]
+  outdir <- args[4]
+  
+  dir.create(file.path(outdir), showWarnings=F, recursive=TRUE)
+  
+  # Read config file
+  lines <- readLines(config)
+  params <- list()
+  for (line in lines) {
+    parts <- strsplit(line, ":")[[1]]
+    if (length(parts) == 2) {
+      key <- trimws(parts[1])
+      value <- trimws(parts[2])
+      params[[key]] <- value
+    }
+  }
+  
 
 # Creates annotation table by transcript names
 annotation_db <- riboWaltz::create_annotation(gtf_file)
@@ -249,7 +269,7 @@ rm(list=c("annotation_db","annotation_db_transcript_with_cds0l"))
 gc()
 
 # Bam files to be computed
-# bam_folder <- paste0(local_path, "RESULTS/ORFribo/BAM_exome/")
+
 bam_list <- list.files(bam_folder, pattern = "\\.bam$")
 
 samples <- str_replace(bam_list, ".[0-9]{1,3}-[0-9]{1,3}.bam", "")
@@ -261,7 +281,7 @@ reads_list <- riboWaltz::bamtolist(bamfolder = bam_folder, annotation = annotati
 
 
 # p-site calculation
-# source(paste0("/ORFmine/orfribo/RiboDoc_BAM2Reads/tools/ribowaltz_psite_with_NA_control.R"))
+#source(paste0(working_directory,"/Workflow/scripts/ribowaltz_psite_with_NA_control.R"))
 psite_offset <- psite_ribowaltz(reads_list,
                                 flanking = 6,
                                 start = TRUE,
@@ -278,5 +298,6 @@ psite_offset <- psite_ribowaltz(reads_list,
 reads_psite_list <- riboWaltz::psite_info(reads_list, psite_offset)
 
 write.table(psite_offset, file.path(outdir, "psite_offset.csv"), quote = F, row.names = F, sep ="\t")
+
 
 })

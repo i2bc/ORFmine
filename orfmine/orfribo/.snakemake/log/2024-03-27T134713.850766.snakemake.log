@@ -1,0 +1,5 @@
+Config file /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/config.yaml is extended by additional config specified via the command line.
+TypeErrorin line 27 of /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/rules/04_filter_outRNA.smk:
+unsupported operand type(s) for +: 'PosixPath' and 'str'
+  File "/data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Snakefile", line 105, in <module>
+  File "/data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/rules/04_filter_outRNA.smk", line 27, in <module>

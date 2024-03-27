@@ -1,0 +1,31 @@
+Config file /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/config.yaml is extended by additional config specified via the command line.
+Building DAG of jobs...
+MissingInputException in rule all in line 136 of /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Snakefile:
+Missing input files for rule all:
+    affected files:
+        orfribo_20240325-124053/DATA_PROCESSING/Selected_length/SRR1562874/Selected_length.txt
+        orfribo_20240325-124053/DATA_PROCESSING/Bam2Reads_Exome/SRR1562874/SRR1562874_25/Exome_25_reads.tab
+        orfribo_20240325-124053/DATA_PROCESSING/Bam2Reads_Exome/SRR1562874/SRR1562874_28/Exome_28_reads.stats
+        orfribo_20240325-124053/DATA_PROCESSING/Bam2Reads_Exome/SRR1562874/SRR1562874_34/Exome_34_reads.tab
+        orfribo_20240325-124053/DATA_PROCESSING/Bam2Reads_Exome/SRR1562874/SRR1562874_32/Exome_32_reads.tab
+        orfribo_20240325-124053/DATA_PROCESSING/Bam2Reads_Exome/SRR1562874/SRR1562874_31/Exome_31_reads.tab
+        orfribo_20240325-124053/DATA_PROCESSING/Bam2Reads_Exome/SRR1562874/SRR1562874_30/Exome_30_reads.stats
+        orfribo_20240325-124053/DATA_PROCESSING/Bam2Reads_Exome/SRR1562874/SRR1562874_26/Exome_26_reads.stats
+        orfribo_20240325-124053/DATA_PROCESSING/Bam2Reads_Exome/SRR1562874/SRR1562874_26/Exome_26_reads.tab
+        orfribo_20240325-124053/DATA_PROCESSING/Bam2Reads_Exome/SRR1562874/SRR1562874_35/Exome_35_reads.stats
+        orfribo_20240325-124053/DATA_PROCESSING/Bam2Reads_Exome/SRR1562874/SRR1562874_35/Exome_35_reads.tab
+        orfribo_20240325-124053/RESULTS/Orfium/all_samples_Orfium.25-35.mean70_median70_reads_concatenated.tab
+        orfribo_20240325-124053/DATA_PROCESSING/Bam2Reads_Exome/SRR1562874/SRR1562874_33/Exome_33_reads.stats
+        orfribo_20240325-124053/DATA_PROCESSING/Bam2Reads_Exome/SRR1562874/SRR1562874_31/Exome_31_reads.stats
+        orfribo_20240325-124053/DATA_PROCESSING/Bam2Reads_Exome/SRR1562874/SRR1562874_27/Exome_27_reads.tab
+        orfribo_20240325-124053/DATA_PROCESSING/Bam2Reads_Exome/SRR1562874/SRR1562874_33/Exome_33_reads.tab
+        orfribo_20240325-124053/DATA_PROCESSING/Bam2Reads_Exome/SRR1562874/SRR1562874_34/Exome_34_reads.stats
+        orfribo_20240325-124053/DATA_PROCESSING/RiboWaltz/SRR1562874/psite_offset.csv
+        orfribo_20240325-124053/DATA_PROCESSING/Bam2Reads_Exome/SRR1562874/SRR1562874_29/Exome_29_reads.tab
+        orfribo_20240325-124053/DATA_PROCESSING/Quality_control/SRR1562874/SRR1562874_fastqc.html
+        orfribo_20240325-124053/DATA_PROCESSING/Bam2Reads_Exome/SRR1562874/SRR1562874_30/Exome_30_reads.tab
+        orfribo_20240325-124053/DATA_PROCESSING/Bam2Reads_Exome/SRR1562874/SRR1562874_27/Exome_27_reads.stats
+        orfribo_20240325-124053/DATA_PROCESSING/Bam2Reads_Exome/SRR1562874/SRR1562874_32/Exome_32_reads.stats
+        orfribo_20240325-124053/DATA_PROCESSING/Bam2Reads_Exome/SRR1562874/SRR1562874_28/Exome_28_reads.tab
+        orfribo_20240325-124053/DATA_PROCESSING/Bam2Reads_Exome/SRR1562874/SRR1562874_25/Exome_25_reads.stats
+        orfribo_20240325-124053/DATA_PROCESSING/Bam2Reads_Exome/SRR1562874/SRR1562874_29/Exome_29_reads.stats

@@ -1,0 +1,4 @@
+TypeErrorin line 6 of /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/rules/06_mapping_genome_without_filter_outRNA.smk:
+'extb' is an invalid keyword argument for str()
+  File "/data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Snakefile", line 111, in <module>
+  File "/data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/rules/06_mapping_genome_without_filter_outRNA.smk", line 6, in <module>

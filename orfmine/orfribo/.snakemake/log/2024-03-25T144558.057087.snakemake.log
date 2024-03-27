@@ -1,0 +1,7 @@
+Config file /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/config.yaml is extended by additional config specified via the command line.
+Building DAG of jobs...
+MissingInputException in rule all in line 142 of /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Snakefile:
+Missing input files for rule all:
+    affected files:
+        orfribo_20240325-144558/DATA_PROCESSING/RiboWaltz/SRR1562874/psite_offset.csv
+        orfribo_20240325-144558/DATA_PROCESSING/Mapping/Exome/Bowtie2/Results/SRR1562874/SRR1562874.sam

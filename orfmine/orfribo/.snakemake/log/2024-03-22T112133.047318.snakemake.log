@@ -1,0 +1,51 @@
+Config file /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/config.yaml is extended by additional config specified via the command line.
+Building DAG of jobs...
+Using shell: /usr/bin/bash
+Provided cores: 1 (use --cores to define parallelism)
+Rules claiming more threads will be scaled down.
+Provided resources: mem_mb=2000000
+Job stats:
+job                       count    min threads    max threads
+----------------------  -------  -------------  -------------
+Exome_construction_gtf        1              1              1
+ORFget                        1              1              1
+all                           1              1              1
+make_fastqc                   2              1              1
+name_CDS                      1              1              1
+riboWaltz_Exome               2              1              1
+total                         8              1              1
+
+mkdir -p orfribo_20240322-112133/logs
+echo 'RiboDoc version : 0.8.7' > orfribo_20240322-112133/SUPPLEMENTARY_DATA/Logs/RiboDoc_package_versions.txt
+Select jobs to execute...
+
+[Fri Mar 22 11:21:34 2024]
+rule make_fastqc:
+    input: /data/work/I2BC/fadwa.elkhaddar/BIM/fastq/SRR1562874.fastq.gz
+    output: orfribo_20240322-112133/DATA_PROCESSING/Quality_control/SRR1562874/SRR1562874_fastqc.zip, orfribo_20240322-112133/DATA_PROCESSING/Quality_control/SRR1562874/SRR1562874_fastqc.html
+    log: orfribo_20240322-112133/SUPPLEMENTARY_DATA/Logs/Quality_control/SRR1562874.log
+    jobid: 1
+    benchmark: orfribo_20240322-112133/SUPPLEMENTARY_DATA/Benchmarks/Quality_control/SRR1562874_benchmark.txt
+    reason: Missing output files: orfribo_20240322-112133/DATA_PROCESSING/Quality_control/SRR1562874/SRR1562874_fastqc.html
+    wildcards: sample=SRR1562874
+    resources: tmpdir=/tmp
+
+
+	 fastqc /data/work/I2BC/fadwa.elkhaddar/BIM/fastq/SRR1562874.fastq.gz --outdir orfribo_20240322-112133/DATA_PROCESSING/Quality_control/SRR1562874 2> orfribo_20240322-112133/SUPPLEMENTARY_DATA/Logs/Quality_control/SRR1562874.log 
+	
+[Fri Mar 22 11:23:00 2024]
+Finished job 1.
+1 of 8 steps (12%) done
+Select jobs to execute...
+
+[Fri Mar 22 11:23:00 2024]
+rule name_CDS:
+    input: /data/work/I2BC/fadwa.elkhaddar/BIM/orfmine_tutorial/ORFmine/examples/database/Scer.gff
+    output: orfribo_20240322-112133/DATA_PROCESSING/Edited_Gff/Named.CDS_Scer.gff
+    jobid: 6
+    reason: Missing output files: orfribo_20240322-112133/DATA_PROCESSING/Edited_Gff/Named.CDS_Scer.gff
+    resources: tmpdir=/tmp
+
+Shutting down, this might take some time.
+Exiting because a job execution failed. Look above for error message
+Complete log: .snakemake/log/2024-03-22T112133.047318.snakemake.log

@@ -1,0 +1,4 @@
+Config file /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/config.yaml is extended by additional config specified via the command line.
+SyntaxErrorin line 4 of /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/rules/12_Bam2Reads_Exome.smk:
+EOF in multi-line statement (12_Bam2Reads_Exome.smk, line 4)
+  File "/data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Snakefile", line 114, in <module>

@@ -1,7 +1,5 @@
 library(stringr)
 
-# Specify the path to the working directory
-# local_path <- "/workdir/orfribo/"
 
 # For file size loaded (entire fastq usually too big for R)
 ibs <- 8192
@@ -76,10 +74,9 @@ for(Ligne in 1 : lines_check)
     if(Ligne > (lines_check * 0.5) & (max(df$Freq)/Ligne) > fraction_threshold)
     {
       print(paste0("Adapter sequence found for fastq '", basename(fastq), "' : ", Pattern2))
-      write(Pattern2, paste0(outpath, sample, ".txt"), append = TRUE)
+      output_file <- file.path(outpath, paste0(sample, ".txt"))
+      write(Pattern2, output_file, append = TRUE)
       break
-    } else {
-      print(paste0("No adapter sequence found for fastq '", basename(fastq), "' : ", Pattern2))
-    }
+    } 
   }
 }

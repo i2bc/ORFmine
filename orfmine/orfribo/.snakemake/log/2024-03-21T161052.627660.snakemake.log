@@ -1,0 +1,3 @@
+SyntaxErrorin line 6 of /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/rules/15_bam2reads_orfeum.smk:
+invalid syntax. Perhaps you forgot a comma?
+  File "/data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Snakefile", line 120, in <module>

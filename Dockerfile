@@ -114,6 +114,15 @@ RUN pip3 install -e .
 # RUN chown -R orfuser:orfuser ./
 
 
+# Install STAR
+RUN wget --no-check-certificate -qO- https://github.com/alexdobin/STAR/archive/2.7.11b.tar.gz | tar xvz && \
+    cd STAR-2.7.11b/source && \
+    make && \
+    cp STAR /usr/local/bin && \
+    cd ../../ && \
+    rm -rf STAR-2.7.11b
+
+
 # create /inputs and /outputs directries with relevant user permissions
 RUN mkdir /input /output && \
     chown orfuser:orfuser /input && \ 

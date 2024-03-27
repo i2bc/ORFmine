@@ -1,0 +1,3 @@
+SyntaxErrorin line 12 of /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/rules/11_ribowaltz.smk:
+invalid syntax
+  File "/data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Snakefile", line 116, in <module>
