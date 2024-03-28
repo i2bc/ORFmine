@@ -1,0 +1,53 @@
+Config file /data/work/I2BC/fadwa.elkhaddar/BIM/TEST/ORFmine/orfmine/orfribo/config.yaml is extended by additional config specified via the command line.
+Building DAG of jobs...
+Using shell: /usr/bin/bash
+Provided cores: 1 (use --cores to define parallelism)
+Rules claiming more threads will be scaled down.
+Provided resources: mem_mb=2000000
+Job stats:
+job                                count    min threads    max threads
+-------------------------------  -------  -------------  -------------
+Bam2Reads_exome                       11              1              1
+Bam2Reads_genome                      11              1              1
+ORFget                                 1              1              1
+ORFstats                              11              1              1
+adapt_trimming                         1              1              1
+all                                    1              1              1
+bowtie2_build                          1              1              1
+bowtie2_build_exome                    1              1              1
+bowtie2_build_outRNA                   1              1              1
+bowtie2_run_outRNA                     1              1              1
+concatenate_all_tables                 1              1              1
+concatenate_count_tables_genome        1              1              1
+exome_construction_gtf                 1              1              1
+find_adapter_sequence                  1              1              1
+hisat2_build                           1              1              1
+hisat2_build_exome                     1              1              1
+index_bam                              1              1              1
+index_bam_exome                        1              1              1
+make_fastqc                            1              1              1
+name_CDS                               1              1              1
+riboWaltz_exome                        1              1              1
+run_mapping                            1              1              1
+run_mapping_exome                      1              1              1
+samtools_filter                        1              1              1
+samtools_filter_exome                  1              1              1
+select_read_lengths                    1              1              1
+stats_report                           1              1              1
+total                                 57              1              1
+
+mkdir -p orfribo_20240328-151848/logs
+echo 'RiboDoc version : 0.8.7' > orfribo_20240328-151848/logs/RiboDoc_package_versions.txt
+Select jobs to execute...
+
+[Thu Mar 28 15:18:55 2024]
+rule name_CDS:
+    input: /data/work/I2BC/fadwa.elkhaddar/BIM/orfmine_tutorial/ORFmine/examples/database/Scer.gff
+    output: orfribo_20240328-151848/RESULTS/annex_database/NamedCDS_Scer.gff
+    jobid: 18
+    reason: Missing output files: orfribo_20240328-151848/RESULTS/annex_database/NamedCDS_Scer.gff
+    resources: tmpdir=/tmp
+
+Shutting down, this might take some time.
+Exiting because a job execution failed. Look above for error message
+Complete log: .snakemake/log/2024-03-28T151848.582268.snakemake.log
