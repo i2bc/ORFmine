@@ -40,15 +40,15 @@ gff_attribute: "Name"
 
 
 # Minimum mean of in-frame reads in coding region to select specific read lengths
-mean_threshold: 70
-median_threshold: 70
+mean_threshold: ""
+median_threshold: "42.30"
 
 # List of features to look for in the intergenic gff of the genome
 intergenic_features: "nc_intergenic"
 
 
 #Number of multiple alignement (10 by default)
-multi_mapping: 10 
+multi_mapping : 10 
 
 # Maximum allowed RAM to use (Mb)
 ram: 2000

@@ -45,7 +45,8 @@ if config.get('rna_to_exclude'):
                fastq_hisat2 = str( DATA_PROCESSING_PATH / "Exome_Fastq" / "{sample}" / "{sample}_Unmapped.fastq.gz")
             params:
                index_names_bowtie2 =str(DATA_PROCESSING_PATH/ "Mapping"/ "Exome" / "Bowtie2" / "Index" / "index_bowtie2"),
-               index_names_hisat2 = str( DATA_PROCESSING_PATH / "Mapping" / "Exome" / "Hisat2" / "Index" / "index_hisat2")
+               index_names_hisat2 = str( DATA_PROCESSING_PATH / "Mapping" / "Exome" / "Hisat2" / "Index" / "index_hisat2"),
+               multi_map = MULTIMAPPING
             threads: 
                THREADS_NB
             log:
@@ -54,8 +55,8 @@ if config.get('rna_to_exclude'):
             benchmark:
                str(BENCHMARKS_PATH / "Mapping" / "Exome" / "Hisat2"/ "{sample}_HISAT_Bowtie2_Mapping_Orfeum.benchmark.txt")
             shell:
-               "hisat2 -x {params.index_names_hisat2} --threads {threads} -U {input.fastq} --un-gz {output.fastq_hisat2} -S {output.sam_hisat2} 2>> {log.hisat2_out};"
-               "bowtie2 -x {params.index_names_bowtie2} --threads {threads} -U {output.fastq_hisat2} -S {output.sam_bowtie2} 2>> {log.bowtie2_out};" 
+               "hisat2 -x {params.index_names_hisat2} --threads {threads} -k {params.multi_mapp}  -U {input.fastq} --un-gz {output.fastq_hisat2} -S {output.sam_hisat2} 2>> {log.hisat2_out};"
+               "bowtie2 -x {params.index_names_bowtie2} --threads {threads} -k {params.multi_mapp} -U {output.fastq_hisat2} -S {output.sam_bowtie2} 2>> {log.bowtie2_out};" 
 
 else: 
 	rule Mapping_Exome_STAR_Bowtie2:
@@ -69,7 +70,8 @@ else:
                fastq_hisat2 = str( DATA_PROCESSING_PATH / "Exome_Fastq" / "{sample}" / "{sample}_Unmapped.fastq.gz")
             params:
                index_names_bowtie2 =str(DATA_PROCESSING_PATH/ "Mapping"/ "Exome" / "Bowtie2" / "Index" / "index_bowtie2"),
-               index_names_hisat2 = str( DATA_PROCESSING_PATH / "Mapping" / "Exome" / "Hisat2" / "Index" / "index_hisat2")
+               index_names_hisat2 = str( DATA_PROCESSING_PATH / "Mapping" / "Exome" / "Hisat2" / "Index" / "index_hisat2"),
+               multi_map = MULTIMAPPING
             threads:
                THREADS_NB
             log:
@@ -78,6 +80,6 @@ else:
             benchmark:
                str(BENCHMARKS_PATH / "Mapping" / "Exome" / "Hisat2"/ "{sample}_HISAT_Bowtie2_Mapping_Orfeum.benchmark.txt")
             shell:
-               "hisat2 -x {params.index_names_hisat2} --threads {threads} -U {input.fastq} --un-gz {output.fastq_hisat2} -S {output.sam_hisat2} 2>> {log.hisat2_out};"
-               "bowtie2 -x {params.index_names_bowtie2} --threads {threads} -U {output.fastq_hisat2} -S {output.sam_bowtie2} 2>> {log.bowtie2_out};"
+               "hisat2 -x {params.index_names_hisat2} --threads {threads}   -k {params.multi_mapp} -U {input.fastq} --un-gz {output.fastq_hisat2} -S {output.sam_hisat2} 2>> {log.hisat2_out};"
+               "bowtie2 -x {params.index_names_bowtie2} --threads {threads}  -k {params.multi_mapp} -U {output.fastq_hisat2} -S {output.sam_bowtie2} 2>> {log.bowtie2_out};"
 

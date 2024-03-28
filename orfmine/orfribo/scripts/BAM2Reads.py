@@ -11,7 +11,7 @@ from datetime import datetime
 import re
 
 from orfmine.orfribo.lib.loaders import Gff
-
+import orfmine.orfribo.lib.biobjects 
 
 def get_args():
     """

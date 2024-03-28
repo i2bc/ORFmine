@@ -2,9 +2,9 @@
 rule ORFstats:
     input:
         psite_table = str(DATA_PROCESSING_PATH / "RiboWaltz" / "{sample}" / "psite_offset.csv"),
-        reads = str(DATA_PROCESSING_PATH / "Bam2Reads_Exome" / "{sample}"/ ("{sample}_{length}/Exome" + FRAG_LENGTH_L + "_reads.tab"))
+        reads = str(DATA_PROCESSING_PATH / "Bam2Reads_Exome" / "{sample}"/ ("{sample}_{length}/Exome_{length}_reads.tab"))
     output:
-        stats = str(DATA_PROCESSING_PATH / "Bam2Reads_Exome" / "{sample}" / "{sample}_{length}" / ("Exome" + FRAG_LENGTH_L + "_reads.stats"))
+        stats = str(DATA_PROCESSING_PATH / "Bam2Reads_Exome" / "{sample}" / "{sample}_{length}" / ("Exome_{length}_reads.stats"))
     log:
         orfstats = str(LOGS_PATH / "ORFstat" / "{sample}.{length}.orfstats.log")
     benchmark:

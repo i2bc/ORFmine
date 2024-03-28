@@ -68,7 +68,7 @@ GFF_ELEMENT_TO_COUNT = config['gff_feature']
 ARE_ADAPTERS_TRIMMED = "1" if config['trimmed'] else "0"
 SEQUENCE_ADAPTER = config['adapter']
 FEATURES_TO_COUNT = ' '.join(config['intergenic_features'])
-MULTI_MAPPING = config["multi_mapping"]
+MULTIMAPPING = config["multi_mapping"]
 
 # Wildcards definition 
 
@@ -98,23 +98,23 @@ def is_name_in_gff():
         
 
 
-include: "rules/01_quality_control.smk"
-include: "rules/02_gff_name_editing.smk"
-include: "rules/03_find_adapter_trimming.smk"
-if config.get('rna_to_exclude'):
-	include: "rules/04_filter_outRNA.smk"
-	include: "rules/05_mapping_genome_filter_outRNA.smk"
-else:
-	include: "rules/06_mapping_genome_without_filter_outRNA.smk"
-include: "rules/07_samtools_genome.smk"
-include: "rules/08_Exome_construction.smk"
-include: "rules/09_mapping_exome.smk"
-include: "rules/10_samtools_exome.smk"
-include: "rules/11_ribowaltz.smk"
-include: "rules/12_Bam2Reads_Exome.smk"
-include: "rules/13_ORFstat.smk"
-#include: "rules/14_Selected_length.smk"
-#include: "rules/15_bam2reads_orfeum.smk"
+#include: "rules/01_quality_control.smk"
+#include: "rules/02_gff_name_editing.smk"
+#include: "rules/03_find_adapter_trimming.smk"
+#if config.get('rna_to_exclude'):
+#	include: "rules/04_filter_outRNA.smk"
+#	include: "rules/05_mapping_genome_filter_outRNA.smk"
+#else:
+#	include: "rules/06_mapping_genome_without_filter_outRNA.smk"
+#include: "rules/07_samtools_genome.smk"
+#include: "rules/08_Exome_construction.smk"
+#include: "rules/09_mapping_exome.smk"
+#include: "rules/10_samtools_exome.smk"
+#include: "rules/11_ribowaltz.smk"
+#include: "rules/12_Bam2Reads_Exome.smk"
+#include: "rules/13_ORFstat.smk"
+include: "rules/14_Selected_length.smk"
+include: "rules/15_bam2reads_orfeum.smk"
 #include: "rules/16_concatenate.smk"
 
 
@@ -122,19 +122,20 @@ include: "rules/13_ORFstat.smk"
 if config.get('rna_to_exclude'):   
     rule all:
         input:
-            expand(str(DATA_PROCESSING_PATH / "Quality_control" / "{sample}" / "{sample}_fastqc.html"), sample=SAMPLES),
-            str(DATA_PROCESSING_PATH / "Edited_Gff" / ("Named.CDS_" + Path(str(GFF_PATH)).name)),
-            expand(str(DATA_PROCESSING_PATH / "Trimming" / "Trimmed_fastq" / "{sample}" / ("{sample}.cutadapt" + FRAG_LENGTH_L + ".fastq.gz")), sample=SAMPLES),
-            expand(str(DATA_PROCESSING_PATH / "Mapping"/ "Orfium"/ "Bowtie2" / "Results" / "{sample}" / "{sample}.sam"), sample=SAMPLES),
-            expand(expand(str(RESULTS_PATH / "BAM" / "Orfium" / "{sample}" / "{sample}.bam.bai"), sample=SAMPLES)),
-            str(DATA_PROCESSING_PATH / "Exome" / f"Exome_elongated.nfasta"),
-            expand(str( DATA_PROCESSING_PATH / "Exome_Fastq" / "{sample}" / "{sample}_Unmapped.fastq.gz"), sample=SAMPLES),
-            expand(str( DATA_PROCESSING_PATH / "Mapping" / "Exome" / "Bowtie2" / "Results" / "{sample}" / "{sample}.sam"), sample=SAMPLES),
-            expand(expand(str(RESULTS_PATH / "BAM" / "Exome" / "{sample}" / "{sample}.bam.bai"), sample=SAMPLES)),
-            expand(str(DATA_PROCESSING_PATH / "RiboWaltz" / "{sample}" / "psite_offset.csv"), sample=SAMPLES),
-            expand(str(DATA_PROCESSING_PATH / "Bam2Reads_Exome" / "{sample}"/ ("{sample}_{length}/Exome" + FRAG_LENGTH_L + "_reads.tab")), sample=SAMPLES, length=LENGTHS),
-            expand(str(DATA_PROCESSING_PATH / "Bam2Reads_Exome" / "{sample}" / "{sample}_{length}" / ("Exome" + FRAG_LENGTH_L + "_reads.stats")), sample=SAMPLES, length=LENGTHS)           
-
+#           expand(str(DATA_PROCESSING_PATH / "Quality_control" / "{sample}" / "{sample}_fastqc.html"), sample=SAMPLES),
+#            str(DATA_PROCESSING_PATH / "Edited_Gff" / ("Named.CDS_" + Path(str(GFF_PATH)).name)),
+#            expand(str(DATA_PROCESSING_PATH / "Trimming" / "Trimmed_fastq" / "{sample}" / ("{sample}.cutadapt" + FRAG_LENGTH_L + ".fastq.gz")), sample=SAMPLES),
+#            expand(str(DATA_PROCESSING_PATH / "Mapping"/ "Orfium"/ "Bowtie2" / "Results" / "{sample}" / "{sample}.sam"), sample=SAMPLES),
+#            expand(expand(str(RESULTS_PATH / "BAM" / "Orfium" / "{sample}" / "{sample}.bam.bai"), sample=SAMPLES)),
+#            str(DATA_PROCESSING_PATH / "Exome" / f"Exome_elongated.nfasta"),
+#            expand(str( DATA_PROCESSING_PATH / "Exome_Fastq" / "{sample}" / "{sample}_Unmapped.fastq.gz"), sample=SAMPLES),
+#            expand(str( DATA_PROCESSING_PATH / "Mapping" / "Exome" / "Bowtie2" / "Results" / "{sample}" / "{sample}.sam"), sample=SAMPLES),
+#            expand(expand(str(RESULTS_PATH / "BAM" / "Exome" / "{sample}" / "{sample}.bam.bai"), sample=SAMPLES)),
+#           expand(str(DATA_PROCESSING_PATH / "RiboWaltz" / "{sample}" / "psite_offset.csv"), sample=SAMPLES),
+#            expand(str(DATA_PROCESSING_PATH / "Bam2Reads_Exome" / "{sample}"/ ("{sample}_{length}/Exome_{length}_reads.tab")), sample=SAMPLES, length=LENGTHS),
+#            expand(str(DATA_PROCESSING_PATH / "Bam2Reads_Exome" / "{sample}" / "{sample}_{length}" / ("Exome_{length}_reads.stats")), sample=SAMPLES, length=LENGTHS),           
+            expand(str(DATA_PROCESSING_PATH / "Selected_length" / "{sample}" / "Selected_length.txt"), sample=SAMPLES),
+            expand(str(DATA_PROCESSING_PATH / "Bam2Reads_Orfium" / "{sample}"/ ("{sample}_{length}/Orfium_{length}_reads.tab")), sample=SAMPLES, length=LENGTHS)
 if not config.get('rna_to_exclude'):
     rule all:
         input:

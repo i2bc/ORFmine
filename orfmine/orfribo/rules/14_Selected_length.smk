@@ -10,15 +10,15 @@ rule select_read_lengths:
     shell:
         """
                 if [ -n "{params.mean}" ]; then
-                    selected_length.py --dir {params.orfstats_dir} --mean --threshold {params.mean} --output {output.table}
+                    selected_length --dir {params.orfstats_dir} --mean --threshold {params.mean} --output {output.table}
                 fi
 
                 if [ -n "{params.median}" ]; then
-                    selected_length.py --dir {params.orfstats_dir}  --median --threshold {params.median} --output {output.table}
+                    selected_length --dir {params.orfstats_dir}  --median --threshold {params.median} --output {output.table}
                 fi
 
                 if [ -n "{params.median}" ] && [ -n "{params.mean}" ]; then
-                    selected_length.py --dir {params.orfstats_dir}  --both --threshold {params.mean} --output {output.table}
+                    selected_length --dir {params.orfstats_dir}  --both --threshold {params.mean} --output {output.table}
                 fi
 
         """

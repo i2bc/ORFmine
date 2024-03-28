@@ -30,9 +30,9 @@ def main():
 
     def reading_file(files):
         for filename in files:
-            df = pd.read_csv(filename, sep="\s+", header=0)
-            num = re.search(r"Exome_(\d+)_reads\.stats", filename).group(1)
-            yield df, num
+           df = pd.read_csv(filename, sep="\s+", header=0)
+           num = re.search(r"Exome_(\d+)_reads\.stats", filename).group(1)
+           yield df, num
 
     def extract_max_mean(files, threshold):
         max_mean = 0

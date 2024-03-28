@@ -7,7 +7,7 @@ rule Bam2Reads_Exome:
       bai = str(RESULTS_PATH / "BAM" / "Exome" / "{sample}" / "{sample}.bam.bai"),
       psite_table = str(DATA_PROCESSING_PATH / "RiboWaltz" / "{sample}" / "psite_offset.csv") 
    output: 
-      reads = str(DATA_PROCESSING_PATH / "Bam2Reads_Exome" / "{sample}"/ ("{sample}_{length}/Exome" + FRAG_LENGTH_L + "_reads.tab"))
+      reads = str(DATA_PROCESSING_PATH / "Bam2Reads_Exome" / "{sample}"/ ("{sample}_{length}/Exome_{length}_reads.tab"))
    log: 
       bam2read= str(LOGS_PATH / "Bam2Reads_Exome"  / "{sample}.{length}.bam2read.log"),
       offset_grep= str(LOGS_PATH / "Bam2Reads_Exome" / "{sample}.{length}.offset_grep.log")
@@ -15,9 +15,10 @@ rule Bam2Reads_Exome:
         mem_mb = round(MEM_MB / 2)
    params:
         outdir = str(DATA_PROCESSING_PATH / "Bam2Reads_Exome" / "{sample}" / "{sample}_{length} /"),
-        outname = "Exome" + FRAG_LENGTH_L + " -features_include " + GFF_ELEMENT_TO_COUNT,
+        #outname = "Exome_" + "{lenght}" + " -features_include " + GFF_ELEMENT_TO_COUNT,
         sample_name = "{sample}",
-        read_length = "{length}"
+        read_length = "{length}",
+        scripts = "/data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/scripts/BAM2Reads.py"
    log:
         bam2read = str(LOGS_PATH / "Bam2Reads_Exome" / "{sample}.{length}.bam2read.log"),
         offset_grep = str(LOGS_PATH / "Bam2Reads_Exome" / "{sample}.{length}.offset_grep.log")
@@ -27,5 +28,5 @@ rule Bam2Reads_Exome:
         "set +o pipefail ;"
         "offset=$(grep {params.sample_name} {input.psite_table} 2> {log.offset_grep} | grep ^{params.read_length} 2>> {log.offset_grep} | cut -f7 2>> {log.offset_grep}) 2>> {log.offset_grep} ; "
         "if [ $offset = '' ]; then offset=12 ; fi ; "
-        "bam2reads -shift ${{offset}} -kmer {params.read_length} -gff {input.gff} -bam {input.bam} -outpath {params.outdir} -outname {params.outname}" + " 2> {log.bam2read} ; "
+        "python3 {params.scripts} -shift ${{offset}} -kmer {params.read_length} -gff {input.gff} -bam {input.bam} -outpath {params.outdir} -outname Exome_{params.read_length}" + " 2> {log.bam2read} ; "
         
