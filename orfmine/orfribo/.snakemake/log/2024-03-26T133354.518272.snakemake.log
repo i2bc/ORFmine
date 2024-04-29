@@ -1,0 +1,103 @@
+Config file /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/config.yaml is extended by additional config specified via the command line.
+Building DAG of jobs...
+Using shell: /usr/bin/bash
+Provided cores: 1 (use --cores to define parallelism)
+Rules claiming more threads will be scaled down.
+Provided resources: mem_mb=2000000
+Job stats:
+job                       count    min threads    max threads
+----------------------  -------  -------------  -------------
+Exome_construction_gtf        1              1              1
+ORFget                        1              1              1
+all                           1              1              1
+make_fastqc                   1              1              1
+name_CDS                      1              1              1
+riboWaltz_Exome               1              1              1
+total                         6              1              1
+
+mkdir -p orfribo_20240326-133354/logs
+echo 'RiboDoc version : 0.8.7' > orfribo_20240326-133354/SUPPLEMENTARY_DATA/Logs/RiboDoc_package_versions.txt
+Select jobs to execute...
+
+[Tue Mar 26 13:33:55 2024]
+rule make_fastqc:
+    input: /data/work/I2BC/fadwa.elkhaddar/BIM/fastq/SRR1562874.fastq.gz
+    output: orfribo_20240326-133354/DATA_PROCESSING/Quality_control/SRR1562874/SRR1562874_fastqc.zip, orfribo_20240326-133354/DATA_PROCESSING/Quality_control/SRR1562874/SRR1562874_fastqc.html
+    log: orfribo_20240326-133354/SUPPLEMENTARY_DATA/Logs/Quality_control/SRR1562874.log
+    jobid: 1
+    benchmark: orfribo_20240326-133354/SUPPLEMENTARY_DATA/Benchmarks/Quality_control/SRR1562874_benchmark.txt
+    reason: Missing output files: orfribo_20240326-133354/DATA_PROCESSING/Quality_control/SRR1562874/SRR1562874_fastqc.html
+    wildcards: sample=SRR1562874
+    resources: tmpdir=/tmp
+
+
+	 fastqc /data/work/I2BC/fadwa.elkhaddar/BIM/fastq/SRR1562874.fastq.gz --outdir orfribo_20240326-133354/DATA_PROCESSING/Quality_control/SRR1562874 2> orfribo_20240326-133354/SUPPLEMENTARY_DATA/Logs/Quality_control/SRR1562874.log 
+	
+[Tue Mar 26 13:35:24 2024]
+Finished job 1.
+1 of 6 steps (17%) done
+Select jobs to execute...
+
+[Tue Mar 26 13:35:24 2024]
+rule name_CDS:
+    input: /data/work/I2BC/fadwa.elkhaddar/BIM/orfmine_tutorial/ORFmine/examples/database/Scer.gff
+    output: orfribo_20240326-133354/DATA_PROCESSING/Edited_Gff/Named.CDS_Scer.gff
+    jobid: 2
+    reason: Missing output files: orfribo_20240326-133354/DATA_PROCESSING/Edited_Gff/Named.CDS_Scer.gff
+    resources: tmpdir=/tmp
+
+[Tue Mar 26 13:35:26 2024]
+Finished job 2.
+2 of 6 steps (33%) done
+Select jobs to execute...
+
+[Tue Mar 26 13:35:26 2024]
+rule ORFget:
+    input: /data/work/I2BC/fadwa.elkhaddar/BIM/orfmine_tutorial/ORFmine/examples/database/Scer.fna, orfribo_20240326-133354/DATA_PROCESSING/Edited_Gff/Named.CDS_Scer.gff
+    output: orfribo_20240326-133354/DATA_PROCESSING/Exome/Exome_elongated.nfasta, orfribo_20240326-133354/DATA_PROCESSING/Exome/Exome_elongated.gff, orfribo_20240326-133354/DATA_PROCESSING/Exome/Exome_elongated_with_gene_features.gff
+    log: orfribo_20240326-133354/SUPPLEMENTARY_DATA/Logs/Exome/Exome_ORFget.log
+    jobid: 4
+    benchmark: orfribo_20240326-133354/SUPPLEMENTARY_DATA/Benchmarks/Exome/Exome_ORFget.benchmark.txt
+    reason: Missing output files: orfribo_20240326-133354/DATA_PROCESSING/Exome/Exome_elongated.nfasta, orfribo_20240326-133354/DATA_PROCESSING/Exome/Exome_elongated_with_gene_features.gff; Input files updated by another job: orfribo_20240326-133354/DATA_PROCESSING/Edited_Gff/Named.CDS_Scer.gff
+    resources: tmpdir=/tmp
+
+gff2prot --fna /data/work/I2BC/fadwa.elkhaddar/BIM/orfmine_tutorial/ORFmine/examples/database/Scer.fna --gff orfribo_20240326-133354/DATA_PROCESSING/Edited_Gff/Named.CDS_Scer.gff --features CDS --outdir orfribo_20240326-133354/DATA_PROCESSING/Exome --out-basename Exome_elongated --nucleic --elongate 50 --stop-end; mv orfribo_20240326-133354/DATA_PROCESSING/Exome/Exome_elongated.gff orfribo_20240326-133354/DATA_PROCESSING/Exome/Exome_elongated_with_gene_features.gff;awk '$3 !~ /gene/' orfribo_20240326-133354/DATA_PROCESSING/Exome/Exome_elongated_with_gene_features.gff > orfribo_20240326-133354/DATA_PROCESSING/Exome/Exome_elongated.gff;
+[Tue Mar 26 13:36:30 2024]
+Finished job 4.
+3 of 6 steps (50%) done
+Select jobs to execute...
+
+[Tue Mar 26 13:36:30 2024]
+rule Exome_construction_gtf:
+    input: orfribo_20240326-133354/DATA_PROCESSING/Exome/Exome_elongated.nfasta, orfribo_20240326-133354/DATA_PROCESSING/Exome/Exome_elongated_with_gene_features.gff
+    output: orfribo_20240326-133354/DATA_PROCESSING/Exome/Exome_elongated.exons_Scer.fna, orfribo_20240326-133354/DATA_PROCESSING/Exome/Exome_elongated.exons_Scer.gtf
+    log: orfribo_20240326-133354/SUPPLEMENTARY_DATA/Logs/Exome/Exome_samtools_index.log, orfribo_20240326-133354/SUPPLEMENTARY_DATA/Logs/Exome/Exome_gffread.log, orfribo_20240326-133354/SUPPLEMENTARY_DATA/Logs/Exome/Exome_sed.log, orfribo_20240326-133354/SUPPLEMENTARY_DATA/Logs/Exome/Exome_awk.log
+    jobid: 3
+    benchmark: orfribo_20240326-133354/SUPPLEMENTARY_DATA/Benchmarks/Benchmark/Exome/Exome.benchmark.txt
+    reason: Missing output files: orfribo_20240326-133354/DATA_PROCESSING/Exome/Exome_elongated.exons_Scer.gtf, orfribo_20240326-133354/DATA_PROCESSING/Exome/Exome_elongated.exons_Scer.fna; Input files updated by another job: orfribo_20240326-133354/DATA_PROCESSING/Exome/Exome_elongated.nfasta, orfribo_20240326-133354/DATA_PROCESSING/Exome/Exome_elongated_with_gene_features.gff
+    resources: tmpdir=/tmp
+
+samtools faidx orfribo_20240326-133354/DATA_PROCESSING/Exome/Exome_elongated.nfasta 2> orfribo_20240326-133354/SUPPLEMENTARY_DATA/Logs/Exome/Exome_samtools_index.log ;gffread -F -T -w orfribo_20240326-133354/DATA_PROCESSING/Exome/Exome_elongated.exons_Scer.fna -o orfribo_20240326-133354/DATA_PROCESSING/Exome/Exome_elongated.exons_tmp.gtf -g orfribo_20240326-133354/DATA_PROCESSING/Exome/Exome_elongated.nfasta orfribo_20240326-133354/DATA_PROCESSING/Exome/Exome_elongated_with_gene_features.gff 2> orfribo_20240326-133354/SUPPLEMENTARY_DATA/Logs/Exome/Exome_gffread.log ;sed -i 's/description[^\;]*\;//' orfribo_20240326-133354/DATA_PROCESSING/Exome/Exome_elongated.exons_tmp.gtf 2>> orfribo_20240326-133354/SUPPLEMENTARY_DATA/Logs/Exome/Exome_sed.log ;sed -i 's/\t[A-Z]*[_]*gene_segment\t/\ttranscript\t/' orfribo_20240326-133354/DATA_PROCESSING/Exome/Exome_elongated.exons_tmp.gtf 2>> orfribo_20240326-133354/SUPPLEMENTARY_DATA/Logs/Exome/Exome_sed.log ;awk -F '\t' '{if(NF<=9) {print($0);} else {for(field=1;field<9;field++) {printf("%s\t",$field);} for(field=9;field<=NF;field++) {printf("%s ",$field);} printf("\n");}}' orfribo_20240326-133354/DATA_PROCESSING/Exome/Exome_elongated.exons_tmp.gtf > orfribo_20240326-133354/DATA_PROCESSING/Exome/Exome_elongated.exons_Scer.gtf 2>> orfribo_20240326-133354/SUPPLEMENTARY_DATA/Logs/Exome/Exome_awk.log ;rm -f orfribo_20240326-133354/DATA_PROCESSING/Exome/Exome_elongated.exons_tmp.gtf;sed -i 's/\s$//' orfribo_20240326-133354/DATA_PROCESSING/Exome/Exome_elongated.exons_Scer.gtf 2>> orfribo_20240326-133354/SUPPLEMENTARY_DATA/Logs/Exome/Exome_sed.log ;
+[Tue Mar 26 13:36:54 2024]
+Finished job 3.
+4 of 6 steps (67%) done
+Select jobs to execute...
+
+[Tue Mar 26 13:36:54 2024]
+rule riboWaltz_Exome:
+    input: orfribo_20240326-133354/DATA_PROCESSING/Exome/Exome_elongated.exons_Scer.gtf, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/config.yaml
+    output: orfribo_20240326-133354/DATA_PROCESSING/RiboWaltz/SRR1562874/psite_offset.csv
+    jobid: 5
+    reason: Missing output files: orfribo_20240326-133354/DATA_PROCESSING/RiboWaltz/SRR1562874/psite_offset.csv; Input files updated by another job: orfribo_20240326-133354/DATA_PROCESSING/Exome/Exome_elongated.exons_Scer.gtf
+    wildcards: sample=SRR1562874
+    resources: tmpdir=/tmp, mem_mb=2000
+
+RuleException in rule riboWaltz_Exome in line 2 of /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/rules/11_ribowaltz.smk:
+AttributeError: 'Params' object has no attribute 'outdir', when formatting the following:
+
+        touch {output.psite_table};
+        Rscript {periodicity_riboWaltz_exome} {input.Exome_gtf} {params.bam_folder} {params.outdir} 2> {log};
+        rm -f {OUT_BASE_PATH}/Rplots.pdf;
+        mkdir -p {params.psite_dir};
+        cp {output.psite_table} {params.psite_dir}
+        

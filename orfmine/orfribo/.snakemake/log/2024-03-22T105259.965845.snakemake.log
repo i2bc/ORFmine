@@ -1,0 +1,66 @@
+Config file /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/config.yaml is extended by additional config specified via the command line.
+Building DAG of jobs...
+Using shell: /usr/bin/bash
+Provided cores: 1 (use --cores to define parallelism)
+Rules claiming more threads will be scaled down.
+Provided resources: mem_mb=2000000
+Job stats:
+job            count    min threads    max threads
+-----------  -------  -------------  -------------
+all                1              1              1
+make_fastqc        2              1              1
+total              3              1              1
+
+mkdir -p orfribo_20240322-105259/logs
+echo 'RiboDoc version : 0.8.7' > orfribo_20240322-105259/SUPPLEMENTARY_DATA/Logs/RiboDoc_package_versions.txt
+Select jobs to execute...
+
+[Fri Mar 22 10:53:01 2024]
+rule make_fastqc:
+    input: /data/work/I2BC/fadwa.elkhaddar/BIM/fastq/SRR1562875.fastq.gz
+    output: orfribo_20240322-105259/DATA_PROCESSING/Quality_control/SRR1562875/SRR1562875_fastqc.zip, orfribo_20240322-105259/DATA_PROCESSING/Quality_control/SRR1562875/SRR1562875_fastqc.html
+    log: orfribo_20240322-105259/SUPPLEMENTARY_DATA/Logs/Quality_control/SRR1562875.log
+    jobid: 2
+    benchmark: orfribo_20240322-105259/SUPPLEMENTARY_DATA/Benchmarks/Quality_control/SRR1562875_benchmark.txt
+    reason: Missing output files: orfribo_20240322-105259/DATA_PROCESSING/Quality_control/SRR1562875/SRR1562875_fastqc.html
+    wildcards: sample=SRR1562875
+    resources: tmpdir=/tmp
+
+
+	 fastqc /data/work/I2BC/fadwa.elkhaddar/BIM/fastq/SRR1562875.fastq.gz --outdir orfribo_20240322-105259/DATA_PROCESSING/Quality_control/SRR1562875 2> orfribo_20240322-105259/SUPPLEMENTARY_DATA/Logs/Quality_control/SRR1562875.log 
+	
+[Fri Mar 22 10:55:04 2024]
+Finished job 2.
+1 of 3 steps (33%) done
+Select jobs to execute...
+
+[Fri Mar 22 10:55:04 2024]
+rule make_fastqc:
+    input: /data/work/I2BC/fadwa.elkhaddar/BIM/fastq/SRR1562874.fastq.gz
+    output: orfribo_20240322-105259/DATA_PROCESSING/Quality_control/SRR1562874/SRR1562874_fastqc.zip, orfribo_20240322-105259/DATA_PROCESSING/Quality_control/SRR1562874/SRR1562874_fastqc.html
+    log: orfribo_20240322-105259/SUPPLEMENTARY_DATA/Logs/Quality_control/SRR1562874.log
+    jobid: 1
+    benchmark: orfribo_20240322-105259/SUPPLEMENTARY_DATA/Benchmarks/Quality_control/SRR1562874_benchmark.txt
+    reason: Missing output files: orfribo_20240322-105259/DATA_PROCESSING/Quality_control/SRR1562874/SRR1562874_fastqc.html
+    wildcards: sample=SRR1562874
+    resources: tmpdir=/tmp
+
+
+	 fastqc /data/work/I2BC/fadwa.elkhaddar/BIM/fastq/SRR1562874.fastq.gz --outdir orfribo_20240322-105259/DATA_PROCESSING/Quality_control/SRR1562874 2> orfribo_20240322-105259/SUPPLEMENTARY_DATA/Logs/Quality_control/SRR1562874.log 
+	
+[Fri Mar 22 10:56:34 2024]
+Finished job 1.
+2 of 3 steps (67%) done
+Select jobs to execute...
+
+[Fri Mar 22 10:56:34 2024]
+localrule all:
+    input: orfribo_20240322-105259/DATA_PROCESSING/Quality_control/SRR1562874/SRR1562874_fastqc.html, orfribo_20240322-105259/DATA_PROCESSING/Quality_control/SRR1562875/SRR1562875_fastqc.html
+    jobid: 0
+    reason: Input files updated by another job: orfribo_20240322-105259/DATA_PROCESSING/Quality_control/SRR1562874/SRR1562874_fastqc.html, orfribo_20240322-105259/DATA_PROCESSING/Quality_control/SRR1562875/SRR1562875_fastqc.html
+    resources: tmpdir=/tmp
+
+[Fri Mar 22 10:56:34 2024]
+Finished job 0.
+3 of 3 steps (100%) done
+Complete log: .snakemake/log/2024-03-22T105259.965845.snakemake.log

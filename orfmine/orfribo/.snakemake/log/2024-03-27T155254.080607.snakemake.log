@@ -1,0 +1,403 @@
+Config file /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/config.yaml is extended by additional config specified via the command line.
+Building DAG of jobs...
+Using shell: /usr/bin/bash
+Provided cores: 1 (use --cores to define parallelism)
+Rules claiming more threads will be scaled down.
+Provided resources: mem_mb=2000000
+Job stats:
+job                count    min threads    max threads
+---------------  -------  -------------  -------------
+Bam2Reads_Exome       11              1              1
+ORFstats              11              1              1
+all                    1              1              1
+total                 23              1              1
+
+mkdir -p /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/logs
+echo 'RiboDoc version : 0.8.7' > /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/RiboDoc_package_versions.txt
+Select jobs to execute...
+
+[Wed Mar 27 15:52:56 2024]
+rule Bam2Reads_Exome:
+    input: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Exome/Exome_elongated.gff, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/BAM/Exome/SRR1562875/SRR1562875.bam, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/BAM/Exome/SRR1562875/SRR1562875.bam.bai, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/RiboWaltz/SRR1562875/psite_offset.csv
+    output: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_33/Exome.25-35_reads.tab
+    log: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Exome/SRR1562875.33.bam2read.log, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Exome/SRR1562875.33.offset_grep.log
+    jobid: 28
+    benchmark: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Benchmarks/Bam2Reads_Exome/SRR1562875.33.bam2read.benchmark.txt
+    reason: Missing output files: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_33/Exome.25-35_reads.tab
+    wildcards: sample=SRR1562875, length=33
+    resources: tmpdir=/var/tmp/pbs.951492.pbsserver, mem_mb=1000
+
+set +o pipefail ;offset=$(grep SRR1562875 /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/RiboWaltz/SRR1562875/psite_offset.csv 2> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Exome/SRR1562875.33.offset_grep.log | grep ^33 2>> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Exome/SRR1562875.33.offset_grep.log | cut -f7 2>> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Exome/SRR1562875.33.offset_grep.log) 2>> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Exome/SRR1562875.33.offset_grep.log ; if [ $offset = '' ]; then offset=12 ; fi ; python3 /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/scripts/BAM2Reads.py -shift ${offset} -kmer 33 -gff /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Exome/Exome_elongated.gff -bam /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/BAM/Exome/SRR1562875/SRR1562875.bam -outpath /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_33  -outname Exome.25-35 -features_include CDS 2> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Exome/SRR1562875.33.bam2read.log ; 
+[Wed Mar 27 15:58:42 2024]
+Finished job 28.
+1 of 23 steps (4%) done
+Select jobs to execute...
+
+[Wed Mar 27 15:58:42 2024]
+rule ORFstats:
+    input: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/RiboWaltz/SRR1562875/psite_offset.csv, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_33/Exome.25-35_reads.tab
+    output: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_33/Exome.25-35_reads.stats
+    log: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/ORFstat/SRR1562875.33.orfstats.log
+    jobid: 39
+    benchmark: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Benchmarks/ORFstat/SRR1562875.33.orfstats.txt
+    reason: Missing output files: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_33/Exome.25-35_reads.stats; Input files updated by another job: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_33/Exome.25-35_reads.tab
+    wildcards: sample=SRR1562875, length=33
+    resources: tmpdir=/var/tmp/pbs.951492.pbsserver
+
+set +o pipefail;orfstats -tab /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_33/Exome.25-35_reads.tab -N 10 -out /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_33 2> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/ORFstat/SRR1562875.33.orfstats.log ;
+[Wed Mar 27 15:58:44 2024]
+Finished job 39.
+2 of 23 steps (9%) done
+Select jobs to execute...
+
+[Wed Mar 27 15:58:44 2024]
+rule Bam2Reads_Exome:
+    input: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Exome/Exome_elongated.gff, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/BAM/Exome/SRR1562875/SRR1562875.bam, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/BAM/Exome/SRR1562875/SRR1562875.bam.bai, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/RiboWaltz/SRR1562875/psite_offset.csv
+    output: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_35/Exome.25-35_reads.tab
+    log: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Exome/SRR1562875.35.bam2read.log, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Exome/SRR1562875.35.offset_grep.log
+    jobid: 30
+    benchmark: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Benchmarks/Bam2Reads_Exome/SRR1562875.35.bam2read.benchmark.txt
+    reason: Missing output files: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_35/Exome.25-35_reads.tab
+    wildcards: sample=SRR1562875, length=35
+    resources: tmpdir=/var/tmp/pbs.951492.pbsserver, mem_mb=1000
+
+set +o pipefail ;offset=$(grep SRR1562875 /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/RiboWaltz/SRR1562875/psite_offset.csv 2> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Exome/SRR1562875.35.offset_grep.log | grep ^35 2>> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Exome/SRR1562875.35.offset_grep.log | cut -f7 2>> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Exome/SRR1562875.35.offset_grep.log) 2>> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Exome/SRR1562875.35.offset_grep.log ; if [ $offset = '' ]; then offset=12 ; fi ; python3 /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/scripts/BAM2Reads.py -shift ${offset} -kmer 35 -gff /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Exome/Exome_elongated.gff -bam /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/BAM/Exome/SRR1562875/SRR1562875.bam -outpath /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_35  -outname Exome.25-35 -features_include CDS 2> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Exome/SRR1562875.35.bam2read.log ; 
+[Wed Mar 27 16:04:15 2024]
+Finished job 30.
+3 of 23 steps (13%) done
+Select jobs to execute...
+
+[Wed Mar 27 16:04:15 2024]
+rule ORFstats:
+    input: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/RiboWaltz/SRR1562875/psite_offset.csv, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_35/Exome.25-35_reads.tab
+    output: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_35/Exome.25-35_reads.stats
+    log: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/ORFstat/SRR1562875.35.orfstats.log
+    jobid: 41
+    benchmark: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Benchmarks/ORFstat/SRR1562875.35.orfstats.txt
+    reason: Missing output files: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_35/Exome.25-35_reads.stats; Input files updated by another job: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_35/Exome.25-35_reads.tab
+    wildcards: sample=SRR1562875, length=35
+    resources: tmpdir=/var/tmp/pbs.951492.pbsserver
+
+set +o pipefail;orfstats -tab /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_35/Exome.25-35_reads.tab -N 10 -out /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_35 2> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/ORFstat/SRR1562875.35.orfstats.log ;
+[Wed Mar 27 16:04:16 2024]
+Finished job 41.
+4 of 23 steps (17%) done
+Select jobs to execute...
+
+[Wed Mar 27 16:04:16 2024]
+rule Bam2Reads_Exome:
+    input: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Exome/Exome_elongated.gff, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/BAM/Exome/SRR1562875/SRR1562875.bam, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/BAM/Exome/SRR1562875/SRR1562875.bam.bai, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/RiboWaltz/SRR1562875/psite_offset.csv
+    output: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_31/Exome.25-35_reads.tab
+    log: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Exome/SRR1562875.31.bam2read.log, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Exome/SRR1562875.31.offset_grep.log
+    jobid: 26
+    benchmark: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Benchmarks/Bam2Reads_Exome/SRR1562875.31.bam2read.benchmark.txt
+    reason: Missing output files: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_31/Exome.25-35_reads.tab
+    wildcards: sample=SRR1562875, length=31
+    resources: tmpdir=/var/tmp/pbs.951492.pbsserver, mem_mb=1000
+
+set +o pipefail ;offset=$(grep SRR1562875 /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/RiboWaltz/SRR1562875/psite_offset.csv 2> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Exome/SRR1562875.31.offset_grep.log | grep ^31 2>> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Exome/SRR1562875.31.offset_grep.log | cut -f7 2>> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Exome/SRR1562875.31.offset_grep.log) 2>> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Exome/SRR1562875.31.offset_grep.log ; if [ $offset = '' ]; then offset=12 ; fi ; python3 /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/scripts/BAM2Reads.py -shift ${offset} -kmer 31 -gff /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Exome/Exome_elongated.gff -bam /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/BAM/Exome/SRR1562875/SRR1562875.bam -outpath /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_31  -outname Exome.25-35 -features_include CDS 2> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Exome/SRR1562875.31.bam2read.log ; 
+[Wed Mar 27 16:10:09 2024]
+Finished job 26.
+5 of 23 steps (22%) done
+Select jobs to execute...
+
+[Wed Mar 27 16:10:09 2024]
+rule ORFstats:
+    input: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/RiboWaltz/SRR1562875/psite_offset.csv, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_31/Exome.25-35_reads.tab
+    output: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_31/Exome.25-35_reads.stats
+    log: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/ORFstat/SRR1562875.31.orfstats.log
+    jobid: 37
+    benchmark: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Benchmarks/ORFstat/SRR1562875.31.orfstats.txt
+    reason: Missing output files: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_31/Exome.25-35_reads.stats; Input files updated by another job: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_31/Exome.25-35_reads.tab
+    wildcards: sample=SRR1562875, length=31
+    resources: tmpdir=/var/tmp/pbs.951492.pbsserver
+
+set +o pipefail;orfstats -tab /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_31/Exome.25-35_reads.tab -N 10 -out /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_31 2> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/ORFstat/SRR1562875.31.orfstats.log ;
+[Wed Mar 27 16:10:12 2024]
+Finished job 37.
+6 of 23 steps (26%) done
+Select jobs to execute...
+
+[Wed Mar 27 16:10:12 2024]
+rule Bam2Reads_Exome:
+    input: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Exome/Exome_elongated.gff, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/BAM/Exome/SRR1562875/SRR1562875.bam, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/BAM/Exome/SRR1562875/SRR1562875.bam.bai, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/RiboWaltz/SRR1562875/psite_offset.csv
+    output: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_29/Exome.25-35_reads.tab
+    log: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Exome/SRR1562875.29.bam2read.log, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Exome/SRR1562875.29.offset_grep.log
+    jobid: 24
+    benchmark: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Benchmarks/Bam2Reads_Exome/SRR1562875.29.bam2read.benchmark.txt
+    reason: Missing output files: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_29/Exome.25-35_reads.tab
+    wildcards: sample=SRR1562875, length=29
+    resources: tmpdir=/var/tmp/pbs.951492.pbsserver, mem_mb=1000
+
+set +o pipefail ;offset=$(grep SRR1562875 /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/RiboWaltz/SRR1562875/psite_offset.csv 2> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Exome/SRR1562875.29.offset_grep.log | grep ^29 2>> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Exome/SRR1562875.29.offset_grep.log | cut -f7 2>> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Exome/SRR1562875.29.offset_grep.log) 2>> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Exome/SRR1562875.29.offset_grep.log ; if [ $offset = '' ]; then offset=12 ; fi ; python3 /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/scripts/BAM2Reads.py -shift ${offset} -kmer 29 -gff /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Exome/Exome_elongated.gff -bam /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/BAM/Exome/SRR1562875/SRR1562875.bam -outpath /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_29  -outname Exome.25-35 -features_include CDS 2> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Exome/SRR1562875.29.bam2read.log ; 
+[Wed Mar 27 16:15:35 2024]
+Finished job 24.
+7 of 23 steps (30%) done
+Select jobs to execute...
+
+[Wed Mar 27 16:15:35 2024]
+rule ORFstats:
+    input: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/RiboWaltz/SRR1562875/psite_offset.csv, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_29/Exome.25-35_reads.tab
+    output: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_29/Exome.25-35_reads.stats
+    log: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/ORFstat/SRR1562875.29.orfstats.log
+    jobid: 35
+    benchmark: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Benchmarks/ORFstat/SRR1562875.29.orfstats.txt
+    reason: Missing output files: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_29/Exome.25-35_reads.stats; Input files updated by another job: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_29/Exome.25-35_reads.tab
+    wildcards: sample=SRR1562875, length=29
+    resources: tmpdir=/var/tmp/pbs.951492.pbsserver
+
+set +o pipefail;orfstats -tab /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_29/Exome.25-35_reads.tab -N 10 -out /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_29 2> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/ORFstat/SRR1562875.29.orfstats.log ;
+[Wed Mar 27 16:15:37 2024]
+Finished job 35.
+8 of 23 steps (35%) done
+Select jobs to execute...
+
+[Wed Mar 27 16:15:37 2024]
+rule Bam2Reads_Exome:
+    input: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Exome/Exome_elongated.gff, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/BAM/Exome/SRR1562875/SRR1562875.bam, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/BAM/Exome/SRR1562875/SRR1562875.bam.bai, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/RiboWaltz/SRR1562875/psite_offset.csv
+    output: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_27/Exome.25-35_reads.tab
+    log: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Exome/SRR1562875.27.bam2read.log, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Exome/SRR1562875.27.offset_grep.log
+    jobid: 22
+    benchmark: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Benchmarks/Bam2Reads_Exome/SRR1562875.27.bam2read.benchmark.txt
+    reason: Missing output files: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_27/Exome.25-35_reads.tab
+    wildcards: sample=SRR1562875, length=27
+    resources: tmpdir=/var/tmp/pbs.951492.pbsserver, mem_mb=1000
+
+set +o pipefail ;offset=$(grep SRR1562875 /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/RiboWaltz/SRR1562875/psite_offset.csv 2> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Exome/SRR1562875.27.offset_grep.log | grep ^27 2>> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Exome/SRR1562875.27.offset_grep.log | cut -f7 2>> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Exome/SRR1562875.27.offset_grep.log) 2>> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Exome/SRR1562875.27.offset_grep.log ; if [ $offset = '' ]; then offset=12 ; fi ; python3 /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/scripts/BAM2Reads.py -shift ${offset} -kmer 27 -gff /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Exome/Exome_elongated.gff -bam /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/BAM/Exome/SRR1562875/SRR1562875.bam -outpath /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_27  -outname Exome.25-35 -features_include CDS 2> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Exome/SRR1562875.27.bam2read.log ; 
+[Wed Mar 27 16:21:09 2024]
+Finished job 22.
+9 of 23 steps (39%) done
+Select jobs to execute...
+
+[Wed Mar 27 16:21:09 2024]
+rule ORFstats:
+    input: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/RiboWaltz/SRR1562875/psite_offset.csv, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_27/Exome.25-35_reads.tab
+    output: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_27/Exome.25-35_reads.stats
+    log: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/ORFstat/SRR1562875.27.orfstats.log
+    jobid: 33
+    benchmark: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Benchmarks/ORFstat/SRR1562875.27.orfstats.txt
+    reason: Missing output files: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_27/Exome.25-35_reads.stats; Input files updated by another job: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_27/Exome.25-35_reads.tab
+    wildcards: sample=SRR1562875, length=27
+    resources: tmpdir=/var/tmp/pbs.951492.pbsserver
+
+set +o pipefail;orfstats -tab /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_27/Exome.25-35_reads.tab -N 10 -out /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_27 2> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/ORFstat/SRR1562875.27.orfstats.log ;
+[Wed Mar 27 16:21:11 2024]
+Finished job 33.
+10 of 23 steps (43%) done
+Select jobs to execute...
+
+[Wed Mar 27 16:21:11 2024]
+rule Bam2Reads_Exome:
+    input: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Exome/Exome_elongated.gff, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/BAM/Exome/SRR1562875/SRR1562875.bam, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/BAM/Exome/SRR1562875/SRR1562875.bam.bai, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/RiboWaltz/SRR1562875/psite_offset.csv
+    output: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_34/Exome.25-35_reads.tab
+    log: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Exome/SRR1562875.34.bam2read.log, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Exome/SRR1562875.34.offset_grep.log
+    jobid: 29
+    benchmark: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Benchmarks/Bam2Reads_Exome/SRR1562875.34.bam2read.benchmark.txt
+    reason: Missing output files: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_34/Exome.25-35_reads.tab
+    wildcards: sample=SRR1562875, length=34
+    resources: tmpdir=/var/tmp/pbs.951492.pbsserver, mem_mb=1000
+
+set +o pipefail ;offset=$(grep SRR1562875 /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/RiboWaltz/SRR1562875/psite_offset.csv 2> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Exome/SRR1562875.34.offset_grep.log | grep ^34 2>> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Exome/SRR1562875.34.offset_grep.log | cut -f7 2>> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Exome/SRR1562875.34.offset_grep.log) 2>> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Exome/SRR1562875.34.offset_grep.log ; if [ $offset = '' ]; then offset=12 ; fi ; python3 /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/scripts/BAM2Reads.py -shift ${offset} -kmer 34 -gff /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Exome/Exome_elongated.gff -bam /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/BAM/Exome/SRR1562875/SRR1562875.bam -outpath /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_34  -outname Exome.25-35 -features_include CDS 2> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Exome/SRR1562875.34.bam2read.log ; 
+[Wed Mar 27 16:26:53 2024]
+Finished job 29.
+11 of 23 steps (48%) done
+Select jobs to execute...
+
+[Wed Mar 27 16:26:53 2024]
+rule ORFstats:
+    input: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/RiboWaltz/SRR1562875/psite_offset.csv, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_34/Exome.25-35_reads.tab
+    output: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_34/Exome.25-35_reads.stats
+    log: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/ORFstat/SRR1562875.34.orfstats.log
+    jobid: 40
+    benchmark: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Benchmarks/ORFstat/SRR1562875.34.orfstats.txt
+    reason: Missing output files: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_34/Exome.25-35_reads.stats; Input files updated by another job: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_34/Exome.25-35_reads.tab
+    wildcards: sample=SRR1562875, length=34
+    resources: tmpdir=/var/tmp/pbs.951492.pbsserver
+
+set +o pipefail;orfstats -tab /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_34/Exome.25-35_reads.tab -N 10 -out /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_34 2> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/ORFstat/SRR1562875.34.orfstats.log ;
+[Wed Mar 27 16:26:55 2024]
+Finished job 40.
+12 of 23 steps (52%) done
+Select jobs to execute...
+
+[Wed Mar 27 16:26:55 2024]
+rule Bam2Reads_Exome:
+    input: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Exome/Exome_elongated.gff, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/BAM/Exome/SRR1562875/SRR1562875.bam, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/BAM/Exome/SRR1562875/SRR1562875.bam.bai, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/RiboWaltz/SRR1562875/psite_offset.csv
+    output: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_32/Exome.25-35_reads.tab
+    log: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Exome/SRR1562875.32.bam2read.log, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Exome/SRR1562875.32.offset_grep.log
+    jobid: 27
+    benchmark: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Benchmarks/Bam2Reads_Exome/SRR1562875.32.bam2read.benchmark.txt
+    reason: Missing output files: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_32/Exome.25-35_reads.tab
+    wildcards: sample=SRR1562875, length=32
+    resources: tmpdir=/var/tmp/pbs.951492.pbsserver, mem_mb=1000
+
+set +o pipefail ;offset=$(grep SRR1562875 /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/RiboWaltz/SRR1562875/psite_offset.csv 2> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Exome/SRR1562875.32.offset_grep.log | grep ^32 2>> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Exome/SRR1562875.32.offset_grep.log | cut -f7 2>> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Exome/SRR1562875.32.offset_grep.log) 2>> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Exome/SRR1562875.32.offset_grep.log ; if [ $offset = '' ]; then offset=12 ; fi ; python3 /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/scripts/BAM2Reads.py -shift ${offset} -kmer 32 -gff /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Exome/Exome_elongated.gff -bam /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/BAM/Exome/SRR1562875/SRR1562875.bam -outpath /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_32  -outname Exome.25-35 -features_include CDS 2> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Exome/SRR1562875.32.bam2read.log ; 
+[Wed Mar 27 16:32:31 2024]
+Finished job 27.
+13 of 23 steps (57%) done
+Select jobs to execute...
+
+[Wed Mar 27 16:32:31 2024]
+rule ORFstats:
+    input: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/RiboWaltz/SRR1562875/psite_offset.csv, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_32/Exome.25-35_reads.tab
+    output: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_32/Exome.25-35_reads.stats
+    log: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/ORFstat/SRR1562875.32.orfstats.log
+    jobid: 38
+    benchmark: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Benchmarks/ORFstat/SRR1562875.32.orfstats.txt
+    reason: Missing output files: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_32/Exome.25-35_reads.stats; Input files updated by another job: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_32/Exome.25-35_reads.tab
+    wildcards: sample=SRR1562875, length=32
+    resources: tmpdir=/var/tmp/pbs.951492.pbsserver
+
+set +o pipefail;orfstats -tab /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_32/Exome.25-35_reads.tab -N 10 -out /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_32 2> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/ORFstat/SRR1562875.32.orfstats.log ;
+[Wed Mar 27 16:32:34 2024]
+Finished job 38.
+14 of 23 steps (61%) done
+Select jobs to execute...
+
+[Wed Mar 27 16:32:34 2024]
+rule Bam2Reads_Exome:
+    input: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Exome/Exome_elongated.gff, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/BAM/Exome/SRR1562875/SRR1562875.bam, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/BAM/Exome/SRR1562875/SRR1562875.bam.bai, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/RiboWaltz/SRR1562875/psite_offset.csv
+    output: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_28/Exome.25-35_reads.tab
+    log: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Exome/SRR1562875.28.bam2read.log, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Exome/SRR1562875.28.offset_grep.log
+    jobid: 23
+    benchmark: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Benchmarks/Bam2Reads_Exome/SRR1562875.28.bam2read.benchmark.txt
+    reason: Missing output files: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_28/Exome.25-35_reads.tab
+    wildcards: sample=SRR1562875, length=28
+    resources: tmpdir=/var/tmp/pbs.951492.pbsserver, mem_mb=1000
+
+set +o pipefail ;offset=$(grep SRR1562875 /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/RiboWaltz/SRR1562875/psite_offset.csv 2> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Exome/SRR1562875.28.offset_grep.log | grep ^28 2>> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Exome/SRR1562875.28.offset_grep.log | cut -f7 2>> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Exome/SRR1562875.28.offset_grep.log) 2>> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Exome/SRR1562875.28.offset_grep.log ; if [ $offset = '' ]; then offset=12 ; fi ; python3 /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/scripts/BAM2Reads.py -shift ${offset} -kmer 28 -gff /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Exome/Exome_elongated.gff -bam /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/BAM/Exome/SRR1562875/SRR1562875.bam -outpath /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_28  -outname Exome.25-35 -features_include CDS 2> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Exome/SRR1562875.28.bam2read.log ; 
+[Wed Mar 27 16:37:56 2024]
+Finished job 23.
+15 of 23 steps (65%) done
+Select jobs to execute...
+
+[Wed Mar 27 16:37:56 2024]
+rule ORFstats:
+    input: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/RiboWaltz/SRR1562875/psite_offset.csv, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_28/Exome.25-35_reads.tab
+    output: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_28/Exome.25-35_reads.stats
+    log: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/ORFstat/SRR1562875.28.orfstats.log
+    jobid: 34
+    benchmark: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Benchmarks/ORFstat/SRR1562875.28.orfstats.txt
+    reason: Missing output files: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_28/Exome.25-35_reads.stats; Input files updated by another job: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_28/Exome.25-35_reads.tab
+    wildcards: sample=SRR1562875, length=28
+    resources: tmpdir=/var/tmp/pbs.951492.pbsserver
+
+set +o pipefail;orfstats -tab /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_28/Exome.25-35_reads.tab -N 10 -out /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_28 2> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/ORFstat/SRR1562875.28.orfstats.log ;
+[Wed Mar 27 16:37:57 2024]
+Finished job 34.
+16 of 23 steps (70%) done
+Select jobs to execute...
+
+[Wed Mar 27 16:37:57 2024]
+rule Bam2Reads_Exome:
+    input: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Exome/Exome_elongated.gff, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/BAM/Exome/SRR1562875/SRR1562875.bam, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/BAM/Exome/SRR1562875/SRR1562875.bam.bai, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/RiboWaltz/SRR1562875/psite_offset.csv
+    output: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_26/Exome.25-35_reads.tab
+    log: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Exome/SRR1562875.26.bam2read.log, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Exome/SRR1562875.26.offset_grep.log
+    jobid: 21
+    benchmark: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Benchmarks/Bam2Reads_Exome/SRR1562875.26.bam2read.benchmark.txt
+    reason: Missing output files: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_26/Exome.25-35_reads.tab
+    wildcards: sample=SRR1562875, length=26
+    resources: tmpdir=/var/tmp/pbs.951492.pbsserver, mem_mb=1000
+
+set +o pipefail ;offset=$(grep SRR1562875 /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/RiboWaltz/SRR1562875/psite_offset.csv 2> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Exome/SRR1562875.26.offset_grep.log | grep ^26 2>> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Exome/SRR1562875.26.offset_grep.log | cut -f7 2>> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Exome/SRR1562875.26.offset_grep.log) 2>> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Exome/SRR1562875.26.offset_grep.log ; if [ $offset = '' ]; then offset=12 ; fi ; python3 /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/scripts/BAM2Reads.py -shift ${offset} -kmer 26 -gff /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Exome/Exome_elongated.gff -bam /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/BAM/Exome/SRR1562875/SRR1562875.bam -outpath /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_26  -outname Exome.25-35 -features_include CDS 2> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Exome/SRR1562875.26.bam2read.log ; 
+[Wed Mar 27 16:43:15 2024]
+Finished job 21.
+17 of 23 steps (74%) done
+Select jobs to execute...
+
+[Wed Mar 27 16:43:15 2024]
+rule ORFstats:
+    input: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/RiboWaltz/SRR1562875/psite_offset.csv, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_26/Exome.25-35_reads.tab
+    output: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_26/Exome.25-35_reads.stats
+    log: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/ORFstat/SRR1562875.26.orfstats.log
+    jobid: 32
+    benchmark: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Benchmarks/ORFstat/SRR1562875.26.orfstats.txt
+    reason: Missing output files: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_26/Exome.25-35_reads.stats; Input files updated by another job: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_26/Exome.25-35_reads.tab
+    wildcards: sample=SRR1562875, length=26
+    resources: tmpdir=/var/tmp/pbs.951492.pbsserver
+
+set +o pipefail;orfstats -tab /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_26/Exome.25-35_reads.tab -N 10 -out /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_26 2> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/ORFstat/SRR1562875.26.orfstats.log ;
+[Wed Mar 27 16:43:16 2024]
+Finished job 32.
+18 of 23 steps (78%) done
+Select jobs to execute...
+
+[Wed Mar 27 16:43:16 2024]
+rule Bam2Reads_Exome:
+    input: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Exome/Exome_elongated.gff, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/BAM/Exome/SRR1562875/SRR1562875.bam, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/BAM/Exome/SRR1562875/SRR1562875.bam.bai, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/RiboWaltz/SRR1562875/psite_offset.csv
+    output: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_30/Exome.25-35_reads.tab
+    log: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Exome/SRR1562875.30.bam2read.log, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Exome/SRR1562875.30.offset_grep.log
+    jobid: 25
+    benchmark: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Benchmarks/Bam2Reads_Exome/SRR1562875.30.bam2read.benchmark.txt
+    reason: Missing output files: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_30/Exome.25-35_reads.tab
+    wildcards: sample=SRR1562875, length=30
+    resources: tmpdir=/var/tmp/pbs.951492.pbsserver, mem_mb=1000
+
+set +o pipefail ;offset=$(grep SRR1562875 /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/RiboWaltz/SRR1562875/psite_offset.csv 2> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Exome/SRR1562875.30.offset_grep.log | grep ^30 2>> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Exome/SRR1562875.30.offset_grep.log | cut -f7 2>> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Exome/SRR1562875.30.offset_grep.log) 2>> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Exome/SRR1562875.30.offset_grep.log ; if [ $offset = '' ]; then offset=12 ; fi ; python3 /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/scripts/BAM2Reads.py -shift ${offset} -kmer 30 -gff /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Exome/Exome_elongated.gff -bam /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/BAM/Exome/SRR1562875/SRR1562875.bam -outpath /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_30  -outname Exome.25-35 -features_include CDS 2> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Exome/SRR1562875.30.bam2read.log ; 
+[Wed Mar 27 16:48:12 2024]
+Finished job 25.
+19 of 23 steps (83%) done
+Select jobs to execute...
+
+[Wed Mar 27 16:48:12 2024]
+rule Bam2Reads_Exome:
+    input: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Exome/Exome_elongated.gff, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/BAM/Exome/SRR1562875/SRR1562875.bam, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/BAM/Exome/SRR1562875/SRR1562875.bam.bai, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/RiboWaltz/SRR1562875/psite_offset.csv
+    output: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_25/Exome.25-35_reads.tab
+    log: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Exome/SRR1562875.25.bam2read.log, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Exome/SRR1562875.25.offset_grep.log
+    jobid: 20
+    benchmark: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Benchmarks/Bam2Reads_Exome/SRR1562875.25.bam2read.benchmark.txt
+    reason: Missing output files: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_25/Exome.25-35_reads.tab
+    wildcards: sample=SRR1562875, length=25
+    resources: tmpdir=/var/tmp/pbs.951492.pbsserver, mem_mb=1000
+
+set +o pipefail ;offset=$(grep SRR1562875 /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/RiboWaltz/SRR1562875/psite_offset.csv 2> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Exome/SRR1562875.25.offset_grep.log | grep ^25 2>> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Exome/SRR1562875.25.offset_grep.log | cut -f7 2>> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Exome/SRR1562875.25.offset_grep.log) 2>> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Exome/SRR1562875.25.offset_grep.log ; if [ $offset = '' ]; then offset=12 ; fi ; python3 /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/scripts/BAM2Reads.py -shift ${offset} -kmer 25 -gff /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Exome/Exome_elongated.gff -bam /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/BAM/Exome/SRR1562875/SRR1562875.bam -outpath /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_25  -outname Exome.25-35 -features_include CDS 2> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Exome/SRR1562875.25.bam2read.log ; 
+[Wed Mar 27 16:53:44 2024]
+Finished job 20.
+20 of 23 steps (87%) done
+Select jobs to execute...
+
+[Wed Mar 27 16:53:44 2024]
+rule ORFstats:
+    input: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/RiboWaltz/SRR1562875/psite_offset.csv, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_30/Exome.25-35_reads.tab
+    output: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_30/Exome.25-35_reads.stats
+    log: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/ORFstat/SRR1562875.30.orfstats.log
+    jobid: 36
+    benchmark: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Benchmarks/ORFstat/SRR1562875.30.orfstats.txt
+    reason: Missing output files: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_30/Exome.25-35_reads.stats; Input files updated by another job: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_30/Exome.25-35_reads.tab
+    wildcards: sample=SRR1562875, length=30
+    resources: tmpdir=/var/tmp/pbs.951492.pbsserver
+
+set +o pipefail;orfstats -tab /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_30/Exome.25-35_reads.tab -N 10 -out /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_30 2> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/ORFstat/SRR1562875.30.orfstats.log ;
+[Wed Mar 27 16:53:46 2024]
+Finished job 36.
+21 of 23 steps (91%) done
+Select jobs to execute...
+
+[Wed Mar 27 16:53:46 2024]
+rule ORFstats:
+    input: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/RiboWaltz/SRR1562875/psite_offset.csv, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_25/Exome.25-35_reads.tab
+    output: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_25/Exome.25-35_reads.stats
+    log: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/ORFstat/SRR1562875.25.orfstats.log
+    jobid: 31
+    benchmark: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Benchmarks/ORFstat/SRR1562875.25.orfstats.txt
+    reason: Missing output files: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_25/Exome.25-35_reads.stats; Input files updated by another job: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_25/Exome.25-35_reads.tab
+    wildcards: sample=SRR1562875, length=25
+    resources: tmpdir=/var/tmp/pbs.951492.pbsserver
+
+set +o pipefail;orfstats -tab /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_25/Exome.25-35_reads.tab -N 10 -out /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_25 2> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/ORFstat/SRR1562875.25.orfstats.log ;
+[Wed Mar 27 16:53:47 2024]
+Finished job 31.
+22 of 23 steps (96%) done
+Select jobs to execute...
+
+[Wed Mar 27 16:53:47 2024]
+localrule all:
+    input: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Quality_control/SRR1562875/SRR1562875_fastqc.html, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Edited_Gff/Named.CDS_Scer.gff, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Trimming/Trimmed_fastq/SRR1562875/SRR1562875.cutadapt.25-35.fastq.gz, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Mapping/Orfium/Bowtie2/Results/SRR1562875/SRR1562875.sam, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/BAM/Orfium/SRR1562875/SRR1562875.bam.bai, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Exome/Exome_elongated.nfasta, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Exome_Fastq/SRR1562875/SRR1562875_Unmapped.fastq.gz, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Mapping/Exome/Bowtie2/Results/SRR1562875/SRR1562875.sam, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/BAM/Exome/SRR1562875/SRR1562875.bam.bai, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/RiboWaltz/SRR1562875/psite_offset.csv, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_25/Exome.25-35_reads.tab, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_26/Exome.25-35_reads.tab, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_27/Exome.25-35_reads.tab, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_28/Exome.25-35_reads.tab, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_29/Exome.25-35_reads.tab, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_30/Exome.25-35_reads.tab, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_31/Exome.25-35_reads.tab, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_32/Exome.25-35_reads.tab, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_33/Exome.25-35_reads.tab, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_34/Exome.25-35_reads.tab, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_35/Exome.25-35_reads.tab, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_25/Exome.25-35_reads.stats, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_26/Exome.25-35_reads.stats, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_27/Exome.25-35_reads.stats, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_28/Exome.25-35_reads.stats, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_29/Exome.25-35_reads.stats, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_30/Exome.25-35_reads.stats, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_31/Exome.25-35_reads.stats, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_32/Exome.25-35_reads.stats, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_33/Exome.25-35_reads.stats, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_34/Exome.25-35_reads.stats, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_35/Exome.25-35_reads.stats
+    jobid: 0
+    reason: Input files updated by another job: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_27/Exome.25-35_reads.tab, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_26/Exome.25-35_reads.stats, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_34/Exome.25-35_reads.stats, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_33/Exome.25-35_reads.stats, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_27/Exome.25-35_reads.stats, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_30/Exome.25-35_reads.stats, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_29/Exome.25-35_reads.tab, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_34/Exome.25-35_reads.tab, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_33/Exome.25-35_reads.tab, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_31/Exome.25-35_reads.tab, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_25/Exome.25-35_reads.stats, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_32/Exome.25-35_reads.stats, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_26/Exome.25-35_reads.tab, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_35/Exome.25-35_reads.tab, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_25/Exome.25-35_reads.tab, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_28/Exome.25-35_reads.tab, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_31/Exome.25-35_reads.stats, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_29/Exome.25-35_reads.stats, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_35/Exome.25-35_reads.stats, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_32/Exome.25-35_reads.tab, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_28/Exome.25-35_reads.stats, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_30/Exome.25-35_reads.tab
+    resources: tmpdir=/var/tmp/pbs.951492.pbsserver
+
+[Wed Mar 27 16:53:47 2024]
+Finished job 0.
+23 of 23 steps (100%) done
+Complete log: .snakemake/log/2024-03-27T155254.080607.snakemake.log

@@ -1,0 +1,48 @@
+Config file /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/config.yaml is extended by additional config specified via the command line.
+Building DAG of jobs...
+Using shell: /usr/bin/bash
+Provided cores: 8
+Rules claiming more threads will be scaled down.
+Provided resources: mem_mb=2000000
+Job stats:
+job                            count    min threads    max threads
+---------------------------  -------  -------------  -------------
+Mapping_Genome_STAR_Bowtie2        1              8              8
+adapt_trimming                     1              8              8
+all                                1              1              1
+bowtie_run_OutRNA                  1              8              8
+find_adapter_sequence              1              1              1
+index_outRNA_BOWTIE2               1              8              8
+index_reference_BOWTIE2            1              8              8
+index_reference_HISAT2             1              8              8
+make_fastqc                        1              1              1
+name_CDS                           1              1              1
+total                             10              1              8
+
+mkdir -p /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/logs
+echo 'RiboDoc version : 0.8.7' > /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/RiboDoc_package_versions.txt
+Select jobs to execute...
+
+[Wed Apr 24 11:02:03 2024]
+rule index_reference_HISAT2:
+    input: /data/work/I2BC/fadwa.elkhaddar/BIM/orfmine_tutorial/ORFmine/examples/database/Scer.fna
+    output: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Mapping/Orfium/Hisat2/Index/index_hisat2.1.ht2, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Mapping/Orfium/Hisat2/Index/index_hisat2.2.ht2, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Mapping/Orfium/Hisat2/Index/index_hisat2.3.ht2, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Mapping/Orfium/Hisat2/Index/index_hisat2.4.ht2, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Mapping/Orfium/Hisat2/Index/index_hisat2.5.ht2, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Mapping/Orfium/Hisat2/Index/index_hisat2.6.ht2, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Mapping/Orfium/Hisat2/Index/index_hisat2.7.ht2, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Mapping/Orfium/Hisat2/Index/index_hisat2.8.ht2
+    log: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Mapping/Orfium/Hisat2/Index/Orfium_index.log
+    jobid: 8
+    benchmark: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Benchmarks/Mapping/Orfium/Hisat2/Index/Orfium_index.benchmark.txt
+    reason: Missing output files: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Mapping/Orfium/Hisat2/Index/index_hisat2.8.ht2, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Mapping/Orfium/Hisat2/Index/index_hisat2.6.ht2, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Mapping/Orfium/Hisat2/Index/index_hisat2.1.ht2, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Mapping/Orfium/Hisat2/Index/index_hisat2.3.ht2, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Mapping/Orfium/Hisat2/Index/index_hisat2.4.ht2, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Mapping/Orfium/Hisat2/Index/index_hisat2.7.ht2, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Mapping/Orfium/Hisat2/Index/index_hisat2.5.ht2, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Mapping/Orfium/Hisat2/Index/index_hisat2.2.ht2
+    threads: 8
+    resources: tmpdir=/var/tmp/pbs.979359.pbsserver
+
+hisat2-build --threads 8 /data/work/I2BC/fadwa.elkhaddar/BIM/orfmine_tutorial/ORFmine/examples/database/Scer.fna /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Mapping/Orfium/Hisat2/Index/index_hisat2 &> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Mapping/Orfium/Hisat2/Index/Orfium_index.log ;
+Terminating processes on user request, this might take some time.
+[Wed Apr 24 11:02:08 2024]
+Error in rule index_reference_HISAT2:
+    jobid: 8
+    output: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Mapping/Orfium/Hisat2/Index/index_hisat2.1.ht2, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Mapping/Orfium/Hisat2/Index/index_hisat2.2.ht2, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Mapping/Orfium/Hisat2/Index/index_hisat2.3.ht2, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Mapping/Orfium/Hisat2/Index/index_hisat2.4.ht2, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Mapping/Orfium/Hisat2/Index/index_hisat2.5.ht2, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Mapping/Orfium/Hisat2/Index/index_hisat2.6.ht2, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Mapping/Orfium/Hisat2/Index/index_hisat2.7.ht2, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Mapping/Orfium/Hisat2/Index/index_hisat2.8.ht2
+    log: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Mapping/Orfium/Hisat2/Index/Orfium_index.log (check log file(s) for error message)
+    shell:
+        hisat2-build --threads 8 /data/work/I2BC/fadwa.elkhaddar/BIM/orfmine_tutorial/ORFmine/examples/database/Scer.fna /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Mapping/Orfium/Hisat2/Index/index_hisat2 &> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Mapping/Orfium/Hisat2/Index/Orfium_index.log ;
+        (one of the commands exited with non-zero exit code; note that snakemake uses bash strict mode!)
+
+Complete log: .snakemake/log/2024-04-24T110202.009144.snakemake.log

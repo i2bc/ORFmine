@@ -1,0 +1,42 @@
+Config file /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/config.yaml is extended by additional config specified via the command line.
+Building DAG of jobs...
+Using shell: /usr/bin/bash
+Provided cores: 1 (use --cores to define parallelism)
+Rules claiming more threads will be scaled down.
+Provided resources: mem_mb=2000000
+Job stats:
+job                count    min threads    max threads
+---------------  -------  -------------  -------------
+Bam2Reads_Exome       11              1              1
+ORFstats              11              1              1
+all                    1              1              1
+riboWaltz_Exome        1              1              1
+total                 24              1              1
+
+mkdir -p /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/logs
+echo 'RiboDoc version : 0.8.7' > /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/RiboDoc_package_versions.txt
+Select jobs to execute...
+
+[Wed Mar 27 10:45:07 2024]
+rule riboWaltz_Exome:
+    input: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Exome/Exome_elongated.exons_Scer.gtf, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/config.yaml
+    output: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/RiboWaltz/SRR1562874/psite_offset.csv
+    jobid: 14
+    reason: Missing output files: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/RiboWaltz/SRR1562874/psite_offset.csv
+    wildcards: sample=SRR1562874
+    resources: tmpdir=/var/tmp/pbs.951492.pbsserver, mem_mb=2000
+
+touch /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/RiboWaltz/SRR1562874/psite_offset.csv ; Rscript /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Rscripts/periodicity_riboWaltz_exome_original.R /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/config.yaml /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Exome/Exome_elongated.exons_Scer.gtf /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/BAM/Exome/SRR1562874 /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/RiboWaltz/SRR1562874  ; rm -f /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/Rplots.pdf ; mkdir -p /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/Psite  ; cp /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/RiboWaltz/SRR1562874/psite_offset.csv /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/Psite 
+[Wed Mar 27 10:45:27 2024]
+Error in rule riboWaltz_Exome:
+    jobid: 14
+    output: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/RiboWaltz/SRR1562874/psite_offset.csv
+    shell:
+        touch /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/RiboWaltz/SRR1562874/psite_offset.csv ; Rscript /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Rscripts/periodicity_riboWaltz_exome_original.R /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/config.yaml /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Exome/Exome_elongated.exons_Scer.gtf /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/BAM/Exome/SRR1562874 /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/RiboWaltz/SRR1562874  ; rm -f /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/Rplots.pdf ; mkdir -p /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/Psite  ; cp /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/RiboWaltz/SRR1562874/psite_offset.csv /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/Psite 
+        (one of the commands exited with non-zero exit code; note that snakemake uses bash strict mode!)
+
+Removing output files of failed job riboWaltz_Exome since they might be corrupted:
+/data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/RiboWaltz/SRR1562874/psite_offset.csv
+Shutting down, this might take some time.
+Exiting because a job execution failed. Look above for error message
+Complete log: .snakemake/log/2024-03-27T104505.950830.snakemake.log

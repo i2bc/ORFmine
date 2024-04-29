@@ -1,0 +1,9 @@
+#How works ORFdate?
+
+ORFdate attributes an age to the ORFs (coding or noncoding) of a species of interest (i.e. focal) by phylostratigraphy. The phylostratigraphy is established based on the focal species and a set of neighboring species defined by the user. An ORF (amino acid sequence) is presumed at least as old as the most recent ancestor between the focal species and the more distant species where a homolog of this ORF has been found. Each sequence is thus "low-dated" using the time of divergence (in fact the branch distance provided in the tree) between these two species. It assumes a rare horizontal gene transfer context (e.g. Eukaryotes) and is therefore not adapted to Prokaryotes. 
+
+ORFdate generates a BLAST database from each fasta file of the focal neighboring sepcies and performs a BLASTp search with each ORF of the focal species as a query against these databases (neighbors). Considering only alignments that satisfy the defined evalue and minimum query coverage threshold (by default : evalue = 0.001; query_cov = 0.7), the program defines for each focal ORF its "more distant hit” as the more distant species with a significant alignment. Please note that the last node of the tree will be used as the upper limit for the age estimation. Consequently, all sequences with a match in the more distant species, with respect to the focal, are associated with the same upper bounded estimated age regardless of whether they may have other matches in more distant species outside the input tree. It outputs a three columns csv file with the focal ORFs, their more distant hit, and their diverging time with the focal species (if provided in the phylogenetic tree).
+
+More details can be found in Papadopoulos et al[1].
+
+1. Papadopoulos, C., Arbes, H., Chevrollier, N., Blanchet, S., Cornu, D., Roginski, P., Rabier, C., Atia, S., Lespinet, O., Namy, O., Lopes, A. (submitted).

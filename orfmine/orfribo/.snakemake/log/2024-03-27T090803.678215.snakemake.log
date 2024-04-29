@@ -1,0 +1,60 @@
+Config file /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/config.yaml is extended by additional config specified via the command line.
+Building DAG of jobs...
+Using shell: /usr/bin/bash
+Provided cores: 1 (use --cores to define parallelism)
+Rules claiming more threads will be scaled down.
+Provided resources: mem_mb=2000000
+Job stats:
+job                      count    min threads    max threads
+---------------------  -------  -------------  -------------
+all                          1              1              1
+samtools_filter_Exome        1              1              1
+samtools_index_Exome         1              1              1
+total                        3              1              1
+
+mkdir -p /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/logs
+echo 'RiboDoc version : 0.8.7' > /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/RiboDoc_package_versions.txt
+Select jobs to execute...
+
+[Wed Mar 27 09:08:05 2024]
+rule samtools_filter_Exome:
+    input: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Mapping/Exome/Hisat2/Results/SRR1562874/SRR1562874.sam, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Mapping/Exome/Bowtie2/Results/SRR1562874/SRR1562874.sam
+    output: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/BAM/Exome/SRR1562874/SRR1562874.bam
+    jobid: 13
+    benchmark: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Benchmarks/BAM/Exome/SRR1562874_bam_orfeum.benchmark.txt
+    reason: Missing output files: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/BAM/Exome/SRR1562874/SRR1562874.bam
+    wildcards: sample=SRR1562874
+    resources: tmpdir=/var/tmp/pbs.951492.pbsserver, mem_mb=667
+
+set +o pipefail ;grep '^@' /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Mapping/Exome/Hisat2/Results/SRR1562874/SRR1562874.sam | uniq 1> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/BAM/Exome/SRR1562874/SRR1562874.sam ;grep -v '^@' /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Mapping/Exome/Hisat2/Results/SRR1562874/SRR1562874.sam | egrep -i 'XM:i:0|XM:i:1' 1>> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/BAM/Exome/SRR1562874/SRR1562874.sam ;grep -v '^@' /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Mapping/Exome/Bowtie2/Results/SRR1562874/SRR1562874.sam 1>> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/BAM/Exome/SRR1562874/SRR1562874.sam ;samtools view -@ 1 -F 3588 -h -b /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/BAM/Exome/SRR1562874/SRR1562874.sam | samtools sort -@ 1 -o /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/BAM/Exome/SRR1562874/SRR1562874.bam ; rm -f /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/BAM/Exome/SRR1562874/SRR1562874.sam
+[Wed Mar 27 09:12:15 2024]
+Finished job 13.
+1 of 3 steps (33%) done
+Select jobs to execute...
+
+[Wed Mar 27 09:12:15 2024]
+rule samtools_index_Exome:
+    input: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/BAM/Exome/SRR1562874/SRR1562874.bam
+    output: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/BAM/Exome/SRR1562874/SRR1562874.bam.bai
+    jobid: 12
+    reason: Missing output files: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/BAM/Exome/SRR1562874/SRR1562874.bam.bai; Input files updated by another job: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/BAM/Exome/SRR1562874/SRR1562874.bam
+    wildcards: sample=SRR1562874
+    resources: tmpdir=/var/tmp/pbs.951492.pbsserver
+
+samtools index /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/BAM/Exome/SRR1562874/SRR1562874.bam
+[Wed Mar 27 09:12:15 2024]
+Finished job 12.
+2 of 3 steps (67%) done
+Select jobs to execute...
+
+[Wed Mar 27 09:12:15 2024]
+localrule all:
+    input: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Quality_control/SRR1562874/SRR1562874_fastqc.html, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Edited_Gff/Named.CDS_Scer.gff, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Mapping/Orfium/Bowtie2/Results/SRR1562874/SRR1562874.sam, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Exome/Exome_elongated.nfasta, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Exome_Fastq/SRR1562874/SRR1562874_Unmapped.fastq.gz, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/BAM/Exome/SRR1562874/SRR1562874.bam.bai, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/RiboWaltz/SRR1562874/psite_offset.csv
+    jobid: 0
+    reason: Input files updated by another job: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/BAM/Exome/SRR1562874/SRR1562874.bam.bai
+    resources: tmpdir=/var/tmp/pbs.951492.pbsserver
+
+[Wed Mar 27 09:12:15 2024]
+Finished job 0.
+3 of 3 steps (100%) done
+Complete log: .snakemake/log/2024-03-27T090803.678215.snakemake.log

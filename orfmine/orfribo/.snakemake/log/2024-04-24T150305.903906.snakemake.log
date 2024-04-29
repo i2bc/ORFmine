@@ -1,0 +1,59 @@
+Config file /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/config.yaml is extended by additional config specified via the command line.
+Building DAG of jobs...
+Using shell: /usr/bin/bash
+Provided cores: 8
+Rules claiming more threads will be scaled down.
+Provided resources: mem_mb=2000000
+Job stats:
+job               count    min threads    max threads
+--------------  -------  -------------  -------------
+adapt_trimming        1              8              8
+all                   1              1              1
+total                 2              1              8
+
+mkdir -p /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/logs
+echo 'RiboDoc version : 0.8.7' > /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/RiboDoc_package_versions.txt
+Select jobs to execute...
+
+[Wed Apr 24 15:03:07 2024]
+rule adapt_trimming:
+    input: /data/work/I2BC/fadwa.elkhaddar/BIM/fastq/SRR1562875.fastq.gz, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Trimming/Adapters/SRR1562875/SRR1562875.txt
+    output: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Trimming/Trimmed_fastq/SRR1562875/SRR1562875.cutadapt.25-35.fastq.gz
+    log: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Trimming/Trimmed_fastq/SRR1562875_trim_value.log, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Trimming/Trimmed_fastq/SRR1562875_cutadapt.log, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Trimming/Trimmed_fastq/SRR1562875_adapt_trimming.log
+    jobid: 3
+    benchmark: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Benchmarks/Trimming/Trimmed_fastq/SRR1562875_adapt_trimming.txt
+    reason: Missing output files: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Trimming/Trimmed_fastq/SRR1562875/SRR1562875.cutadapt.25-35.fastq.gz
+    wildcards: sample=SRR1562875
+    threads: 8
+    resources: tmpdir=/tmp, mem_mb=2000
+
+
+        adapter_sequence=$(cat /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Trimming/Adapters/SRR1562875/SRR1562875.txt)
+        echo $adapter_sequence        
+        if [ 0 == 0 ]; then
+            cutadapt -a $adapter_sequence --trimmed-only -e 0.125 -j 8 --max-n=1 -m  25  -M 35 -o /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Trimming/Trimmed_fastq/SRR1562875/SRR1562875.cutadapt.25-35.fastq.gz /data/work/I2BC/fadwa.elkhaddar/BIM/fastq/SRR1562875.fastq.gz 1>> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Trimming/Trimmed_fastq/SRR1562875_adapt_trimming.log 2> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Trimming/Trimmed_fastq/SRR1562875_cutadapt.log
+        else
+            ln -s /data/work/I2BC/fadwa.elkhaddar/BIM/fastq/SRR1562875.fastq.gz /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Trimming/Trimmed_fastq/SRR1562875/SRR1562875.cutadapt.25-35.fastq.gz
+            echo "Reads are already trimmed." > /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Trimming/Trimmed_fastq/SRR1562875_adapt_trimming.log
+        fi
+        
+Terminating processes on user request, this might take some time.
+[Wed Apr 24 15:03:11 2024]
+Error in rule adapt_trimming:
+    jobid: 3
+    output: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Trimming/Trimmed_fastq/SRR1562875/SRR1562875.cutadapt.25-35.fastq.gz
+    log: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Trimming/Trimmed_fastq/SRR1562875_trim_value.log, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Trimming/Trimmed_fastq/SRR1562875_cutadapt.log, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Trimming/Trimmed_fastq/SRR1562875_adapt_trimming.log (check log file(s) for error message)
+    shell:
+        
+        adapter_sequence=$(cat /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Trimming/Adapters/SRR1562875/SRR1562875.txt)
+        echo $adapter_sequence        
+        if [ 0 == 0 ]; then
+            cutadapt -a $adapter_sequence --trimmed-only -e 0.125 -j 8 --max-n=1 -m  25  -M 35 -o /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Trimming/Trimmed_fastq/SRR1562875/SRR1562875.cutadapt.25-35.fastq.gz /data/work/I2BC/fadwa.elkhaddar/BIM/fastq/SRR1562875.fastq.gz 1>> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Trimming/Trimmed_fastq/SRR1562875_adapt_trimming.log 2> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Trimming/Trimmed_fastq/SRR1562875_cutadapt.log
+        else
+            ln -s /data/work/I2BC/fadwa.elkhaddar/BIM/fastq/SRR1562875.fastq.gz /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Trimming/Trimmed_fastq/SRR1562875/SRR1562875.cutadapt.25-35.fastq.gz
+            echo "Reads are already trimmed." > /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Trimming/Trimmed_fastq/SRR1562875_adapt_trimming.log
+        fi
+        
+        (one of the commands exited with non-zero exit code; note that snakemake uses bash strict mode!)
+
+Cancelling snakemake on user request.

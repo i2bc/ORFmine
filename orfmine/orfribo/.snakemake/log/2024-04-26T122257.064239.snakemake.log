@@ -1,0 +1,60 @@
+Config file /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/config.yaml is extended by additional config specified via the command line.
+Building DAG of jobs...
+Using shell: /usr/bin/bash
+Provided cores: 8
+Rules claiming more threads will be scaled down.
+Provided resources: mem_mb=2000000
+Job stats:
+job                                count    min threads    max threads
+-------------------------------  -------  -------------  -------------
+all                                    1              1              1
+concatenate_all_tables                 1              1              1
+concatenate_count_tables_genome        1              1              1
+total                                  3              1              1
+
+mkdir -p /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/logs
+echo 'RiboDoc version : 0.8.7' > /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/RiboDoc_package_versions.txt
+Select jobs to execute...
+
+[Fri Apr 26 12:22:57 2024]
+rule concatenate_count_tables_genome:
+    input: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_ORFeome/SRR1562875/SRR1562875_25/ORFeome_25_reads.tab, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_ORFeome/SRR1562875/SRR1562875_26/ORFeome_26_reads.tab, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_ORFeome/SRR1562875/SRR1562875_27/ORFeome_27_reads.tab, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_ORFeome/SRR1562875/SRR1562875_28/ORFeome_28_reads.tab, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_ORFeome/SRR1562875/SRR1562875_29/ORFeome_29_reads.tab, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_ORFeome/SRR1562875/SRR1562875_30/ORFeome_30_reads.tab, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_ORFeome/SRR1562875/SRR1562875_31/ORFeome_31_reads.tab, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_ORFeome/SRR1562875/SRR1562875_32/ORFeome_32_reads.tab, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_ORFeome/SRR1562875/SRR1562875_33/ORFeome_33_reads.tab, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_ORFeome/SRR1562875/SRR1562875_34/ORFeome_34_reads.tab, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_ORFeome/SRR1562875/SRR1562875_35/ORFeome_35_reads.tab
+    output: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/ORFeome/SRR1562875/ORFeome.25-35.mean_median70_reads_concatenated.tab
+    log: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_ORFeome/ concatenate_count_tables_genome /SRR1562875.concatenate_mean_median70.log
+    jobid: 2
+    benchmark: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Benchmarks/Bam2Reads_ORFeome/concatenate_count_tables_genome/SRR1562875.concatenate.benchmark_mean_median70.txt
+    reason: Missing output files: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/ORFeome/SRR1562875/ORFeome.25-35.mean_median70_reads_concatenated.tab
+    wildcards: sample=SRR1562875
+    resources: tmpdir=/var/tmp/pbs.980092.pbsserver
+
+[Fri Apr 26 12:23:01 2024]
+Finished job 2.
+1 of 3 steps (33%) done
+Select jobs to execute...
+
+[Fri Apr 26 12:23:01 2024]
+rule concatenate_all_tables:
+    input: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/ORFeome/SRR1562875/ORFeome.25-35.mean_median70_reads_concatenated.tab
+    output: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/ORFeome/all_samples_ORFeome.25-35.mean_median70_reads_concatenated.tab
+    log: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/ORFeome/concatenate_all_tables/concatenate_mean_median70.log
+    jobid: 1
+    benchmark: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Benchmarks/ORFeome/concatenate_all_tables/concatenate.benchmark_mean_median70.txt
+    reason: Missing output files: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/ORFeome/all_samples_ORFeome.25-35.mean_median70_reads_concatenated.tab; Input files updated by another job: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/ORFeome/SRR1562875/ORFeome.25-35.mean_median70_reads_concatenated.tab
+    resources: tmpdir=/var/tmp/pbs.980092.pbsserver
+
+[Fri Apr 26 12:23:04 2024]
+Finished job 1.
+2 of 3 steps (67%) done
+Select jobs to execute...
+
+[Fri Apr 26 12:23:04 2024]
+localrule all:
+    input: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/ORFeome/all_samples_ORFeome.25-35.mean_median70_reads_concatenated.tab
+    jobid: 0
+    reason: Input files updated by another job: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/ORFeome/all_samples_ORFeome.25-35.mean_median70_reads_concatenated.tab
+    resources: tmpdir=/var/tmp/pbs.980092.pbsserver
+
+[Fri Apr 26 12:23:04 2024]
+Finished job 0.
+3 of 3 steps (100%) done
+Complete log: .snakemake/log/2024-04-26T122257.064239.snakemake.log

@@ -1,0 +1,79 @@
+Config file /home/nchenche/projects/ORFmine/packages/orfribo/config.yaml is extended by additional config specified via the command line.
+Building DAG of jobs...
+Using shell: /usr/bin/bash
+Provided cores: 1 (use --cores to define parallelism)
+Rules claiming more threads will be scaled down.
+Job stats:
+job                                count    min threads    max threads
+-------------------------------  -------  -------------  -------------
+Bam2Reads_exome                       11              1              1
+Bam2Reads_genome                      11              1              1
+ORFget                                 1              1              1
+ORFstats                              11              1              1
+adapt_trimming                         1              1              1
+all                                    1              1              1
+bowtie2_build                          1              1              1
+bowtie2_build_exome                    1              1              1
+bowtie2_build_outRNA                   1              1              1
+bowtie2_run_outRNA                     1              1              1
+concatenate_all_tables                 1              1              1
+concatenate_count_tables_genome        1              1              1
+exome_construction_gtf                 1              1              1
+find_adapter_sequence                  1              1              1
+hisat2_build                           1              1              1
+hisat2_build_exome                     1              1              1
+index_bam                              1              1              1
+index_bam_exome                        1              1              1
+make_fastqc                            1              1              1
+name_CDS                               1              1              1
+riboWaltz_exome                        1              1              1
+run_mapping                            1              1              1
+run_mapping_exome                      1              1              1
+samtools_filter                        1              1              1
+samtools_filter_exome                  1              1              1
+select_read_lengths                    1              1              1
+stats_report                           1              1              1
+total                                 57              1              1
+
+Select jobs to execute...
+
+[Fri Nov 25 19:14:25 2022]
+rule make_fastqc:
+    input: /home/nchenche/projects/orfmine_workdir/examples/fastq/SRR1520313_17031088.fastq.gz
+    output: orfribo_20221125-191425/RESULTS/fastqc/SRR1520313_17031088_fastqc.zip, orfribo_20221125-191425/RESULTS/fastqc/SRR1520313_17031088_fastqc.html
+    log: orfribo_20221125-191425/logs/make_fastqc/SRR1520313_17031088.log
+    jobid: 1
+    benchmark: orfribo_20221125-191425/benchmarks/make_fastqc/SRR1520313_17031088.benchmark.txt
+    reason: Forced execution
+    wildcards: sample=SRR1520313_17031088
+    resources: tmpdir=/tmp
+
+[Fri Nov 25 19:14:35 2022]
+Finished job 1.
+1 of 57 steps (2%) done
+Select jobs to execute...
+
+[Fri Nov 25 19:14:35 2022]
+rule find_adapter_sequence:
+    input: /home/nchenche/projects/orfmine_workdir/examples/fastq/SRR1520313_17031088.fastq.gz
+    output: orfribo_20221125-191425/RESULTS/adapter_lists/SRR1520313_17031088.txt
+    log: orfribo_20221125-191425/logs/find_adapter_sequence/SRR1520313_17031088.rscript.log, orfribo_20221125-191425/logs/find_adapter_sequence/SRR1520313_17031088.sed.log, orfribo_20221125-191425/logs/find_adapter_sequence/SRR1520313_17031088.echo.log, orfribo_20221125-191425/logs/find_adapter_sequence/SRR1520313_17031088.touch.log
+    jobid: 10
+    reason: Forced execution
+    wildcards: sample=SRR1520313_17031088
+    resources: tmpdir=/tmp
+
+[Fri Nov 25 19:14:35 2022]
+Error in rule find_adapter_sequence:
+    jobid: 10
+    output: orfribo_20221125-191425/RESULTS/adapter_lists/SRR1520313_17031088.txt
+    log: orfribo_20221125-191425/logs/find_adapter_sequence/SRR1520313_17031088.rscript.log, orfribo_20221125-191425/logs/find_adapter_sequence/SRR1520313_17031088.sed.log, orfribo_20221125-191425/logs/find_adapter_sequence/SRR1520313_17031088.echo.log, orfribo_20221125-191425/logs/find_adapter_sequence/SRR1520313_17031088.touch.log (check log file(s) for error message)
+    shell:
+        touch orfribo_20221125-191425/RESULTS/adapter_lists/SRR1520313_17031088.txt 2> orfribo_20221125-191425/logs/find_adapter_sequence/SRR1520313_17031088.touch.log;if [ -z  ]; then Rscript /home/nchenche/projects/ORFmine/packages/orfribo/Rscripts/find_adapter_sequence.R /home/nchenche/projects/orfmine_workdir/examples/fastq/SRR1520313_17031088.fastq.gz orfribo_20221125-191425/RESULTS/adapter_lists 2> orfribo_20221125-191425/logs/find_adapter_sequence/SRR1520313_17031088.rscript.log ;elif [ '' = 'no' ]; then echo  1> orfribo_20221125-191425/RESULTS/adapter_lists/SRR1520313_17031088.txt 2> orfribo_20221125-191425/logs/find_adapter_sequence/SRR1520313_17031088.echo.log;fi;
+        (one of the commands exited with non-zero exit code; note that snakemake uses bash strict mode!)
+
+Removing output files of failed job find_adapter_sequence since they might be corrupted:
+orfribo_20221125-191425/RESULTS/adapter_lists/SRR1520313_17031088.txt
+Shutting down, this might take some time.
+Exiting because a job execution failed. Look above for error message
+Complete log: .snakemake/log/2022-11-25T191425.505227.snakemake.log

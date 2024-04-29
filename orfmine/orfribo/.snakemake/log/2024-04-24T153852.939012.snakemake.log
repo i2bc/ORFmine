@@ -1,0 +1,6 @@
+ModuleNotFoundErrorin line 13 of /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Snakefile:
+No module named 'orfmine'
+  File "/data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Snakefile", line 13, in <module>
+  File "/home/fadwa.el-khaddar/miniconda3/envs/ORFmine_env/lib/python3.10/site-packages/pkg_resources/__init__.py", line 1154, in resource_filename
+  File "/home/fadwa.el-khaddar/miniconda3/envs/ORFmine_env/lib/python3.10/site-packages/pkg_resources/__init__.py", line 358, in get_provider
+  File "/data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/orfribo.py", line 37, in <module>

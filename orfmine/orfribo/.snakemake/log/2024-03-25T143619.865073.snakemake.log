@@ -1,0 +1,9 @@
+Config file /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/config.yaml is extended by additional config specified via the command line.
+Building DAG of jobs...
+MissingInputException in rule samtools_filter_Exome in line 1 of /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/rules/10_samtools_exome.smk:
+Missing input files for rule samtools_filter_Exome:
+    output: orfribo_20240325-143619/RESULTS/BAM/Exome/SRR1562874/SRR1562874.bam
+    wildcards: sample=SRR1562874
+    affected files:
+        orfribo_20240325-143619/DATA_PROCESSING/Mapping/Exome/Hisat2/Results/SRR1562874/SRR1562874.sam
+        orfribo_20240325-143619/DATA_PROCESSING/Mapping/Exome/Bowtie2/Results/SRR1562874/SRR1562874.sam

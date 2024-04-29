@@ -1,0 +1,55 @@
+Metadata-Version: 2.1
+Name: snakemake
+Version: 7.16.0
+Summary: Snakemake is a workflow management system that aims to reduce the complexity of creating workflows by providing a fast and comfortable execution environment, together with a clean and modern specification language in python style. Snakemake workflows are essentially Python scripts extended by declarative code to define rules. Rules describe how to create output files from input files.
+Home-page: https://snakemake.readthedocs.io
+Author: Johannes Köster
+Author-email: johannes.koester@tu-dortmund.de
+License: MIT
+Project-URL: Source, https://github.com/snakemake/snakemake
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Environment :: Console
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Natural Language :: English
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Topic :: Scientific/Engineering :: Bio-Informatics
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+License-File: LICENSE.md
+License-File: AUTHORS.rst
+Requires-Dist: wrapt
+Requires-Dist: requests
+Requires-Dist: ratelimiter
+Requires-Dist: pyyaml
+Requires-Dist: configargparse
+Requires-Dist: appdirs
+Requires-Dist: datrie
+Requires-Dist: jsonschema
+Requires-Dist: docutils
+Requires-Dist: gitpython
+Requires-Dist: psutil
+Requires-Dist: nbformat
+Requires-Dist: toposort
+Requires-Dist: connection-pool (>=0.0.3)
+Requires-Dist: pulp (>=2.0)
+Requires-Dist: smart-open (>=3.0)
+Requires-Dist: stopit
+Requires-Dist: tabulate
+Requires-Dist: yte (<2.0,>=1.0)
+Requires-Dist: jinja2 (<4.0,>=3.0)
+Requires-Dist: reretry
+Provides-Extra: google-cloud
+Requires-Dist: oauth2client ; extra == 'google-cloud'
+Requires-Dist: google-crc32c ; extra == 'google-cloud'
+Requires-Dist: google-api-python-client ; extra == 'google-cloud'
+Requires-Dist: google-cloud-storage ; extra == 'google-cloud'
+Provides-Extra: messaging
+Requires-Dist: slacker ; extra == 'messaging'
+Provides-Extra: pep
+Requires-Dist: peppy ; extra == 'pep'
+Requires-Dist: eido ; extra == 'pep'
+Provides-Extra: reports
+Requires-Dist: jinja2 ; extra == 'reports'
+Requires-Dist: pygments ; extra == 'reports'
+

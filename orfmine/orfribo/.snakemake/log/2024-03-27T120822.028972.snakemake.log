@@ -1,0 +1,73 @@
+Config file /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/config.yaml is extended by additional config specified via the command line.
+Building DAG of jobs...
+Using shell: /usr/bin/bash
+Provided cores: 1 (use --cores to define parallelism)
+Rules claiming more threads will be scaled down.
+Provided resources: mem_mb=2000000
+Job stats:
+job                             count    min threads    max threads
+----------------------------  -------  -------------  -------------
+Bam2Reads_Exome                    11              1              1
+Mapping_Exome_STAR_Bowtie2          1              1              1
+Mapping_Genome_HISAT_Bowtie2        1              1              1
+ORFstats                           11              1              1
+adapt_trimming                      1              1              1
+all                                 1              1              1
+samtools_filter_Exome               1              1              1
+samtools_index_Exome                1              1              1
+total                              28              1              1
+
+mkdir -p /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/logs
+echo 'RiboDoc version : 0.8.7' > /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/RiboDoc_package_versions.txt
+Select jobs to execute...
+
+[Wed Mar 27 12:08:23 2024]
+rule adapt_trimming:
+    input: /data/work/I2BC/fadwa.elkhaddar/BIM/fastq/SRR1562874.fastq.gz, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Trimming/Adapters/SRR1562874/SRR1562874.txt
+    output: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Trimming/Trimmed_fastq/SRR1562874/SRR1562874.cutadapt.25-35.fastq.gz
+    log: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Trimming/Trimmed_fastq/SRR1562874_trim_value.log, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Trimming/Trimmed_fastq/SRR1562874_cutadapt.log, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Trimming/Trimmed_fastq/SRR1562874_adapt_trimming.log
+    jobid: 4
+    benchmark: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Benchmarks/Trimming/Trimmed_fastq/SRR1562874_adapt_trimming.txt
+    reason: Code has changed since last execution; Params have changed since last execution
+    wildcards: sample=SRR1562874
+    resources: tmpdir=/var/tmp/pbs.951492.pbsserver, mem_mb=2000
+
+
+        adapter_sequence=$(cat /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Trimming/Adapters/SRR1562874/SRR1562874.txt)
+        if [ ARE_ADAPTERS_TRIMMED == "0" ]; then
+            trim="-a $adapter_sequence --trimmed-only"
+            echo "Trim value: $trim" > /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Trimming/Trimmed_fastq/SRR1562874_trim_value.log
+            cutadapt $trim -e 0.125 -j 1 --max-n=1 -m  25  -M 35 -o /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Trimming/Trimmed_fastq/SRR1562874/SRR1562874.cutadapt.25-35.fastq.gz /data/work/I2BC/fadwa.elkhaddar/BIM/fastq/SRR1562874.fastq.gz 1>> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Trimming/Trimmed_fastq/SRR1562874_adapt_trimming.log 2> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Trimming/Trimmed_fastq/SRR1562874_cutadapt.log
+        else
+            ln -s /data/work/I2BC/fadwa.elkhaddar/BIM/fastq/SRR1562874.fastq.gz /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Trimming/Trimmed_fastq/SRR1562874/SRR1562874.cutadapt.25-35.fastq.gz
+            echo "Reads are already trimmed." > /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Trimming/Trimmed_fastq/SRR1562874_adapt_trimming.log
+        fi
+        
+[Wed Mar 27 12:08:24 2024]
+Finished job 4.
+1 of 28 steps (4%) done
+Select jobs to execute...
+
+[Wed Mar 27 12:08:24 2024]
+rule Mapping_Genome_HISAT_Bowtie2:
+    input: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Trimming/Trimmed_fastq/SRR1562874/SRR1562874.cutadapt.25-35.fastq.gz, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Mapping/Orfium/Hisat2/Index/index_hisat2.1.ht2, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Mapping/Orfium/Hisat2/Index/index_hisat2.2.ht2, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Mapping/Orfium/Hisat2/Index/index_hisat2.3.ht2, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Mapping/Orfium/Hisat2/Index/index_hisat2.4.ht2, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Mapping/Orfium/Hisat2/Index/index_hisat2.5.ht2, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Mapping/Orfium/Hisat2/Index/index_hisat2.6.ht2, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Mapping/Orfium/Hisat2/Index/index_hisat2.7.ht2, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Mapping/Orfium/Hisat2/Index/index_hisat2.8.ht2, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Mapping/Orfium/Bowtie2/Index/index_bowtie2.1.bt2, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Mapping/Orfium/Bowtie2/Index/index_bowtie2.2.bt2, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Mapping/Orfium/Bowtie2/Index/index_bowtie2.3.bt2, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Mapping/Orfium/Bowtie2/Index/index_bowtie2.4.bt2, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Mapping/Orfium/Bowtie2/Index/index_bowtie2.rev.1.bt2, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Mapping/Orfium/Bowtie2/Index/index_bowtie2.rev.2.bt2
+    output: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Mapping/Orfium/Hisat2/Results/SRR1562874/SRR1562874.sam, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Mapping/Orfium/Bowtie2/Results/SRR1562874/SRR1562874.sam, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Orfium_Fastq/SRR1562874/SRR1562874_Unmapped.fastq.gz
+    log: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Mapping/Orfium/Hisat2/SRR1562874_hisat2_mapping.log, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Mapping/Orfium/Bowtie2/SRR1562874_bowie2_mapping.log
+    jobid: 3
+    benchmark: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Benchmarks/Mapping/Orfium/Hisat2/SRR1562874_HISAT_Bowtie2_Mapping_Orfium.benchmark.txt
+    reason: Input files updated by another job: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Trimming/Trimmed_fastq/SRR1562874/SRR1562874.cutadapt.25-35.fastq.gz
+    wildcards: sample=SRR1562874
+    resources: tmpdir=/var/tmp/pbs.951492.pbsserver
+
+hisat2 -x /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Mapping/Orfium/Hisat2/Index/index_hisat2 --threads 1 -U /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Trimming/Trimmed_fastq/SRR1562874/SRR1562874.cutadapt.25-35.fastq.gz --un-gz /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Orfium_Fastq/SRR1562874/SRR1562874_Unmapped.fastq.gz -S /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Mapping/Orfium/Hisat2/Results/SRR1562874/SRR1562874.sam 2>> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Mapping/Orfium/Hisat2/SRR1562874_hisat2_mapping.log;bowtie2 -x /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Mapping/Orfium/Bowtie2/Index/index_bowtie2 --threads 1 -U /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Orfium_Fastq/SRR1562874/SRR1562874_Unmapped.fastq.gz -S /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Mapping/Orfium/Bowtie2/Results/SRR1562874/SRR1562874.sam 2>> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Mapping/Orfium/Bowtie2/SRR1562874_bowie2_mapping.log;
+Terminating processes on user request, this might take some time.
+[Wed Mar 27 12:08:33 2024]
+Error in rule Mapping_Genome_HISAT_Bowtie2:
+    jobid: 3
+    output: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Mapping/Orfium/Hisat2/Results/SRR1562874/SRR1562874.sam, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Mapping/Orfium/Bowtie2/Results/SRR1562874/SRR1562874.sam, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Orfium_Fastq/SRR1562874/SRR1562874_Unmapped.fastq.gz
+    log: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Mapping/Orfium/Hisat2/SRR1562874_hisat2_mapping.log, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Mapping/Orfium/Bowtie2/SRR1562874_bowie2_mapping.log (check log file(s) for error message)
+    shell:
+        hisat2 -x /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Mapping/Orfium/Hisat2/Index/index_hisat2 --threads 1 -U /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Trimming/Trimmed_fastq/SRR1562874/SRR1562874.cutadapt.25-35.fastq.gz --un-gz /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Orfium_Fastq/SRR1562874/SRR1562874_Unmapped.fastq.gz -S /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Mapping/Orfium/Hisat2/Results/SRR1562874/SRR1562874.sam 2>> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Mapping/Orfium/Hisat2/SRR1562874_hisat2_mapping.log;bowtie2 -x /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Mapping/Orfium/Bowtie2/Index/index_bowtie2 --threads 1 -U /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Orfium_Fastq/SRR1562874/SRR1562874_Unmapped.fastq.gz -S /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Mapping/Orfium/Bowtie2/Results/SRR1562874/SRR1562874.sam 2>> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Mapping/Orfium/Bowtie2/SRR1562874_bowie2_mapping.log;
+        (one of the commands exited with non-zero exit code; note that snakemake uses bash strict mode!)
+
+Complete log: .snakemake/log/2024-03-27T120822.028972.snakemake.log

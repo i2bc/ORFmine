@@ -1,0 +1,60 @@
+Config file /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/config.yaml is extended by additional config specified via the command line.
+Building DAG of jobs...
+Using shell: /usr/bin/bash
+Provided cores: 1 (use --cores to define parallelism)
+Rules claiming more threads will be scaled down.
+Provided resources: mem_mb=2000000
+Job stats:
+job                      count    min threads    max threads
+---------------------  -------  -------------  -------------
+all                          1              1              1
+find_adapter_sequence        2              1              1
+total                        3              1              1
+
+mkdir -p orfribo_20240322-125137/logs
+echo 'RiboDoc version : 0.8.7' > orfribo_20240322-125137/SUPPLEMENTARY_DATA/Logs/RiboDoc_package_versions.txt
+Select jobs to execute...
+
+[Fri Mar 22 12:51:39 2024]
+rule find_adapter_sequence:
+    input: /data/work/I2BC/fadwa.elkhaddar/BIM/fastq/SRR1562875.fastq.gz
+    output: orfribo_20240322-125137/DATA_PROCESSING/Trimming/Adapters/SRR1562875/SRR1562875.txt
+    log: orfribo_20240322-125137/SUPPLEMENTARY_DATA/Logs/Trimming/Adapters/SRR1562875.rscript.log, orfribo_20240322-125137/SUPPLEMENTARY_DATA/Logs/Trimming/Adapters/SRR1562875.sed.log, orfribo_20240322-125137/SUPPLEMENTARY_DATA/Logs/Trimming/Adapters/SRR1562875.echo.log, orfribo_20240322-125137/SUPPLEMENTARY_DATA/Logs/Trimming/Adapters/SRR1562875.touch.log
+    jobid: 2
+    reason: Missing output files: orfribo_20240322-125137/DATA_PROCESSING/Trimming/Adapters/SRR1562875/SRR1562875.txt
+    wildcards: sample=SRR1562875
+    resources: tmpdir=/tmp
+
+touch orfribo_20240322-125137/DATA_PROCESSING/Trimming/Adapters/SRR1562875/SRR1562875.txt 2> orfribo_20240322-125137/SUPPLEMENTARY_DATA/Logs/Trimming/Adapters/SRR1562875.touch.log;if [ -z  ]; then Rscript /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Rscripts/find_adapter_sequence.R /data/work/I2BC/fadwa.elkhaddar/BIM/fastq/SRR1562875.fastq.gz  orfribo_20240322-125137/DATA_PROCESSING/Trimming/Adapters/SRR1562875  2> orfribo_20240322-125137/SUPPLEMENTARY_DATA/Logs/Trimming/Adapters/SRR1562875.rscript.log ;elif [ '0' = 'no' ]; then echo  1> orfribo_20240322-125137/DATA_PROCESSING/Trimming/Adapters/SRR1562875/SRR1562875.txt 2> orfribo_20240322-125137/SUPPLEMENTARY_DATA/Logs/Trimming/Adapters/SRR1562875.echo.log;fi;
+[Fri Mar 22 12:55:19 2024]
+Finished job 2.
+1 of 3 steps (33%) done
+Select jobs to execute...
+
+[Fri Mar 22 12:55:19 2024]
+rule find_adapter_sequence:
+    input: /data/work/I2BC/fadwa.elkhaddar/BIM/fastq/SRR1562874.fastq.gz
+    output: orfribo_20240322-125137/DATA_PROCESSING/Trimming/Adapters/SRR1562874/SRR1562874.txt
+    log: orfribo_20240322-125137/SUPPLEMENTARY_DATA/Logs/Trimming/Adapters/SRR1562874.rscript.log, orfribo_20240322-125137/SUPPLEMENTARY_DATA/Logs/Trimming/Adapters/SRR1562874.sed.log, orfribo_20240322-125137/SUPPLEMENTARY_DATA/Logs/Trimming/Adapters/SRR1562874.echo.log, orfribo_20240322-125137/SUPPLEMENTARY_DATA/Logs/Trimming/Adapters/SRR1562874.touch.log
+    jobid: 1
+    reason: Missing output files: orfribo_20240322-125137/DATA_PROCESSING/Trimming/Adapters/SRR1562874/SRR1562874.txt
+    wildcards: sample=SRR1562874
+    resources: tmpdir=/tmp
+
+touch orfribo_20240322-125137/DATA_PROCESSING/Trimming/Adapters/SRR1562874/SRR1562874.txt 2> orfribo_20240322-125137/SUPPLEMENTARY_DATA/Logs/Trimming/Adapters/SRR1562874.touch.log;if [ -z  ]; then Rscript /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Rscripts/find_adapter_sequence.R /data/work/I2BC/fadwa.elkhaddar/BIM/fastq/SRR1562874.fastq.gz  orfribo_20240322-125137/DATA_PROCESSING/Trimming/Adapters/SRR1562874  2> orfribo_20240322-125137/SUPPLEMENTARY_DATA/Logs/Trimming/Adapters/SRR1562874.rscript.log ;elif [ '0' = 'no' ]; then echo  1> orfribo_20240322-125137/DATA_PROCESSING/Trimming/Adapters/SRR1562874/SRR1562874.txt 2> orfribo_20240322-125137/SUPPLEMENTARY_DATA/Logs/Trimming/Adapters/SRR1562874.echo.log;fi;
+[Fri Mar 22 12:58:35 2024]
+Finished job 1.
+2 of 3 steps (67%) done
+Select jobs to execute...
+
+[Fri Mar 22 12:58:35 2024]
+localrule all:
+    input: orfribo_20240322-125137/DATA_PROCESSING/Trimming/Adapters/SRR1562874/SRR1562874.txt, orfribo_20240322-125137/DATA_PROCESSING/Trimming/Adapters/SRR1562875/SRR1562875.txt
+    jobid: 0
+    reason: Input files updated by another job: orfribo_20240322-125137/DATA_PROCESSING/Trimming/Adapters/SRR1562874/SRR1562874.txt, orfribo_20240322-125137/DATA_PROCESSING/Trimming/Adapters/SRR1562875/SRR1562875.txt
+    resources: tmpdir=/tmp
+
+[Fri Mar 22 12:58:35 2024]
+Finished job 0.
+3 of 3 steps (100%) done
+Complete log: .snakemake/log/2024-03-22T125137.820932.snakemake.log

@@ -1,0 +1,79 @@
+Config file /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/config.yaml is extended by additional config specified via the command line.
+Building DAG of jobs...
+Using shell: /usr/bin/bash
+Provided cores: 1 (use --cores to define parallelism)
+Rules claiming more threads will be scaled down.
+Provided resources: mem_mb=2000000
+Job stats:
+job                             count    min threads    max threads
+----------------------------  -------  -------------  -------------
+Mapping_Genome_HISAT_Bowtie2        1              1              1
+adapt_trimming                      1              1              1
+all                                 1              1              1
+find_adapter_sequence               1              1              1
+index_reference_BOWTIE2             1              1              1
+index_reference_HISAT2              1              1              1
+make_fastqc                         1              1              1
+name_CDS                            1              1              1
+total                               8              1              1
+
+mkdir -p orfribo_20240326-142728/logs
+echo 'RiboDoc version : 0.8.7' > orfribo_20240326-142728/SUPPLEMENTARY_DATA/Logs/RiboDoc_package_versions.txt
+Select jobs to execute...
+
+[Tue Mar 26 14:27:30 2024]
+rule name_CDS:
+    input: /data/work/I2BC/fadwa.elkhaddar/BIM/orfmine_tutorial/ORFmine/examples/database/Scer.gff
+    output: orfribo_20240326-142728/DATA_PROCESSING/Edited_Gff/Named.CDS_Scer.gff
+    jobid: 2
+    reason: Missing output files: orfribo_20240326-142728/DATA_PROCESSING/Edited_Gff/Named.CDS_Scer.gff
+    resources: tmpdir=/tmp
+
+[Tue Mar 26 14:27:32 2024]
+Finished job 2.
+1 of 8 steps (12%) done
+Select jobs to execute...
+
+[Tue Mar 26 14:27:32 2024]
+rule index_reference_BOWTIE2:
+    input: /data/work/I2BC/fadwa.elkhaddar/BIM/orfmine_tutorial/ORFmine/examples/database/Scer.fna
+    output: orfribo_20240326-142728/DATA_PROCESSING/Mapping/Orfium/Bowtie2/Index/index_bowtie2.1.bt2, orfribo_20240326-142728/DATA_PROCESSING/Mapping/Orfium/Bowtie2/Index/index_bowtie2.2.bt2, orfribo_20240326-142728/DATA_PROCESSING/Mapping/Orfium/Bowtie2/Index/index_bowtie2.3.bt2, orfribo_20240326-142728/DATA_PROCESSING/Mapping/Orfium/Bowtie2/Index/index_bowtie2.4.bt2, orfribo_20240326-142728/DATA_PROCESSING/Mapping/Orfium/Bowtie2/Index/index_bowtie2.rev.1.bt2, orfribo_20240326-142728/DATA_PROCESSING/Mapping/Orfium/Bowtie2/Index/index_bowtie2.rev.2.bt2
+    log: orfribo_20240326-142728/SUPPLEMENTARY_DATA/Logs/Mapping/Orfium/Bowtie2/Index/Orfium_index.log
+    jobid: 7
+    benchmark: orfribo_20240326-142728/SUPPLEMENTARY_DATA/Benchmarks/Mapping/Orfium/Bowtie2/Index/Orfium_index.benchmark.txt
+    reason: Missing output files: orfribo_20240326-142728/DATA_PROCESSING/Mapping/Orfium/Bowtie2/Index/index_bowtie2.2.bt2, orfribo_20240326-142728/DATA_PROCESSING/Mapping/Orfium/Bowtie2/Index/index_bowtie2.rev.1.bt2, orfribo_20240326-142728/DATA_PROCESSING/Mapping/Orfium/Bowtie2/Index/index_bowtie2.4.bt2, orfribo_20240326-142728/DATA_PROCESSING/Mapping/Orfium/Bowtie2/Index/index_bowtie2.rev.2.bt2, orfribo_20240326-142728/DATA_PROCESSING/Mapping/Orfium/Bowtie2/Index/index_bowtie2.1.bt2, orfribo_20240326-142728/DATA_PROCESSING/Mapping/Orfium/Bowtie2/Index/index_bowtie2.3.bt2
+    resources: tmpdir=/tmp
+
+bowtie2-build --threads 1 /data/work/I2BC/fadwa.elkhaddar/BIM/orfmine_tutorial/ORFmine/examples/database/Scer.fna orfribo_20240326-142728/DATA_PROCESSING/Mapping/Orfium/Bowtie2/Index/index_bowtie2 &> orfribo_20240326-142728/SUPPLEMENTARY_DATA/Logs/Mapping/Orfium/Bowtie2/Index/Orfium_index.log ;
+[Tue Mar 26 14:27:59 2024]
+Finished job 7.
+2 of 8 steps (25%) done
+Select jobs to execute...
+
+[Tue Mar 26 14:27:59 2024]
+rule make_fastqc:
+    input: /data/work/I2BC/fadwa.elkhaddar/BIM/fastq/SRR1562874.fastq.gz
+    output: orfribo_20240326-142728/DATA_PROCESSING/Quality_control/SRR1562874/SRR1562874_fastqc.zip, orfribo_20240326-142728/DATA_PROCESSING/Quality_control/SRR1562874/SRR1562874_fastqc.html
+    log: orfribo_20240326-142728/SUPPLEMENTARY_DATA/Logs/Quality_control/SRR1562874.log
+    jobid: 1
+    benchmark: orfribo_20240326-142728/SUPPLEMENTARY_DATA/Benchmarks/Quality_control/SRR1562874_benchmark.txt
+    reason: Missing output files: orfribo_20240326-142728/DATA_PROCESSING/Quality_control/SRR1562874/SRR1562874_fastqc.html
+    wildcards: sample=SRR1562874
+    resources: tmpdir=/tmp
+
+
+	 fastqc /data/work/I2BC/fadwa.elkhaddar/BIM/fastq/SRR1562874.fastq.gz --outdir orfribo_20240326-142728/DATA_PROCESSING/Quality_control/SRR1562874 2> orfribo_20240326-142728/SUPPLEMENTARY_DATA/Logs/Quality_control/SRR1562874.log 
+	
+Terminating processes on user request, this might take some time.
+[Tue Mar 26 14:28:22 2024]
+Error in rule make_fastqc:
+    jobid: 1
+    output: orfribo_20240326-142728/DATA_PROCESSING/Quality_control/SRR1562874/SRR1562874_fastqc.zip, orfribo_20240326-142728/DATA_PROCESSING/Quality_control/SRR1562874/SRR1562874_fastqc.html
+    log: orfribo_20240326-142728/SUPPLEMENTARY_DATA/Logs/Quality_control/SRR1562874.log (check log file(s) for error message)
+    shell:
+        
+	 fastqc /data/work/I2BC/fadwa.elkhaddar/BIM/fastq/SRR1562874.fastq.gz --outdir orfribo_20240326-142728/DATA_PROCESSING/Quality_control/SRR1562874 2> orfribo_20240326-142728/SUPPLEMENTARY_DATA/Logs/Quality_control/SRR1562874.log 
+	
+        (one of the commands exited with non-zero exit code; note that snakemake uses bash strict mode!)
+
+Complete log: .snakemake/log/2024-03-26T142728.364688.snakemake.log

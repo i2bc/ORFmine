@@ -1,0 +1,8 @@
+Config file /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/config.yaml is extended by additional config specified via the command line.
+Building DAG of jobs...
+MissingInputException in rule compressed_unmapped_ALL_RNA in line 65 of /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/rules/05_mapping_genome_filter_outRNA_STAR.smk:
+Missing input files for rule compressed_unmapped_ALL_RNA:
+    output: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Results_Fadwa_Nicolat_STAR_SRR1562875/DATA_PROCESSING/ORFeome_Fastq/SRR1562875/SRR1562875_Unmapped.out.mate1.fastq.gz
+    wildcards: sample=SRR1562875
+    affected files:
+        /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Results_Fadwa_Nicolat_STAR_SRR1562875/DATA_PROCESSING/Mapping/ORFeome/Star/Results/SRR1562875/SRR1562875_Unmapped.out.mate1

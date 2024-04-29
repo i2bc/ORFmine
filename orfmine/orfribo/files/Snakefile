@@ -1,0 +1,171 @@
+import gffutils
+import re
+import os
+import yaml
+from pathlib import Path
+import pkg_resources
+import time
+
+
+from orfmine.orfribo import __version__
+
+# set default config file (key:value pairs can be overriden with '--config key=value' in snakemake command)
+configfile: pkg_resources.resource_filename("orfribo", "config.yaml")
+
+# get location of Rscript files
+RSCRIPTS_PATH = pkg_resources.resource_filename("orfribo", 'Rscripts')
+find_adapter_sequence = str(Path(RSCRIPTS_PATH) / "find_adapter_sequence.R")
+periodicity_riboWaltz_exome = str(Path(RSCRIPTS_PATH) / "periodicity_riboWaltz_exome.R")
+
+
+#Sets resources (threads number, maximum RAM ...)
+THREADS_NB = config['threads']
+MEM_MB = config['ram']
+
+# set project name 
+PROJECT_NAME = config['project_name']
+
+#get input path 
+
+GFF_PATH = Path(config['gff']).resolve()
+GFF_INTERGENIC_PATH = Path(config["gff_intergenic"]).resolve()
+FASTA_PATH = Path(config['fna']).resolve()
+RNA_TO_EXCLUDE_PATH = Path(config['rna_to_exclude']).resolve()
+FASTQ_PATH = Path(config['fastq']).resolve()
+
+
+# set intermediary output path 
+
+OUT_BASE_PATH = Path(config["out"])
+OUT_BASE_PATH.mkdir(parents=True, exist_ok=True)
+
+RESULTS_PATH = OUT_BASE_PATH / "RESULTS"
+RESULTS_PATH.mkdir(parents=True, exist_ok=True)
+
+DATA_PROCESSING_PATH = OUT_BASE_PATH / "DATA_PROCESSING"
+DATA_PROCESSING_PATH.mkdir(parents=True, exist_ok=True)
+
+SUPPLEMENTARY_DATA_PATH = OUT_BASE_PATH / "SUPPLEMENTARY_DATA"
+SUPPLEMENTARY_DATA_PATH.mkdir(parents=True, exist_ok=True)
+
+
+#set supplementary data (logs & benchmark) output path 
+LOGS_PATH = OUT_BASE_PATH / "SUPPLEMENTARY_DATA" / "Logs"
+LOGS_PATH.mkdir(parents=True, exist_ok=True)
+
+BENCHMARKS_PATH = OUT_BASE_PATH / "SUPPLEMENTARY_DATA" / "Benchmarks"
+BENCHMARKS_PATH.mkdir(parents=True, exist_ok=True)
+
+
+# set vars 
+
+MIN_READ_LENGTH = str(config['min_read_length'])
+MAX_READ_LENGTH = str(config['max_read_length'])
+NAME_GFF_ATTRIBUTE = config['gff_attribute']
+ORFSTATS_THRESHOLD_MEAN = config['mean_threshold']
+ORFSTATS_THRESHOLD_MEDIAN = config['median_threshold']
+GFF_ELEMENT_TO_COUNT = config['gff_feature']
+ARE_ADAPTERS_TRIMMED = "1" if config['trimmed'] else "0"
+SEQUENCE_ADAPTER = config['adapter']
+FEATURES_TO_COUNT = config['intergenic_features']
+MULTIMAPPING = config["multi_mapping"]
+
+# Wildcards definition 
+
+SAMPLES, = glob_wildcards(FASTQ_PATH / "{sample}.fastq.gz")
+LENGTHS = list(map(str, range(int(MIN_READ_LENGTH), int(MAX_READ_LENGTH) + 1)))
+HISAT2 = ["1", "2", "3", "4", "5", "6", "7", "8"]
+BOWTIE2 = ["1", "2", "3", "4", "rev.1", "rev.2"]
+
+
+# Strings with minimum and maximum read lengths to be used in file names
+FRAG_LENGTH_S = "." + LENGTHS[0]
+FRAG_LENGTH_L = "." + LENGTHS[0] + "-" + LENGTHS[-1]
+
+
+
+def is_name_in_gff():
+    # Check if attributes specified by the user are present in the gff file
+    with open(str(GFF_PATH), "r") as gff_file:
+        is_name_found = False
+        for line in gff_file:
+            searched_name = re.search("^([^\t]+[\t]){8}.*" + NAME_GFF_ATTRIBUTE, line)
+            if searched_name:
+                is_name_found = True
+                break
+    
+    return is_name_found
+        
+
+
+include: "rules/01_quality_control.smk"
+include: "rules/02_gff_name_editing.smk"
+include: "rules/03_find_adapter_trimming.smk"
+if config.get('rna_to_exclude'):
+	include: "rules/04_filter_outRNA.smk"
+	include: "rules/05_mapping_genome_filter_outRNA.smk"
+else:
+	include: "rules/06_mapping_genome_without_filter_outRNA.smk"
+include: "rules/07_samtools_genome.smk"
+include: "rules/08_Exome_construction_gff2prot.smk"
+include: "rules/09_mapping_exome.smk"
+include: "rules/10_samtools_exome.smk"
+include: "rules/11_ribowaltz.smk"
+include: "rules/12_Bam2Reads_Exome.smk"
+include: "rules/13_ORFstat.smk"
+include: "rules/14_Selected_length.smk"
+include: "rules/15_bam2reads_orfeome.smk"
+include: "rules/16_concatenate.smk"
+
+
+
+if config.get('rna_to_exclude'):   
+    rule all:
+        input:
+            expand(str(DATA_PROCESSING_PATH / "Quality_control" / "{sample}" / "{sample}_fastqc.html"), sample=SAMPLES),
+            str(DATA_PROCESSING_PATH / "Edited_Gff" / ("Named.CDS_" + Path(str(GFF_PATH)).name)),
+            expand(str(DATA_PROCESSING_PATH / "Trimming" / "Trimmed_fastq" / "{sample}" / ("{sample}.cutadapt" + FRAG_LENGTH_L + ".fastq.gz")), sample=SAMPLES),
+            expand(str(DATA_PROCESSING_PATH / "Mapping"/ "ORFeome"/ "Bowtie2" / "Results" / "{sample}" / "{sample}.sam"), sample=SAMPLES),
+            expand(str( DATA_PROCESSING_PATH / "Exome_Fastq" / "{sample}" / "{sample}_Unmapped.fastq.gz"), sample=SAMPLES),
+            expand(str( DATA_PROCESSING_PATH / "Mapping" / "Exome" / "Bowtie2" / "Results" / "{sample}" / "{sample}.sam"), sample=SAMPLES),
+            expand(str(RESULTS_PATH / "BAM" / "Exome" / "{sample}" / "{sample}.bam"), sample=SAMPLES),
+            expand(str(RESULTS_PATH / "BAM" / "Exome" / "{sample}" / "{sample}.bam.bai"), sample=SAMPLES),
+            str(DATA_PROCESSING_PATH / "Exome" / f"Exome_elongated.nfasta"),
+            str(DATA_PROCESSING_PATH / "Exome" / f"Exome_elongated.gff"),
+            str(DATA_PROCESSING_PATH / "Exome" / f"Exome_elongated_with_gene_features.gff"),
+            expand(str(DATA_PROCESSING_PATH / "RiboWaltz" / "{sample}" / "psite_offset.csv"), sample=SAMPLES),
+            expand(str(DATA_PROCESSING_PATH / "Bam2Reads_Exome" / "{sample}"/ ("{sample}_{length}/Exome_{length}_reads.tab")), sample=SAMPLES, length=LENGTHS),
+            expand(str(DATA_PROCESSING_PATH / "Bam2Reads_Exome" / "{sample}" / "{sample}_{length}" / ("Exome_{length}_reads.stats")), sample=SAMPLES, length=LENGTHS),           
+            expand(str(DATA_PROCESSING_PATH / "Selected_length" / "{sample}" / "Selected_length.txt"), sample=SAMPLES),
+            expand(str(DATA_PROCESSING_PATH / "Bam2Reads_ORFeome" / "{sample}"/ ("{sample}_{length}/ORFeome_{length}_reads.tab")), sample=SAMPLES, length=LENGTHS),
+            str(RESULTS_PATH / "ORFeome" / f"all_samples_ORFeome{FRAG_LENGTH_L}.mean{ORFSTATS_THRESHOLD_MEAN}_median{ORFSTATS_THRESHOLD_MEDIAN}_reads_concatenated.tab")
+if not config.get('rna_to_exclude'):
+    rule all:
+        input:
+#             expand(str(DATA_PROCESSING_PATH / "Trimming" / "Adapters" / "{sample}" / "{sample}.txt"), sample=SAMPLES),
+             expand(str(DATA_PROCESSING_PATH / "Trimming" / "Trimmed_fastq" / "{sample}" / ("{sample}.cutadapt" + FRAG_LENGTH_L + ".fastq.gz")), sample=SAMPLES)
+#            expand(str(DATA_PROCESSING_PATH / "Quality_control" / "{sample}" / "{sample}_fastqc.html"), sample=SAMPLES),
+#            str(DATA_PROCESSING_PATH / "Edited_Gff" / ("Named.CDS_" + Path(str(GFF_PATH)).name)),
+#            expand(str(DATA_PROCESSING_PATH / "Mapping"/ "ORFeome"/ "Bowtie2" / "Results" / "{sample}" / "{sample}.sam"), sample=SAMPLES),
+#            str(DATA_PROCESSING_PATH / "Exome" / f"Exome_elongated.nfasta"),
+#            expand(str( DATA_PROCESSING_PATH / "Exome_Fastq" / "{sample}" / "{sample}_Unmapped.fastq.gz"), sample=SAMPLES),
+#            expand(str( DATA_PROCESSING_PATH / "Mapping" / "Exome" / "Bowtie2" / "Results" / "{sample}" / "{sample}.sam"), sample=SAMPLES),
+#            expand(expand(str(RESULTS_PATH / "BAM" / "Exome" / "{sample}" / "{sample}.bam.bai"), sample=SAMPLES)),
+#            expand(str(DATA_PROCESSING_PATH / "RiboWaltz" / "{sample}" / "psite_offset.csv"), sample=SAMPLES),
+
+
+
+
+
+onstart:
+    shell("mkdir -p " + str(OUT_BASE_PATH / 'logs'))
+    shell("echo 'RiboDoc version : " + __version__ + "' > " + str(LOGS_PATH / "RiboDoc_package_versions.txt"))
+
+
+onsuccess:
+    with open(str(RESULTS_PATH / "config.yml"), "w") as updated_config:
+        updated_config.write(yaml.dump(config, default_flow_style=False))
+
+onerror:
+    with open(str(RESULTS_PATH / "config.yml"), "w") as updated_config:
+        updated_config.write(yaml.dump(config, default_flow_style=False))

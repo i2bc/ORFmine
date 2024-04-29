@@ -1,0 +1,27 @@
+Config file /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/config.yaml is extended by additional config specified via the command line.
+Building DAG of jobs...
+MissingInputException in rule all in line 123 of /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Snakefile:
+Missing input files for rule all:
+    affected files:
+        /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_26/Exome_26_reads.tab
+        /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_29/Exome_29_reads.tab
+        /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_29/Exome_29_reads.stats
+        /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_35/Exome_35_reads.tab
+        /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_27/Exome_27_reads.tab
+        /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_32/Exome_32_reads.stats
+        /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_31/Exome_31_reads.stats
+        /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_25/Exome_25_reads.stats
+        /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_27/Exome_27_reads.stats
+        /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_32/Exome_32_reads.tab
+        /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_30/Exome_30_reads.stats
+        /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_33/Exome_33_reads.stats
+        /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_28/Exome_28_reads.tab
+        /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_34/Exome_34_reads.stats
+        /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_25/Exome_25_reads.tab
+        /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_28/Exome_28_reads.stats
+        /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_34/Exome_34_reads.tab
+        /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_33/Exome_33_reads.tab
+        /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_30/Exome_30_reads.tab
+        /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_31/Exome_31_reads.tab
+        /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_26/Exome_26_reads.stats
+        /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Exome/SRR1562875/SRR1562875_35/Exome_35_reads.stats

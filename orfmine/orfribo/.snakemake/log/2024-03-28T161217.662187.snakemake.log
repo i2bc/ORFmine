@@ -1,0 +1,378 @@
+Config file /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/config.yaml is extended by additional config specified via the command line.
+Building DAG of jobs...
+Using shell: /usr/bin/bash
+Provided cores: 1 (use --cores to define parallelism)
+Rules claiming more threads will be scaled down.
+Provided resources: mem_mb=2000000
+Job stats:
+job                 count    min threads    max threads
+----------------  -------  -------------  -------------
+Bam2Reads_Orfium       11              1              1
+all                     1              1              1
+total                  12              1              1
+
+mkdir -p /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/logs
+echo 'RiboDoc version : 0.8.7' > /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/RiboDoc_package_versions.txt
+Select jobs to execute...
+
+[Thu Mar 28 16:12:18 2024]
+rule Bam2Reads_Orfium:
+    input: /data/work/I2BC/fadwa.elkhaddar/BIM/orfmine_tutorial/ORFmine/examples/database/mapping_orf_Scer.gff, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/BAM/Orfium/SRR1562875/SRR1562875.bam, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/BAM/Orfium/SRR1562875/SRR1562875.bam.bai, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/RiboWaltz/SRR1562875/psite_offset.csv, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Selected_length/SRR1562875/Selected_length.txt
+    output: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Orfium/SRR1562875/SRR1562875_25/Orfium_25_reads.tab
+    log: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Orfium/SRR1562875.25.bam2read.log, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Orfium/SRR1562875.25.offset_grep.log
+    jobid: 2
+    benchmark: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Benchmarks/Bam2Reads_Orfium/SRR1562875.25.bam2read.benchmark.txt
+    reason: Missing output files: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Orfium/SRR1562875/SRR1562875_25/Orfium_25_reads.tab
+    wildcards: sample=SRR1562875, length=25
+    resources: tmpdir=/var/tmp/pbs.951899.pbsserver, mem_mb=2000
+
+
+        lengths_list=$(cat /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Selected_length/SRR1562875/Selected_length.txt)
+        in_lengths_list=""
+
+        for length in $lengths_list; do
+            if [ "$length" == "25" ]; then
+                offset=$(grep 'SRR1562875' /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/RiboWaltz/SRR1562875/psite_offset.csv 2> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Orfium/SRR1562875.25.offset_grep.log | grep '^25' 2>> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Orfium/SRR1562875.25.offset_grep.log | cut -f7 2>> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Orfium/SRR1562875.25.offset_grep.log) 2>> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Orfium/SRR1562875.25.offset_grep.log;
+                python3 /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/scripts/BAM2Reads.py -shift ${offset} -kmer 25 -gff /data/work/I2BC/fadwa.elkhaddar/BIM/orfmine_tutorial/ORFmine/examples/database/mapping_orf_Scer.gff -bam /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/BAM/Orfium/SRR1562875/SRR1562875.bam -outpath /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Orfium/SRR1562875/SRR1562875_25 -outname Orfium_25 -features_include n c _ i n t e r g e n i c 2> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Orfium/SRR1562875.25.bam2read.log;
+                in_lengths_list="True"
+                break
+            fi
+        done
+
+        if [ -z "$in_lengths_list" ]; then
+            touch /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Orfium/SRR1562875/SRR1562875_25/Orfium_25_reads.tab
+        fi
+        
+Benchmark: unable to collect cpu and memory benchmark statistics
+[Thu Mar 28 16:12:19 2024]
+Finished job 2.
+1 of 12 steps (8%) done
+Select jobs to execute...
+
+[Thu Mar 28 16:12:19 2024]
+rule Bam2Reads_Orfium:
+    input: /data/work/I2BC/fadwa.elkhaddar/BIM/orfmine_tutorial/ORFmine/examples/database/mapping_orf_Scer.gff, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/BAM/Orfium/SRR1562875/SRR1562875.bam, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/BAM/Orfium/SRR1562875/SRR1562875.bam.bai, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/RiboWaltz/SRR1562875/psite_offset.csv, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Selected_length/SRR1562875/Selected_length.txt
+    output: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Orfium/SRR1562875/SRR1562875_27/Orfium_27_reads.tab
+    log: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Orfium/SRR1562875.27.bam2read.log, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Orfium/SRR1562875.27.offset_grep.log
+    jobid: 4
+    benchmark: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Benchmarks/Bam2Reads_Orfium/SRR1562875.27.bam2read.benchmark.txt
+    reason: Missing output files: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Orfium/SRR1562875/SRR1562875_27/Orfium_27_reads.tab
+    wildcards: sample=SRR1562875, length=27
+    resources: tmpdir=/var/tmp/pbs.951899.pbsserver, mem_mb=2000
+
+
+        lengths_list=$(cat /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Selected_length/SRR1562875/Selected_length.txt)
+        in_lengths_list=""
+
+        for length in $lengths_list; do
+            if [ "$length" == "27" ]; then
+                offset=$(grep 'SRR1562875' /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/RiboWaltz/SRR1562875/psite_offset.csv 2> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Orfium/SRR1562875.27.offset_grep.log | grep '^27' 2>> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Orfium/SRR1562875.27.offset_grep.log | cut -f7 2>> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Orfium/SRR1562875.27.offset_grep.log) 2>> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Orfium/SRR1562875.27.offset_grep.log;
+                python3 /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/scripts/BAM2Reads.py -shift ${offset} -kmer 27 -gff /data/work/I2BC/fadwa.elkhaddar/BIM/orfmine_tutorial/ORFmine/examples/database/mapping_orf_Scer.gff -bam /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/BAM/Orfium/SRR1562875/SRR1562875.bam -outpath /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Orfium/SRR1562875/SRR1562875_27 -outname Orfium_27 -features_include n c _ i n t e r g e n i c 2> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Orfium/SRR1562875.27.bam2read.log;
+                in_lengths_list="True"
+                break
+            fi
+        done
+
+        if [ -z "$in_lengths_list" ]; then
+            touch /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Orfium/SRR1562875/SRR1562875_27/Orfium_27_reads.tab
+        fi
+        
+[Thu Mar 28 16:12:19 2024]
+Finished job 4.
+2 of 12 steps (17%) done
+Select jobs to execute...
+
+[Thu Mar 28 16:12:19 2024]
+rule Bam2Reads_Orfium:
+    input: /data/work/I2BC/fadwa.elkhaddar/BIM/orfmine_tutorial/ORFmine/examples/database/mapping_orf_Scer.gff, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/BAM/Orfium/SRR1562875/SRR1562875.bam, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/BAM/Orfium/SRR1562875/SRR1562875.bam.bai, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/RiboWaltz/SRR1562875/psite_offset.csv, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Selected_length/SRR1562875/Selected_length.txt
+    output: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Orfium/SRR1562875/SRR1562875_35/Orfium_35_reads.tab
+    log: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Orfium/SRR1562875.35.bam2read.log, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Orfium/SRR1562875.35.offset_grep.log
+    jobid: 12
+    benchmark: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Benchmarks/Bam2Reads_Orfium/SRR1562875.35.bam2read.benchmark.txt
+    reason: Missing output files: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Orfium/SRR1562875/SRR1562875_35/Orfium_35_reads.tab
+    wildcards: sample=SRR1562875, length=35
+    resources: tmpdir=/var/tmp/pbs.951899.pbsserver, mem_mb=2000
+
+
+        lengths_list=$(cat /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Selected_length/SRR1562875/Selected_length.txt)
+        in_lengths_list=""
+
+        for length in $lengths_list; do
+            if [ "$length" == "35" ]; then
+                offset=$(grep 'SRR1562875' /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/RiboWaltz/SRR1562875/psite_offset.csv 2> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Orfium/SRR1562875.35.offset_grep.log | grep '^35' 2>> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Orfium/SRR1562875.35.offset_grep.log | cut -f7 2>> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Orfium/SRR1562875.35.offset_grep.log) 2>> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Orfium/SRR1562875.35.offset_grep.log;
+                python3 /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/scripts/BAM2Reads.py -shift ${offset} -kmer 35 -gff /data/work/I2BC/fadwa.elkhaddar/BIM/orfmine_tutorial/ORFmine/examples/database/mapping_orf_Scer.gff -bam /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/BAM/Orfium/SRR1562875/SRR1562875.bam -outpath /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Orfium/SRR1562875/SRR1562875_35 -outname Orfium_35 -features_include n c _ i n t e r g e n i c 2> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Orfium/SRR1562875.35.bam2read.log;
+                in_lengths_list="True"
+                break
+            fi
+        done
+
+        if [ -z "$in_lengths_list" ]; then
+            touch /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Orfium/SRR1562875/SRR1562875_35/Orfium_35_reads.tab
+        fi
+        
+[Thu Mar 28 16:12:19 2024]
+Finished job 12.
+3 of 12 steps (25%) done
+Select jobs to execute...
+
+[Thu Mar 28 16:12:19 2024]
+rule Bam2Reads_Orfium:
+    input: /data/work/I2BC/fadwa.elkhaddar/BIM/orfmine_tutorial/ORFmine/examples/database/mapping_orf_Scer.gff, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/BAM/Orfium/SRR1562875/SRR1562875.bam, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/BAM/Orfium/SRR1562875/SRR1562875.bam.bai, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/RiboWaltz/SRR1562875/psite_offset.csv, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Selected_length/SRR1562875/Selected_length.txt
+    output: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Orfium/SRR1562875/SRR1562875_33/Orfium_33_reads.tab
+    log: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Orfium/SRR1562875.33.bam2read.log, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Orfium/SRR1562875.33.offset_grep.log
+    jobid: 10
+    benchmark: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Benchmarks/Bam2Reads_Orfium/SRR1562875.33.bam2read.benchmark.txt
+    reason: Missing output files: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Orfium/SRR1562875/SRR1562875_33/Orfium_33_reads.tab
+    wildcards: sample=SRR1562875, length=33
+    resources: tmpdir=/var/tmp/pbs.951899.pbsserver, mem_mb=2000
+
+
+        lengths_list=$(cat /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Selected_length/SRR1562875/Selected_length.txt)
+        in_lengths_list=""
+
+        for length in $lengths_list; do
+            if [ "$length" == "33" ]; then
+                offset=$(grep 'SRR1562875' /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/RiboWaltz/SRR1562875/psite_offset.csv 2> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Orfium/SRR1562875.33.offset_grep.log | grep '^33' 2>> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Orfium/SRR1562875.33.offset_grep.log | cut -f7 2>> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Orfium/SRR1562875.33.offset_grep.log) 2>> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Orfium/SRR1562875.33.offset_grep.log;
+                python3 /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/scripts/BAM2Reads.py -shift ${offset} -kmer 33 -gff /data/work/I2BC/fadwa.elkhaddar/BIM/orfmine_tutorial/ORFmine/examples/database/mapping_orf_Scer.gff -bam /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/BAM/Orfium/SRR1562875/SRR1562875.bam -outpath /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Orfium/SRR1562875/SRR1562875_33 -outname Orfium_33 -features_include n c _ i n t e r g e n i c 2> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Orfium/SRR1562875.33.bam2read.log;
+                in_lengths_list="True"
+                break
+            fi
+        done
+
+        if [ -z "$in_lengths_list" ]; then
+            touch /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Orfium/SRR1562875/SRR1562875_33/Orfium_33_reads.tab
+        fi
+        
+[Thu Mar 28 16:12:19 2024]
+Finished job 10.
+4 of 12 steps (33%) done
+Select jobs to execute...
+
+[Thu Mar 28 16:12:19 2024]
+rule Bam2Reads_Orfium:
+    input: /data/work/I2BC/fadwa.elkhaddar/BIM/orfmine_tutorial/ORFmine/examples/database/mapping_orf_Scer.gff, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/BAM/Orfium/SRR1562875/SRR1562875.bam, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/BAM/Orfium/SRR1562875/SRR1562875.bam.bai, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/RiboWaltz/SRR1562875/psite_offset.csv, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Selected_length/SRR1562875/Selected_length.txt
+    output: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Orfium/SRR1562875/SRR1562875_31/Orfium_31_reads.tab
+    log: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Orfium/SRR1562875.31.bam2read.log, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Orfium/SRR1562875.31.offset_grep.log
+    jobid: 8
+    benchmark: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Benchmarks/Bam2Reads_Orfium/SRR1562875.31.bam2read.benchmark.txt
+    reason: Missing output files: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Orfium/SRR1562875/SRR1562875_31/Orfium_31_reads.tab
+    wildcards: sample=SRR1562875, length=31
+    resources: tmpdir=/var/tmp/pbs.951899.pbsserver, mem_mb=2000
+
+
+        lengths_list=$(cat /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Selected_length/SRR1562875/Selected_length.txt)
+        in_lengths_list=""
+
+        for length in $lengths_list; do
+            if [ "$length" == "31" ]; then
+                offset=$(grep 'SRR1562875' /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/RiboWaltz/SRR1562875/psite_offset.csv 2> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Orfium/SRR1562875.31.offset_grep.log | grep '^31' 2>> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Orfium/SRR1562875.31.offset_grep.log | cut -f7 2>> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Orfium/SRR1562875.31.offset_grep.log) 2>> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Orfium/SRR1562875.31.offset_grep.log;
+                python3 /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/scripts/BAM2Reads.py -shift ${offset} -kmer 31 -gff /data/work/I2BC/fadwa.elkhaddar/BIM/orfmine_tutorial/ORFmine/examples/database/mapping_orf_Scer.gff -bam /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/BAM/Orfium/SRR1562875/SRR1562875.bam -outpath /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Orfium/SRR1562875/SRR1562875_31 -outname Orfium_31 -features_include n c _ i n t e r g e n i c 2> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Orfium/SRR1562875.31.bam2read.log;
+                in_lengths_list="True"
+                break
+            fi
+        done
+
+        if [ -z "$in_lengths_list" ]; then
+            touch /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Orfium/SRR1562875/SRR1562875_31/Orfium_31_reads.tab
+        fi
+        
+[Thu Mar 28 16:12:19 2024]
+Finished job 8.
+5 of 12 steps (42%) done
+Select jobs to execute...
+
+[Thu Mar 28 16:12:19 2024]
+rule Bam2Reads_Orfium:
+    input: /data/work/I2BC/fadwa.elkhaddar/BIM/orfmine_tutorial/ORFmine/examples/database/mapping_orf_Scer.gff, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/BAM/Orfium/SRR1562875/SRR1562875.bam, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/BAM/Orfium/SRR1562875/SRR1562875.bam.bai, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/RiboWaltz/SRR1562875/psite_offset.csv, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Selected_length/SRR1562875/Selected_length.txt
+    output: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Orfium/SRR1562875/SRR1562875_28/Orfium_28_reads.tab
+    log: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Orfium/SRR1562875.28.bam2read.log, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Orfium/SRR1562875.28.offset_grep.log
+    jobid: 5
+    benchmark: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Benchmarks/Bam2Reads_Orfium/SRR1562875.28.bam2read.benchmark.txt
+    reason: Missing output files: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Orfium/SRR1562875/SRR1562875_28/Orfium_28_reads.tab
+    wildcards: sample=SRR1562875, length=28
+    resources: tmpdir=/var/tmp/pbs.951899.pbsserver, mem_mb=2000
+
+
+        lengths_list=$(cat /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Selected_length/SRR1562875/Selected_length.txt)
+        in_lengths_list=""
+
+        for length in $lengths_list; do
+            if [ "$length" == "28" ]; then
+                offset=$(grep 'SRR1562875' /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/RiboWaltz/SRR1562875/psite_offset.csv 2> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Orfium/SRR1562875.28.offset_grep.log | grep '^28' 2>> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Orfium/SRR1562875.28.offset_grep.log | cut -f7 2>> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Orfium/SRR1562875.28.offset_grep.log) 2>> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Orfium/SRR1562875.28.offset_grep.log;
+                python3 /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/scripts/BAM2Reads.py -shift ${offset} -kmer 28 -gff /data/work/I2BC/fadwa.elkhaddar/BIM/orfmine_tutorial/ORFmine/examples/database/mapping_orf_Scer.gff -bam /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/BAM/Orfium/SRR1562875/SRR1562875.bam -outpath /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Orfium/SRR1562875/SRR1562875_28 -outname Orfium_28 -features_include n c _ i n t e r g e n i c 2> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Orfium/SRR1562875.28.bam2read.log;
+                in_lengths_list="True"
+                break
+            fi
+        done
+
+        if [ -z "$in_lengths_list" ]; then
+            touch /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Orfium/SRR1562875/SRR1562875_28/Orfium_28_reads.tab
+        fi
+        
+[Thu Mar 28 16:12:19 2024]
+Finished job 5.
+6 of 12 steps (50%) done
+Select jobs to execute...
+
+[Thu Mar 28 16:12:19 2024]
+rule Bam2Reads_Orfium:
+    input: /data/work/I2BC/fadwa.elkhaddar/BIM/orfmine_tutorial/ORFmine/examples/database/mapping_orf_Scer.gff, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/BAM/Orfium/SRR1562875/SRR1562875.bam, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/BAM/Orfium/SRR1562875/SRR1562875.bam.bai, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/RiboWaltz/SRR1562875/psite_offset.csv, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Selected_length/SRR1562875/Selected_length.txt
+    output: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Orfium/SRR1562875/SRR1562875_26/Orfium_26_reads.tab
+    log: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Orfium/SRR1562875.26.bam2read.log, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Orfium/SRR1562875.26.offset_grep.log
+    jobid: 3
+    benchmark: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Benchmarks/Bam2Reads_Orfium/SRR1562875.26.bam2read.benchmark.txt
+    reason: Missing output files: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Orfium/SRR1562875/SRR1562875_26/Orfium_26_reads.tab
+    wildcards: sample=SRR1562875, length=26
+    resources: tmpdir=/var/tmp/pbs.951899.pbsserver, mem_mb=2000
+
+
+        lengths_list=$(cat /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Selected_length/SRR1562875/Selected_length.txt)
+        in_lengths_list=""
+
+        for length in $lengths_list; do
+            if [ "$length" == "26" ]; then
+                offset=$(grep 'SRR1562875' /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/RiboWaltz/SRR1562875/psite_offset.csv 2> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Orfium/SRR1562875.26.offset_grep.log | grep '^26' 2>> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Orfium/SRR1562875.26.offset_grep.log | cut -f7 2>> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Orfium/SRR1562875.26.offset_grep.log) 2>> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Orfium/SRR1562875.26.offset_grep.log;
+                python3 /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/scripts/BAM2Reads.py -shift ${offset} -kmer 26 -gff /data/work/I2BC/fadwa.elkhaddar/BIM/orfmine_tutorial/ORFmine/examples/database/mapping_orf_Scer.gff -bam /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/BAM/Orfium/SRR1562875/SRR1562875.bam -outpath /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Orfium/SRR1562875/SRR1562875_26 -outname Orfium_26 -features_include n c _ i n t e r g e n i c 2> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Orfium/SRR1562875.26.bam2read.log;
+                in_lengths_list="True"
+                break
+            fi
+        done
+
+        if [ -z "$in_lengths_list" ]; then
+            touch /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Orfium/SRR1562875/SRR1562875_26/Orfium_26_reads.tab
+        fi
+        
+[Thu Mar 28 16:12:20 2024]
+Finished job 3.
+7 of 12 steps (58%) done
+Select jobs to execute...
+
+[Thu Mar 28 16:12:20 2024]
+rule Bam2Reads_Orfium:
+    input: /data/work/I2BC/fadwa.elkhaddar/BIM/orfmine_tutorial/ORFmine/examples/database/mapping_orf_Scer.gff, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/BAM/Orfium/SRR1562875/SRR1562875.bam, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/BAM/Orfium/SRR1562875/SRR1562875.bam.bai, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/RiboWaltz/SRR1562875/psite_offset.csv, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Selected_length/SRR1562875/Selected_length.txt
+    output: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Orfium/SRR1562875/SRR1562875_32/Orfium_32_reads.tab
+    log: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Orfium/SRR1562875.32.bam2read.log, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Orfium/SRR1562875.32.offset_grep.log
+    jobid: 9
+    benchmark: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Benchmarks/Bam2Reads_Orfium/SRR1562875.32.bam2read.benchmark.txt
+    reason: Missing output files: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Orfium/SRR1562875/SRR1562875_32/Orfium_32_reads.tab
+    wildcards: sample=SRR1562875, length=32
+    resources: tmpdir=/var/tmp/pbs.951899.pbsserver, mem_mb=2000
+
+
+        lengths_list=$(cat /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Selected_length/SRR1562875/Selected_length.txt)
+        in_lengths_list=""
+
+        for length in $lengths_list; do
+            if [ "$length" == "32" ]; then
+                offset=$(grep 'SRR1562875' /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/RiboWaltz/SRR1562875/psite_offset.csv 2> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Orfium/SRR1562875.32.offset_grep.log | grep '^32' 2>> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Orfium/SRR1562875.32.offset_grep.log | cut -f7 2>> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Orfium/SRR1562875.32.offset_grep.log) 2>> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Orfium/SRR1562875.32.offset_grep.log;
+                python3 /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/scripts/BAM2Reads.py -shift ${offset} -kmer 32 -gff /data/work/I2BC/fadwa.elkhaddar/BIM/orfmine_tutorial/ORFmine/examples/database/mapping_orf_Scer.gff -bam /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/BAM/Orfium/SRR1562875/SRR1562875.bam -outpath /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Orfium/SRR1562875/SRR1562875_32 -outname Orfium_32 -features_include n c _ i n t e r g e n i c 2> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Orfium/SRR1562875.32.bam2read.log;
+                in_lengths_list="True"
+                break
+            fi
+        done
+
+        if [ -z "$in_lengths_list" ]; then
+            touch /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Orfium/SRR1562875/SRR1562875_32/Orfium_32_reads.tab
+        fi
+        
+[Thu Mar 28 16:12:20 2024]
+Finished job 9.
+8 of 12 steps (67%) done
+Select jobs to execute...
+
+[Thu Mar 28 16:12:20 2024]
+rule Bam2Reads_Orfium:
+    input: /data/work/I2BC/fadwa.elkhaddar/BIM/orfmine_tutorial/ORFmine/examples/database/mapping_orf_Scer.gff, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/BAM/Orfium/SRR1562875/SRR1562875.bam, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/BAM/Orfium/SRR1562875/SRR1562875.bam.bai, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/RiboWaltz/SRR1562875/psite_offset.csv, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Selected_length/SRR1562875/Selected_length.txt
+    output: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Orfium/SRR1562875/SRR1562875_30/Orfium_30_reads.tab
+    log: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Orfium/SRR1562875.30.bam2read.log, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Orfium/SRR1562875.30.offset_grep.log
+    jobid: 7
+    benchmark: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Benchmarks/Bam2Reads_Orfium/SRR1562875.30.bam2read.benchmark.txt
+    reason: Missing output files: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Orfium/SRR1562875/SRR1562875_30/Orfium_30_reads.tab
+    wildcards: sample=SRR1562875, length=30
+    resources: tmpdir=/var/tmp/pbs.951899.pbsserver, mem_mb=2000
+
+
+        lengths_list=$(cat /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Selected_length/SRR1562875/Selected_length.txt)
+        in_lengths_list=""
+
+        for length in $lengths_list; do
+            if [ "$length" == "30" ]; then
+                offset=$(grep 'SRR1562875' /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/RiboWaltz/SRR1562875/psite_offset.csv 2> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Orfium/SRR1562875.30.offset_grep.log | grep '^30' 2>> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Orfium/SRR1562875.30.offset_grep.log | cut -f7 2>> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Orfium/SRR1562875.30.offset_grep.log) 2>> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Orfium/SRR1562875.30.offset_grep.log;
+                python3 /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/scripts/BAM2Reads.py -shift ${offset} -kmer 30 -gff /data/work/I2BC/fadwa.elkhaddar/BIM/orfmine_tutorial/ORFmine/examples/database/mapping_orf_Scer.gff -bam /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/BAM/Orfium/SRR1562875/SRR1562875.bam -outpath /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Orfium/SRR1562875/SRR1562875_30 -outname Orfium_30 -features_include n c _ i n t e r g e n i c 2> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Orfium/SRR1562875.30.bam2read.log;
+                in_lengths_list="True"
+                break
+            fi
+        done
+
+        if [ -z "$in_lengths_list" ]; then
+            touch /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Orfium/SRR1562875/SRR1562875_30/Orfium_30_reads.tab
+        fi
+        
+[Thu Mar 28 16:12:20 2024]
+Finished job 7.
+9 of 12 steps (75%) done
+Select jobs to execute...
+
+[Thu Mar 28 16:12:20 2024]
+rule Bam2Reads_Orfium:
+    input: /data/work/I2BC/fadwa.elkhaddar/BIM/orfmine_tutorial/ORFmine/examples/database/mapping_orf_Scer.gff, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/BAM/Orfium/SRR1562875/SRR1562875.bam, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/BAM/Orfium/SRR1562875/SRR1562875.bam.bai, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/RiboWaltz/SRR1562875/psite_offset.csv, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Selected_length/SRR1562875/Selected_length.txt
+    output: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Orfium/SRR1562875/SRR1562875_34/Orfium_34_reads.tab
+    log: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Orfium/SRR1562875.34.bam2read.log, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Orfium/SRR1562875.34.offset_grep.log
+    jobid: 11
+    benchmark: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Benchmarks/Bam2Reads_Orfium/SRR1562875.34.bam2read.benchmark.txt
+    reason: Missing output files: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Orfium/SRR1562875/SRR1562875_34/Orfium_34_reads.tab
+    wildcards: sample=SRR1562875, length=34
+    resources: tmpdir=/var/tmp/pbs.951899.pbsserver, mem_mb=2000
+
+
+        lengths_list=$(cat /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Selected_length/SRR1562875/Selected_length.txt)
+        in_lengths_list=""
+
+        for length in $lengths_list; do
+            if [ "$length" == "34" ]; then
+                offset=$(grep 'SRR1562875' /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/RiboWaltz/SRR1562875/psite_offset.csv 2> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Orfium/SRR1562875.34.offset_grep.log | grep '^34' 2>> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Orfium/SRR1562875.34.offset_grep.log | cut -f7 2>> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Orfium/SRR1562875.34.offset_grep.log) 2>> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Orfium/SRR1562875.34.offset_grep.log;
+                python3 /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/scripts/BAM2Reads.py -shift ${offset} -kmer 34 -gff /data/work/I2BC/fadwa.elkhaddar/BIM/orfmine_tutorial/ORFmine/examples/database/mapping_orf_Scer.gff -bam /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/BAM/Orfium/SRR1562875/SRR1562875.bam -outpath /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Orfium/SRR1562875/SRR1562875_34 -outname Orfium_34 -features_include n c _ i n t e r g e n i c 2> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Orfium/SRR1562875.34.bam2read.log;
+                in_lengths_list="True"
+                break
+            fi
+        done
+
+        if [ -z "$in_lengths_list" ]; then
+            touch /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Orfium/SRR1562875/SRR1562875_34/Orfium_34_reads.tab
+        fi
+        
+[Thu Mar 28 16:12:20 2024]
+Finished job 11.
+10 of 12 steps (83%) done
+Select jobs to execute...
+
+[Thu Mar 28 16:12:20 2024]
+rule Bam2Reads_Orfium:
+    input: /data/work/I2BC/fadwa.elkhaddar/BIM/orfmine_tutorial/ORFmine/examples/database/mapping_orf_Scer.gff, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/BAM/Orfium/SRR1562875/SRR1562875.bam, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/BAM/Orfium/SRR1562875/SRR1562875.bam.bai, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/RiboWaltz/SRR1562875/psite_offset.csv, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Selected_length/SRR1562875/Selected_length.txt
+    output: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Orfium/SRR1562875/SRR1562875_29/Orfium_29_reads.tab
+    log: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Orfium/SRR1562875.29.bam2read.log, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Orfium/SRR1562875.29.offset_grep.log
+    jobid: 6
+    benchmark: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Benchmarks/Bam2Reads_Orfium/SRR1562875.29.bam2read.benchmark.txt
+    reason: Missing output files: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Orfium/SRR1562875/SRR1562875_29/Orfium_29_reads.tab
+    wildcards: sample=SRR1562875, length=29
+    resources: tmpdir=/var/tmp/pbs.951899.pbsserver, mem_mb=2000
+
+
+        lengths_list=$(cat /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Selected_length/SRR1562875/Selected_length.txt)
+        in_lengths_list=""
+
+        for length in $lengths_list; do
+            if [ "$length" == "29" ]; then
+                offset=$(grep 'SRR1562875' /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/RiboWaltz/SRR1562875/psite_offset.csv 2> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Orfium/SRR1562875.29.offset_grep.log | grep '^29' 2>> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Orfium/SRR1562875.29.offset_grep.log | cut -f7 2>> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Orfium/SRR1562875.29.offset_grep.log) 2>> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Orfium/SRR1562875.29.offset_grep.log;
+                python3 /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/scripts/BAM2Reads.py -shift ${offset} -kmer 29 -gff /data/work/I2BC/fadwa.elkhaddar/BIM/orfmine_tutorial/ORFmine/examples/database/mapping_orf_Scer.gff -bam /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/BAM/Orfium/SRR1562875/SRR1562875.bam -outpath /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Orfium/SRR1562875/SRR1562875_29 -outname Orfium_29 -features_include n c _ i n t e r g e n i c 2> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Orfium/SRR1562875.29.bam2read.log;
+                in_lengths_list="True"
+                break
+            fi
+        done
+
+        if [ -z "$in_lengths_list" ]; then
+            touch /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Orfium/SRR1562875/SRR1562875_29/Orfium_29_reads.tab
+        fi
+        
+Terminating processes on user request, this might take some time.
+Cancelling snakemake on user request.

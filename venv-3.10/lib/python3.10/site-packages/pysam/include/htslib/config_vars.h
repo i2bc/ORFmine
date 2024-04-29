@@ -1,0 +1,5 @@
+#define HTS_CC "gcc -pthread"
+#define HTS_CPPFLAGS "-I/project/htslib -I/project/samtools -I/project/samtools/lz4 -I/project/bcftools -I/project/pysam -I/project"
+#define HTS_CFLAGS "-Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -Wno-unused -Wno-strict-prototypes -Wno-sign-compare -Wno-error=declaration-after-statement"
+#define HTS_LDFLAGS " -L/project/pysam -L/project/pysam -L/project -L/project/build/lib.linux-x86_64-3.9/pysam -Lbuild/lib.linux-x86_64-3.9/pysam -Wl,-rpath,$ORIGIN"
+#define HTS_LIBS "-lz -llzma -lbz2 -lz -lm -lcurl"

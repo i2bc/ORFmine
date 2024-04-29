@@ -1,0 +1,3 @@
+SyntaxErrorin line 42 of /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/rules/06_mapping_genome_without_filter_outRNA.smk:
+Unexpected keyword fastq in rule definition (06_mapping_genome_without_filter_outRNA.smk, line 42)
+  File "/data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Snakefile", line 111, in <module>

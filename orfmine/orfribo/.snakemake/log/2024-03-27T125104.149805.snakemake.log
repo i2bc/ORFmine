@@ -1,0 +1,41 @@
+Config file /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/config.yaml is extended by additional config specified via the command line.
+Building DAG of jobs...
+Using shell: /usr/bin/bash
+Provided cores: 1 (use --cores to define parallelism)
+Rules claiming more threads will be scaled down.
+Provided resources: mem_mb=2000000
+Job stats:
+job               count    min threads    max threads
+--------------  -------  -------------  -------------
+adapt_trimming        1              1              1
+all                   1              1              1
+total                 2              1              1
+
+mkdir -p /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/logs
+echo 'RiboDoc version : 0.8.7' > /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/RiboDoc_package_versions.txt
+Select jobs to execute...
+
+[Wed Mar 27 12:51:05 2024]
+rule adapt_trimming:
+    input: /data/work/I2BC/fadwa.elkhaddar/BIM/fastq/SRR1562874.fastq.gz, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Trimming/Adapters/SRR1562874/SRR1562874.txt
+    output: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Trimming/Trimmed_fastq/SRR1562874/SRR1562874.cutadapt.25-35.fastq.gz
+    log: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Trimming/Trimmed_fastq/SRR1562874_trim_value.log, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Trimming/Trimmed_fastq/SRR1562874_cutadapt.log, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Trimming/Trimmed_fastq/SRR1562874_adapt_trimming.log
+    jobid: 1
+    benchmark: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Benchmarks/Trimming/Trimmed_fastq/SRR1562874_adapt_trimming.txt
+    reason: Forced execution
+    wildcards: sample=SRR1562874
+    resources: tmpdir=/var/tmp/pbs.951492.pbsserver, mem_mb=2000
+
+RuleException in rule adapt_trimming in line 24 of /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/rules/03_find_adapter_trimming.smk:
+NameError: The name 'trim' is unknown in this context. Please make sure that you defined that variable. Also note that braces not used for variable access have to be escaped by repeating them, i.e. {{print $1}}, when formatting the following:
+
+        adapter_sequence=$(cat {input.adapt_seq})        
+        if [ {params.trimmed} == 0 ]; then
+            trim="-a $adapter_sequence --trimmed-only"
+            echo "Trim value: $trim" > {log.trim_value}
+            cutadapt ${trim} -e 0.125 -j {threads} --max-n=1 -m  {params.min}  -M {params.max} -o {output.cut_fastq} {input.fastq} 1>> {log.cutadapt_out} 2> {log.cutadapt}
+        else
+            ln -s {input.fastq} {output.cut_fastq}
+            echo "Reads are already trimmed." > {log.cutadapt_out}
+        fi
+        

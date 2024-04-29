@@ -1,0 +1,4 @@
+Config file /home/nchenche/projects/ORFmine/packages/orfribo/config.yaml is extended by additional config specified via the command line.
+Building DAG of jobs...
+WorkflowErrorin line 73 of /home/nchenche/projects/ORFmine/packages/orfribo/Snakefile:
+Resource _nodes is of type int but global resource constraint defines <class 'str'> with value 1. Resources with the same name need to have the same types (int, float, or str are allowed).

@@ -1,0 +1,47 @@
+Config file /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/config.yaml is extended by additional config specified via the command line.
+Building DAG of jobs...
+Using shell: /usr/bin/bash
+Provided cores: 1 (use --cores to define parallelism)
+Rules claiming more threads will be scaled down.
+Provided resources: mem_mb=2000000
+Job stats:
+job                 count    min threads    max threads
+----------------  -------  -------------  -------------
+Bam2Reads_Orfium       11              1              1
+all                     1              1              1
+total                  12              1              1
+
+mkdir -p /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/logs
+echo 'RiboDoc version : 0.8.7' > /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/RiboDoc_package_versions.txt
+Select jobs to execute...
+
+[Thu Mar 28 16:10:57 2024]
+rule Bam2Reads_Orfium:
+    input: /data/work/I2BC/fadwa.elkhaddar/BIM/orfmine_tutorial/ORFmine/examples/database/mapping_orf_Scer.gff, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/BAM/Orfium/SRR1562875/SRR1562875.bam, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/BAM/Orfium/SRR1562875/SRR1562875.bam.bai, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/RiboWaltz/SRR1562875/psite_offset.csv, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Selected_length/SRR1562875/Selected_length.txt
+    output: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Orfium/SRR1562875/SRR1562875_25/Orfium_25_reads.tab
+    log: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Orfium/SRR1562875.25.bam2read.log, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/Bam2Reads_Orfium/SRR1562875.25.offset_grep.log
+    jobid: 2
+    benchmark: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Benchmarks/Bam2Reads_Orfium/SRR1562875.25.bam2read.benchmark.txt
+    reason: Missing output files: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Bam2Reads_Orfium/SRR1562875/SRR1562875_25/Orfium_25_reads.tab
+    wildcards: sample=SRR1562875, length=25
+    resources: tmpdir=/var/tmp/pbs.951899.pbsserver, mem_mb=2000
+
+RuleException in rule Bam2Reads_Orfium in line 2 of /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/rules/15_bam2reads_orfeum.smk:
+AttributeError: 'Params' object has no attribute 'read_length', when formatting the following:
+
+        lengths_list=$(cat {input.table})
+        in_lengths_list=""
+
+        for length in $lengths_list; do
+            if [ "$length" == "{params.reads_length}" ]; then
+                offset=$(grep '{params.sample_name}' {input.psite_table} 2> {log.offset_grep} | grep '^{params.reads_length}' 2>> {log.offset_grep} | cut -f7 2>> {log.offset_grep}) 2>> {log.offset_grep};
+                python3 {params.scripts} -shift ${{offset}} -kmer {params.reads_length} -gff {input.intergenic_gff} -bam {input.bam} -outpath {params.outdir} -outname Orfium_{params.read_length} -features_include {params.feature} 2> {log.bam2read};
+                in_lengths_list="True"
+                break
+            fi
+        done
+
+        if [ -z "$in_lengths_list" ]; then
+            touch {output.reads_table}
+        fi
+        

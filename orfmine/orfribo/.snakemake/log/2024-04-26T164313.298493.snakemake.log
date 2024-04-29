@@ -1,0 +1,87 @@
+Config file /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/config.yaml is extended by additional config specified via the command line.
+Building DAG of jobs...
+Using shell: /usr/bin/bash
+Provided cores: 8
+Rules claiming more threads will be scaled down.
+Provided resources: mem_mb=2000000
+Job stats:
+job                             count    min threads    max threads
+----------------------------  -------  -------------  -------------
+Mapping_ORFeome_STAR_Bowtie2        1              8              8
+adapt_trimming                      1              8              8
+all                                 1              1              1
+compressed_unmapped_ALL_RNA         1              1              1
+compressed_unmapped_outRNA          1              1              1
+find_adapter_sequence               1              1              1
+index_fasta_OutRNA                  1              1              1
+index_reference_BOWTIE2             1              8              8
+index_reference_STAR                1              1              1
+make_fastqc                         1              1              1
+mapping_star_OutRNA                 1              1              1
+name_CDS                            1              1              1
+total                              12              1              8
+
+echo 'RiboDoc version : 0.8.7' > /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Results_Fadwa_Nicolat_STAR_SRR1562875/SUPPLEMENTARY_DATA/Logs/RiboDoc_package_versions.txt
+Select jobs to execute...
+
+[Fri Apr 26 16:43:14 2024]
+rule index_reference_BOWTIE2:
+    input: /data/work/I2BC/fadwa.elkhaddar/BIM/orfmine_tutorial/ORFmine/examples/database/Scer.fna
+    output: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Results_Fadwa_Nicolat_STAR_SRR1562875/DATA_PROCESSING/Mapping/ORFeome/Bowtie2/Index/index_bowtie2.1.bt2, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Results_Fadwa_Nicolat_STAR_SRR1562875/DATA_PROCESSING/Mapping/ORFeome/Bowtie2/Index/index_bowtie2.2.bt2, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Results_Fadwa_Nicolat_STAR_SRR1562875/DATA_PROCESSING/Mapping/ORFeome/Bowtie2/Index/index_bowtie2.3.bt2, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Results_Fadwa_Nicolat_STAR_SRR1562875/DATA_PROCESSING/Mapping/ORFeome/Bowtie2/Index/index_bowtie2.4.bt2, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Results_Fadwa_Nicolat_STAR_SRR1562875/DATA_PROCESSING/Mapping/ORFeome/Bowtie2/Index/index_bowtie2.rev.1.bt2, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Results_Fadwa_Nicolat_STAR_SRR1562875/DATA_PROCESSING/Mapping/ORFeome/Bowtie2/Index/index_bowtie2.rev.2.bt2
+    log: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Results_Fadwa_Nicolat_STAR_SRR1562875/SUPPLEMENTARY_DATA/Logs/Mapping/ORFeome/Bowtie2/Index/ORFeome_index.log
+    jobid: 11
+    benchmark: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Results_Fadwa_Nicolat_STAR_SRR1562875/SUPPLEMENTARY_DATA/Benchmarks/Mapping/ORFeome/Bowtie2/Index/ORFeome_index.benchmark.txt
+    reason: Missing output files: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Results_Fadwa_Nicolat_STAR_SRR1562875/DATA_PROCESSING/Mapping/ORFeome/Bowtie2/Index/index_bowtie2.rev.1.bt2, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Results_Fadwa_Nicolat_STAR_SRR1562875/DATA_PROCESSING/Mapping/ORFeome/Bowtie2/Index/index_bowtie2.3.bt2, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Results_Fadwa_Nicolat_STAR_SRR1562875/DATA_PROCESSING/Mapping/ORFeome/Bowtie2/Index/index_bowtie2.rev.2.bt2, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Results_Fadwa_Nicolat_STAR_SRR1562875/DATA_PROCESSING/Mapping/ORFeome/Bowtie2/Index/index_bowtie2.1.bt2, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Results_Fadwa_Nicolat_STAR_SRR1562875/DATA_PROCESSING/Mapping/ORFeome/Bowtie2/Index/index_bowtie2.4.bt2, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Results_Fadwa_Nicolat_STAR_SRR1562875/DATA_PROCESSING/Mapping/ORFeome/Bowtie2/Index/index_bowtie2.2.bt2
+    threads: 8
+    resources: tmpdir=/var/tmp/pbs.980092.pbsserver
+
+bowtie2-build --threads 8 /data/work/I2BC/fadwa.elkhaddar/BIM/orfmine_tutorial/ORFmine/examples/database/Scer.fna /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Results_Fadwa_Nicolat_STAR_SRR1562875/DATA_PROCESSING/Mapping/ORFeome/Bowtie2/Index/index_bowtie2 &> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Results_Fadwa_Nicolat_STAR_SRR1562875/SUPPLEMENTARY_DATA/Logs/Mapping/ORFeome/Bowtie2/Index/ORFeome_index.log ;
+[Fri Apr 26 16:43:40 2024]
+Finished job 11.
+1 of 12 steps (8%) done
+Select jobs to execute...
+
+[Fri Apr 26 16:43:40 2024]
+rule make_fastqc:
+    input: /data/work/I2BC/fadwa.elkhaddar/BIM/fastq/SRR1562875.fastq.gz
+    output: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Results_Fadwa_Nicolat_STAR_SRR1562875/DATA_PROCESSING/Quality_control/SRR1562875/SRR1562875_fastqc.zip, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Results_Fadwa_Nicolat_STAR_SRR1562875/DATA_PROCESSING/Quality_control/SRR1562875/SRR1562875_fastqc.html
+    log: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Results_Fadwa_Nicolat_STAR_SRR1562875/SUPPLEMENTARY_DATA/Logs/Quality_control/SRR1562875.log
+    jobid: 1
+    benchmark: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Results_Fadwa_Nicolat_STAR_SRR1562875/SUPPLEMENTARY_DATA/Benchmarks/Quality_control/SRR1562875_benchmark.txt
+    reason: Missing output files: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Results_Fadwa_Nicolat_STAR_SRR1562875/DATA_PROCESSING/Quality_control/SRR1562875/SRR1562875_fastqc.html
+    wildcards: sample=SRR1562875
+    resources: tmpdir=/var/tmp/pbs.980092.pbsserver
+
+
+	 fastqc /data/work/I2BC/fadwa.elkhaddar/BIM/fastq/SRR1562875.fastq.gz --outdir /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Results_Fadwa_Nicolat_STAR_SRR1562875/DATA_PROCESSING/Quality_control/SRR1562875 2> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Results_Fadwa_Nicolat_STAR_SRR1562875/SUPPLEMENTARY_DATA/Logs/Quality_control/SRR1562875.log 
+	
+[Fri Apr 26 16:45:26 2024]
+Finished job 1.
+2 of 12 steps (17%) done
+Select jobs to execute...
+
+[Fri Apr 26 16:45:26 2024]
+rule index_fasta_OutRNA:
+    input: /data/work/I2BC/fadwa.elkhaddar/BIM/orfmine_tutorial/ORFmine/examples/database/Scer_rRNA.fa
+    output: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Results_Fadwa_Nicolat_STAR_SRR1562875/DATA_PROCESSING/Mapping/Filter_Unwanted_Sequence/Index
+    log: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Results_Fadwa_Nicolat_STAR_SRR1562875/SUPPLEMENTARY_DATA/Logs/Mapping/Filter_Unwanted_Sequence/Index_Filter_Unwanted_Sequence.log
+    jobid: 9
+    benchmark: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Results_Fadwa_Nicolat_STAR_SRR1562875/SUPPLEMENTARY_DATA/Benchmarks/Mapping/Filter_Unwanted_Sequence/Index_Filter_Unwanted_Sequence.txt
+    reason: Missing output files: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Results_Fadwa_Nicolat_STAR_SRR1562875/DATA_PROCESSING/Mapping/Filter_Unwanted_Sequence/Index
+    resources: tmpdir=/var/tmp/pbs.980092.pbsserver
+
+mkdir /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Results_Fadwa_Nicolat_STAR_SRR1562875/DATA_PROCESSING/Mapping/Filter_Unwanted_Sequence/Index && STAR --runThreadN 20 --runMode genomeGenerate --genomeDir /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Results_Fadwa_Nicolat_STAR_SRR1562875/DATA_PROCESSING/Mapping/Filter_Unwanted_Sequence/Index --genomeFastaFiles /data/work/I2BC/fadwa.elkhaddar/BIM/orfmine_tutorial/ORFmine/examples/database/Scer_rRNA.fa --genomeSAindexNbases 4
+[Fri Apr 26 16:45:26 2024]
+Error in rule index_fasta_OutRNA:
+    jobid: 9
+    output: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Results_Fadwa_Nicolat_STAR_SRR1562875/DATA_PROCESSING/Mapping/Filter_Unwanted_Sequence/Index
+    log: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Results_Fadwa_Nicolat_STAR_SRR1562875/SUPPLEMENTARY_DATA/Logs/Mapping/Filter_Unwanted_Sequence/Index_Filter_Unwanted_Sequence.log (check log file(s) for error message)
+    shell:
+        mkdir /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Results_Fadwa_Nicolat_STAR_SRR1562875/DATA_PROCESSING/Mapping/Filter_Unwanted_Sequence/Index && STAR --runThreadN 20 --runMode genomeGenerate --genomeDir /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Results_Fadwa_Nicolat_STAR_SRR1562875/DATA_PROCESSING/Mapping/Filter_Unwanted_Sequence/Index --genomeFastaFiles /data/work/I2BC/fadwa.elkhaddar/BIM/orfmine_tutorial/ORFmine/examples/database/Scer_rRNA.fa --genomeSAindexNbases 4
+        (one of the commands exited with non-zero exit code; note that snakemake uses bash strict mode!)
+
+Removing output files of failed job index_fasta_OutRNA since they might be corrupted:
+/data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Results_Fadwa_Nicolat_STAR_SRR1562875/DATA_PROCESSING/Mapping/Filter_Unwanted_Sequence/Index
+Shutting down, this might take some time.
+Exiting because a job execution failed. Look above for error message
+Complete log: .snakemake/log/2024-04-26T164313.298493.snakemake.log

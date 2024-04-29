@@ -1,0 +1,58 @@
+##########################
+# Orfmap data            #
+##########################
+
+**.idea/
+
+examples/tests
+
+orfmap-*/orfmap/*
+!orfmap-*/orfmap/data/
+
+orfmap-*/orfmap/data/*
+!orfmap-*/orfmap/data/scerevisiae/
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+
+##########################
+# Python compiled source #
+##########################
+*\.pyc
+*\.pyo
+build/
+dist/
+doc/_build/
+
+orfmap/__pycache__/
+**/lib/__pycache__/
+
+**egg-*
+**/*egg-*
+
+examples/tests
+#################
+# pycharm files #
+#################
+**.idea/
+
+#################
+# python virtual envs#
+#################
+**.env
+**env
+**.venv
+**venv
+
+###############################
+# ORFribo softeware directory #
+###############################
+
+
+##############################
+# ORFold softwares directory #
+##############################
+orfold_v1/orfold/softwares/
+
+softwares_dependencies

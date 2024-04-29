@@ -1,0 +1,40 @@
+Config file /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/config.yaml is extended by additional config specified via the command line.
+Building DAG of jobs...
+Using shell: /usr/bin/bash
+Provided cores: 1 (use --cores to define parallelism)
+Rules claiming more threads will be scaled down.
+Provided resources: mem_mb=2000000
+Job stats:
+job                count    min threads    max threads
+---------------  -------  -------------  -------------
+all                    1              1              1
+samtools_filter        1              1              1
+samtools_index         1              1              1
+total                  3              1              1
+
+mkdir -p /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/logs
+echo 'RiboDoc version : 0.8.7' > /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Logs/RiboDoc_package_versions.txt
+Select jobs to execute...
+
+[Wed Mar 27 14:41:57 2024]
+rule samtools_filter:
+    input: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Mapping/Orfium/Hisat2/Results/SRR1562875/SRR1562875.sam, /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Mapping/Orfium/Bowtie2/Results/SRR1562875/SRR1562875.sam
+    output: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/BAM/Orfium/SRR1562875/SRR1562875.bam
+    jobid: 11
+    benchmark: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/SUPPLEMENTARY_DATA/Benchmarks/BAM/Orfium/SRR1562875_bam_Orfium.benchmark.txt
+    reason: Missing output files: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/BAM/Orfium/SRR1562875/SRR1562875.bam
+    wildcards: sample=SRR1562875
+    resources: tmpdir=/var/tmp/pbs.951492.pbsserver, mem_mb=667
+
+set +o pipefail ;grep '^@' /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Mapping/Orfium/Hisat2/Results/SRR1562875/SRR1562875.sam 1> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/BAM/Orfium/SRR1562875/SRR1562875/SRR1562875.sam ; grep -v '^@' /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Mapping/Orfium/Hisat2/Results/SRR1562875/SRR1562875.sam | grep -v 'ZS:i:' | egrep -i 'XM:i:0|XM:i:1' 1>> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/BAM/Orfium/SRR1562875/SRR1562875/SRR1562875.sam ; grep -v '^@' /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Mapping/Orfium/Bowtie2/Results/SRR1562875/SRR1562875.sam | grep -v 'XS:i:' | egrep -i 'XM:i:0|XM:i:1' 1>> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/BAM/Orfium/SRR1562875/SRR1562875/SRR1562875.sam ;samtools view -@ 20 -F 3844 -q 1 -h -b /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/BAM/Orfium/SRR1562875/SRR1562875/SRR1562875.sam | samtools sort -@ 20 -o /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/BAM/Orfium/SRR1562875/SRR1562875.bam ; rm /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/BAM/Orfium/SRR1562875/SRR1562875/SRR1562875.sam;
+[Wed Mar 27 14:41:57 2024]
+Error in rule samtools_filter:
+    jobid: 11
+    output: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/BAM/Orfium/SRR1562875/SRR1562875.bam
+    shell:
+        set +o pipefail ;grep '^@' /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Mapping/Orfium/Hisat2/Results/SRR1562875/SRR1562875.sam 1> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/BAM/Orfium/SRR1562875/SRR1562875/SRR1562875.sam ; grep -v '^@' /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Mapping/Orfium/Hisat2/Results/SRR1562875/SRR1562875.sam | grep -v 'ZS:i:' | egrep -i 'XM:i:0|XM:i:1' 1>> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/BAM/Orfium/SRR1562875/SRR1562875/SRR1562875.sam ; grep -v '^@' /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/DATA_PROCESSING/Mapping/Orfium/Bowtie2/Results/SRR1562875/SRR1562875.sam | grep -v 'XS:i:' | egrep -i 'XM:i:0|XM:i:1' 1>> /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/BAM/Orfium/SRR1562875/SRR1562875/SRR1562875.sam ;samtools view -@ 20 -F 3844 -q 1 -h -b /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/BAM/Orfium/SRR1562875/SRR1562875/SRR1562875.sam | samtools sort -@ 20 -o /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/BAM/Orfium/SRR1562875/SRR1562875.bam ; rm /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Test/RESULTS/BAM/Orfium/SRR1562875/SRR1562875/SRR1562875.sam;
+        (one of the commands exited with non-zero exit code; note that snakemake uses bash strict mode!)
+
+Shutting down, this might take some time.
+Exiting because a job execution failed. Look above for error message
+Complete log: .snakemake/log/2024-03-27T144155.676817.snakemake.log
