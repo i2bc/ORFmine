@@ -1,9 +1,0 @@
-Config file /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/config.yaml is extended by additional config specified via the command line.
-Building DAG of jobs...
-MissingInputException in rule samtools_filter in line 2 of /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/rules/07_samtools_genome_STAR.smk:
-Missing input files for rule samtools_filter:
-    output: /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Results_Fadwa_Nicolat_STAR_SRR1562875/RESULTS/BAM/ORFeome/SRR1562875/SRR1562875.bam
-    wildcards: sample=SRR1562875
-    affected files:
-        /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Results_Fadwa_Nicolat_STAR_SRR1562875/DATA_PROCESSING/Mapping/ORFeome/Bowtie2/Results/SRR1562875/SRR1562875.sam
-        /data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/Results_Fadwa_Nicolat_STAR_SRR1562875/DATA_PROCESSING/Mapping/ORFeome/Star/Results/SRR1562875/SRR1562875_Aligned.out.sam
