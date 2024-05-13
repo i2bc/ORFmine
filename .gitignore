@@ -44,11 +44,14 @@ examples/tests
 **env
 **.venv
 **venv
-
+venv-3.9/
+venv-3.10/
+test/
 ###############################
 # ORFribo softeware directory #
 ###############################
-
+orfmine/orfribo/Results_Fadwa_Nicolat_STAR_SRR1562875/
+.*
 
 ##############################
 # ORFold softwares directory #

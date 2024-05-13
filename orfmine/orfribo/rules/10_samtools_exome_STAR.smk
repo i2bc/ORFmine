@@ -13,12 +13,13 @@ rule samtools_filter_Exome:
     benchmark:
        str(BENCHMARKS_PATH / "BAM" / "Exome" / "{sample}_bam_orfeum.benchmark.txt")
     shell:
-        "set +o pipefail ;"
-	"grep '^@' {input.sam_hisat2} | uniq 1> {params.sam} ;"
-	"grep -v '^@' {input.sam_hisat2} | egrep -i 'XM:i:0|XM:i:1' 1>> {params.sam} ;" 
-	"grep -v '^@' {input.sam_bowtie2} 1>> {params.sam} ;"
-	"samtools view -@ {threads} -F 3588 -h -b {params.sam} | samtools sort -@ {threads} -o {output.bam} ;"
-	" rm -f {params.sam}" 
+        ## Pour STAR       
+        ''' awk -F'\t' '/^@/ && !seen[$0]++ || $15 == "nM:i:1" || $15 == "nM:i:0"' {input.sam_star} > {params.sam} ;'''       
+        # Pour Bowtie2        
+        '''awk -F'\t' '!/^@/ && ($15 == "XM:i:1" || $15 == "XM:i:0")' {input.sam_bowtie2} 1>> {params.sam} ;'''        
+        # Samtools filter        
+        "samtools view -@ 20 -F 3588 -h -b {params.sam} | samtools sort -@ 20 -o {output.bam};"
+        " rm {params.sam};" 
 
 rule samtools_index_Exome:
     input: 

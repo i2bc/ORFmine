@@ -5,11 +5,11 @@ in bioinformatics: GFF, FASTA, BED...
 """
 
 # Local
-from constants import *
-from biobjects import Feature
-from noncoding_objects import Igorf
-from gffutils import gff_tag
-from gffutils import REGEX_ID, REGEX_PARENT
+from .constants import *
+from .biobjects import Feature
+from .noncoding_objects import Igorf
+from .gffutils import gff_tag
+from .gffutils import REGEX_ID, REGEX_PARENT
 
 __author__ = "Pierre Bertin"
 __license__ = "GPL"

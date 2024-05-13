@@ -10,7 +10,7 @@ These constants are imported from constants module.
 import re
 
 # Local
-from constants import \
+from .constants import \
     GFF_SEP, GFF_COM, TAG_SEP, VAL_SEP, \
     PARENT_TAG, ID_TAG, UTR, \
     SEQID, SOURCE, TYPE, START, END, SCORE, STRAND, PHASE, ATTRIBUTES

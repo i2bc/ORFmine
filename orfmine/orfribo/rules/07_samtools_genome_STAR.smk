@@ -15,10 +15,9 @@ rule samtools_filter:
        str(BENCHMARKS_PATH / "BAM" / "ORFeome" / "{sample}_bam_ORFeome.benchmark.txt")
     shell:
        "set +o pipefail ;"
-       "grep '^@' {input.sam_hisat2} 1> {params.sam} ;"
-       " grep -v '^@' {input.sam_hisat2} | grep -v 'ZS:i:' | egrep -i 'XM:i:0|XM:i:1' 1>> {params.sam} ;"
-       " grep -v '^@' {input.sam_bowtie2} | grep -v 'XS:i:' | egrep -i 'XM:i:0|XM:i:1' 1>> {params.sam} ;"
-       "samtools view -@ 20 -F 3844 -q 1 -h -b {params.sam} | samtools sort -@ 20 -o {output.bam} ;"
+       ''' awk -F'\t' '$1 ~ /^@/ || $15 == "nM:i:1" || $15 == "nM:i:0"' {input.sam_star} > {params.sam} ;'''
+       '''awk -F'\t' '!/^@/ && ($15 == "XM:i:1" || $15 == "XM:i:0")' {input.sam_bowtie2} 1>> {params.sam}; ''' 
+       "samtools view -@ 20 -F 3844 -q 1 -h -b {params.sam} | samtools sort -@ 20 -o {output.bam};" 
        " rm {params.sam};"
 
 rule samtools_index:

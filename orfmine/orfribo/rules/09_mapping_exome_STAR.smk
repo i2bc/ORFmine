@@ -26,14 +26,14 @@ rule index_Exome_STAR:
         str(BENCHMARKS_PATH / "Mapping" / "Exome" / "Star" / "Index" / "Exome_index.txt")
     shell:
         "mkdir {output} && "
-        "STAR --runThreadN 20 --runMode genomeGenerate --genomeDir {output} --genomeFastaFiles {input} --genomeSAindexNbases 7"
+        "../STAR-2.7.11b/bin/Linux_x86_64/STAR --runThreadN 20 --runMode genomeGenerate --genomeDir {output} --genomeFastaFiles {input} --genomeSAindexNbases 7"
  
-if config.get('fasta_outRNA'):       
+if config.get('rna_to_exclude'):       
 	rule Mapping_Exome_STAR_Bowtie2:
 	    input: 
 	       fastq= str(DATA_PROCESSING_PATH / "Trimmed_Filtred_Fastq" / "{sample}" / "{sample}_Unmapped.out.mate1.fastq.gz"),    
 	       index_star = str(DATA_PROCESSING_PATH / "Mapping" / "Exome" / "Star" / "Index"),
-	       index_bowtie2 = expand(str(DATA_PROCESSING_PATH / "Mapping" / "Exome" / "Bowtie2" / "Index" / "index_bowtie2.{extb}.bt2",extb=BOWTIE2))
+	       index_bowtie2 = expand(str(DATA_PROCESSING_PATH / "Mapping" / "Exome" / "Bowtie2" / "Index" / "index_bowtie2.{extb}.bt2"),extb=BOWTIE2)
 	    output:
 	       sam_star = str(DATA_PROCESSING_PATH / "Mapping" / "Exome" / "Star" / "Results" / "{sample}" / "{sample}_Aligned.out.sam"),
 	       met1 = str(DATA_PROCESSING_PATH / "Mapping" / "Exome" / "Star" / "Results" / "{sample}" / "{sample}_Unmapped.out.mate1"),
@@ -43,16 +43,16 @@ if config.get('fasta_outRNA'):
 	       index_names_bowtie2 = str(DATA_PROCESSING_PATH / "Mapping" / "Exome" / "Bowtie2" / "Index" / "index_bowtie2"),
                multi_map = MULTIMAPPING
 	    log:
-	       final = str(LOGS_PATH / "Mapping" / "Exome" / "Star" / "{sample}_Exome_Log.final.out"),
-	       log = str(LOGS_PATH / "Mapping" / "Exome" / "Star" / "{sample}_Exome_Log.out"),
-	       sj = str(LOGS_PATH / "Mapping" / "Exome" / "Star" / "{sample}_Exome_SJ.out.tab"),
-	       prog = str(LOGS_PATH / "Mapping" / "Exome" / "Star" / "{sample}_Exome_Log.progess.out"),
-	       star = str(LOGS_PATH / "Mapping" / "Exome" / "Star" / "Exome_{sample}_star.out"), 
-	       bowtie2_out = str(LOGS_PATH / "Mapping" / "Exome" / "Bowtie2" / "Exome_{sample}_bowie2_mapping.out")
+	       final = str(LOGS_PATH / "Mapping" / "Exome" / "Star" / "Results" / "{sample}" /"{sample}_Exome_Log.final.out"),
+	       log = str(LOGS_PATH / "Mapping" / "Exome" / "Star" / "Results" / "{sample}" /"{sample}_Exome_Log.out"),
+	       sj = str(LOGS_PATH / "Mapping" / "Exome" / "Star" / "Results" / "{sample}" /"{sample}_Exome_SJ.out.tab"),
+	       prog = str(LOGS_PATH / "Mapping" / "Exome" / "Star" / "Results" / "{sample}" /"{sample}_Exome_Log.progess.out"),
+	       star = str(LOGS_PATH / "Mapping" / "Exome" / "Star" /"Results" / "{sample}" / "Exome_{sample}_star.out"), 
+	       bowtie2_out = str(LOGS_PATH / "Mapping" / "Exome" / "Bowtie2" / "Exome_{sample}_bowtie2_star_mapping.txt")
 	    benchmark:
 	       str(BENCHMARKS_PATH / "Mapping" / "Exome" / "Star" / "{sample}_STAR_Bowtie2_Mapping_Exome.benchmark.txt")
 	    shell:
-	       "STAR --readFilesCommand zcat " 
+	       "../STAR-2.7.11b/bin/Linux_x86_64/STAR --readFilesCommand zcat " 
 	       " --outSAMstrandField intronMotif "
 	       " --outReadsUnmapped Fastx "
 	       " --genomeDir {input.index_star}"
@@ -86,7 +86,7 @@ else:
 	    benchmark:
                str(BENCHMARKS_PATH / "Mapping" / "Exome" / "Star" / "{sample}_STAR_Bowtie2_Mapping_Exome.benchmark.txt")
 	    shell:
-               "STAR --readFilesCommand zcat "
+               "../STAR-2.7.11b/bin/Linux_x86_64/STAR --readFilesCommand zcat "
                " --outSAMstrandField intronMotif "
                " --outReadsUnmapped Fastx "
                " --genomeDir {input.index_star}"

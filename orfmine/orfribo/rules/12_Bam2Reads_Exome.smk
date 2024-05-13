@@ -18,7 +18,6 @@ rule Bam2Reads_Exome:
         #outname = "Exome_" + "{lenght}" + " -features_include " + GFF_ELEMENT_TO_COUNT,
         sample_name = "{sample}",
         read_length = "{length}",
-        scripts = "/data/work/I2BC/fadwa.elkhaddar/BIM/Workflow_Hisat/scripts/Bam2Reads/BAM2Reads.py",
         features = GFF_ELEMENT_TO_COUNT
    log:
         bam2read = str(LOGS_PATH / "Bam2Reads_Exome" / "{sample}.{length}.bam2read.log"),
@@ -30,6 +29,6 @@ rule Bam2Reads_Exome:
         offset=$(grep {params.sample_name} {input.psite_table} 2> {log.offset_grep} | grep ^{params.read_length} 2>> {log.offset_grep} | cut -f7 2>> {log.offset_grep}) 2>> {log.offset_grep}
         echo "$offset"
         if [ "$offset" = "" ]; then offset=12 ; fi
-        python3 {params.scripts} -shift $offset -kmer {params.read_length} -gff {input.gff} -bam {input.bam} -outpath {params.outdir} -outname Exome_{params.read_length} -features_include {params.features} 2> {log.bam2read} 
+        bam2reads -shift $offset -kmer {params.read_length} -gff {input.gff} -bam {input.bam} -outpath {params.outdir} -outname Exome_{params.read_length} -features_include {params.features} 2> {log.bam2read} 
         """
         

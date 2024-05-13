@@ -14,7 +14,7 @@ import os
 import pysam
 
 # Local
-from constants import *
+from .constants import *
 
 __author__ = "Pierre Bertin"
 __license__ = "GPL"

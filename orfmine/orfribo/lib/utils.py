@@ -7,7 +7,7 @@ import pandas as pd
 from numpy import mean, median
 
 # Local
-from constants import MIN_COORDS, FRAMES_CORREL, TOTAL_KEYNAME
+from .constants import MIN_COORDS, FRAMES_CORREL, TOTAL_KEYNAME
 
 
 

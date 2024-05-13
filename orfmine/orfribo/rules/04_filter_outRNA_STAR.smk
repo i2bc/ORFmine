@@ -13,7 +13,7 @@ rule index_fasta_OutRNA:
         str(BENCHMARKS_PATH / "Mapping" / "Filter_Unwanted_Sequence" / "Index_Filter_Unwanted_Sequence.txt")
     shell:
         "mkdir {output} && "
-        "STAR --runThreadN 20 --runMode genomeGenerate --genomeDir {output} --genomeFastaFiles {input} --genomeSAindexNbases 4"
+        "../STAR-2.7.11b/bin/Linux_x86_64/STAR --runThreadN 20 --runMode genomeGenerate --genomeDir {output} --genomeFastaFiles {input} --genomeSAindexNbases 4"
 
 rule mapping_star_OutRNA:
     input:
@@ -23,16 +23,16 @@ rule mapping_star_OutRNA:
        sam = str(DATA_PROCESSING_PATH / "Mapping" / "Filter_Unwanted_Sequence" / "Results" / "{sample}"/ "{sample}_Aligned.out.sam"),
        met1 = str(DATA_PROCESSING_PATH / "Mapping" / "Filter_Unwanted_Sequence" / "Results" / "{sample}"/ "{sample}_Unmapped.out.mate1")
     params:
-        prefix = str(DATA_PROCESSING_PATH / "Mapping" / "Filter_Unwanted_Sequence" / "Index" / "{sample}_")
+        prefix = str(DATA_PROCESSING_PATH / "Mapping" / "Filter_Unwanted_Sequence" / "Results" /"{sample}"/ "{sample}_")
     log: 
-       final = str(LOGS_PATH /  "Mapping" / "Filter_Unwanted_Sequence" / "{sample}_Filter_Unwanted_Sequence_Log.final.out"),
-       log = str(LOGS_PATH /  "Mapping" / "Filter_Unwanted_Sequence" / "{sample}_Filter_Unwanted_Sequence_Log.out"),
-       sj = str(LOGS_PATH /  "Mapping" / "Filter_Unwanted_Sequence" / "{sample}_Filter_Unwanted_Sequence_SJ.out.tab"),
-       prog = str(LOGS_PATH /  "Mapping" / "Filter_Unwanted_Sequence" / "{sample}_Filter_Unwanted_Sequence_Log.progess.out")
+       final = str(LOGS_PATH /  "Mapping" / "Filter_Unwanted_Sequence" /"Results"/ "{sample}"/ "{sample}_Filter_Unwanted_Sequence_Log.final.out"),
+       log = str(LOGS_PATH /  "Mapping" / "Filter_Unwanted_Sequence" / "Results" /"{sample}"/ "{sample}_Filter_Unwanted_Sequence_Log.out"),
+       sj = str(LOGS_PATH /  "Mapping" / "Filter_Unwanted_Sequence" / "Results" /"{sample}"/ "{sample}_Filter_Unwanted_Sequence_SJ.out.tab"),
+       prog = str(LOGS_PATH /  "Mapping" / "Filter_Unwanted_Sequence" / "Results" /"{sample}"/ "{sample}_Filter_Unwanted_Sequence_Log.progess.out")
     benchmark:
        str(BENCHMARKS_PATH / "Mapping" / "Filter_Unwanted_Sequence" / "{sample}_Filter_Unwanted_Sequence.benchmark.txt")
     shell:
-       "STAR --readFilesCommand zcat "
+       "../STAR-2.7.11b/bin/Linux_x86_64/STAR --readFilesCommand zcat "
        " --outSAMstrandField intronMotif "
        " --outReadsUnmapped Fastx "
        " --genomeDir {input.index}" 

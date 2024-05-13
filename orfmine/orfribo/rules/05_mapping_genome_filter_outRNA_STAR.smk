@@ -26,7 +26,7 @@ rule index_reference_STAR:
         str(BENCHMARKS_PATH / "Mapping" / "ORFeome" / "Star" / "Index" / "ORFeome_index.txt")
     shell:
         "mkdir {output} && "
-        "STAR --runThreadN 20 --runMode genomeGenerate --genomeDir {output} --genomeFastaFiles {input} --genomeSAindexNbases 4"
+        "../STAR-2.7.11b/bin/Linux_x86_64/STAR --runThreadN 20 --runMode genomeGenerate --genomeDir {output} --genomeFastaFiles {input} --genomeSAindexNbases 4"
  
 if config.get('rna_to_exclude'):       
 	rule Mapping_ORFeome_STAR_Bowtie2:
@@ -44,16 +44,16 @@ if config.get('rna_to_exclude'):
 	    threads: 
 	       THREADS_NB
 	    log:
-	       final = str(LOGS_PATH / "Mapping" / "ORFeome" / "Star"/ "{sample}_ORFeome_Log.final.out"),
-	       log = str(LOGS_PATH / "Mapping" / "ORFeome" / "Star"/ "{sample}_ORFeome_Log.out"),
-	       sj = str(LOGS_PATH / "Mapping" / "ORFeome" / "Star"/ "{sample}_ORFeome_SJ.out.tab"),
-	       prog = str(LOGS_PATH / "Mapping" / "ORFeome" / "Star"/ "{sample}_ORFeome_Log.progess.out"),
-	       star = str(LOGS_PATH / "Mapping" / "ORFeome" / "Star"/ "{sample}_star.out"), 
-	       bowtie2_out = str(LOGS_PATH / "Mapping" / "ORFeome" / "Star"/ "{sample}_bowie2_mapping.out")
+	       final = str(LOGS_PATH / "Mapping" / "ORFeome" / "Star"/"Results" / "{sample}" / "{sample}_ORFeome_Log.final.out"),
+	       log = str(LOGS_PATH / "Mapping" / "ORFeome" / "Star"/"Results" / "{sample}" / "{sample}_ORFeome_Log.out"),
+	       sj = str(LOGS_PATH / "Mapping" / "ORFeome" / "Star"/"Results" / "{sample}" / "{sample}_ORFeome_SJ.out.tab"),
+	       prog = str(LOGS_PATH / "Mapping" / "ORFeome" / "Star"/"Results" / "{sample}" / "{sample}_ORFeome_Log.progess.out"),
+	       star = str(LOGS_PATH / "Mapping" / "ORFeome" / "Star"/ "Results" / "{sample}" /"{sample}_star.out"), 
+	       bowtie2_out = str(LOGS_PATH / "Mapping" / "ORFeome" / "Star"/ "Results" / "{sample}" /"{sample}_bowie2_mapping.out")
 	    benchmark:
 	       str(BENCHMARKS_PATH / "Mapping" / "ORFeome" / "Star" / "{sample}_STAR_Bowtie2_Mapping_ORFeome.benchmark.txt")
 	    shell:
-	       "STAR --readFilesCommand zcat " 
+	       "../STAR-2.7.11b/bin/Linux_x86_64/STAR --readFilesCommand zcat " 
 	       " --outSAMstrandField intronMotif "
 	       " --outReadsUnmapped Fastx "
 	       " --genomeDir {input.index_star}"

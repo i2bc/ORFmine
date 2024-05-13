@@ -7,10 +7,10 @@ IGR and IGORF respectively.
 """
 
 # Local
-from constants import *
-from biobjects import Feature
-from sequtils import translate, reverse_complement
-from utils import other_frames, find_stretches
+from .constants import *
+from .biobjects import Feature
+from .sequtils import translate, reverse_complement
+from .utils import other_frames, find_stretches
 
 __author__ = "Pierre Bertin"
 __license__ = "GPL"

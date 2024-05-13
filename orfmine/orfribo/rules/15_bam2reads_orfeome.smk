@@ -20,7 +20,7 @@ rule Bam2Reads_ORFeome:
         sample_name = "{sample}",
         reads_length = "{length}",
         feature = FEATURES_TO_COUNT,
-        scripts = "/data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/scripts/BAM2Reads.py"
+        #scripts = "/data/work/I2BC/fadwa.elkhaddar/BIM/ORFMINE/ORFmine/orfmine/orfribo/scripts/BAM2Reads.py"
     shell:
         """
         lengths_list=$(cat {input.table})
@@ -29,7 +29,7 @@ rule Bam2Reads_ORFeome:
         for length in $lengths_list; do
             if [ "$length" == "{params.reads_length}" ]; then
                 offset=$(grep '{params.sample_name}' {input.psite_table} 2> {log.offset_grep} | grep '^{params.reads_length}' 2>> {log.offset_grep} | cut -f7 2>> {log.offset_grep}) 2>> {log.offset_grep};
-                python3 {params.scripts} -shift ${{offset}} -kmer {params.reads_length} -gff {input.intergenic_gff} -bam {input.bam} -outpath {params.outdir} -outname ORFeome_{params.reads_length} -features_include {params.feature} 2> {log.bam2read};
+                bam2reads -shift ${{offset}} -kmer {params.reads_length} -gff {input.intergenic_gff} -bam {input.bam} -outpath {params.outdir} -outname ORFeome_{params.reads_length} -features_include {params.feature} 2> {log.bam2read};
                 in_lengths_list="True"
                 break
             fi

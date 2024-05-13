@@ -26,7 +26,7 @@ rule index_reference_STAR:
         str(BENCHMARKS_PATH / "Mapping" / "ORFeome" / "Star" / "Index" / "ORFeome_index.txt")
     shell:
         "mkdir {output} && "
-        "STAR --runThreadN 20 --runMode genomeGenerate --genomeDir {output} --genomeFastaFiles {input} --genomeSAindexNbases 4"
+        "../STAR-2.7.11b/bin/Linux_x86_64/STAR --runThreadN 20 --runMode genomeGenerate --genomeDir {output} --genomeFastaFiles {input} --genomeSAindexNbases 4"
  
        
 rule Mapping_ORFeome_STAR_Bowtie2:
@@ -53,7 +53,7 @@ rule Mapping_ORFeome_STAR_Bowtie2:
     benchmark:
        str(BENCHMARKS_PATH / "Mapping" / "ORFeome" / "Star" / "{sample}_STAR_Bowtie2_Mapping_ORFeome.benchmark.txt")
     shell:
-	"STAR --readFilesCommand zcat " 
+	"../STAR-2.7.11b/bin/Linux_x86_64/STAR --readFilesCommand zcat " 
 	" --outSAMstrandField intronMotif "
 	" --outReadsUnmapped Fastx "
 	" --genomeDir {input.index_star}"

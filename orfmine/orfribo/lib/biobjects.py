@@ -10,10 +10,10 @@ such as Features, Transcripts and Genes.
 # Stdlib
 
 # Local
-from constants import *
-from gffutils import get_tags_and_values, attributes_string_from_tags, check_rank_in_id, read_all_fields
-from sambam import get_stranded_region_coverage_reduced, get_bank_size, get_stranded_region_counts
-from sequtils import reverse_complement, translate
+from .constants import *
+from .gffutils import get_tags_and_values, attributes_string_from_tags, check_rank_in_id, read_all_fields
+from .sambam import get_stranded_region_coverage_reduced, get_bank_size, get_stranded_region_counts
+from .sequtils import reverse_complement, translate
 
 __author__ = "Pierre Bertin"
 __license__ = "GPL"
