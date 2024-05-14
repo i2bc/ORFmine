@@ -11,7 +11,8 @@ gff: ""
 gff_intergenic: ""
 
 # Fasta file with sequences you don't want to consider. (optional)
-rna_to_exclude: "/data/work/I2BC/fadwa.elkhaddar/BIM/orfmine_tutorial/ORFmine/examples/database/Scer_rRNA.fa"
+#rna_to_exclude: "/data/work/I2BC/fadwa.elkhaddar/BIM/orfmine_tutorial/ORFmine/examples/database/Scer_rRNA.fa"
+rna_to_exclude: ""
 
 # Path of the directory containing your .fastq.gz file(s) (required)
 fastq: ""
@@ -58,4 +59,4 @@ threads: 12
 
 
 # Mapping tool , choose "star" or "hisat2"
-mapping_tool: "star"
+mapping_tool: "hisat2"

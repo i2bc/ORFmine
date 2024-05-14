@@ -3,23 +3,23 @@ rule ORFget:
         fasta = str(FASTA_PATH),
         gff = str(DATA_PROCESSING_PATH / "Edited_Gff" / ("Named.CDS_" + Path(str(GFF_PATH)).name))
     output:
-        fasta = str(DATA_PROCESSING_PATH / "Exome" / ("Exome_elongated.nfasta")),
-        gff = str(DATA_PROCESSING_PATH / "Exome" / ("Exome_elongated.gff")),
-        gff_with_genes = str(DATA_PROCESSING_PATH / "Exome" / ("Exome_elongated_with_gene_features.gff"))
+        fasta = str(DATA_PROCESSING_PATH / "Exome" / f"Exome_elongated.nfasta"),
+        gff = str(DATA_PROCESSING_PATH / "Exome" / "Exome_elongated.gff"),
+        gff_with_genes = str(DATA_PROCESSING_PATH / "Exome" / "Exome_elongated_with_gene_features.gff")
     params:
-        path = str(DATA_PROCESSING_PATH / "Exome"/ ("Exome")),
-        outname = config["gff_attribute"],
-        features = GFF_ELEMENT_TO_COUNT,
-        scripts = "/data/work/I2BC/fadwa.elkhaddar/BIM/Workflow_Hisat/scripts/Bam2Reads/ORFget.py"
+        path = str(DATA_PROCESSING_PATH / "Exome"),
+        outname = "Exome_elongated",
+        features = GFF_ELEMENT_TO_COUNT
     log:
         orf_get = str(LOGS_PATH / "Exome"/ "Exome_ORFget.log")
     benchmark:
         str(BENCHMARKS_PATH / "Exome" / "Exome_ORFget.benchmark.txt")
     shell:
-        #"python3 {params.scripts} -fna {input.fasta} -gff {input.gff} -features_include {params.features} -o {params.path} -name_attribute {params.outname} -type nucl -elongate 50 -check ; "
-        "python3 {params.scripts} -fna {input.fasta} -gff {input.gff} -features_include  {params.features} -name_attribute {params.outname} -o {params.path} -type nucl -elongate 50 -check ;"
+        "gff2prot --fna {input.fasta} --gff {input.gff} --features {params.features} --outdir {params.path} --out-basename {params.outname} --nucleic --elongate 50 --stop-end &> {log.orf_get} ; "
         "mv {output.gff} {output.gff_with_genes};"
         "awk '$3 !~ /gene/' {output.gff_with_genes} > {output.gff};"
+
+
 
 
 

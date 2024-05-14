@@ -65,7 +65,7 @@ if config.get('rna_to_exclude'):
 else: 
 	rule Mapping_Exome_STAR_Bowtie2:
 	    input: 
-	       fastq= str(FASTQ_PATH),    
+	       fastq= str(DATA_PROCESSING_PATH / "Trimming" / "Trimmed_fastq" / "{sample}" / ("{sample}.cutadapt" + FRAG_LENGTH_L + ".fastq.gz")),    
 	       index_star = str(DATA_PROCESSING_PATH / "Mapping" / "Exome" / "Star" / "Index"),
 	       index_bowtie2 = expand(str(DATA_PROCESSING_PATH / "Mapping" / "Exome" / "Bowtie2" / "Index" / "index_bowtie2.{extb}.bt2"),extb=BOWTIE2)
 	    output:
