@@ -65,6 +65,7 @@ st.setup(
             'orfstats=orfmine.orfribo.scripts.ORFstats:main',
             'selected_length=orfmine.orfribo.scripts.selected_length:main',
             'merge_read_tables=orfmine.orfribo.scripts.concatenate:main', 
+            'report=orfmine.orfribo.scripts.summary:main',
             'orfmine=orfmine.scripts:main',
         ]
     }

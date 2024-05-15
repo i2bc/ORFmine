@@ -126,19 +126,19 @@ def is_name_in_gff():
 #include: "rules/11_ribowaltz.smk"
 #include: "rules/12_Bam2Reads_Exome.smk"
 #include: "rules/13_ORFstat.smk"
-include: "rules/14_Selected_length.smk"
-include: "rules/15_bam2reads_orfeome.smk"
-include: "rules/16_concatenate.smk"
-
+#include: "rules/14_Selected_length.smk"
+#include: "rules/15_bam2reads_orfeome.smk"
+#include: "rules/16_concatenate.smk"
+include: "rules/17_report.smk"
 
 rule all:
        input:
 #           expand(str(DATA_PROCESSING_PATH / "Quality_control" / "{sample}" / "{sample}_fastqc.html"), sample=SAMPLES),
 #           expand(expand(str(RESULTS_PATH / "BAM" / "Exome" / "{sample}" / "{sample}.bam.bai"), sample=SAMPLES)),
 #           expand(str(DATA_PROCESSING_PATH / "Bam2Reads_Exome" / "{sample}" / "{sample}_{length}" / ("Exome_{length}_reads.stats")), sample=SAMPLES, length=LENGTHS),
-           expand(str(DATA_PROCESSING_PATH / "Selected_length" / "{sample}" / "Selected_length.txt"), sample=SAMPLES),
-           str(RESULTS_PATH / "ORFeome" / f"all_samples_ORFeome{FRAG_LENGTH_L}.mean{ORFSTATS_THRESHOLD_MEAN}_median{ORFSTATS_THRESHOLD_MEDIAN}_reads_concatenated.tab")
-
+#           expand(str(DATA_PROCESSING_PATH / "Selected_length" / "{sample}" / "Selected_length.txt"), sample=SAMPLES),
+#           str(RESULTS_PATH / "ORFeome" / f"all_samples_ORFeome{FRAG_LENGTH_L}.mean{ORFSTATS_THRESHOLD_MEAN}_median{ORFSTATS_THRESHOLD_MEDIAN}_reads_concatenated.tab")
+            str(RESULTS_PATH / "report_analysis.txt")            
 onstart:
     shell("echo 'RiboDoc version : " + __version__ + "' > " + str(LOGS_PATH / "RiboDoc_package_versions.txt"))
 
