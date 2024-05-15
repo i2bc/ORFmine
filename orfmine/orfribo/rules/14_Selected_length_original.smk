@@ -1,6 +1,4 @@
 rule select_read_lengths:
-    input:
-        expand(str(DATA_PROCESSING_PATH / "Bam2Reads_Exome" / "{sample}" / "{sample}_{length}" / ("Exome_{length}_reads.stats")), sample=SAMPLES, length=LENGTHS)
     output:
         table = str(DATA_PROCESSING_PATH / "Selected_length" / "{sample}" / "Selected_length.txt")
     params:
@@ -12,15 +10,15 @@ rule select_read_lengths:
     shell:
         """
                 if [ -n "{params.mean}" ]; then
-                    selected_length --files {input} --mean --threshold {params.mean} --output {output.table}
+                    selected_length --dir {params.orfstats_dir} --mean --threshold {params.mean} --output {output.table}
                 fi
 
                 if [ -n "{params.median}" ]; then
-                    selected_length --files {input}  --median --threshold {params.median} --output {output.table}
+                    selected_length --dir {params.orfstats_dir}  --median --threshold {params.median} --output {output.table}
                 fi
 
                 if [ -n "{params.median}" ] && [ -n "{params.mean}" ]; then
-                    selected_length --files {input}  --both --threshold {params.mean} --output {output.table}
+                    selected_length --dir {params.orfstats_dir}  --both --threshold {params.mean} --output {output.table}
                 fi
                
                 # Check if the output file is empty

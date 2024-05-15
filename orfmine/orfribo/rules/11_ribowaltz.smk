@@ -2,7 +2,8 @@
 rule riboWaltz_Exome:
     input:
         Exome_gtf = str(DATA_PROCESSING_PATH / "Exome" / ("Exome_elongated.exons_" +  Path(str(GFF_PATH)).stem + ".gtf")),
-        config= pkg_resources.resource_filename("orfribo", "config.yaml")
+        config= pkg_resources.resource_filename("orfribo", "config.yaml"),
+        bam_folder = str(RESULTS_PATH / "BAM" / "Exome" / "{sample}" / "{sample}.bam.bai")
     output:
         psite_table = str(DATA_PROCESSING_PATH / "RiboWaltz" / "{sample}" / "psite_offset.csv")
     resources:
