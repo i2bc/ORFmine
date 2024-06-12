@@ -145,6 +145,10 @@ def run_orfribo_locally(args: Namespace):
     # set root directory of orfribo results
     set_outdir(config=config, args=args)
     args.cores = 8
+    # if not exist, create empty file of ribosomic RNAs to exclude
+    if not Path(config["rna_to_exclude"]).exists():
+        with open(Path(config["rna_to_exclude"]), "x") as _f:
+            pass
 
     # print config
     print(json.dumps(config, indent=2))

@@ -34,6 +34,7 @@ def get_parser():
     parser.add_argument("--fastq", help="Path to the directory containing .fastq.gz files")
     parser.add_argument("--project-name", help="Name for the experiment", default="")
     parser.add_argument("--out", type=str, help="Base directory location for orfribo outputs", default=".")
+    parser.add_argument("--aligner", type=str, help="Choose your alignement tool : star or hisat2", default="hisat2")
     parser.add_argument("--rna-to-exclude", "-X", help="Path to a fasta file with nucleotide sequences to exclude", default="")
     parser.add_argument("--adapter", help="Adapter sequence (e.g. 'AGATCGGAAGAGCACACGTCT')", type=str, default="")
     parser.add_argument("--min-read-length", help="Minimum read length for ribosome profiling", type=int, default=25)
