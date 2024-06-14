@@ -51,6 +51,7 @@ test/
 # ORFribo softeware directory #
 ###############################
 orfmine/orfribo/Results_Fadwa_Nicolat_STAR_SRR1562875/
+orfmine/orfribo/files/
 .*
 
 ##############################

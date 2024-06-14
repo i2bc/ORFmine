@@ -44,7 +44,7 @@ def get_parser():
     parser.add_argument("--mean-threshold", help="Minimum mean of in-frame reads", type=float, default=70)
     parser.add_argument("--median-threshold", help="Minimum median of in-frame reads", type=float, default=70)
     parser.add_argument("--intergenic-features", help="List of features in the intergenic GFF", nargs="*", default=["nc_intergenic"])
-    parser.add_argument("-K", type=int, help="The maximum number of allowed multiple alignments for each read", default=10)
+    parser.add_argument("--multi_alignement", type=int, help="The maximum number of allowed multiple alignments for each read", default=10)
     parser.add_argument("--ram", help="Maximum allowed RAM to use (Mb). Defaults to 2000).", type=int, default=2000)
     parser.add_argument("--cores", help="Number of provided cores. Defaults to 1.", type=int, default=1)
     parser.add_argument("--threads", help="Maximum number of threads to use", type=int, default=3)
@@ -55,7 +55,7 @@ def get_parser():
     parser.add_argument("--debug", action="store_true", default=False, help="Allow to debug rules with e.g. PDB. This flag allows to set breakpoints in run blocks.")
 
 
-    trim_group = parser.add_mutually_exclusive_group(required=False)
+    trim_group = parser.add_mutually_exclusive_group(required=True)
     trim_group.add_argument("--trimmed", action='store_true', help="Flag indicating that the sequence adapters are already removed.")
     trim_group.add_argument("--not-trimmed", action='store_true', help="Flag indicating that the sequence adapters are not removed.")
 

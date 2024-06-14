@@ -49,7 +49,7 @@ intergenic_features: "nc_intergenic"
 
 
 #Number of multiple alignement (10 by default)
-multi_mapping : 10 
+multi_alignement : 10 
 
 # Maximum allowed RAM to use (Mb)
 ram: 2000
@@ -59,4 +59,4 @@ threads: 12
 
 
 # Mapping tool , choose "star" or "hisat2"
-mapping_tool: "star"
+aligner: "star"

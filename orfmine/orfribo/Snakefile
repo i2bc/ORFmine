@@ -68,8 +68,8 @@ GFF_ELEMENT_TO_COUNT = config['gff_feature']
 ARE_ADAPTERS_TRIMMED = "1" if config['trimmed'] else "0"
 SEQUENCE_ADAPTER = config['adapter']
 FEATURES_TO_COUNT = config['intergenic_features']
-MULTIMAPPING = config["multi_mapping"]
-MAPPING_TOOL= config["mapping_tool"]
+MULTIMAPPING = config["multi_alignement"]
+MAPPING_TOOL= config["aligner"]
 
 # Wildcards definition 
 
