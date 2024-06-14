@@ -104,14 +104,14 @@ include: "rules/02_gff_name_editing.smk"
 include: "rules/03_find_adapter_trimming.smk"
 if MAPPING_TOOL == "hisat2":
 	if config.get('rna_to_exclude'):
-		include: "rules/04_filter_outRNA.smk"
-		include: "rules/05_mapping_genome_filter_outRNA.smk"
+		include: "rules/04_filter_outRNA_HISAT2.smk"
+		include: "rules/05_mapping_genome_filter_outRNA_HISAT2.smk"
 	else:
-		include: "rules/06_mapping_genome_without_filter_outRNA.smk"
-	include: "rules/07_samtools_genome.smk"	
+		include: "rules/06_mapping_genome_without_filter_outRNA_HISAT2.smk"
+	include: "rules/07_samtools_genome_HISAT2.smk"	
 	include: "rules/08_Exome_construction.smk"
-	include: "rules/09_mapping_exome.smk"
-	include: "rules/10_samtools_exome.smk"
+	include: "rules/09_mapping_exome_HISAT2.smk"
+	include: "rules/10_samtools_exome_HISAT2.smk"
 
 if MAPPING_TOOL == "star":
 	if config.get('rna_to_exclude'):
