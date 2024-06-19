@@ -1,2 +1,0 @@
-sample	exremity	offset(nts)
-SRR1562875.bam	3'end	15
