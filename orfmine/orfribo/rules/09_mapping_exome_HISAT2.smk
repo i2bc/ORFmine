@@ -36,7 +36,7 @@ rule index_Exome_HISAT2:
 if config.get('rna_to_exclude'):       
 	rule Mapping_Exome_Hisat2_Bowtie2:
             input: 
-               fastq= str(DATA_PROCESSING_PATH / "Mapping" / "Filter_Unwanted_Sequence" / "Results" / "{sample}" / "{sample}_Unmapped.fastq.gz"),
+               fastq= str(DATA_PROCESSING_PATH / "Mapping" / "Mapping_Unwanted_Sequence_And_Filtering" / "Results" / "{sample}" / "{sample}_Unmapped.fastq.gz"),
                index_hisat2 = expand(str( DATA_PROCESSING_PATH / "Mapping" / "Exome" / "Hisat2" / "Index" / "index_hisat2.{exth}.ht2"),exth=HISAT2),
                index_bowtie2 = expand(str(DATA_PROCESSING_PATH/ "Mapping"/ "Exome" / "Bowtie2" / "Index" / "index_bowtie2.{extb}.bt2"),extb=BOWTIE2)
             output:

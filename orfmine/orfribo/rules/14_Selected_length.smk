@@ -11,22 +11,18 @@ rule select_read_lengths:
         THREADS_NB
     shell:
         """
-                if [ -n "{params.mean}" ]; then
-                    selected_length --files {input} --mean --threshold {params.mean} --output {output.table}
-                fi
+        if [ -n "{params.mean}" ] && [ -n "{params.median}" ]; then
+            selected_length --directory {params.orfstats_dir} --both --threshold {params.mean} --output {output.table}
+        elif [ -n "{params.mean}" ]; then
+            selected_length --directory {params.orfstats_dir} --mean --threshold {params.mean} --output {output.table}
+        elif [ -n "{params.median}" ]; then
+            selected_length --directory {params.orfstats_dir} --median --threshold {params.median} --output {output.table}
+        fi
 
-                if [ -n "{params.median}" ]; then
-                    selected_length --files {input}  --median --threshold {params.median} --output {output.table}
-                fi
-
-                if [ -n "{params.median}" ] && [ -n "{params.mean}" ]; then
-                    selected_length --files {input}  --both --threshold {params.mean} --output {output.table}
-                fi
-               
-                # Check if the output file is empty
-                if [ ! -s {output.table} ]; then
-                    echo "ERROR: No read length was selected. Please check the chosen mean/median value."
-                    exit 1
-                fi
+        # Check if the output file is empty
+        if [ ! -s {output.table} ]; then
+            echo "ERROR: No read length was selected. Please check the chosen mean/median value."
+            exit 1
+        fi
         """
 

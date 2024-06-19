@@ -243,8 +243,9 @@ result = tryCatch({
   config <- args[1]
   gtf_file <- args[2]
   bam_folder <- args[3]
-  outdir <- args[4]
-  
+  min_size <- args[4]
+  max_size <- args[5]
+  outdir <- args[6]
   dir.create(file.path(outdir), showWarnings=F, recursive=TRUE)
   
   # Read config file
@@ -258,46 +259,46 @@ result = tryCatch({
       params[[key]] <- value
     }
   }
+
+  # Creates annotation table by transcript names
+  annotation_db <- riboWaltz::create_annotation(gtf_file)
+  annotation_db_transcript_with_cds0l <- data.table(annotation_db)
+  annotation_db_transcript <- annotation_db_transcript_with_cds0l[annotation_db_transcript_with_cds0l$l_cds > 0,]
   
+  # Free unused memory
+  rm(list=c("annotation_db","annotation_db_transcript_with_cds0l"))
+  gc()
 
-# Creates annotation table by transcript names
-annotation_db <- riboWaltz::create_annotation(gtf_file)
-annotation_db_transcript_with_cds0l <- data.table(annotation_db)
-annotation_db_transcript <- annotation_db_transcript_with_cds0l[annotation_db_transcript_with_cds0l$l_cds > 0,]
-# Free unused memory
-rm(list=c("annotation_db","annotation_db_transcript_with_cds0l"))
-gc()
+  # Bam files to be computed
+  bam_list <- list.files(bam_folder, pattern = "\\.bam$")
+  samples <- str_replace(bam_list, ".[0-9]{1,3}-[0-9]{1,3}.bam", "")
+  names(samples) <- str_remove(bam_list, ".bam")
+  samples
+  
+  # Convert BAM to list and filter by fragment length
+  reads_list <- riboWaltz::bamtolist(bamfolder = bam_folder, annotation = annotation_db_transcript, name_samples = samples)
+  
+  # Filter reads by fragment size
+  for (sample in names(reads_list)) {
+    reads_list[[sample]] <- reads_list[[sample]][reads_list[[sample]]$length >= min_size & reads_list[[sample]]$length <= max_size, ]
+  }
+  
+  # p-site calculation
+  psite_offset <- psite_ribowaltz(reads_list,
+                                  flanking = 6,
+                                  start = TRUE,
+                                  extremity = "auto",
+                                  plot = TRUE,
+                                  plot_dir = outdir,
+                                  plot_format = "tiff",
+                                  cl = 100,
+                                  txt = TRUE,
+                                  txt_file = file.path(outdir, "best_offset.txt")
+  )
 
-# Bam files to be computed
+  reads_psite_list <- riboWaltz::psite_info(reads_list, psite_offset)
 
-bam_list <- list.files(bam_folder, pattern = "\\.bam$")
-
-samples <- str_replace(bam_list, ".[0-9]{1,3}-[0-9]{1,3}.bam", "")
-names(samples) <- str_remove(bam_list, ".bam")
-samples
-
-reads_list <- riboWaltz::bamtolist(bamfolder = bam_folder, annotation = annotation_db_transcript, name_samples = samples)
-reads_list <- riboWaltz::bamtolist(bamfolder = bam_folder, annotation = annotation_db_transcript, name_samples = samples)
-
-
-# p-site calculation
-#source(paste0(working_directory,"/Workflow/scripts/ribowaltz_psite_with_NA_control.R"))
-psite_offset <- psite_ribowaltz(reads_list,
-                                flanking = 6,
-                                start = TRUE,
-                                extremity = "auto",
-                                plot = TRUE,
-                                plot_dir = outdir,
-                                plot_format = "tiff",
-                                cl = 100,
-                                txt = TRUE,
-                                txt_file = file.path(outdir, "best_offset.txt")
-)
-
-
-reads_psite_list <- riboWaltz::psite_info(reads_list, psite_offset)
-
-write.table(psite_offset, file.path(outdir, "psite_offset.csv"), quote = F, row.names = F, sep ="\t")
-
+  write.table(psite_offset, file.path(outdir, "psite_offset.csv"), quote = F, row.names = F, sep ="\t")
 
 })
+

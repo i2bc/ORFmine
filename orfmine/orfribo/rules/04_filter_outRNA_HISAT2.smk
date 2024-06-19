@@ -7,13 +7,13 @@ rule index_outRNA_BOWTIE2:
     input:
          fasta= str(RNA_TO_EXCLUDE_PATH)
     output:
-         expand(str(DATA_PROCESSING_PATH / "Mapping" / "Filter_Unwanted_Sequence" / "Index" / "index_bowtie2.{extb}.bt2"),extb=BOWTIE2)
+         expand(str(DATA_PROCESSING_PATH / "Mapping" / "Mapping_Unwanted_Sequence_And_Filtering" / "Index" / "index_bowtie2.{extb}.bt2"),extb=BOWTIE2)
     log:
-         str(LOGS_PATH / "Mapping" / "Filter_Unwanted_Sequence" / "Index_Filter_Unwanted_Sequence.log")
+         str(LOGS_PATH / "Mapping" / "Mapping_Unwanted_Sequence_And_Filtering" / "Index_Mapping_Unwanted_Sequence_And_Filtering.log")
     benchmark:
-         str(BENCHMARKS_PATH / "Mapping" / "Filter_Unwanted_Sequence" / "Index_Filter_Unwanted_Sequence.txt")
+         str(BENCHMARKS_PATH / "Mapping" / "Mapping_Unwanted_Sequence_And_Filtering" / "Index_Mapping_Unwanted_Sequence_And_Filtering.txt")
     params:
-         str(DATA_PROCESSING_PATH / "Mapping" / "Filter_Unwanted_Sequence" / "Index" / "index_bowtie2")
+         str(DATA_PROCESSING_PATH / "Mapping" / "Mapping_Unwanted_Sequence_And_Filtering" / "Index" / "index_bowtie2")
     threads:
          THREADS_NB
     shell:
@@ -25,15 +25,15 @@ rule index_outRNA_BOWTIE2:
 rule bowtie_run_OutRNA:
     input:
        fastq = str(DATA_PROCESSING_PATH / "Trimming" / "Trimmed_fastq" / "{sample}" / ("{sample}.cutadapt" + FRAG_LENGTH_L + ".fastq.gz")),
-       index = expand(str(DATA_PROCESSING_PATH / "Mapping" / "Filter_Unwanted_Sequence" / "Index" / "index_bowtie2.{extb}.bt2"),extb=BOWTIE2)
+       index = expand(str(DATA_PROCESSING_PATH / "Mapping" / "Mapping_Unwanted_Sequence_And_Filtering" / "Index" / "index_bowtie2.{extb}.bt2"),extb=BOWTIE2)
     output:
-       sam_bowtie2 = str(DATA_PROCESSING_PATH / "Mapping" / "Filter_Unwanted_Sequence" / "Results" / "{sample}"/ "{sample}_Unmapped.fastq.gz"),
+       sam_bowtie2 = str(DATA_PROCESSING_PATH / "Mapping" / "Mapping_Unwanted_Sequence_And_Filtering" / "Results" / "{sample}"/ "{sample}_Unmapped.fastq.gz"),
     params:
-       index_names_bowtie2 = str(DATA_PROCESSING_PATH / "Mapping" / "Filter_Unwanted_Sequence" / "Index" / "index_bowtie2")
+       index_names_bowtie2 = str(DATA_PROCESSING_PATH / "Mapping" / "Mapping_Unwanted_Sequence_And_Filtering" / "Index" / "index_bowtie2")
     log: 
-       bowtie2_out = str(LOGS_PATH /  "Mapping" / "Filter_Unwanted_Sequence" / "{sample}_Filter_Unwanted_Sequence.log"),
+       bowtie2_out = str(LOGS_PATH /  "Mapping" / "Mapping_Unwanted_Sequence_And_Filtering" / "{sample}_Mapping_Unwanted_Sequence_And_Filtering.log"),
     benchmark:
-       str(BENCHMARKS_PATH / "Mapping" / "Filter_Unwanted_Sequence" / "{sample}_Filter_Unwanted_Sequence.benchmark.txt")
+       str(BENCHMARKS_PATH / "Mapping" / "Mapping_Unwanted_Sequence_And_Filtering" / "{sample}_Mapping_Unwanted_Sequence_And_Filtering.benchmark.txt")
     resources: 
        mem_mb= MEM_MB
     threads:

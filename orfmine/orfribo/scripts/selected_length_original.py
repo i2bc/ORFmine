@@ -1,12 +1,10 @@
 import pandas as pd
 import re
 import argparse
-import glob
-import os
 
 def main():
     parser = argparse.ArgumentParser(description="Select maximum mean or median value from statistics files.")
-    parser.add_argument('--directory', type=str, help="The directory containing statistics files.")
+    parser.add_argument('--files', nargs='+', type=str, help="The list of statistics files.")
     parser.add_argument('--mean', action='store_true', help="Select maximum mean value.")
     parser.add_argument('--median', action='store_true', help="Select maximum median value.")
     parser.add_argument('--both', action='store_true', help="Select maximum mean and median value.")
@@ -14,15 +12,12 @@ def main():
     parser.add_argument('--output', type=str, help="Path to output file.")
     args = parser.parse_args()
 
-    directory = args.directory
+    files = args.files
     mean = args.mean
     median = args.median
     both = args.both
     threshold = args.threshold
     output = args.output
-
-    # Find all .stats files in the specified directory and its subdirectories
-    files = glob.glob(os.path.join(directory, '**', '*.stats'), recursive=True)
 
     def reading_file(files):
         for filename in files:
@@ -68,3 +63,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
