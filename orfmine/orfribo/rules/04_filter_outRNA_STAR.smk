@@ -33,7 +33,7 @@ rule mapping_star_OutRNA:
        str(BENCHMARKS_PATH / "Mapping" / "Mapping_Unwanted_Sequence_And_Filtering" / "{sample}_Mapping_Unwanted_Sequence_And_Filtering.benchmark.txt")
     shell:
        "../STAR-2.7.11b/bin/Linux_x86_64/STAR --readFilesCommand zcat "
-       " --outSAMstrandField intronMotif "
+       " --alignIntronMax 3000 "
        " --outReadsUnmapped Fastx "
        " --genomeDir {input.index}" 
        " --runThreadN 20 "

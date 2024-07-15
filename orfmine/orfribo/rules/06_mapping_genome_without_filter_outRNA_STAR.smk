@@ -54,7 +54,7 @@ rule Mapping_ORFeome_STAR_Bowtie2:
        str(BENCHMARKS_PATH / "Mapping" / "ORFeome" / "Star" / "{sample}_STAR_Bowtie2_Mapping_ORFeome.benchmark.txt")
     shell:
         "../STAR-2.7.11b/bin/Linux_x86_64/STAR --readFilesCommand zcat " 
-        " --outSAMstrandField intronMotif "
+        " --alignIntronMax 3000 "
         " --outReadsUnmapped Fastx "
         " --genomeDir {input.index_star}"
         " --runThreadN {threads} " 

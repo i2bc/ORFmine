@@ -31,7 +31,7 @@ rule index_Exome_STAR:
 if config.get('rna_to_exclude'):       
 	rule Mapping_Exome_STAR_Bowtie2:
 	    input: 
-	       fastq= str(DATA_PROCESSING_PATH / "Trimmed_Filtred_Fastq" / "{sample}" / "{sample}_Unmapped.out.mate1.fastq.gz"),    
+	       fastq= str(DATA_PROCESSING_PATH / "Mapping" / "Mapping_Unwanted_Sequence_And_Filtering" / "Results" / "{sample}" / "{sample}_Unmapped.fastq.gz"),    
 	       index_star = str(DATA_PROCESSING_PATH / "Mapping" / "Exome" / "Star" / "Index"),
 	       index_bowtie2 = expand(str(DATA_PROCESSING_PATH / "Mapping" / "Exome" / "Bowtie2" / "Index" / "index_bowtie2.{extb}.bt2"),extb=BOWTIE2)
 	    output:
@@ -53,7 +53,7 @@ if config.get('rna_to_exclude'):
 	       str(BENCHMARKS_PATH / "Mapping" / "Exome" / "Star" / "{sample}_STAR_Bowtie2_Mapping_Exome.benchmark.txt")
 	    shell:
 	       "../STAR-2.7.11b/bin/Linux_x86_64/STAR --readFilesCommand zcat " 
-	       " --outSAMstrandField intronMotif "
+	       " --alignIntronMax 3000 "
 	       " --outReadsUnmapped Fastx "
 	       " --genomeDir {input.index_star}"
 	       " --runThreadN 20 " 
@@ -87,7 +87,7 @@ else:
                str(BENCHMARKS_PATH / "Mapping" / "Exome" / "Star" / "{sample}_STAR_Bowtie2_Mapping_Exome.benchmark.txt")
 	    shell:
                "../STAR-2.7.11b/bin/Linux_x86_64/STAR --readFilesCommand zcat "
-               " --outSAMstrandField intronMotif "
+               " --alignIntronMax 3000 "
                " --outReadsUnmapped Fastx "
                " --genomeDir {input.index_star}"
                " --runThreadN 20 "
