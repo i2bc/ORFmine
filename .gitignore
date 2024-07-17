@@ -51,7 +51,7 @@ test/
 # ORFribo softeware directory #
 ###############################
 orfmine/orfribo/RESULTS_STAR/
-orfmine/orfribo/test/
+orfmine/orfribo/test_agat/
 orfmine/orfribo/files/
 .*
 

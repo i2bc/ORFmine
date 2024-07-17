@@ -45,6 +45,7 @@ def get_parser():
     parser.add_argument("--median-threshold", help="Minimum median of in-frame reads", type=float, default=70)
     parser.add_argument("--intergenic-features", help="List of features in the intergenic GFF", nargs="*", default=["nc_intergenic"])
     parser.add_argument("--multi_alignement", type=int, help="The maximum number of allowed multiple alignments for each read", default=10)
+    parser.add_argument("--introns_length", type=int, help = "Intron length, applicable only when using STAR as the aligner")
     parser.add_argument("--ram", help="Maximum allowed RAM to use (Mb). Defaults to 2000).", type=int, default=2000)
     parser.add_argument("--cores", help="Number of provided cores. Defaults to 1.", type=int, default=1)
     parser.add_argument("--threads", help="Maximum number of threads to use", type=int, default=3)

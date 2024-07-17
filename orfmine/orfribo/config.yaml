@@ -60,3 +60,7 @@ threads: 12
 
 # Mapping tool , choose "star" or "hisat2"
 aligner: "star"
+
+
+# Introns length : If you want to disable this parameter, comment it (default : 3000 according to Scer.gff) 
+#introns_length : 4000

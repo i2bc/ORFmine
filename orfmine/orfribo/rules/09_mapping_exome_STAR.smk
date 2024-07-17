@@ -41,7 +41,8 @@ if config.get('rna_to_exclude'):
 	    params:
 	       prefix = str(DATA_PROCESSING_PATH / "Mapping" / "Exome" / "Star" / "Results" / "{sample}" /"{sample}_"),
 	       index_names_bowtie2 = str(DATA_PROCESSING_PATH / "Mapping" / "Exome" / "Bowtie2" / "Index" / "index_bowtie2"),
-               multi_map = MULTIMAPPING
+               multi_map = MULTIMAPPING,
+               introns = INTRONS_LENGTH
 	    log:
 	       final = str(LOGS_PATH / "Mapping" / "Exome" / "Star" / "Results" / "{sample}" /"{sample}_Exome_Log.final.out"),
 	       log = str(LOGS_PATH / "Mapping" / "Exome" / "Star" / "Results" / "{sample}" /"{sample}_Exome_Log.out"),
@@ -53,7 +54,7 @@ if config.get('rna_to_exclude'):
 	       str(BENCHMARKS_PATH / "Mapping" / "Exome" / "Star" / "{sample}_STAR_Bowtie2_Mapping_Exome.benchmark.txt")
 	    shell:
 	       "../STAR-2.7.11b/bin/Linux_x86_64/STAR --readFilesCommand zcat " 
-	       " --alignIntronMax 3000 "
+	       " --alignIntronMax {params.introns} "
 	       " --outReadsUnmapped Fastx "
 	       " --genomeDir {input.index_star}"
 	       " --runThreadN 20 " 
@@ -75,7 +76,8 @@ else:
 	    params:
                prefix = str(DATA_PROCESSING_PATH / "Mapping" / "Exome" / "Star" / "Results" / "{sample}" / "{sample}_"),
                index_names_bowtie2 = str(DATA_PROCESSING_PATH / "Mapping" / "Exome" / "Bowtie2" / "Index" / "index_bowtie2"),
-               multi_map = MULTIMAPPING
+               multi_map = MULTIMAPPING,
+               introns = INTRONS_LENGTH
 	    log:
                final = str(LOGS_PATH / "Mapping" / "Exome" / "Star" / "{sample}_Exome_Log.final.out"),
                log = str(LOGS_PATH / "Mapping" / "Exome" / "Star" / "{sample}_Exome_Log.out"),
@@ -87,7 +89,7 @@ else:
                str(BENCHMARKS_PATH / "Mapping" / "Exome" / "Star" / "{sample}_STAR_Bowtie2_Mapping_Exome.benchmark.txt")
 	    shell:
                "../STAR-2.7.11b/bin/Linux_x86_64/STAR --readFilesCommand zcat "
-               " --alignIntronMax 3000 "
+               " --alignIntronMax {params.introns} "
                " --outReadsUnmapped Fastx "
                " --genomeDir {input.index_star}"
                " --runThreadN 20 "

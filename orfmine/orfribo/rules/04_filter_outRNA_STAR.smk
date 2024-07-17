@@ -23,7 +23,8 @@ rule mapping_star_OutRNA:
        sam = str(DATA_PROCESSING_PATH / "Mapping" / "Mapping_Unwanted_Sequence_And_Filtering" / "Results" / "{sample}"/ "{sample}_Aligned.out.sam"),
        met1 = str(DATA_PROCESSING_PATH / "Mapping" / "Mapping_Unwanted_Sequence_And_Filtering" / "Results" / "{sample}"/ "{sample}_Unmapped.out.mate1")
     params:
-        prefix = str(DATA_PROCESSING_PATH / "Mapping" / "Mapping_Unwanted_Sequence_And_Filtering" / "Results" /"{sample}"/ "{sample}_")
+       prefix = str(DATA_PROCESSING_PATH / "Mapping" / "Mapping_Unwanted_Sequence_And_Filtering" / "Results" /"{sample}"/ "{sample}_"),
+       introns = INTRONS_LENGTH 
     log: 
        final = str(LOGS_PATH /  "Mapping" / "Mapping_Unwanted_Sequence_And_Filtering" /"Results"/ "{sample}"/ "{sample}_Mapping_Unwanted_Sequence_And_Filtering_Log.final.out"),
        log = str(LOGS_PATH /  "Mapping" / "Mapping_Unwanted_Sequence_And_Filtering" / "Results" /"{sample}"/ "{sample}_Mapping_Unwanted_Sequence_And_Filtering_Log.out"),
@@ -33,7 +34,7 @@ rule mapping_star_OutRNA:
        str(BENCHMARKS_PATH / "Mapping" / "Mapping_Unwanted_Sequence_And_Filtering" / "{sample}_Mapping_Unwanted_Sequence_And_Filtering.benchmark.txt")
     shell:
        "../STAR-2.7.11b/bin/Linux_x86_64/STAR --readFilesCommand zcat "
-       " --alignIntronMax 3000 "
+       " --alignIntronMax {params.introns} "
        " --outReadsUnmapped Fastx "
        " --genomeDir {input.index}" 
        " --runThreadN 20 "

@@ -40,7 +40,8 @@ if config.get('rna_to_exclude'):
 	       met1 = str(DATA_PROCESSING_PATH / "Mapping" / "ORFeome" / "Star" / "Results" / "{sample}" / "{sample}_Unmapped.out.mate1")
 	    params:
 	       index_names_bowtie2 = str(DATA_PROCESSING_PATH / "Mapping"/ "ORFeome"/ "Bowtie2"/ "Index" / "index_bowtie2"),
-	       prefix = str(DATA_PROCESSING_PATH / "Mapping" / "ORFeome" / "Star" / "Results"/ "{sample}" / "{sample}_")
+	       prefix = str(DATA_PROCESSING_PATH / "Mapping" / "ORFeome" / "Star" / "Results"/ "{sample}" / "{sample}_"),
+	       introns = INTRONS_LENGTH 
 	    threads: 
 	       THREADS_NB
 	    log:
@@ -54,7 +55,7 @@ if config.get('rna_to_exclude'):
 	       str(BENCHMARKS_PATH / "Mapping" / "ORFeome" / "Star" / "{sample}_STAR_Bowtie2_Mapping_ORFeome.benchmark.txt")
 	    shell:
 	       "../STAR-2.7.11b/bin/Linux_x86_64/STAR --readFilesCommand zcat " 
-	       " --alignIntronMax 3000 "
+	       " --alignIntronMax {params.introns} "
 	       " --outReadsUnmapped Fastx "
 	       " --genomeDir {input.index_star}"
 	       " --runThreadN {threads} " 

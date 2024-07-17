@@ -70,7 +70,7 @@ SEQUENCE_ADAPTER = config['adapter']
 FEATURES_TO_COUNT = config['intergenic_features']
 MULTIMAPPING = config["multi_alignement"]
 MAPPING_TOOL= config["aligner"]
-
+INTRONS_LENGTH = config["introns_length"] if 'introns_length' in config else 3000 
 # Wildcards definition 
 
 SAMPLES, = glob_wildcards(FASTQ_PATH / "{sample}.fastq.gz")
@@ -100,7 +100,8 @@ def is_name_in_gff():
 
 
 include: "rules/01_quality_control.smk"
-include: "rules/02_gff_name_editing.smk"
+#include: "rules/02_gff_name_editing.smk"
+include: "rules/02_gff_AGAT.smk"
 include: "rules/03_find_adapter_trimming.smk"
 include: "rules/04_filter_outRNA_BOWTIE2.smk"
 if MAPPING_TOOL == "hisat2":
