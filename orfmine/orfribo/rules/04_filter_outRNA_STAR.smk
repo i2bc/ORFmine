@@ -13,7 +13,7 @@ rule index_fasta_OutRNA:
         str(BENCHMARKS_PATH / "Mapping" / "Mapping_Unwanted_Sequence_And_Filtering" / "Index_Mapping_Unwanted_Sequence_And_Filtering.txt")
     shell:
         "mkdir {output} && "
-        "../STAR-2.7.11b/bin/Linux_x86_64/STAR --runThreadN 20 --runMode genomeGenerate --genomeDir {output} --genomeFastaFiles {input} --genomeSAindexNbases 4"
+        "../STAR-2.7.11b/bin/Linux_x86_64/STAR --runThreadN 20 --runMode genomeGenerate --genomeDir {output} --genomeFastaFiles {input} --genomeSAindexNbases 4 > {log} 2>&1 "
 
 rule mapping_star_OutRNA:
     input:
@@ -29,7 +29,8 @@ rule mapping_star_OutRNA:
        final = str(LOGS_PATH /  "Mapping" / "Mapping_Unwanted_Sequence_And_Filtering" /"Results"/ "{sample}"/ "{sample}_Mapping_Unwanted_Sequence_And_Filtering_Log.final.out"),
        log = str(LOGS_PATH /  "Mapping" / "Mapping_Unwanted_Sequence_And_Filtering" / "Results" /"{sample}"/ "{sample}_Mapping_Unwanted_Sequence_And_Filtering_Log.out"),
        sj = str(LOGS_PATH /  "Mapping" / "Mapping_Unwanted_Sequence_And_Filtering" / "Results" /"{sample}"/ "{sample}_Mapping_Unwanted_Sequence_And_Filtering_SJ.out.tab"),
-       prog = str(LOGS_PATH /  "Mapping" / "Mapping_Unwanted_Sequence_And_Filtering" / "Results" /"{sample}"/ "{sample}_Mapping_Unwanted_Sequence_And_Filtering_Log.progess.out")
+       prog = str(LOGS_PATH /  "Mapping" / "Mapping_Unwanted_Sequence_And_Filtering" / "Results" /"{sample}"/ "{sample}_Mapping_Unwanted_Sequence_And_Filtering_Log.progess.out"),
+       star = str(LOGS_PATH /  "Mapping" / "Mapping_Unwanted_Sequence_And_Filtering" / "Results" /"{sample}"/ "{sample}_Mapping_Unwanted_Sequence_And_Filtering_STAR_Log.progess.out")
     benchmark:
        str(BENCHMARKS_PATH / "Mapping" / "Mapping_Unwanted_Sequence_And_Filtering" / "{sample}_Mapping_Unwanted_Sequence_And_Filtering.benchmark.txt")
     shell:
@@ -39,7 +40,7 @@ rule mapping_star_OutRNA:
        " --genomeDir {input.index}" 
        " --runThreadN 20 "
        " --readFilesIn {input.fastq} "
-       " --outFileNamePrefix {params.prefix}" 
+       " --outFileNamePrefix {params.prefix} > {log.star} 2>&1 " 
 
 
 rule compressed_unmapped_outRNA: 

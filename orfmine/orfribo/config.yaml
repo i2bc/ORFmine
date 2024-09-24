@@ -44,8 +44,8 @@ gff_attribute: "Name"
 mean_threshold: ""
 median_threshold: "70"
 
-# List of features to look for in the intergenic gff of the genome
-intergenic_features: "nc_intergenic"
+# List of features to look for in the intergenic gff of the genome #modif = Non_coding 
+intergenic_features: "nc_intergenic"  
 
 
 #Number of multiple alignement (10 by default)

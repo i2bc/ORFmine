@@ -1,4 +1,4 @@
-rule ORFget:
+rule Gff2Prot:
     input:
         fasta = str(FASTA_PATH),
         gff = str(DATA_PROCESSING_PATH / "Edited_Gff" / ("Named.CDS_" + Path(str(GFF_PATH)).name))

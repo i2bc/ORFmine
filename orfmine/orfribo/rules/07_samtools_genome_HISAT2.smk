@@ -1,17 +1,17 @@
 rule samtools_filter:
     input: 
-       sam_hisat2 = str(DATA_PROCESSING_PATH / "Mapping" / "ORFeome" / "Hisat2" / "Results" / "{sample}" / "{sample}.sam"),
-       sam_bowtie2 = str(DATA_PROCESSING_PATH / "Mapping" / "ORFeome" / "Bowtie2" / "Results" / "{sample}"/ "{sample}.sam")
+       sam_hisat2 = str(DATA_PROCESSING_PATH / "Mapping" / "Genome" / "Hisat2" / "Results" / "{sample}" / "{sample}.sam"),
+       sam_bowtie2 = str(DATA_PROCESSING_PATH / "Mapping" / "Genome" / "Bowtie2" / "Results" / "{sample}"/ "{sample}.sam")
     output: 
-       bam = str(RESULTS_PATH / "BAM" / "ORFeome" / "{sample}" / "{sample}.bam")
+       bam = str(RESULTS_PATH / "BAM" / "Genome" / "{sample}" / "{sample}.bam")
     resources:
        mem_mb = round(MEM_MB / 3)
     threads:
        MEM_MB
     params:
-       sam = str(RESULTS_PATH / "BAM" / "ORFeome" / "{sample}" / "{sample}.sam")
+       sam = str(RESULTS_PATH / "BAM" / "Genome" / "{sample}" / "{sample}.sam")
     benchmark:
-       str(BENCHMARKS_PATH / "BAM" / "ORFeome" / "{sample}_bam_ORFeome.benchmark.txt")
+       str(BENCHMARKS_PATH / "BAM" / "Genome" / "{sample}_bam_Genome.benchmark.txt")
     shell:
        "set +o pipefail ;"
        "grep '^@' {input.sam_hisat2} 1> {params.sam} ;"
@@ -22,9 +22,9 @@ rule samtools_filter:
        
 rule samtools_index:
     input: 
-       bam = str(RESULTS_PATH / "BAM" / "ORFeome" / "{sample}" / "{sample}.bam") 
+       bam = str(RESULTS_PATH / "BAM" / "Genome" / "{sample}" / "{sample}.bam") 
     output: 
-       bai = str(RESULTS_PATH / "BAM" / "ORFeome" / "{sample}" / "{sample}.bam.bai")
+       bai = str(RESULTS_PATH / "BAM" / "Genome" / "{sample}" / "{sample}.bam.bai")
     shell: 
        "samtools index {input.bam}" 
 

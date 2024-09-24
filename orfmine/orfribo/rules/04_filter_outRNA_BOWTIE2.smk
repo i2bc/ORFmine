@@ -1,6 +1,6 @@
-#### OUT RNA USING BOWTIE2 #####
 
-#### === OUT RNA ===== ####
+
+#### === Removing Unwanted Sequences, These sequences should be in fasta format  ===== ####
 
 
 rule index_outRNA_BOWTIE2:
@@ -22,7 +22,7 @@ rule index_outRNA_BOWTIE2:
 
 
 
-rule bowtie_run_OutRNA:
+rule OutRNA_Removing:
     input:
        fastq = str(DATA_PROCESSING_PATH / "Trimming" / "Trimmed_fastq" / "{sample}" / ("{sample}.cutadapt" + FRAG_LENGTH_L + ".fastq.gz")),
        index = expand(str(DATA_PROCESSING_PATH / "Mapping" / "Mapping_Unwanted_Sequence_And_Filtering" / "Index" / "index_bowtie2.{extb}.bt2"),extb=BOWTIE2)

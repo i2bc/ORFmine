@@ -1,7 +1,7 @@
-#### === GFF Verification === ####
+#### === GFF Standarization === ####
 
 
-rule name_CDS:
+rule GFF_File_Standardization:
     input:
         gff = str(GFF_PATH)
     output:

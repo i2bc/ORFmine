@@ -2,7 +2,7 @@
 
 
 # Find the adapter sequence if not set in config file
-rule find_adapter_sequence:
+rule find_adapter:
     input:
         fastq = str(FASTQ_PATH / "{sample}.fastq.gz")
     output:
@@ -21,7 +21,8 @@ rule find_adapter_sequence:
         "elif [ '" + ARE_ADAPTERS_TRIMMED + "' = 'no' ]; then echo " + SEQUENCE_ADAPTER + " 1> {output.adapter} 2> {log.echo};"
         "fi;"
 
-rule adapt_trimming:
+
+rule adapt_trimming_and_Select_Reads_Lenght:
     input:
         fastq = str(FASTQ_PATH / "{sample}.fastq.gz"),
         adapt_seq = str(DATA_PROCESSING_PATH / "Trimming" / "Adapters" / "{sample}" / "{sample}.txt")
@@ -52,3 +53,39 @@ rule adapt_trimming:
             echo "Reads are already trimmed." > {log.cutadapt_out}
         fi
         """
+
+
+
+#### === QUALITY CONTROL === ####
+
+rule Quality_Control_After_Trimming:
+    input:
+        str(DATA_PROCESSING_PATH / "Trimming" / "Trimmed_fastq" / "{sample}" / ("{sample}.cutadapt" + FRAG_LENGTH_L + ".fastq.gz"))
+    output:
+        temp(str(DATA_PROCESSING_PATH / "Quality_control" / "After_Trimming"/ "{sample}" / ("{sample}.cutadapt" + FRAG_LENGTH_L + "_fastqc.zip"))),
+        temp(str(DATA_PROCESSING_PATH / "Quality_control" / "After_Trimming" / "{sample}" / ("{sample}.cutadapt" + FRAG_LENGTH_L + "_fastqc.html")))
+    log:
+        str(LOGS_PATH / "Quality_control" / "QC_after_trimming_{sample}.log")
+    benchmark:
+        str(BENCHMARKS_PATH / "Quality_control" / "QC_after_trimming_{sample}_benchmark.txt")
+    params:
+       outdir = str(DATA_PROCESSING_PATH / "Quality_control" / "After_Trimming" / "{sample}")
+    shell:
+        """
+	 fastqc {input} --outdir {params.outdir} 2> {log} 
+	"""
+
+rule After_Trimming_multiqc: 
+    input: 
+        expand(str(DATA_PROCESSING_PATH / "Quality_control" / "After_Trimming"/ "{sample}" / ("{sample}.cutadapt" + FRAG_LENGTH_L + "_fastqc.zip")), sample=SAMPLES)
+    output: 
+        str(DATA_PROCESSING_PATH / "Quality_control" / "After_Trimming" / "multiqc_report.html")
+    log:
+        str(LOGS_PATH / "Quality_control" / "multiqc_report_After_Trimming.log")
+    benchmark:
+        str(BENCHMARKS_PATH / "Quality_control" / "multiqc_report_After_Trimming_benchmark.txt")
+    params: 
+        str(DATA_PROCESSING_PATH / "Quality_control" / "After_Trimming/" )
+    shell: 
+        " multiqc -f {input} -o {params} . > {log} 2>&1 "
+

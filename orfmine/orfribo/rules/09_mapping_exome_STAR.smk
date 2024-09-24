@@ -26,7 +26,7 @@ rule index_Exome_STAR:
         str(BENCHMARKS_PATH / "Mapping" / "Exome" / "Star" / "Index" / "Exome_index.txt")
     shell:
         "mkdir {output} && "
-        "../STAR-2.7.11b/bin/Linux_x86_64/STAR --runThreadN 20 --runMode genomeGenerate --genomeDir {output} --genomeFastaFiles {input} --genomeSAindexNbases 7"
+        "../STAR-2.7.11b/bin/Linux_x86_64/STAR --runThreadN 20 --runMode genomeGenerate --genomeDir {output} --genomeFastaFiles {input} --genomeSAindexNbases 7 > {log} 2>&1"
  
 if config.get('rna_to_exclude'):       
 	rule Mapping_Exome_STAR_Bowtie2:
@@ -60,7 +60,7 @@ if config.get('rna_to_exclude'):
 	       " --runThreadN 20 " 
 	       " --readFilesIn {input.fastq} " 
 	       " --outFileNamePrefix {params.prefix}" 
-	       " --outFilterMultimapNmax {params.multi_map} ; "
+	       " --outFilterMultimapNmax {params.multi_map} > {log.star} 2>&1 ; "
 	       "bowtie2 -x {params.index_names_bowtie2} --threads {threads} -k {params.multi_map} -U {output.met1} -S {output.sam_bowtie2} 2>> {log.bowtie2_out}"
 
 else: 
@@ -95,14 +95,14 @@ else:
                " --runThreadN 20 "
                " --readFilesIn {input.fastq} "
                " --outFileNamePrefix {params.prefix}"
-               " --outFilterMultimapNmax {params.multi_map} ; "
+               " --outFilterMultimapNmax {params.multi_map} > {log.star} 2>&1 ; "
                "bowtie2 -x {params.index_names_bowtie2} --threads {threads} -k {params.multi_map} -U {output.met1} -S {output.sam_bowtie2} 2>> {log.bowtie2_out}"
 
-rule compressed_unmapped_Exome:
-    input: 
-      met1 = str(DATA_PROCESSING_PATH / "Mapping" / "Exome" / "Star" / "Results" / "{sample}" / "{sample}_Unmapped.out.mate1")
-    output: 
-      met1_compressed = str(DATA_PROCESSING_PATH / "Exome_Fastq" / "{sample}" / "{sample}_Unmapped.out.mate1.fastq.gz")
-    shell:
-      "gzip -c {input.met1} > {output.met1_compressed}"
+#rule compressed_unmapped_Exome:
+#    input: 
+#      met1 = str(DATA_PROCESSING_PATH / "Mapping" / "Exome" / "Star" / "Results" / "{sample}" / "{sample}_Unmapped.out.mate1")
+#    output: 
+#      met1_compressed = str(DATA_PROCESSING_PATH / "Exome_Fastq" / "{sample}" / "{sample}_Unmapped.out.mate1.fastq.gz")
+#    shell:
+#      "gzip -c {input.met1} > {output.met1_compressed}"
       
