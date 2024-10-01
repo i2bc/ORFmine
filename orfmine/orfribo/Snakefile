@@ -84,23 +84,10 @@ FRAG_LENGTH_S = "." + LENGTHS[0]
 FRAG_LENGTH_L = "." + LENGTHS[0] + "-" + LENGTHS[-1]
 
 
-
-def is_name_in_gff():
-    # Check if attributes specified by the user are present in the gff file
-    with open(str(GFF_PATH), "r") as gff_file:
-        is_name_found = False
-        for line in gff_file:
-            searched_name = re.search("^([^\t]+[\t]){8}.*" + NAME_GFF_ATTRIBUTE, line)
-            if searched_name:
-                is_name_found = True
-                break
     
-    return is_name_found
-        
 
 
 include: "rules/01_quality_control.smk"
-#include: "rules/02_gff_name_editing.smk"
 include: "rules/02_gff_AGAT.smk"
 include: "rules/03_find_adapter_trimming.smk"
 include: "rules/04_filter_outRNA_BOWTIE2.smk"
@@ -134,7 +121,6 @@ include: "rules/17_report.smk"
 rule all:
        input:
            str(DATA_PROCESSING_PATH / "Quality_control" / "Before_Trimming" / "multiqc_report.html"),
-           str(DATA_PROCESSING_PATH / "Quality_control" / "After_Trimming" / "multiqc_report.html"),
            expand(expand(str(RESULTS_PATH / "BAM" / "Exome" / "{sample}" / "{sample}.bam.bai"), sample=SAMPLES)),
            expand(str(DATA_PROCESSING_PATH / "Bam2Reads_Exome" / "{sample}" / "{sample}_{length}" / ("Exome_{length}_reads.stats")), sample=SAMPLES, length=LENGTHS),
            expand(str(DATA_PROCESSING_PATH / "Selected_length" / "{sample}" / "Selected_length.txt"), sample=SAMPLES),
@@ -144,10 +130,3 @@ onstart:
     shell("echo 'RiboDoc version : " + __version__ + "' > " + str(LOGS_PATH / "RiboDoc_package_versions.txt"))
 
 
-#onsuccess:
-#    with open(str(RESULTS_PATH / "config.yml"), "w") as updated_config:
-#        updated_config.write(yaml.dump(config, default_flow_style=False))
-
-#onerror:
-#    with open(str(RESULTS_PATH / "config.yml"), "w") as updated_config:
-#        updated_config.write(yaml.dump(config, default_flow_style=False))

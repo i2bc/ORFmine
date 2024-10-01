@@ -53,7 +53,6 @@ def get_parser():
     parser.add_argument("-F", "--forceall", action='store_true', default=False, help="Force all output files to be re-created (default False)")
     parser.add_argument("--debug", action="store_true", default=False, help="Allow to debug rules with e.g. PDB. This flag allows to set breakpoints in run blocks.")
 
-
     trim_group = parser.add_mutually_exclusive_group(required=False)
     trim_group.add_argument("--trimmed", action='store_true', help="Flag indicating that the sequence adapters are already removed.")
     trim_group.add_argument("--not-trimmed", action='store_true', help="Flag indicating that the sequence adapters are not removed.")
@@ -171,13 +170,13 @@ def update_config_from_args(provided_args: dict, config: dict):
 def load_config(args: argparse.Namespace):
     required_args = ["--fna", "--gff", "--gff-intergenic", "--fastq"]
     mutually_exclusive_args = [("--trimmed", "--not-trimmed")]
-
     # get provided arguments into a dictionary
     provided_args = get_provided_args(parser=get_parser(), args=args)
 
     # check that provided arguments contains mandatories one
     check_provided_args(provided_args=provided_args, required_args=required_args, mutually_exclusive=mutually_exclusive_args)
     
+
     # load default yaml config file
     config = get_default_config()
 

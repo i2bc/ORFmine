@@ -21,7 +21,7 @@ fastq: ""
 out: "/data/work/I2BC/fadwa.elkhaddar/BIM/Results_Packaging_SRR1562875_SRR1562874_STAR"
 
 # Are the sequencing adapters already removed in fastq files ? True or False
-trimmed: 0 
+trimmed: "0" 
 
 # Adapter sequence (Example sequence for Illumina TruSeq™ single or CD index : "AGATCGGAAGAGCACACGTCTGAACTCCAGTCA")
 # Put "" if unknown, RiboDoc_BAM2Reads will try to find it for you
