@@ -64,7 +64,6 @@ def aggregate_data(cds_name, files, nb_cds=None):
 
             gene_name_data, cds_num, P0, P1, P2 = line
             if gene_name_data == full_gene_name:
-                #print(f"Match found for {full_gene_name} in file {file}")
                 cds_num = int(cds_num)
                 P0 = int(P0)
                 P1 = int(P1)
@@ -79,20 +78,18 @@ def aggregate_data(cds_name, files, nb_cds=None):
                     aggregate[cds_num][2] += P2
                 all_data.append((cds_num, P0, P1, P2))
                 count += 1
-            #else:
-            #    print(f"No match for {gene_name_data} in file {file}")  # Debug print
                 
     return aggregate, all_data
 
 
-def plot_data(cds_name, all_data, output):
+def plot_data(cds_name, all_data, pooled=False):
     """
     Generates a plot from the aggregated data for a specific CDS.
     
     Args:
         cds_name (str): Name of the CDS.
         all_data (list): Data to plot.
-        output (str): Output file path to save the plot.
+        pooled (bool): Whether the plot is generated in pooled mode.
     """
     cds_nums = [data[0] for data in all_data]
     P0_vals = [data[1] for data in all_data]
@@ -115,9 +112,13 @@ def plot_data(cds_name, all_data, output):
     plt.xticks(tick_positions, rotation=90)
 
     plt.gca().set_xlim(left=0)
-
-    plt.savefig(output)
-    print(f"Plot saved to {output}")
+    clean_cds_name = cds_name.replace("CDS:", "").replace("_CDS", "")
+    if pooled:
+        clean_cds_name += "_pooled"
+    
+    output_filename = f"{clean_cds_name}.png"
+    plt.savefig(output_filename)
+    print(f"Plot saved to {output_filename}")
 
 
 def main():
@@ -127,7 +128,6 @@ def main():
     parser.add_argument("--nb_cds", type=int, help="Number of CDS to process (default: all).")
     parser.add_argument("--cds_file", type=str, help="Path to a file containing CDS names (in .txt format).")
     parser.add_argument("--cds_name", type=str, help="Name of the CDS you want to use.")
-    parser.add_argument("--output", type=str, help="Output file to save the plot (e.g., plot.png).", required=True)
     mode = parser.add_mutually_exclusive_group(required=True)
     mode.add_argument("--pooled", action='store_true', help="Use all the files in the directory and generate one plot for all data.")
     mode.add_argument("--individual", action='store_true', help="Use only the file provided in the command line to generate a plot.")
@@ -162,7 +162,7 @@ def main():
     for cds in cds_names:
         aggregate, all_data = aggregate_data(cds, files, args.nb_cds)
         if all_data:
-            plot_data(cds, all_data, args.output)
+            plot_data(cds, all_data, pooled=args.pooled)
         else:
             print(f"No data found for {cds}")
 
