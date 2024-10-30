@@ -15,5 +15,5 @@ rule ORFstats:
         read_length = "{length}"
     shell:
         "set +o pipefail;"
-        "orfstats -tab {input.reads} -N 10 -out {params.outdir} 2> {log.orfstats} ;"
+        "orfstats -tab {input.reads} -N 10 -out {params.outdir}  2> {log.orfstats}  ;"
 

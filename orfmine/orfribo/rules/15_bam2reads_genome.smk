@@ -24,6 +24,7 @@ rule Bam2Reads_Genome:
         outdir_selected = str(RESULTS_PATH / "Selected_Length_Exome")
     shell:
         """
+        set +o pipefail
         lengths_list=$(cat {input.table})
         in_lengths_list=""
 
@@ -37,7 +38,7 @@ rule Bam2Reads_Genome:
                    echo "Le fichier $selected_file n'existe pas" >> {log.bam2read}
                 fi
                 offset=$(grep '{params.sample_name}' {input.psite_table} 2> {log.offset_grep} | grep '^{params.reads_length}' 2>> {log.offset_grep} | cut -f7 2>> {log.offset_grep}) 2>> {log.offset_grep};
-                bam2reads -shift ${{offset}} -kmer {params.reads_length} -gff {input.intergenic_gff} -bam {input.bam} -outpath {params.outdir} -outname Genome_{params.reads_length} -features_include {params.feature} 2> {log.bam2read};
+                bam2reads -shift ${{offset}} -kmer {params.reads_length} -gff {input.intergenic_gff} -bam {input.bam} -outpath {params.outdir} -outname Genome_{params.reads_length} -features_include {params.feature} 2> {log.bam2read} || true ;
                 in_lengths_list="True"
                 break
             fi

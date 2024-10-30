@@ -53,7 +53,7 @@ rule Mapping_Genome_HISAT_Bowtie2:
          THREADS_NB
     log:
          hisat2_out = str(LOGS_PATH / "Mapping" / "Genome" / "Hisat2" / "{sample}_hisat2_mapping.log"),
-         bowtie2_out = str(LOGS_PATH / "Mapping" / "Genome" / "Bowtie2" / "{sample}_bowie2_mapping.log")
+         bowtie2_out = str(LOGS_PATH / "Mapping" / "Genome" / "Bowtie2" / "{sample}_bowtie2_mapping.log")
     benchmark:
          str(BENCHMARKS_PATH / "Mapping" / "Genome" / "Hisat2" / "{sample}_HISAT_Bowtie2_Mapping_Genome.benchmark.txt")
     shell:

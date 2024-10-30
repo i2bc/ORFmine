@@ -26,7 +26,7 @@ rule index_reference_STAR:
         str(BENCHMARKS_PATH / "Mapping" / "Genome" / "Star" / "Index" / "Genome_index.txt")
     shell:
         "mkdir {output} && "
-        "../STAR-2.7.11b/bin/Linux_x86_64/STAR --runThreadN 20 --runMode genomeGenerate --genomeDir {output} --genomeFastaFiles {input} --genomeSAindexNbases 4 > {log} 2>&1 "
+        "STAR --runThreadN 20 --runMode genomeGenerate --genomeDir {output} --genomeFastaFiles {input} --genomeSAindexNbases 4 > {log} 2>&1 "
  
        
 rule Mapping_Genome_STAR_Bowtie2:
@@ -38,6 +38,7 @@ rule Mapping_Genome_STAR_Bowtie2:
        sam_star = str(DATA_PROCESSING_PATH / "Mapping" /  "Genome" / "Star" / "Results" / "{sample}" / "{sample}_Aligned.out.sam"),
        sam_bowtie2 = str(DATA_PROCESSING_PATH / "Mapping" / "Genome" / "Bowtie2" / "Results" / "{sample}" / "{sample}.sam"),
        met1 = str(DATA_PROCESSING_PATH / "Mapping" / "Genome" / "Star" / "Results" / "{sample}" / "{sample}_Unmapped.out.mate1")
+       log = str(DATA_PROCESSING_PATH / "Mapping" / "Genome" / "Star" / "Results" / "{sample}" / "{sample}_Log.final.out")
     params:
        index_names_bowtie2 = str(DATA_PROCESSING_PATH / "Mapping" / "Genome" / "Bowtie2" / "Index" / "index_bowtie2"),
        prefix = str(DATA_PROCESSING_PATH / "Mapping" / "Genome" / "Star" / "Results" / "{sample}" / "{sample}_"),
@@ -50,11 +51,11 @@ rule Mapping_Genome_STAR_Bowtie2:
        sj = str(LOGS_PATH / "Mapping" / "Genome" / "Star" / "{sample}_Genome_SJ.out.tab"),
        prog = str(LOGS_PATH / "Mapping" / "Genome" / "Star" / "{sample}_Genome_Log.progess.out"),
        star = str(LOGS_PATH / "Mapping" / "Genome" / "Star" / "{sample}_star.out"), 
-       bowtie2_out = str(LOGS_PATH / "Mapping" / "Genome" / "Star" / "{sample}_bowie2_mapping.out")
+       bowtie2_out = str(LOGS_PATH / "Mapping" / "Genome" / "Star" / "Genome_{sample}_bowtie2_star_mapping.txt")
     benchmark:
        str(BENCHMARKS_PATH / "Mapping" / "Genome" / "Star" / "{sample}_STAR_Bowtie2_Mapping_Genome.benchmark.txt")
     shell:
-        "../STAR-2.7.11b/bin/Linux_x86_64/STAR --readFilesCommand zcat " 
+        "STAR --readFilesCommand zcat " 
         " --alignIntronMax {params.introns} "
         " --outReadsUnmapped Fastx "
         " --genomeDir {input.index_star}"

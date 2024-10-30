@@ -51,7 +51,7 @@ if config.get('rna_to_exclude'):
                THREADS_NB
             log:
                hisat2_out = str(LOGS_PATH / "Mapping" / "Exome" / "Hisat2" / "{sample}_hisat2_mapping.log"),
-               bowtie2_out = str(LOGS_PATH / "Mapping" / "Exome" / "Bowtie2" / "{sample}_bowie2_mapping.log")
+               bowtie2_out = str(LOGS_PATH / "Mapping" / "Exome" / "Bowtie2" / "{sample}_bowtie2_mapping.log")
             benchmark:
                str(BENCHMARKS_PATH / "Mapping" / "Exome" / "Hisat2"/ "{sample}_HISAT_Bowtie2_Mapping_Orfeum.benchmark.txt")
             shell:
@@ -76,7 +76,7 @@ else:
                THREADS_NB
             log:
                hisat2_out = str(LOGS_PATH / "Mapping" / "Exome" / "Hisat2" / "{sample}_hisat2_mapping.log"),
-               bowtie2_out = str(LOGS_PATH / "Mapping" / "Exome" / "Bowtie2" / "{sample}_bowie2_mapping.log")
+               bowtie2_out = str(LOGS_PATH / "Mapping" / "Exome" / "Bowtie2" / "{sample}_bowtie2_mapping.log")
             benchmark:
                str(BENCHMARKS_PATH / "Mapping" / "Exome" / "Hisat2"/ "{sample}_HISAT_Bowtie2_Mapping_Orfeum.benchmark.txt")
             shell:

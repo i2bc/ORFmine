@@ -61,7 +61,7 @@ BENCHMARKS_PATH.mkdir(parents=True, exist_ok=True)
 
 MIN_READ_LENGTH = str(config['min_read_length'])
 MAX_READ_LENGTH = str(config['max_read_length'])
-NAME_GFF_ATTRIBUTE = config['gff_attribute']
+#NAME_GFF_ATTRIBUTE = config['gff_attribute']
 ORFSTATS_THRESHOLD_MEAN = config['mean_threshold']
 ORFSTATS_THRESHOLD_MEDIAN = config['median_threshold']
 GFF_ELEMENT_TO_COUNT = config['gff_feature']

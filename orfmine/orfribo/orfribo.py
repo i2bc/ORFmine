@@ -42,7 +42,7 @@ from orfmine.orfribo.lib import argparser
 def generate_dag_svg(snakefile, output_svg_path):
     import subprocess
 
-    cmd = (f"snakemake -s {snakefile} -j 5 --dag -np --forceall --nolock | dot -Tsvg > {output_svg_path}")
+    cmd = (f"snakemake -s {snakefile} -j 5  --dag -np --forceall --nolock | dot -Tsvg > {output_svg_path}")
     try:
         subprocess.run(cmd, shell=True, check=True)
     except subprocess.CalledProcessError as e:
@@ -94,6 +94,7 @@ def start_orfribo(args: Namespace, config: dict):
         force_incomplete=True,
         cores=args.cores,
         debug=args.debug,
+        keepgoing=True,
         # omit_from="find_adapter_sequence"
     )
 

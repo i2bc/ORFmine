@@ -39,7 +39,6 @@ def get_parser():
     parser.add_argument("--min-read-length", help="Minimum read length for ribosome profiling", type=int, default=25)
     parser.add_argument("--max-read-length", help="Maximum read length for ribosome profiling", type=int, default=35)
     parser.add_argument("--gff-feature", help="Feature element to select during counting", default="CDS")
-    parser.add_argument("--gff-attribute", help="Attribute containing gene names in GFF", default="Name")
     parser.add_argument("--mean-threshold", help="Minimum mean of in-frame reads", type=float, default=70)
     parser.add_argument("--median-threshold", help="Minimum median of in-frame reads", type=float, default=70)
     parser.add_argument("--intergenic-features", help="List of features in the intergenic GFF", nargs="*", default=["nc_intergenic"])

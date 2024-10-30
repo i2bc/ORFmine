@@ -26,7 +26,7 @@ rule index_Exome_STAR:
         str(BENCHMARKS_PATH / "Mapping" / "Exome" / "Star" / "Index" / "Exome_index.txt")
     shell:
         "mkdir {output} && "
-        "../STAR-2.7.11b/bin/Linux_x86_64/STAR --runThreadN 20 --runMode genomeGenerate --genomeDir {output} --genomeFastaFiles {input} --genomeSAindexNbases 7 > {log} 2>&1"
+        "STAR --runThreadN 20 --runMode genomeGenerate --genomeDir {output} --genomeFastaFiles {input} --genomeSAindexNbases 7 > {log} 2>&1"
  
 if config.get('rna_to_exclude'):       
 	rule Mapping_Exome_STAR_Bowtie2:
@@ -37,7 +37,8 @@ if config.get('rna_to_exclude'):
 	    output:
 	       sam_star = str(DATA_PROCESSING_PATH / "Mapping" / "Exome" / "Star" / "Results" / "{sample}" / "{sample}_Aligned.out.sam"),
 	       met1 = str(DATA_PROCESSING_PATH / "Mapping" / "Exome" / "Star" / "Results" / "{sample}" / "{sample}_Unmapped.out.mate1"),
-	       sam_bowtie2 = str(DATA_PROCESSING_PATH / "Mapping" / "Exome" / "Bowtie2" / "Results" / "{sample}" / "{sample}.sam") 
+	       sam_bowtie2 = str(DATA_PROCESSING_PATH / "Mapping" / "Exome" / "Bowtie2" / "Results" / "{sample}" / "{sample}.sam"),
+               log = str(DATA_PROCESSING_PATH / "Mapping" / "Exome" / "Star" / "Results" / "{sample}" / "{sample}_Log.final.out")
 	    params:
 	       prefix = str(DATA_PROCESSING_PATH / "Mapping" / "Exome" / "Star" / "Results" / "{sample}" /"{sample}_"),
 	       index_names_bowtie2 = str(DATA_PROCESSING_PATH / "Mapping" / "Exome" / "Bowtie2" / "Index" / "index_bowtie2"),
@@ -53,7 +54,7 @@ if config.get('rna_to_exclude'):
 	    benchmark:
 	       str(BENCHMARKS_PATH / "Mapping" / "Exome" / "Star" / "{sample}_STAR_Bowtie2_Mapping_Exome.benchmark.txt")
 	    shell:
-	       "../STAR-2.7.11b/bin/Linux_x86_64/STAR --readFilesCommand zcat " 
+	       "STAR --readFilesCommand zcat " 
 	       " --alignIntronMax {params.introns} "
 	       " --outReadsUnmapped Fastx "
 	       " --genomeDir {input.index_star}"
@@ -72,7 +73,8 @@ else:
 	    output:
                sam_star = str(DATA_PROCESSING_PATH / "Mapping" / "Exome" / "Star" / "Results" / "{sample}" / "{sample}_Aligned.out.sam"),
                met1 = str(DATA_PROCESSING_PATH / "Mapping" / "Exome" / "Star" / "Results" / "{sample}" / "{sample}_Unmapped.out.mate1"),
-               sam_bowtie2 = str(DATA_PROCESSING_PATH / "Mapping" / "Exome" / "Bowtie2" / "Results" / "{sample}" / "{sample}.sam")
+               sam_bowtie2 = str(DATA_PROCESSING_PATH / "Mapping" / "Exome" / "Bowtie2" / "Results" / "{sample}" / "{sample}.sam"),
+               log = str(DATA_PROCESSING_PATH / "Mapping" / "Exome" / "Star" / "Results" / "{sample}" / "{sample}_Log.final.out")
 	    params:
                prefix = str(DATA_PROCESSING_PATH / "Mapping" / "Exome" / "Star" / "Results" / "{sample}" / "{sample}_"),
                index_names_bowtie2 = str(DATA_PROCESSING_PATH / "Mapping" / "Exome" / "Bowtie2" / "Index" / "index_bowtie2"),
@@ -84,11 +86,11 @@ else:
                sj = str(LOGS_PATH / "Mapping" / "Exome" / "Star" / "{sample}_Exome_SJ.out.tab"),
                prog = str(LOGS_PATH / "Mapping" / "Exome" / "Star" / "{sample}_Exome_Log.progess.out"),
                star = str(LOGS_PATH / "Mapping" / "Exome" / "Star" / "Exome_{sample}_star.out"),
-               bowtie2_out = str(LOGS_PATH / "Mapping" / "Exome" / "Bowtie2" / "Exome_{sample}_bowie2_mapping.out")
+               bowtie2_out = str(LOGS_PATH / "Mapping" / "Exome" / "Bowtie2" / "Exome_{sample}_bowtie2_star_mapping.txt")
 	    benchmark:
                str(BENCHMARKS_PATH / "Mapping" / "Exome" / "Star" / "{sample}_STAR_Bowtie2_Mapping_Exome.benchmark.txt")
 	    shell:
-               "../STAR-2.7.11b/bin/Linux_x86_64/STAR --readFilesCommand zcat "
+               "STAR --readFilesCommand zcat "
                " --alignIntronMax {params.introns} "
                " --outReadsUnmapped Fastx "
                " --genomeDir {input.index_star}"

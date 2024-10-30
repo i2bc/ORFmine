@@ -26,6 +26,7 @@ rule Bam2Reads_Exome:
         str(BENCHMARKS_PATH / "Bam2Reads_Exome" / "{sample}.{length}.bam2read.benchmark.txt")
    shell:
         """
+        set +o pipefail
         offset=$(grep {params.sample_name} {input.psite_table} 2> {log.offset_grep} | grep ^{params.read_length} 2>> {log.offset_grep} | cut -f7 2>> {log.offset_grep}) 2>> {log.offset_grep}
         echo "$offset"
         if [ "$offset" = "" ]; then offset=12 ; fi

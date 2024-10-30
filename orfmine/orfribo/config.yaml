@@ -36,9 +36,6 @@ max_read_length: 35
 # Elements to select during counting
 gff_feature: "CDS"
 
-# Attribute containing the names of the genes in gff
-gff_attribute: "Name"
-
 
 # Minimum mean of in-frame reads in coding region to select specific read lengths
 mean_threshold: ""

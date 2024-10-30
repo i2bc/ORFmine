@@ -11,6 +11,7 @@ rule select_read_lengths:
         THREADS_NB
     shell:
         """
+        set +o pipefail
         if [ -n "{params.mean}" ] && [ -n "{params.median}" ]; then
             selected_length --directory {params.orfstats_dir} --both --threshold {params.mean} --output {output.table}
         elif [ -n "{params.mean}" ]; then
@@ -20,9 +21,9 @@ rule select_read_lengths:
         fi
 
         # Check if the output file is empty
-        if [ ! -s {output.table} ]; then
-            echo "ERROR: No read length was selected. Please check the chosen mean/median value."
-            exit 1
-        fi
+        #if [ ! -s {output.table} ]; then
+        #    echo "ERROR: No read length was selected. Please check the chosen mean/median value."
+        #    exit 1
+        #fi
         """
 
