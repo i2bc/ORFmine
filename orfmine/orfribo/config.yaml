@@ -59,4 +59,4 @@ aligner: "star"
 
 
 # Introns length : If you want to disable this parameter, comment it (default : 3000 according to Scer.gff) 
-#introns_length : 4000
+introns_length : 3000
