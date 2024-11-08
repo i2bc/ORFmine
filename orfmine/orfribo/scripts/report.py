@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import os
 import argparse
 import subprocess
@@ -56,7 +57,7 @@ def process_samples(fastq, fastq_trimmed, unwanted, exome, genome, output):
             add_log_content(exome, basename, "Mapping exome", data_report)
             add_log_content(genome, basename, "Mapping genome", data_report)
 
-if __name__ == "__main__":
+def main():
     parser = argparse.ArgumentParser(description="Report Analysis")
     parser.add_argument('--fastq', required=True, help="Path to the directory containing original FASTQ files")
     parser.add_argument('--fastq_trimmed', required=True, nargs="*", help="Paths to the trimmed FASTQ files")
@@ -75,3 +76,6 @@ if __name__ == "__main__":
 
     create_output_file(output, fastq)
     process_samples(fastq, fastq_trimmed, unwanted, exome, genome, output)
+
+if __name__ == "__main__":
+    main()

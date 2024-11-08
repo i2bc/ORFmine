@@ -19,21 +19,10 @@ RUN apt-get update && apt-get install -y \
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
 
-# RUN apt-get update && \
-#     apt-get install -y build-essential python3.10 python3-pip python3-venv && \
-#     apt-get install -y libc6-dev git libncurses5-dev default-jre && \
-#     apt-get install -y libbz2-dev liblzma-dev zlib1g-dev wget vim-tiny && \
-#     apt-get install -y libxml2-dev libcurl4-openssl-dev libssl-dev && \
-#     apt-get install -y libfontconfig1-dev libharfbuzz-dev libfribidi-dev && \
-#     apt-get install -y libfreetype6-dev libpng-dev libtiff5-dev libjpeg-dev
-
-
-
 #################
-# 2nd build stage - R & ribowaltz
+# 2nd build stage - R 
 #################
 FROM stage_1 as stage_2
-
 
 # Add R repository
 RUN apt-get update && \
@@ -44,34 +33,49 @@ RUN apt-get update && \
     apt-get install -y r-base && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
-
-# install ribowaltz
-RUN R -e "install.packages('devtools', dependencies = TRUE); \
-         library('devtools'); \
-         devtools::install_github('LabTranslationalArchitectomics/riboWaltz@v1.2.0', dependencies = TRUE);"
-
+    
 
 #################
-# 3rd build stage - orfmine external software dependencies (bowtie2, gffread, hisat2, samtools, fastQC)
+# 3rd build stage - Conda environment setup + STAR installation
 #################
 FROM stage_2 as stage_3
 
-# copy software binaries (bowtie2, gffread, hisat2, blastp, makeblastdb) to /usr/local/bin
-COPY softwares_dependencies/bin/ /usr/local/bin
+# Install Miniconda
+WORKDIR /tmp
+RUN wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh && \
+    bash Miniconda3-latest-Linux-x86_64.sh -b -p /opt/conda && \
+    rm Miniconda3-latest-Linux-x86_64.sh
 
-# install samtools
-WORKDIR /opt/samtools
-COPY softwares_dependencies/samtools-1.16.1 .
-RUN ./configure --prefix="/usr/local" && make all all-htslib && make install install-htslib
+# Set path to conda
+ENV PATH /opt/conda/bin:$PATH
 
-# install fastqc
-WORKDIR /opt/FastQC
-COPY softwares_dependencies/FastQC/ .
-RUN ln -s /opt/FastQC/fastqc /usr/local/bin
+# Install STAR
+RUN wget https://github.com/alexdobin/STAR/archive/refs/tags/2.7.10a.tar.gz && \
+    tar -xzvf 2.7.10a.tar.gz && \
+    rm 2.7.10a.tar.gz && \
+    cd STAR-2.7.10a/source && \
+    make STAR && \
+    mv STAR /usr/local/bin/
+
+# Clean up STAR build files
+RUN rm -rf /tmp/STAR-2.7.10a
+
+# Copy environment.yml to the container
+COPY ORFmine_env.yml /tmp/ORFmine_env.yml
+
+# Create Conda environment
+RUN conda env create -f /tmp/ORFmine_env.yml && \
+    conda clean -afy
+
+# Make sure the environment is activated by default
+ENV CONDA_DEFAULT_ENV ORFmine_env
+ENV PATH /opt/conda/envs/ORFmine_env/bin:$PATH
+
+SHELL ["conda", "run", "-n", "ORFmine_env", "/bin/bash", "-c"]
 
 
 #################
-# 3rd build stage - orfmine python dependencies
+# 4th build stage - orfmine python dependencies
 #################
 FROM stage_3 as stage_4
 
@@ -82,10 +86,10 @@ RUN adduser orfuser
 WORKDIR /home/orfuser/orfmine
 
 # create a virtual environment
-RUN python3 -m venv env-orfmine
+RUN python3.10 -m venv env-orfmine
 ENV VIRTUAL_ENV /home/orfuser/orfmine/env-orfmine/bin
 
-# # Make sure we use the virtualenv:
+# Make sure we use the virtualenv
 ENV PATH ${VIRTUAL_ENV}:${PATH}
 
 # Copy the requirements file into the container
@@ -110,20 +114,7 @@ RUN printf "[EXTERNAL_SOFTWARE]\niupred = \"/opt/iupred2a\"\ntango = \"/opt/tang
 # install ORFmine python libraries & dependencies 
 RUN pip3 install -e .
 
-# # make current workdir content owns by user
-# RUN chown -R orfuser:orfuser ./
-
-
-# Install STAR
-RUN wget --no-check-certificate -qO- https://github.com/alexdobin/STAR/archive/2.7.11b.tar.gz | tar xvz && \
-    cd STAR-2.7.11b/source && \
-    make && \
-    cp STAR /usr/local/bin && \
-    cd ../../ && \
-    rm -rf STAR-2.7.11b
-
-
-# create /inputs and /outputs directries with relevant user permissions
+# create /inputs and /outputs directories with relevant user permissions
 RUN mkdir /input /output && \
     chown orfuser:orfuser /input && \ 
     chown orfuser:orfuser /output && \

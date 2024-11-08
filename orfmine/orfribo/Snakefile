@@ -90,9 +90,9 @@ FRAG_LENGTH_L = "." + LENGTHS[0] + "-" + LENGTHS[-1]
 include: "rules/01_quality_control.smk"
 include: "rules/02_gff_AGAT.smk"
 include: "rules/03_find_adapter_trimming.smk"
-include: "rules/04_filter_outRNA_BOWTIE2.smk"
 if MAPPING_TOOL == "hisat2":
 	if config.get('rna_to_exclude'):
+		include: "rules/04_filter_outRNA_BOWTIE2.smk"
 		include: "rules/05_mapping_genome_filter_outRNA_HISAT2.smk"
 	else:
 		include: "rules/06_mapping_genome_without_filter_outRNA_HISAT2.smk"
@@ -103,6 +103,7 @@ if MAPPING_TOOL == "hisat2":
 
 if MAPPING_TOOL == "star":
 	if config.get('rna_to_exclude'):
+		include: "rules/04_filter_outRNA_BOWTIE2.smk"
 		include: "rules/05_mapping_genome_filter_outRNA_STAR.smk"
 	else:
 		include: "rules/06_mapping_genome_without_filter_outRNA_STAR.smk"
@@ -121,6 +122,7 @@ include: "rules/17_report.smk"
 rule all:
        input:
            str(DATA_PROCESSING_PATH / "Quality_control" / "Before_Trimming" / "multiqc_report.html"),
+           str(DATA_PROCESSING_PATH / "Quality_control" / "After_Trimming" / "multiqc_report.html"),
            expand(expand(str(RESULTS_PATH / "BAM" / "Exome" / "{sample}" / "{sample}.bam.bai"), sample=SAMPLES)),
            expand(str(DATA_PROCESSING_PATH / "Bam2Reads_Exome" / "{sample}" / "{sample}_{length}" / ("Exome_{length}_reads.stats")), sample=SAMPLES, length=LENGTHS),
            expand(str(DATA_PROCESSING_PATH / "Selected_length" / "{sample}" / "Selected_length.txt"), sample=SAMPLES),

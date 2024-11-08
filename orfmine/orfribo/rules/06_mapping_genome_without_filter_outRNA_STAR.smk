@@ -37,7 +37,7 @@ rule Mapping_Genome_STAR_Bowtie2:
     output:
        sam_star = str(DATA_PROCESSING_PATH / "Mapping" /  "Genome" / "Star" / "Results" / "{sample}" / "{sample}_Aligned.out.sam"),
        sam_bowtie2 = str(DATA_PROCESSING_PATH / "Mapping" / "Genome" / "Bowtie2" / "Results" / "{sample}" / "{sample}.sam"),
-       met1 = str(DATA_PROCESSING_PATH / "Mapping" / "Genome" / "Star" / "Results" / "{sample}" / "{sample}_Unmapped.out.mate1")
+       met1 = str(DATA_PROCESSING_PATH / "Mapping" / "Genome" / "Star" / "Results" / "{sample}" / "{sample}_Unmapped.out.mate1"),
        log = str(DATA_PROCESSING_PATH / "Mapping" / "Genome" / "Star" / "Results" / "{sample}" / "{sample}_Log.final.out")
     params:
        index_names_bowtie2 = str(DATA_PROCESSING_PATH / "Mapping" / "Genome" / "Bowtie2" / "Index" / "index_bowtie2"),
@@ -46,12 +46,12 @@ rule Mapping_Genome_STAR_Bowtie2:
     threads: 
        THREADS_NB
     log:
-       final = str(LOGS_PATH / "Mapping" / "Genome" / "Star" / "{sample}_Genome_Log.final.out"),
-       log = str(LOGS_PATH / "Mapping" / "Genome" / "Star" / "{sample}_Genome_Log.out"),
-       sj = str(LOGS_PATH / "Mapping" / "Genome" / "Star" / "{sample}_Genome_SJ.out.tab"),
-       prog = str(LOGS_PATH / "Mapping" / "Genome" / "Star" / "{sample}_Genome_Log.progess.out"),
-       star = str(LOGS_PATH / "Mapping" / "Genome" / "Star" / "{sample}_star.out"), 
-       bowtie2_out = str(LOGS_PATH / "Mapping" / "Genome" / "Star" / "Genome_{sample}_bowtie2_star_mapping.txt")
+        final = str(LOGS_PATH / "Mapping" / "Genome" / "Star"/"Results" / "{sample}" / "{sample}_Genome_Log.final.out"),
+        log = str(LOGS_PATH / "Mapping" / "Genome" / "Star"/"Results" / "{sample}" / "{sample}_Genome_Log.out"),
+        sj = str(LOGS_PATH / "Mapping" / "Genome" / "Star"/"Results" / "{sample}" / "{sample}_Genome_SJ.out.tab"),
+        prog = str(LOGS_PATH / "Mapping" / "Genome" / "Star"/"Results" / "{sample}" / "{sample}_Genome_Log.progess.out"),
+        star = str(LOGS_PATH / "Mapping" / "Genome" / "Star"/ "Results" / "{sample}" /"{sample}_star.out"), 
+        bowtie2_out = str(LOGS_PATH / "Mapping" / "Genome" / "Star"/ "Results" / "{sample}" /"Genome_{sample}_bowtie2_star_mapping.txt")
     benchmark:
        str(BENCHMARKS_PATH / "Mapping" / "Genome" / "Star" / "{sample}_STAR_Bowtie2_Mapping_Genome.benchmark.txt")
     shell:

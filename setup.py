@@ -7,7 +7,7 @@ Created on Fri Jul 24 15:08:04 2020
 
 import setuptools as st
 
-MIN_PY_VER = "3.7"
+MIN_PY_VER = "3.9"
 
 REQUIRES = [
       'biopython==1.84',
@@ -24,13 +24,15 @@ REQUIRES = [
       'lightgbm==4.5.0',
       'matplotlib==3.9.2',
       'pillow==10.4.0',
-      'scipy==1.14.1',
+      'scipy==1.13.1',
       'seaborn==0.13.2',
       'tinycss2==1.3.0',
       'webencodings==0.5.1',
-      'snakemake==8.20.5',
+      'snakemake==7.16.0',
+      'multiqc==1.25.1',
       'pyHCA @ git+https://github.com/T-B-F/pyHCA.git',
 ]
+
 
 PACKAGES = [
     'orfmine',
@@ -66,6 +68,7 @@ st.setup(
             'bam2reads=orfmine.orfribo.scripts.BAM2Reads:main',
             'orfstats=orfmine.orfribo.scripts.ORFstats:main',
             'selected_length=orfmine.orfribo.scripts.selected_length:main',
+            'report=orfmine.orfribo.scripts.report:main',
             'merge_read_tables=orfmine.orfribo.scripts.concatenate:main', 
             'orfmine=orfmine.scripts:main',
         ]
