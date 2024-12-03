@@ -1,5 +1,5 @@
 biopython==1.84
-DendroPy==5.0.1
+DendroPy==4.5.2
 gffutils==0.13
 scipy==1.13.1
 seaborn==0.13.2

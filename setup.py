@@ -30,6 +30,7 @@ REQUIRES = [
       'webencodings==0.5.1',
       'snakemake==7.16.0',
       'multiqc==1.25.1',
+      'DendroPy==4.5.2',
       'pyHCA @ git+https://github.com/T-B-F/pyHCA.git',
 ]
 
