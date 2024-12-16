@@ -70,7 +70,7 @@ st.setup(
             'orfstats=orfmine.orfribo.scripts.ORFstats:main',
             'selected_length=orfmine.orfribo.scripts.selected_length:main',
             'report=orfmine.orfribo.scripts.report:main',
-            'merge_read_tables=orfmine.orfribo.scripts.concatenate:main', 
+            'concatenate=orfmine.orfribo.scripts.concatenate:main', 
             'orfmine=orfmine.scripts:main',
         ]
     }

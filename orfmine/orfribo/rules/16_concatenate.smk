@@ -20,7 +20,7 @@ rule concatenate_count_tables_genome:
                     selected_tables.append(table)
         table_string = ' '.join(selected_tables)
         print(table_string)
-        shell("merge_read_tables -tables " + table_string + " -outpath {params.outdir} -outname {params.outname}")
+        shell("concatenate -tables " + table_string + " -outpath {params.outdir} -outname {params.outname}")
 
 
 # Concatenate all samples concatenated tables together :
@@ -43,5 +43,5 @@ rule concatenate_all_tables:
                 selected_tables.append(table)
         table_string = ' '.join(selected_tables)
         print(table_string)
-        shell("merge_read_tables -tables " + table_string + " -outpath {params.outdir} -outname {params.outname}")
+        shell("concatenate -tables " + table_string + " -outpath {params.outdir} -outname {params.outname}")
 

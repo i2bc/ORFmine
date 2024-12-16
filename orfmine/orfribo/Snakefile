@@ -90,27 +90,29 @@ FRAG_LENGTH_L = "." + LENGTHS[0] + "-" + LENGTHS[-1]
 include: "rules/01_quality_control.smk"
 include: "rules/02_gff_AGAT.smk"
 include: "rules/03_find_adapter_trimming.smk"
+
 if MAPPING_TOOL == "hisat2":
-	if config.get('rna_to_exclude'):
-		include: "rules/04_filter_outRNA_BOWTIE2.smk"
-		include: "rules/05_mapping_genome_filter_outRNA_HISAT2.smk"
-	else:
-		include: "rules/06_mapping_genome_without_filter_outRNA_HISAT2.smk"
-	include: "rules/07_samtools_genome_HISAT2.smk"	
-	include: "rules/08_Exome_construction.smk"
-	include: "rules/09_mapping_exome_HISAT2.smk"
-	include: "rules/10_samtools_exome_HISAT2.smk"
+    if config.get('rna_to_exclude'):
+        include: "rules/04_filter_outRNA_BOWTIE2.smk"
+        include: "rules/05_mapping_genome_filter_outRNA_HISAT2.smk"
+    else:
+        include: "rules/06_mapping_genome_without_filter_outRNA_HISAT2.smk"
+    include: "rules/07_samtools_genome_HISAT2.smk"    
+    include: "rules/08_Exome_construction.smk"
+    include: "rules/09_mapping_exome_HISAT2.smk"
+    include: "rules/10_samtools_exome_HISAT2.smk"
 
 if MAPPING_TOOL == "star":
-	if config.get('rna_to_exclude'):
-		include: "rules/04_filter_outRNA_BOWTIE2.smk"
-		include: "rules/05_mapping_genome_filter_outRNA_STAR.smk"
-	else:
-		include: "rules/06_mapping_genome_without_filter_outRNA_STAR.smk"
-	include: "rules/07_samtools_genome_STAR.smk" 
-        include: "rules/08_Exome_construction.smk"
-        include: "rules/09_mapping_exome_STAR.smk"
-        include: "rules/10_samtools_exome_STAR.smk"
+    if config.get('rna_to_exclude'):
+        include: "rules/04_filter_outRNA_BOWTIE2.smk"
+        include: "rules/05_mapping_genome_filter_outRNA_STAR.smk"
+    else:
+        include: "rules/06_mapping_genome_without_filter_outRNA_STAR.smk"
+    include: "rules/07_samtools_genome_STAR.smk" 
+    include: "rules/08_Exome_construction.smk"
+    include: "rules/09_mapping_exome_STAR.smk"
+    include: "rules/10_samtools_exome_STAR.smk"
+
 include: "rules/11_ribowaltz.smk"
 include: "rules/12_Bam2Reads_Exome.smk"
 include: "rules/13_ORFstat.smk"
@@ -119,16 +121,27 @@ include: "rules/15_bam2reads_genome.smk"
 include: "rules/16_concatenate.smk"
 include: "rules/17_report.smk"
 
+# define all the output target
+all_targets = [
+    str(DATA_PROCESSING_PATH / "Quality_control" / "Before_Trimming" / "multiqc_results" / "multiqc_report.html"),
+    str(DATA_PROCESSING_PATH / "Quality_control" / "After_Trimming" / "multiqc_results" / "multiqc_report.html"),
+    expand(expand(str(RESULTS_PATH / "BAM" / "Exome" / "{sample}" / "{sample}.bam.bai"), sample=SAMPLES)),
+    expand(str(DATA_PROCESSING_PATH / "Bam2Reads_Exome" / "{sample}" / "{sample}_{length}" / ("Exome_{length}_reads.stats")), sample=SAMPLES, length=LENGTHS),
+    expand(str(DATA_PROCESSING_PATH / "Selected_length" / "{sample}" / "Selected_length.txt"), sample=SAMPLES),
+    str(RESULTS_PATH / "Genome" / f"all_samples_Genome{FRAG_LENGTH_L}.mean{ORFSTATS_THRESHOLD_MEAN}_median{ORFSTATS_THRESHOLD_MEDIAN}_reads_concatenated.tab"),
+    str(RESULTS_PATH / "report_analysis.txt")
+]
+
+
+# Add output if rna_to_exclude_is_added: 
+
+if config.get('rna_to_exclude'):
+    output_out_rna = expand(str(DATA_PROCESSING_PATH / "Mapping" / "Mapping_Unwanted_Sequence_And_Filtering" / "Results" / "{sample}" / "{sample}_Unmapped.fastq.gz"), sample=SAMPLES)
+    all_targets.append(output_out_rna)
+
+
 rule all:
-       input:
-           str(DATA_PROCESSING_PATH / "Quality_control" / "Before_Trimming" / "multiqc_report.html"),
-           str(DATA_PROCESSING_PATH / "Quality_control" / "After_Trimming" / "multiqc_report.html"),
-           expand(expand(str(RESULTS_PATH / "BAM" / "Exome" / "{sample}" / "{sample}.bam.bai"), sample=SAMPLES)),
-           expand(str(DATA_PROCESSING_PATH / "Bam2Reads_Exome" / "{sample}" / "{sample}_{length}" / ("Exome_{length}_reads.stats")), sample=SAMPLES, length=LENGTHS),
-           expand(str(DATA_PROCESSING_PATH / "Selected_length" / "{sample}" / "Selected_length.txt"), sample=SAMPLES),
-           str(RESULTS_PATH / "Genome" / f"all_samples_Genome{FRAG_LENGTH_L}.mean{ORFSTATS_THRESHOLD_MEAN}_median{ORFSTATS_THRESHOLD_MEDIAN}_reads_concatenated.tab"),
-           str(RESULTS_PATH / "report_analysis.txt")            
-onstart:
-    shell("echo 'RiboDoc version : " + __version__ + "' > " + str(LOGS_PATH / "RiboDoc_package_versions.txt"))
+    input:
+        all_targets
 
 

@@ -4,7 +4,7 @@ project_name: ""
 # Path to the genome/transcriptome fasta file to align on (required)
 fna: ""
 
-# Path to the genome/transcriptome fasta file to align on (required)
+# Path to the reference annotation file  (required)
 gff: ""
 
 # Path to the GFF annotation mapping file from orftrack (required)

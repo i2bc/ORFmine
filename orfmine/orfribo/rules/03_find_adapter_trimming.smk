@@ -73,17 +73,21 @@ rule Quality_Control_After_Trimming:
 	  fastqc {input} --outdir {params.outdir} 2> {log} 
 	 """
 
-rule After_Trimming_multiqc: 
-     input: 
-         expand(str(DATA_PROCESSING_PATH / "Quality_control" / "After_Trimming"/ "{sample}" / ("{sample}.cutadapt" + FRAG_LENGTH_L + "_fastqc.zip")), sample=SAMPLES)
-     output: 
-         str(DATA_PROCESSING_PATH / "Quality_control" / "After_Trimming" / "multiqc_report.html")
-     log:
-         str(LOGS_PATH / "Quality_control" / "multiqc_report_After_Trimming.log")
-     benchmark:
-         str(BENCHMARKS_PATH / "Quality_control" / "multiqc_report_After_Trimming_benchmark.txt")
-     params: 
-         str(DATA_PROCESSING_PATH / "Quality_control" / "After_Trimming/" )
-     shell: 
-         " multiqc -f {input} -o {params} . > {log} 2>&1 "
+
+rule After_Trimming_multiqc:
+    input:
+        expand(str(DATA_PROCESSING_PATH / "Quality_control" / "After_Trimming" / "{sample}" / ("{sample}.cutadapt" + FRAG_LENGTH_L + "_fastqc.zip")),sample=SAMPLES)
+    output:
+        report_dir = directory(str(DATA_PROCESSING_PATH / "Quality_control" / "After_Trimming" / "multiqc_results")),
+        report_file = str(DATA_PROCESSING_PATH / "Quality_control" / "After_Trimming" / "multiqc_results" / "multiqc_report.html")
+    log:
+        str(LOGS_PATH / "Quality_control" / "multiqc_report_After_Trimming.log")
+    benchmark:
+        str(BENCHMARKS_PATH / "Quality_control" / "multiqc_report_After_Trimming_benchmark.txt")
+    params:
+        str(DATA_PROCESSING_PATH / "Quality_control" / "After_Trimming" / "multiqc_results" / "multiqc_data")
+    shell:
+        """
+        multiqc -f {input} -o {output.report_dir} > {log} 2>&1
+        """
 

@@ -6,10 +6,10 @@ from pathlib import Path
 
 def create_output_file(output, fastq):
     with open(output, "w") as data_report:
+        data_report.write("# Report Summary\n\n")
         l_files = [f for f in os.listdir(fastq) if not f.startswith('.') and f.endswith(('.fastq', '.fq', '.fastq.gz', '.fq.gz'))]
         for file in l_files:
-            basename = Path(file).stem.split('.')[0]  
-            data_report.write(f"#################### NEXT SAMPLE : {basename}\n")
+            basename = Path(file).stem.split('.')[0]
     return output
 
 def extract_number_of_reads(file_path):
@@ -17,17 +17,23 @@ def extract_number_of_reads(file_path):
     num_reads = int(result.stdout.strip()) // 4
     return num_reads
 
+def format_log_content(log_file):
+    try:
+        with open(log_file, "r") as log:
+            lines = log.readlines()
+        filtered_lines = [line for line in lines if "perl: warning" not in line]
+        return "".join(filtered_lines)
+    except FileNotFoundError:
+        return f"Log file {log_file} not found.\n"
+
 def add_log_content(log_files, basename, log_type, data_report):
-    data_report.write(f"Statistics of {log_type}:\n")
+    data_report.write(f"## {log_type} Statistics\n")
     found_log = False
     for log_file in log_files:
         if basename in Path(log_file).stem.split('.')[0]:  
             found_log = True
-            try:
-                with open(log_file, "r") as log:
-                    data_report.write(log.read())
-            except FileNotFoundError:
-                data_report.write(f"Log file {log_file} not found.\n")
+            content = format_log_content(log_file)
+            data_report.write(content)
     
     if not found_log:
         data_report.write(f"No {log_type} log found for sample {basename}.\n")
@@ -49,13 +55,15 @@ def process_samples(fastq, fastq_trimmed, unwanted, exome, genome, output):
                     trimmed_reads_count = extract_number_of_reads(trimmed_file)
                     break
             
-            data_report.write(f"Reads in FASTQ: {num_reads_original}\n")
-            data_report.write(f"FASTQ after trimming: {trimmed_reads_count}\n")
+            data_report.write(f"### Sample: {basename}\n")
+            data_report.write(f"- Reads in FASTQ: {num_reads_original}\n")
+            data_report.write(f"- Reads after trimming: {trimmed_reads_count}\n")
 
             if unwanted:
-                 add_log_content(unwanted, basename, "unmapped sequences and filtering", data_report)
-            add_log_content(exome, basename, "Mapping exome", data_report)
-            add_log_content(genome, basename, "Mapping genome", data_report)
+                add_log_content(unwanted, basename, "Unmapped Sequences and Filtering", data_report)
+            add_log_content(exome, basename, "Mapping Exome", data_report)
+            add_log_content(genome, basename, "Mapping Genome", data_report)
+            data_report.write(f"{'-'*40}\n")
 
 def main():
     parser = argparse.ArgumentParser(description="Report Analysis")
@@ -79,3 +87,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
