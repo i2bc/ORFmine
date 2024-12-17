@@ -11,6 +11,8 @@ from Bio import SeqIO
 from pathlib import Path
 import time
 import re
+from orfmine.utilities.container import ContainerCLI  # Gère les conteneurs
+from orfmine import DOCKER_IMAGE  # Image du conteneur Docker ou Singularity
 
 
 def get_args():
@@ -103,10 +105,39 @@ def get_args():
                         nargs="?",
                         default="Name",
                         help="GFF 'Name' attribute")
+    parser.add_argument("--docker", 
+                       action='store_true', 
+                       help="Run in Docker container")
+    parser.add_argument("--singularity",
+                       action='store_true', help="Run in Singularity container")
+    parser.add_argument("--dry_run", 
+                       action='store_true', help="Only show the container command")
 
     args = parser.parse_args()
     return args
 
+
+
+
+def run_orfget_containerized(args):
+    """Run ORFget in a containerized environment."""
+    # Définition des arguments pour le conteneur
+    input_args = ["-fna", "-gff"]
+    output_arg = "-outdir"
+
+    # Configuration du CLI pour exécuter le conteneur
+    cli = ContainerCLI(
+        input_args=input_args,
+        output_arg=output_arg,
+        args=args,
+        image_base=DOCKER_IMAGE,
+        prog="orfget",
+        container_type="docker" if args.docker else "singularity",
+        dev_mode=False,
+    )
+    cli.show()
+    if not args.dry_run:
+        cli.run()
 
 class GFF_element:
     '''
@@ -400,10 +431,27 @@ def main():
     print("Ended \t:\t",time.ctime())
 
 
+def main():
+    """Main function to run ORFget."""
+    args = get_args()
+    start_time = time.time()
+
+    # Vérifie si l'exécution doit se faire en mode conteneurisé
+    if args.docker or args.singularity:
+        run_orfget_containerized(args)
+    else:
+        # Exécution locale
+        Path(args.outdir).mkdir(parents=True, exist_ok=True)
+        print("Started:", time.ctime())
+        genome = SeqIO.to_dict(SeqIO.parse(open(args.fna), 'fasta'))
+        print("Running ORFget locally...")
+        # Ton code actuel de traitement des fichiers GFF et Fasta ici...
+        print("Ended:", time.ctime())
+
+    print(f"Execution Time: {round(time.time() - start_time, 2)} seconds")
+
 if __name__ == "__main__":
     main()
-    
-
 
 
 
