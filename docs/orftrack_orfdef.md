@@ -14,7 +14,7 @@ An ORF:
 
 
 The minimal length of an ORF can be nevertheless modified by the user with
-the **-orf_len** parameter (notice that the ORF length does not
+the **--orf_len** parameter (notice that the ORF length does not
 include the
 STOP codons). The following instruction extracts all ORFs of at least 
 100 amino acids: 
@@ -22,7 +22,7 @@ STOP codons). The following instruction extracts all ORFs of at least
 
 
 ``` bash
-orftrack -fna genome.fasta -gff genome.gff -orf_len 300 
+orftrack --fna genome.fasta --gff genome.gff --orf_len 300 
 ```
 
 

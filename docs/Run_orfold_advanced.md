@@ -16,10 +16,10 @@ property (fold potential, disorder or aggregation propensities). The
 values are stored in the column #9 of the output GFF files. The GFF files can be subsequently
 uploaded on a genome viewer such as IGV [1].
 
-The input GFF file must be given with the **-gff** option as follows:
+The input GFF file must be given with the **--gff** option as follows:
 
 ```{}
-orfold -fna sequences.fasta -options HIT -gff sequences.gff 
+orfold --faa sequences.fasta --options HIT --gff sequences.gff 
 ```
 
 ORFold generates a **sequences.tab** file containing the fold potential, and the 
@@ -64,7 +64,7 @@ the FASTA and GFF files according to the following rules:
 1. If the user provides the same number of FASTA and GFF files, ORFold associates them 
    based on their root name, no matter the order of the files.
 
-		orfold -fna sequences_Y.fasta sequences_X.fasta -options H -gff sequences_X.gff sequences_Y.gff
+		orfold --faa sequences_Y.fasta sequences_X.fasta --options H --gff sequences_X.gff sequences_Y.gff
 	
 	In this case, ORFold associates:
 
@@ -78,7 +78,7 @@ the FASTA and GFF files according to the following rules:
    but their root names are not identical, ORFold associates them 
    according to the order of the files in the command line.
 
-		orfold -fna sequences_Y.fasta sequences_X.fasta -options H -gff sequences_A.gff sequences_B.gff
+		orfold --faa sequences_Y.fasta sequences_X.fasta --options H --gff sequences_A.gff sequences_B.gff
 
 	In this case, ORFold associates:
 
@@ -93,7 +93,7 @@ the FASTA and GFF files according to the following rules:
 	  the two files are associated, while the other FASTA files are not associated
 	  to the input GFF file.
 		
-			orfold -fna sequences_Y.fasta sequences_X.fasta -options H -gff sequences_X.gff
+			orfold --faa sequences_Y.fasta sequences_X.fasta --options H --gff sequences_X.gff
 
 		ORFold associates:
 	
@@ -107,7 +107,7 @@ the FASTA and GFF files according to the following rules:
 	  files, considering that the FASTA files correspond to different 
 	  subgroups of the same dataset.
 			
-			orfold -fna sequences_Y.fasta sequences_X.fasta -options H -gff sequences_B.gff
+			orfold --faa sequences_Y.fasta sequences_X.fasta --options H --gff sequences_B.gff
 
 		ORFold associates:
 
@@ -120,7 +120,7 @@ the FASTA and GFF files according to the following rules:
    , all GFF files must have a corresponding FASTA file with the same root name. 
    Otherwise, ORFold will give an ERROR message. 
 
-		orfold -fna sequences_Y.fasta sequences_X.fasta sequences_Z.fasta -options H -gff sequences_Z.fasta sequences_Y.gff
+		orfold --faa sequences_Y.fasta sequences_X.fasta sequences_Z.fasta --options H --gff sequences_Z.fasta sequences_Y.gff
 
 	ORFold associates:
 
@@ -130,7 +130,7 @@ the FASTA and GFF files according to the following rules:
 	
 	&nbsp;
 
-		orfold -fna sequences_Y.fasta sequences_X.fasta sequences_Z.fasta -options H -gff sequences_B.fasta sequences_A.gff
+		orfold --faa sequences_Y.fasta sequences_X.fasta sequences_Z.fasta --options H --gff sequences_B.fasta sequences_A.gff
 
 	ORFold will give the following error message:
 		
@@ -148,7 +148,7 @@ the user must indicate the number of sequences that are to be randomly selected
 with the **-N** option. For a representative dataset, we recommend selecting at least
 10000 sequences.
 
-	orfold -fna sequences.fasta -options HIT -gff sequences.gff -N 10000
+	orfold --faa sequences.fasta --options HIT --gff sequences.gff -N 10000
 
 In this example, ORFold will estimate the fold potential, and the disorder and 
 aggregation propensities on a sample of 10000 sequences extracted randomly 
@@ -163,20 +163,20 @@ from the initial **sequences.fasta** file.
 	If the user works with more than one FASTA file and wishes to create 
 	random samples for all the input sequence files, he has to indicate in 
 	the -N option the size for each input file explicitly (in the same order 
-	as the inputs passed in the -fna option).
+	as the inputs passed in the --faa option).
 	<br>
 ```{}
-orfold -fna sequences_X.pfasta sequences_Y.pfasta -options H -N 1500 3000
+orfold --faa sequences_X.pfasta sequences_Y.pfasta --options H -N 1500 3000
 ```	
 Also, if the user wants to sample two subsets of same sizes, he has to indicate the subset sizes explicitly for each input
 ```{}
-orfold -fna sequences_X.pfasta sequences_Y.pfasta -options H -N 1500 1500
+orfold --faa sequences_X.pfasta sequences_Y.pfasta --options H -N 1500 1500
 ```
 	If the user whishes to calculate the fold potential of all the sequences 
 	of one of the given inputs, he has to indicate it with the "all" flag (again with respect to
     the order of input files)
 ```bash
-orfold -fna sequences_X.pfasta sequences_Y.pfasta -options H -N all 3000
+orfold --faa sequences_X.pfasta sequences_Y.pfasta --options H -N all 3000
 ```
 In this case, ORFold will calculate the fold potential for <b>all</b> the sequences 
 in the sequences_X file while will generate a random sample of 3000 sequences for the 

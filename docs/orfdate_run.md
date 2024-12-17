@@ -11,10 +11,10 @@ All the inputs must be stored in the /database/ directory of the container, thou
 
 
 ```
-orfdate -focal focal_name -tree /database/orfdate_inputs/species_tree.nwk -names /database/orfdate_inputs/names.csv
+orfdate --target focal_name -tree /database/orfdate_inputs/species_tree.nwk --mapping /database/orfdate_inputs/names.csv
 ```
 
-with the -focal option corresponding to the name of the focal name as indicated in the tree; -tree option corresponding to the distance tree (newick format) of the focal and its neighbors and -names option corresponding to the two column csv file with the path/filenames of the fasta files and the corresponding species names. Please note that additional arguments including BLAST parameters can be provided. See [here](./orfdate_parameters.md) for more details.
+with the --target option corresponding to the name of the focal name as indicated in the tree; -tree option corresponding to the distance tree (newick format) of the focal and its neighbors and --mapping option corresponding to the two column csv file with the path/filenames of the fasta files and the corresponding species names. Please note that additional arguments including BLAST parameters can be provided. See [here](./orfdate_parameters.md) for more details.
 
 
 

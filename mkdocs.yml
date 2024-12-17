@@ -2,8 +2,8 @@ site_name: ORFmine Documentation
 nav:
     - Home: index.md
     - ORFmine:
-      - Installation: orfmine_installation.md
-      - Quick start: orfmine_quickstart.md
+      - Installation: orfmine_installation.md  
+      - Running example: orfmine_example.md   
       - Citations: orfmine_citations.md
     - ORFtrack:
       - ORFtrack presentation:
@@ -30,6 +30,25 @@ nav:
       - Parameters:
         - ORFold parameters: parameters_orfold.md
         - ORFplot parameters: parameters_orfplot.md
+    - ORFribo:
+      - ORFribo presentation: 
+        - Objectives: orfribo_objectives.md
+        - How it works: How_it_works_orfribo.md
+      - Usage:
+        - Inputs: orfribo_inputs.md
+        - Basic run ORFribo: Run_orfribo.md
+        - ORFribo Parameters: parameters_orfribo.md
+        - Advanced run ORFribo: run_orfribo_advanced.md
+        - Outputs: orfribo_outputs.md
+    - ORFdate:
+      - ORFdate presentation:
+        - Objectives: orfdate_objectives.md
+        - How it works: How_it_works_orfdate.md
+      - Usage:
+        - Inputs: orfdate_inputs.md
+        - Run: orfdate_run.md
+        - Outputs: orfdate_outputs.md
+        - Parameters: orfdate_parameters.md
 theme: readthedocs
 markdown_extensions:
     - footnotes

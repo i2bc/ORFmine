@@ -1,81 +1,68 @@
-## ORFtrack parameters
+## ORFtrack Parameters
 
+### **Mandatory**
 
-<b>Mandatory</b>
+- `--fna`  
+  Nucleotide FASTA file of the genome whose ORFs are to annotate.
 
-  ```-fna ```                 nucleotide fasta file of the genome whose ORFs are to annotate
+- `--gff`  
+  GFF annotation file.
 
-  ```-gff```                  GFF annotation file
+---
 
+### **Optional**
 
-<b>Optional</b>
+- `-h, --help`  
+  Shows the help and exits.
 
+- `--codon-table`  
+  Codon table ID to be used for the considered chromosomes.  
+  The ID must be consistent with the NCBI codon table IDs (see  
+  [NCBI Codon Tables](https://www.ncbi.nlm.nih.gov/Taxonomy/Utils/wprintgc.cgi)).  
+  *(Default: The standard codon table, ID = 1).*
 
-  ```-h, --help```            shows the help and exits
+- `--chr`  
+  List of seqID to be treated by ORFtrack (i.e., column #1 of the GFF file, generally chromosome or contig ID).  
+  IDs must be separated by a space:  
+  `--chr NC_001148.4 NC_001139.3`  
+  In this case, ORFtrack will not treat the entire genome but only the specified seqIDs.  
+  **Recommendation**: Use this option for large genomes to distribute calculations across multiple CPUs.
 
- ```` --show-types ````       prints all genomic features annotated in the input GFF file
- 
-  ```--show-chrs ```          prints all the seqID (usually corresponding to chromosome or contig ID) present in the input GFF file
+- `--chr-exclude`  
+  List of seqID(s) to exclude from processing.  
+  *(Default: None).*
 
+- `--types_only`  
+  Genomic feature(s) considered for the annotation step (`CDS` is included by default).  
+  If multiple genomic features are considered, they must be separated by spaces.  
+  Noncoding ORFs are annotated as intergenic (if they do not overlap any feature) or overlapping (if they overlap a given genomic feature).  
+  *(See the [ORFget section](./orfget_run.md) for more details).*
 
- ```` -chr````                  list of seqID to be treated by ORFtrack (i.e. column #1 
-                        of the GFF file - generally chromosome or contig ID). 
-                        ID must be separated by a space: -chr NC_001148.4 NC_001139.3   
-In this case, ORFtrack will not treat the entire genome, but
-the following seqID NC_001148.4 NC_001139.3. We recommend using this option 
-when dealing with large genomes in order to distribute the calculations on 
-several CPUs (one per (subset of) seqID).
+- `--types_except`  
+  Genomic feature(s) excluded from the annotation step (`gene` and `exon` are excluded by default).  
+  If multiple genomic features are excluded, they must be separated by spaces.  
+  Noncoding ORFs will be annotated as intergenic or overlapping another feature not listed here.  
+  *(See the [ORFget section](./orfget_run.md) for more details).*
 
+- `--orf_len`  
+  Minimal number of nucleotides between two consecutive STOP codons to define an ORF.  
+  *(Default: 60 nucleotides).*  
+  *(See the [ORF definition section](./orftrack_orfdef.md) for more details).*
 
+- `--co_ovp`  
+  Minimal fraction of the ORF length that overlaps a genomic feature to annotate the ORF as overlapping it.  
+  *(Default: 70%).*  
+  *(See the [Overlap section](./orftrack_overlap.md) for more details).*
 
-  ```-orf_len ```  Minimal number of nucleotides between two 
-  consecutive STOP codons to define an ORF (default: 60 nucleotides) 
-(see the [ORF definition section](./orftrack_orfdef.md) for more details).
+- `-out`  
+  Output directory.
 
- ```` -co_ovp````  Minimal fraction of the ORF length that overlaps a genomic feature
- to annotate the ORF as overlapping it 
- (default: 70%). (see the [Overlap section](./orftrack_overlap.md) for more details).
+- `--show-types`  
+  Prints all genomic features annotated in the input GFF file.
 
+- `--show-chrs`  
+  Prints all the seqIDs (usually corresponding to chromosome or contig IDs) present in the input GFF file.
 
-  ```-out```           Output directory
+- `--ofasta`  
+  Writes amino acid and nucleotide FASTA files for ORFs.
 
-
-
-  `````-types_only````` Genomic feature(s) considered for the annotation step ('CDS' is
-                        included by default). If there are several genomic features
-  to be considered, they must be given separated by a space. Noncoding ORFs are annotated as
-intergenic (when they do not overlap any feature) or overlapping (when 
-  they overlap a given genomic feature). The "overlapping" status 
-directly derives from the genomic features considered for the annotation
-step. For example, if the user specifies with the "types_only" option, the features
-"tRNA" and "rRNA" (CDS are included by default), all ORFs that overlap another
-  genomic feature (i.e. different from tRNA, rRNA, or CDS) will be annotated as 
-  noncoding intergenic ORFs. If no genomic feature is indicated, noncoding ORFs that overlap 
-  any genomic feature annotated in the original GFF file will be annotated 
- as noncoding ORF overlapping the corresponding genomic feature. Nevertheless,
-the resulting ORFs can be treated specifically (grouped according to their annotation
-  for example) with ORFget afterwards
-  (see the [ORFget section](./orfget_run.md) for more details).
-
-
-  ```-types_except```   Genomic feature(s) not to be considered for the annotation step 
-                        ('gene' and 'exon' not considered by default). If there are several genomic features
-  to be considered, they must be given separated by a space. Noncoding ORFs are annotated as
-intergenic (when they do not overlap any feature) or overlapping (when 
-  they overlap a given genomic feature). The "overlapping" status 
-directly derives from the genomic features considered for the annotation
-step. For example, when specifying with the "types_except" option, 
-  the features "telomer" and "centromer" ('gene' and 'exon' not considered by 
-  default), if an ORF overlaps a "telomer", "centromer", "gene" and/or "exon", 
-the overlap will not be considered and the ORF will be annotated as intergenic or 
-  overalapping another genomic feature if there is another genomic feature 
-in the same region (e.g. an ORF that overlaps at the same time a gene and a 
-  tRNA will be annotated as overlapping a tRNA since the gene is not considered
-  for the ORF annotation). If no genomic feature is indicated, noncoding ORFs that overlap 
-  any genomic feature annotated in the original GFF file will be annotated 
- as noncoding ORF overlapping the corresponding genomic feature. Nevertheless,
-the resulting ORFs can be treated specifically (grouped according to their annotation
-  for example) with ORFget afterwards
-  (see the [ORFget section](./orfget_run.md) for more details).
-
- 

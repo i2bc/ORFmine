@@ -1,225 +1,448 @@
-## Output folder architecture (/workdir/orfribo/):
-Here is the folder architecture of the ORFribo output stored in /workdir/orfribo.   
+## Output of ORFribo
 
-The following output example is based on the example provided in the /ORFmine/examples/ directory with the fastq SRR1520313_17031088.
+After a successful execution of the pipeline, ORFribo generates multiple output files stored in a user-defined directory or in the default `outdir/` folder. The output directory contains three main subdirectories:
 
-
-<pre>
-/workdir/orfribo/
-├── <i>dag_all.svg</i>
-├── <i>dag_last_run.svg</i>
-├── RESULTS/
-	├── <i>config.yaml</i>
-	├── <i>ORFribo_yeast_example.Analysis_Report.txt</i>
-	├── adapter_lists/
-		└── <i>SRR1520313_17031088.txt</i>
-	├── Bam2Reads_genome_output/
-		├── <b>all_samples_genome.25-35.mean70_median70_reads_concatenated.tab</b>
-        └── <i>SRR1520313_17031088</i>
-            ├── <b>genome.25-35.mean70_median70_reads_concatenated.tab</b>
-            ├── <i>length_25</i>
-                ├── <i>genome.25-35.mean70_median70_reads.tab</i>
-                ├── <i>genome.25-35.mean70_median70_periodicity_all.tab</i>
-                ├── <i>genome.25-35.mean70_median70_periodicity_start.tab</i>
-                └── <i>genome.25-35.mean70_median70_periodicity_stop.tab</i>
-            ├── <i>length_26</i>
-                ├── <i>genome.25-35.mean70_median70_reads.tab</i>
-            ├ ...
-            └── <i>length_35</i>
-                └── <i>genome.25-35.mean70_median70_reads.tab</i>
-	├── annex_database/
-		├── <i>NamedCDS_Scer.gff</i>
-		├── <i>index_bowtie2.1.bt2</i>
-        ├ ...
-		├── <i>index_hisat2.1.ht2</i>
-        ├ ...
-		├── <i>outRNA_bowtie2.1.ht2</i>
-        └ ...
-	├── fastqc/
-		├── <i>SRR1520313_17031088_fastqc.html</i>
-		└── <i>SRR1520313_17031088_fastqc.zip</i>
-    ├── selected_tables/
-        └── <i>threshold_mean70_median70</i>
-        	└── <i>SRR1520313_17031088.txt</i>
-	├── BAM/
-		├── <i>SRR1520313_17031088.25-35.bam</i>
-		└── <i>SRR1520313_17031088.25-35.bam.bai</i>
-	├── no-outRNA/
-        └── <i>SRR1520313_17031088.25-35.no-outRNA.fastq.gz</i>
-	└── ORFribo/
-		├── database/
-    		├── <i>exome.nfasta</i>
-            ├── <i>exome_elongated.nfasta</i>
-            ├── <i>exome_elongated.nfasta.fai</i>
-        	├── <i>exome_elongated.gff</i>
-        	└── <i>exome_elongated_with_gene_features.gff</i>
-		├── annex_database/
-    		├── <i>exome_elongated.exons_Scer.fna</i>
-    		├── <i>exome_elongated.exons_Scer.gff.gtf</i>
-    		├── <i>exome_elongated.exome_index_bowtie2.1.bt2</i>
-    		├── ...
-            ├── <i>exome_elongated.exome_index_hisat2.1.ht2</i>
-    		└── ...
-    	├── BAM_exome/
-    		├── <i>exome_elongated.SRR1520313_17031088.25-35.bam</i>
-    		└── <i>exome_elongated.SRR1520313_17031088.25-35.bam.bai</i>
-		├── Bam2Reads_exome_output/
-            ├── <i>SRR1520313_17031088_25</i>
-                ├── <b>exome.25-35_reads.tab</b>
-                ├── <i>exome.25-35_periodicity_all.tab</i>
-                ├── <i>exome.25-35_periodicity_start.tab</i>
-                ├── <i>exome.25-35_periodicity_stop.tab</i>
-                └── <i>exome.25-35_reads.stats</i>
-            ├── ...
-            └── <i>SRR1520313_17031088_35</i>
-                ├── <b>exome.25-35_reads.tab</b>
-                ├── <i>exome.25-35_periodicity_all.tab</i>
-                ├── <i>exome.25-35_periodicity_start.tab</i>
-                ├── <i>exome.25-35_periodicity_stop.tab</i>
-                └── <i>exome.25-35_reads.stats</i>
-		└── riboWaltz/
-		      ├── <i>psite_offset.csv</i>
-		      ├── <i>best_offset.txt</i>
-		      └── <i>exome_elongated.SRR1520313_17031088</i>
-		            ├── <i>21.tiff</i>
-		            ├── <i>22.tiff</i>
-		            ├── ...
-		            └── <i>35.tiff</i>
-├── benchmarks/
-    ├── <i>adapt_trimming</i>
-        └── <i>SRR1520313_17031088.benchmark.txt</i>
-    └── ...
-├── logs/
-	├── <i>RiboDoc_package_versions.txt</i>
-	├── <i>adapt_trimming</i>
-	   ├── <i>SRR1520313_17031088_cutadapt.log</i>
-	   └── <i>SRR1520313_17031088_trim_value.log</i>
-   └── ...
-└── logsTmp/
-	├── <i>SRR1520313_17031088_adapt_trimming.log</i>
-	├── <i>SRR1520313_17031088_bowtie2_run_outRNA.log</i>
-	├── <i>SRR1520313_17031088_run_mapping_bowtie2.log</i>
-	└── <i>SRR1520313_17031088_run_mapping_hisat2.log</i>
-</pre>
-
-
-
-<a name="main-outable-table"></a>
-
-## Main output table
-The main output table can be found in the <i>RESULTS/Bam2Reads_genome_output/</i> folder and is named <b>all_samples_genome.25-35.meanXX_medianYY_reads_concatenated.tab</b> (with X and Y standing for the median and mean thresholds, here 70 and 70 respectively). This table summarizes the results for each ORF (i.e. numbers and fraction of reads in the three frames of the ORF)  calculated for all the retained kmers in each input dataset (in this example, there is only one dataset - SRR1520313_17031088.). If ORFribo has been performed on [multiple datasets](./orfribo_advanced.md), it also provides for each dataset a folder named according to the dataset that contains a table with the same format as the <b>all_samples_genome.25-35.meanXX_medianYY_reads_concatenated.tab</b> table but calculated only on the [retained kmers](./How_it_works_orfribo.md#Step2) of the corresponding dataset <i>dataset_XYZ/genome.25-35.mean70_median70_reads_concatenated.tab</i>. The directories of each dataset also contain the intermediate tables calculated for each retained kmer. The latter are stored in the <i>RESULTS/Bam2Reads_genome_output/dataset_xyz/length_i/</i> directory where i stands for the kmer sizes. When only one dataset has been provided to ORFribo (as in this example), the output table present in the dataset folder is the same as the <b>all_samples_genome.25-35.meanXX_medianYY_reads_concatenated.tab</b> present in the Bam2Reads_genome_output directory. 
-
-The summary table <b>all_samples_genome.25-35.meanXX_medianYY_reads_concatenated.tab</b> contains for each ORF of the studied category(ies), the number and fraction of reads in its three frames (frame 0 (F0 or P0) and its two alternative frames +1 and +2 (P1/F1 and P2/F2 respectively)). This table has 8 columns:
-
-<i>Seq_ID</i> : Identifier of the ORF <br>
-<i>Num_reads</i> : Number of reads having a P-site aligned on the ORF <br>
-<i>Num_p0</i> : Number of reads with their P-site in phase 0 of the ORF  <br>
-<i>Num_p1</i> : Number of reads with their P-site in phase 1 of the ORF <br>
-<i>Num_p2</i> : Number of reads with their P-site in phase 2 of the ORF <br>
-<i>Perc_p0</i> : Percentage of reads aligned on the ORF with their P-site in phase 0 (i.e. Num_p0 divided by the total number of reads mapping on the ORF) <br>
-<i>Perc_p1</i> : Percentage of reads aligned on the ORF with their P-site in phase 1 <br>
-<i>Perc_p2</i> : Percentage of reads aligned on the ORF with their P-site in phase 2 <br>
-
-
-## Output folder details :
-
-* The <i>dag files</i> which represents the analysis steps with your datasets.  
-
-* The <i>logs/</i> folder groups together all the error output messages from tools used in ORFribo analysis pipeline. Thus, in the event of an error, it allows you to identify the problematic step (and give us feedback if needed).
-
-* The <i>RESULTS/</i> folder contains these files and folders: <br>
-* i) <i>PROJECT_NAME.Analysis_report.txt</i> gathers standard output of each analysis pipeline tool. It allows to know how many reads are present at each step of the analysis :  a)raw reads b)reads after trimming and length selection c)after out RNA depletion d)after double alignment on the reference genome.
-
-* *ii) <i>config.yaml</i> to have a backup of the parameters.
-
-* *I) <b>Bam2Reads_genome_output/</b>: Contains the final outputs of the analysis (explained above).
-
-* *II) <i>annex_database/</i>: It contains the indexes for the genome alignment and the gff with all CDS named.
-
-* III) <i>fastqc/</i>: It contains data quality controls.
-
-* IV) <i>adapter_lists/</i>: It contains a text file with the adapters list for each dataset that were found in the <i>config.yaml</i> file or determined from data if the user did not provide any adapter sequence in the configuration file.
-
-* V) <i>selected_length_tables/</i>: It contains one subfolder with a file for every threshold the user chose for the alignment on CDSs step (median or mean of P0 proportions) as multiple thresholds may be tried. The file keeps the information of which read length passed the threshold and was kept for the alignment on all ORFs.
-
-* VI) <i>BAM/</i>: It contains a BAM file for each dataset (allows visualization on tools such as IGV).
-
-* VII) <i>no-outRNA/</i>: It contains fastq files trimmed and after removal of the reads aligned on unwaned sequences.
-
-* VIII) <i>ORFribo/</i>:
-
-* * I) <b>Bam2Reads_exome_output/</b>: It contains one subfolder per kmer (dataset_XYZ_i with i standing for the kmer size) that itsefl contains a table <b>exome.25-35_reads.tab</b>. The information in this table is the same as that contained in the <b>all_samples_genome.25-35.meanXX_medianYY_reads_concatenated.tab</b> table described above but only for the CDSs annotated in the original gff file. Each CDS is associated with the fractions of reads that map on its coding frame (i.e. in-frame reads named also P0 reads) or in its alternative frames. These tables are used for the [detection of good quality kmers (Step 2)](./How_it_works_orfribo.md#Step2) but can also be used to probe the translation activity of CDSs. In this case, you just need to merge the tables of all retained kmers (the list of the retained kmers can be found in the file /workdir/orfribo/RESULTS/selected_tables/threshold_meanXX_medianXX/dataset_XYZ.txt) into a global table (see [here](./orfribo_advanced.md#CDS) for more details). This final output table will contain for each CDS, the number and fraction of reads mapping in-frame or in the +1 and +2 frames of each CDS.
-
-* * II) database/: It contains the re-formatted fasta and gff with artificial elongated CDSs to avoid the missing of reads which align on the borders of CDSs (i.e. on the start and stop codons).
-
-* * III) annex_database/: It contains the indexes for the exome alignments (alignments on all exons of CDSs as indicated in the original gff file) and the gtf for riboWaltz.
-
-* * IV) BAM_exome/: It contains a BAM file for each dataset corresponding to the alignment on the fasta with transcript by transcript feature.
-
-* * V) riboWaltz/: It contains the P-site offsets file.
-
-
-## Particular case of multiple inputs
-
-ORFribo can be launched on multiple datasets (fastqs) as long as the input files concern the same organism - i.e. share the same reference fasta and gff files (more details [here](./orfribo_advanced.md)). For this, you just have to put all the fastq files in the /fastq/ folder and launch ORFribo as you usually do with:
-``` bash
-orfribo CPU MEMORY
+```
+.
+|-- DATA_PROCESSING
+|-- RESULTS
+`-- SUPPLEMENTARY_DATA
 ```
 
-The output architecture will be the same as the one obtained for a single input, except that all intermediate files will be stored in subdirectories corresponding to each input dataset as follows: 
-<pre>
-orfribo/
-├── <i>dag_all.svg</i>
-├── <i>dag_last_run.svg</i>
-├── RESULTS/
-	├── <i>config.yaml</i>
-	├── adapter_lists/
-		└── <i>one_file_by_sample.txt</i>
-	├── Bam2Reads_genome_output/
-		├── all_samples_genome.25-35.mean70_median70_reads_concatenated.tab"
-        └── <i>one_folder_by_sample</i>
-            ├── <i>concatenated_results_table.tab</i>
-            └── <i>one_folder_by_length</i>
-                └── <i>Bam2Reads_results_for_all_ORFs_alignment</i>
-    ├── annex_database/
-		├── <i>gff_files_with_named_CDSs.gff</i>
-		├── <i>indexes_for_bowtie2_alignments.bt2</i>
-		├── <i>indexes_for_hisat2_alignments.ht2</i>
-    ├── fastqc/
-        ├── <i>one_html_by_sample.html</i>
-		└── <i>one_zip_by_sample.zip</i>
-    ├── selected_tables/
-        └── <i>one_folder_by_sample</i>
-	├── BAM/
-		├── <i>one_bam_by_sample.bam</i>
-		└── <i>one_bai_by_bam.bai</i>
-	├── no-outRNA/
-        └── <i>one_file_by_sample.fastq.gz</i>
-	└── ORFribo/
-		├── database/
-    		├── <i>intermediate_fasta_files.fa</i>
-        	├── <i>intermediate_gff_files.gff</i>
-		├── annex_database/
-    		├── <i>intermediate_fasta_files.fa</i>
-    		├── <i>intermediate_gtf_file_for_riboWaltz.gtf</i>
-    		├── <i>indexes_for_bowtie2_alignments.bt2</i>
-    		└── <i>indexes_for_hisat2_alignments.ht2</i>
-    	├── BAM_exome_output/
-    		├── <i>one_bam_by_sample.bam</i>
-    		└── <i>one_bai_by_bam.bai</i>
-		├── Bam2Reads_exome_output/
-            └── <i>one_folder_by_sample_and_length</i>
-                └── <i>Bam2Reads_results_for_CDS_alignment</i>
-		└── riboWaltz/
-		      └── <i>riboWaltz's qualitative analysis results</i>
-├── benchmarks/
-    ├── <i>one_benchmark_folder_by_rule</i>
-        └── <i>one_benchmark_file_by_job</i>
-├── logs/
-	└── <i>one_log_folder_by_rule</i>
-        └── <i>one_log_file_by_job_and_command</i>
-├── logsTmp/
-	└── <i>one_file_by_steps_of_interest_for_alignment_stats</i>
-</pre>
+### Overview of Output Directories
+
+- **DATA_PROCESSING**: Contains step-by-step data generated during the pipeline execution, organized by method and sample.
+- **RESULTS**: Includes final analysis files essential for the user’s downstream analyses.
+- **SUPPLEMENTARY_DATA**: Contains benchmark files and logs for detailed tracking and debugging.
+
+---
+
+## Main Output Table
+
+The main output table is located in the path:
+
+```
+RESULTS/Genome/all_samples_Genome.25-35.meanXX_medianYY_reads_concatenated.tab
+```
+
+(where `XX` and `YY` stand for the median and mean thresholds).
+
+### Description of the Main Table
+This table summarizes the results for each ORF, including the number and fraction of reads in the three frames of the ORF. If ORFribo is executed on multiple datasets, it also generates subdirectories named according to the dataset, each containing a table in the same format as `all_samples_Genome.25-35.meanXX_medianYY_reads_concatenated.tab`, but specific to the retained kmers of that dataset.
+
+Example:
+```
+Genome/Sample1/Genome.25-35.meanXX_medianYY_reads_concatenated.tab
+```
+
+### Columns in the Table
+
+| Column      | Description |
+|-------------|-------------|
+| **Seq_ID**  | Identifier of the ORF |
+| **Num_reads** | Total number of reads with a P-site aligned on the ORF |
+| **Num_p0**   | Number of reads with their P-site in phase 0 (frame 0) of the ORF |
+| **Num_p1**   | Number of reads with their P-site in phase 1 (frame +1) of the ORF |
+| **Num_p2**   | Number of reads with their P-site in phase 2 (frame +2) of the ORF |
+| **Perc_p0**  | Percentage of reads aligned in phase 0 (Num_p0 / total reads) |
+| **Perc_p1**  | Percentage of reads aligned in phase 1 |
+| **Perc_p2**  | Percentage of reads aligned in phase 2 |
+
+---
+
+## Output Directory Details
+
+### RESULTS
+
+`RESULTS` contains essential results for the user’s analysis and includes the following subdirectories:
+
+#### **BAM**
+- **Exome**:
+   BAM files and their indexes generated from the alignment of ribosome profiling data to the exome sequence, grouped by sample.
+- **Genome**:
+   BAM files and their indexes generated from the alignment of ribosome profiling data to the genome sequence, grouped by sample.
+
+These BAM files can be used for visualization in tools like IGV.
+
+```
+RESULTS
+|-- BAM
+|   |-- Exome
+|   |   |-- Sample1
+|   |   |   |-- Sample1.bam
+|   |   |   `-- Sample1.bam.bai
+|   |   `-- Sample2
+|   |       |-- Sample2.bam
+|   |       `-- Sample2.bam.bai
+|   `-- Genome
+|       |-- Sample1
+|       |   |-- Sample1.bam
+|       |   `-- Sample1.bam.bai
+|       `-- Sample2
+|           |-- Sample2.bam
+|           `-- Sample2.bam.bai
+```
+
+#### **Genome**
+
+Contains tables summarizing the results for each ORF, calculated for the retained kmers of each dataset.
+It contains also the merged data for all the dataset (Description above). 
+
+```
+Genome
+|-- Sample1
+|   `-- Genome.25-35.mean_median70_reads_concatenated.tab
+|-- Sample2
+|   `-- Genome.25-35.mean_median70_reads_concatenated.tab
+`-- all_samples_Genome.25-35.mean_median70_reads_concatenated.tab
+
+```
+
+#### **Psite**
+
+Contains tables generated by RiboWaltz to determine the optimal P-site offset for each fragment length.
+
+```
+RESULTS
+|-- Psite
+|   |-- Sample1_psite_table.csv
+|   `-- Sample2_psite_table.csv
+```
+
+#### **Selected_Length_Exome**
+
+Contains results for exomes for each kmer length retained for each sample.
+
+```
+RESULTS
+|-- Selected_Length_Exome
+|   |-- Sample1_28
+|   |   |-- Exome_28_periodicity_all.tab
+|   |   |-- Exome_28_periodicity_start.tab
+|   |   |-- Exome_28_periodicity_stop.tab
+|   |   |-- Exome_28_reads.stats
+|   |   `-- Exome_28_reads.tab
+|   `-- Sample2_28
+|       |-- Exome_28_periodicity_all.tab
+|       |-- Exome_28_periodicity_start.tab
+|       |-- Exome_28_periodicity_stop.tab
+|       |-- Exome_28_reads.stats
+|       `-- Exome_28_reads.tab
+```
+
+#### **report_analysis.txt**
+
+Contains statistics for each dataset, including:  
+- Number of initial reads.  
+- Number of reads after trimming and or filtering unwanted sequence.  
+- Mapping statistics for both exome and genome.
+
+---
+
+### DATA PROCESSING
+
+```
+DATA_PROCESSING
+|-- Bam2Reads_Exome
+|-- Bam2Reads_Genome
+|-- Edited_Gff
+|-- Exome
+|-- Exome_Fastq
+|-- Genome_Fastq
+|-- Mapping
+|-- Quality_control
+|-- RiboWaltz
+|-- Selected_length
+`-- Trimming
+```
+
+
+#### Bam2Reads_Exome
+It contains one subfolder per sample itself contain sub-folder per kmer (Sample_i with i standing for the kmer size) that itsefl contains a table exome_i_reads.tab. The information in this table is the same as that contained in the **all_samples_genome.25-35.meanXX_medianYY_reads_concatenated.tab** table described above but only for the CDSs annotated in the original gff file. Each CDS is associated with the fractions of reads that map on its coding frame (i.e. in-frame reads named also P0 reads) or in its alternative frames. These tables are used for the detection of good quality kmers (Step 2) but can also be used to probe the translation activity of CDSs. In this case, you just need to merge the tables of all retained kmers (the list of the retained kmers can be found in the file DATA_PROCESSING/Selected_length/Sample1/Sample1.txt) into a global table. This final output table will contain for each CDS, the number and fraction of reads mapping in-frame or in the +1 and +2 frames of each CDS.
+
+```
+DATA_PROCESSING/Bam2Reads_Exome/Sample1/
+|-- Sample1_25
+|   |-- Exome_25_periodicity_all.tab
+|   |-- Exome_25_periodicity_start.tab
+|   |-- Exome_25_periodicity_stop.tab
+|   |-- Exome_25_reads.stats
+|   `-- Exome_25_reads.tab
+|-- Sample1_26
+|   |-- Exome_26_periodicity_all.tab
+|   |-- Exome_26_periodicity_start.tab
+|   |-- Exome_26_periodicity_stop.tab
+|   |-- Exome_26_reads.stats
+|   `-- Exome_26_reads.tab
+|-- Sample1_27
+|   |-- Exome_27_periodicity_all.tab
+|   |-- Exome_27_periodicity_start.tab
+|   |-- Exome_27_periodicity_stop.tab
+|   |-- Exome_27_reads.stats
+|   `-- Exome_27_reads.tab
+|-- Sample1_28
+|   |-- Exome_28_periodicity_all.tab
+|   |-- Exome_28_periodicity_start.tab
+|   |-- Exome_28_periodicity_stop.tab
+|   |-- Exome_28_reads.stats
+|   `-- Exome_28_reads.tab
+|-- Sample1_29
+|   |-- Exome_29_periodicity_all.tab
+|   |-- Exome_29_periodicity_start.tab
+|   |-- Exome_29_periodicity_stop.tab
+|   |-- Exome_29_reads.stats
+|   `-- Exome_29_reads.tab
+|-- Sample1_30
+|   |-- Exome_30_periodicity_all.tab
+|   |-- Exome_30_periodicity_start.tab
+|   |-- Exome_30_periodicity_stop.tab
+|   |-- Exome_30_reads.stats
+|   `-- Exome_30_reads.tab
+|-- Sample1_31
+|   |-- Exome_31_periodicity_all.tab
+|   |-- Exome_31_periodicity_start.tab
+|   |-- Exome_31_periodicity_stop.tab
+|   |-- Exome_31_reads.stats
+|   `-- Exome_31_reads.tab
+|-- Sample1_32
+|   |-- Exome_32_periodicity_all.tab
+|   |-- Exome_32_periodicity_start.tab
+|   |-- Exome_32_periodicity_stop.tab
+|   |-- Exome_32_reads.stats
+|   `-- Exome_32_reads.tab
+|-- Sample1_33
+|   |-- Exome_33_periodicity_all.tab
+|   |-- Exome_33_periodicity_start.tab
+|   |-- Exome_33_periodicity_stop.tab
+|   |-- Exome_33_reads.stats
+|   `-- Exome_33_reads.tab
+|-- Sample1_34
+|   |-- Exome_34_periodicity_all.tab
+|   |-- Exome_34_periodicity_start.tab
+|   |-- Exome_34_periodicity_stop.tab
+|   |-- Exome_34_reads.stats
+|   `-- Exome_34_reads.tab
+`-- Sample1_35
+    |-- Exome_35_periodicity_all.tab
+    |-- Exome_35_periodicity_start.tab
+    |-- Exome_35_periodicity_stop.tab
+    |-- Exome_35_reads.stats
+    `-- Exome_35_reads.tab
+
+```
+#### Bam2Reads_Genome
+Contains the final outputs of the analysis (explained above).
+
+```
+Bam2Reads_Genome/Sample2/
+|-- Sample2_25
+|   `-- Genome_25_reads.tab
+|-- Sample2_26
+|   `-- Genome_26_reads.tab
+|-- Sample2_27
+|   `-- Genome_27_reads.tab
+|-- Sample2_28
+|   |-- Genome_28_periodicity_all.tab
+|   |-- Genome_28_periodicity_start.tab
+|   |-- Genome_28_periodicity_stop.tab
+|   `-- Genome_28_reads.tab
+|-- Sample2_29
+|   `-- Genome_29_reads.tab
+|-- Sample2_30
+|   `-- Genome_30_reads.tab
+|-- Sample2_31
+|   `-- Genome_31_reads.tab
+|-- Sample2_32
+|   `-- Genome_32_reads.tab
+|-- Sample2_33
+|   `-- Genome_33_reads.tab
+|-- Sample2_34
+|   `-- Genome_34_reads.tab
+`-- Sample2_35
+    `-- Genome_35_reads.tab
+
+```
+
+#### Edited_Gff
+ORFribo requires a GFF annotation file of the reference sequence in a specific format. GFF file will be standardized using the Agat tool.
+
+```
+Edited_Gff/
+`-- Named.CDS_Scer.gff
+```
+#### Exome
+
+Contains the results of the gff2prot script, which generates the exome as well as the .gtf and .gff files needed for subsequent steps.
+```
+Exome
+|-- Exome_elongated.exons_Scer.fna
+|-- Exome_elongated.exons_Scer.gtf
+|-- Exome_elongated.gff
+|-- Exome_elongated.nfasta
+|-- Exome_elongated.nfasta.fai
+`-- Exome_elongated_with_gene_features.gff
+
+```
+
+#### Exome_Fastq
+Contains the unmapped sequences from RiboSeq data on the exome (using STAR or Hisat2), after the trimming and/or filtering step.
+
+```
+Exome_Fastq/
+|-- Sample1
+|   `-- Sample1_Unmapped.fastq.gz
+`-- Sample2
+    `-- Sample2_Unmapped.fastq.gz
+
+```
+#### Genome_Fastq
+Contains the unmapped sequences from RiboSeq data on the Genome (using STAR or Hisat2), after the trimming and/or filtering step.
+
+```
+Genome_Fastq/
+|-- Sample1
+|   `-- Sample1_Unmapped.fastq.gz
+`-- Sample2
+    `-- Sample2_Unmapped.fastq.gz
+
+```
+
+#### Mapping
+
+- **`Mapping/Exome`**: Contains the results of the alignment of Riboseq data on the exome. This directory includes a subdirectory for each alignment tool used (in case you choose STAR you'll have STAR folder instead of Hisat2), which themselves contain two subdirectories:
+
+`Index`: Contains the exome index.  
+`Results`: Contains the alignment SAM file stored in a directory specific to each dataset.
+
+- **`Mapping/Genome`**: Contains the results of the alignment of Riboseq data on the genome. This directory includes a subdirectory for each alignment tool used, which themselves contain two subdirectories:
+
+`Index`: Contains the genome index.  
+`Results`: Contains the alignment SAM file stored in a directory specific to each dataset.
+
+- **`Mapping/Mapping_Unwanted_Sequence_And_Filtering`**: Contains the alignment results when filtering out undesirable sequences (Generetead by Bowtie2)
+
+```
+Mapping/
+|-- Exome
+|   |-- Bowtie2
+|   |   |-- Index
+|   |   `-- Results
+|   `-- Hisat2
+|       |-- Index
+|       `-- Results
+`-- Genome
+|    |-- Bowtie2
+|    |   |-- Index
+|    |   `-- Results
+|    `-- Hisat2
+|        |-- Index
+|        `-- Results
+|
+|-- Mapping_Unwanted_Sequence_And_Filtering
+|   |-- Index
+|   `-- Results
+   
+```
+
+
+
+
+#### Quality Control
+
+This directory contains the results of quality control using Multiqc. It includes summary report of all datasets in a single HTML file befor and after trimming.
+
+```
+Quality_control/
+|-- After_Trimming
+|   `-- multiqc_results
+|       |-- multiqc_data
+|       `-- multiqc_report.html
+`-- Before_Trimming
+    `-- multiqc_results
+        |-- multiqc_data
+        `-- multiqc_report.html
+
+```
+
+#### Ribowaltz 
+
+```
+RiboWaltz/
+|-- Sample1
+|   |-- Sample1.bam
+|   |-- best_offset.txt
+|   `-- psite_offset.csv
+`-- Sample2
+    |-- Sample2.bam
+    |-- best_offset.txt
+    `-- psite_offset.csv
+
+```
+- **`SRRXXXXXX.bam`**: repository contains image files (tiff format) representing quality control plots for P-site offsets and periodicity for specific fragment lengths (e.g., 25, 26 nucleotides).
+- **`best_offset.txt`**: Contains the best offset value for the P-site, optimized for each fragment length. This file is used for downstream normalization.
+- **`psite_offset.csv`**: A CSV file summarizing the calculated offsets for different fragment lengths. It includes the following columns:
+  - `Length`: Fragment length (e.g., 25, 26, 27 nucleotides).
+  - `Offset`: Calculated optimal P-site offset.
+  - `Reads`: Number of reads used to calculate the offset.
+
+#### Selected_Length
+
+This directory contains subdirectories for each dataset. Each subdirectory includes a Selected_length.txt file listing the selected kmer sizes.
+
+```
+Selected_length/
+|-- Sample1
+|   `-- Selected_length.txt
+`-- Sample2
+    `-- Selected_length.txt
+
+```
+
+#### Trimming 
+
+The Trimming/ directory contains the results of the trimming step performed on raw FASTQ files to remove adapter sequences and retain fragments of interest within a specific length range.
+
+**`Trimming/Adapters`**: Contains a .txt file for each sample, listing the detected adapter sequences used during the trimming process.
+
+**`Trimming/Trimmed_fastq`**: Contains the resulting FASTQ files after trimming, compressed in .gz format. The sequences are filtered to retain only those with lengths between 25 and 35 nucleotides (as specified during the trimming process).
+
+```
+Trimming/
+|-- Adapters
+|   |-- Sample1
+|   |   `-- Sample1.txt
+|   `-- Sample2
+|       `-- Sample2.txt
+`-- Trimmed_fastq
+    |-- Sample1
+    |   `-- Sample1.cutadapt.25-35.fastq.gz
+    `-- Sample2
+        `-- Sample2.cutadapt.25-35.fastq.gz
+
+```
+
+
+---
+### SUPPLEMENTARY_DATA
+
+This directory contains additional files to assist with debugging, benchmarking, and logging. Key contents include:  
+- **Benchmarks**: Performance statistics for various steps of the pipeline.  
+- **Logs**: Detailed logs for each step of the analysis.
+
+---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

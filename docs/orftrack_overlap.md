@@ -12,13 +12,13 @@ Calculation of the overlap:
 
 ![Overlap definition](./img/mapping/orftrack_coverage.png)
 
-Notice that the overlap threshold can be modified with the **-co_ovp**
+Notice that the overlap threshold can be modified with the **--co-ovp**
 parameter. With the following instruction, an ORF is annotated 
 as overlapping a given genomic feature if the latter covers at least 
 90% of the considered ORF.
 
 
 ``` bash
-orftrack -fna genome.fasta -gff genome.gff -co_ovp 90 
+orftrack --fna genome.fasta --gff genome.gff --co-ovp 90 
 ```
 
