@@ -396,59 +396,42 @@ class GFF_iterator:
         return(features)
          
     
-
-def main():
-    parameters     = get_args()
-    genome_file    = parameters.fna
-
-    features_in_name = "_" + "_".join(parameters.features_include)
-    if parameters.outname == "":
-        out_basename = str(Path(parameters.outdir) / (str(Path(parameters.gff).stem) + features_in_name))
-    else:
-        out_basename = str(Path(parameters.outdir) / parameters.outname)
-        # out_basename = str(Path(parameters.outdir) / (parameters.outname + features_in_name))
-
-    Path(parameters.outdir).mkdir(parents=True, exist_ok=True)
-
-    print("Started\t:\t",time.ctime()) 
-    my_fasta = SeqIO.to_dict(SeqIO.parse(open(genome_file),'fasta'))
-
-
-
-    GFF_iterator(
-        gff_file=parameters.gff,
-        genome=my_fasta,
-        gff_types=parameters.features_include,
-        outname=out_basename,
-        output_type=parameters.type,
-        chr_exclude=parameters.chr_exclude,
-        genetic_code=parameters.table,
-        check=parameters.check,
-        elongate=parameters.elongate,
-        name_attribute=parameters.name_attribute
-    )
-
-    print("Ended \t:\t",time.ctime())
-
-
 def main():
     """Main function to run ORFget."""
     args = get_args()
     start_time = time.time()
 
-    # Vérifie si l'exécution doit se faire en mode conteneurisé
+    # Check if execution should be containerized
     if args.docker or args.singularity:
         run_orfget_containerized(args)
     else:
-        # Exécution locale
+        # Local execution
         Path(args.outdir).mkdir(parents=True, exist_ok=True)
         print("Started:", time.ctime())
         genome = SeqIO.to_dict(SeqIO.parse(open(args.fna), 'fasta'))
-        print("Running ORFget locally...")
-        # Ton code actuel de traitement des fichiers GFF et Fasta ici...
+        features_in_name = "_" + "_".join(args.features_include)
+
+        if args.outname == "":
+            out_basename = str(Path(args.outdir) / (str(Path(args.gff).stem) + features_in_name))
+        else:
+            out_basename = str(Path(args.outdir) / args.outname)
+
+        GFF_iterator(
+            gff_file=args.gff,
+            genome=genome,
+            gff_types=args.features_include,
+            outname=out_basename,
+            output_type=args.type,
+            chr_exclude=args.chr_exclude,
+            genetic_code=args.table,
+            check=args.check,
+            elongate=args.elongate,
+            name_attribute=args.name_attribute
+        )
         print("Ended:", time.ctime())
 
     print(f"Execution Time: {round(time.time() - start_time, 2)} seconds")
+
 
 if __name__ == "__main__":
     main()
