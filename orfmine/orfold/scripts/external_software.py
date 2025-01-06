@@ -149,7 +149,7 @@ def prompt_user():
 
     return {"iupred": iupred_path, "tango": tango_path}
 
-
+"""
 def update_config_file():
     response = prompt_user()
 
@@ -161,7 +161,7 @@ def update_config_file():
     ]
 
     # retrieve current data in config.ini
-    current_external_softwares = utils.read_config_file()
+    #current_external_softwares = utils.read_config_file()
 
     # start a new config instance 
     config = configparser.ConfigParser(allow_no_value=True)
@@ -178,3 +178,4 @@ def update_config_file():
     
     with open(CONFIG_FILE, 'w') as configfile:
         config.write(configfile)
+"""

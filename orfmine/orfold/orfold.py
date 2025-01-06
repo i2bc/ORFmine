@@ -132,37 +132,32 @@ def make_tmp_directories(out_path: Union[str, Path], to_keep: bool=False):
         tango_path.mkdir(exist_ok=True, parents=True)
     
 
-def import_optional_tools(options: str):
+def import_optional_tools(options: str, path_tango: str = None, path_iupred: str = None):
+    """
+    Imports optional tools based on the options provided.
+
+    Args:
+        options (str): The options specifying which tools to import ('I' for IUPred, 'T' for Tango).
+        path_tango (str): Path to the Tango executable.
+        path_iupred (str): Path to the IUPred directory.
+
+    Returns:
+        Tuple: The imported IUPred library and Tango executable path.
+    """
     iupred2a_lib = None
     tango_executable = None
-    
-    # get path to external softwares given in config.ini
-    external_softwares = orfold_utils.read_config_file()
-    
-    # Check if the tools asked for the analysis are well Installed
-    if "I" in options:
-        is_valid, error_message = orfold_utils.check_path(path=external_softwares["iupred"], software="iupred")
-        if not is_valid:
-            print(orfold_utils.error_missing_softwares(software="iupred").format(error_message))
-            exit()
 
-        # import iupred2a_lib from its location
-        spec = importlib.util.spec_from_file_location("iupred2a_lib", str(Path(external_softwares["iupred"]) / "iupred2a_lib.py"))
+    if "I" in options:
+        # Load IUPred library
+        spec = importlib.util.spec_from_file_location("iupred2a_lib", str(Path(path_iupred) / "iupred2a_lib.py"))
         iupred2a_lib = importlib.util.module_from_spec(spec)
-        sys.modules["iupred2a_lib"] = iupred2a_lib
         spec.loader.exec_module(iupred2a_lib)
 
     if "T" in options:
-        is_valid, error_message = orfold_utils.check_path(path=external_softwares["tango"], software="tango")
-        if not is_valid:
-            print(orfold_utils.error_missing_softwares(software="tango").format(error_message))
-            exit()
-
-        tango_path = Path(external_softwares["tango"])
-        if tango_path.is_dir():
-            tango_executable = str(tango_path / TANGO_EXEC[sys.platform])
-        elif tango_path.is_file() and tango_path.name in TANGO_EXEC.values():
-            tango_executable = str(tango_path)            
+        # Validate Tango path
+        if not Path(path_tango).exists():
+            raise FileNotFoundError(f"Tango executable '{path_tango}' does not exist.")
+        tango_executable = path_tango
 
     return iupred2a_lib, tango_executable
 
@@ -248,9 +243,9 @@ def process_orf(orf: str, seq: str, options: str, iupred2a_lib: ModuleType=None,
     return scores
 
 
-def process_fasta_file(fasta_file: Union[str, Path], out_path: Union[str, Path], options: str="H", sample_size: int=-1, to_keep: bool=False):
+def process_fasta_file(fasta_file: Union[str, Path], out_path: Union[str, Path], options: str="H", sample_size: int=-1, to_keep: bool=False, path_tango: str = None, path_iupred: str = None):
     # import external optional softwares
-    iupred2a_lib, tango_path = import_optional_tools(options=options)
+    iupred2a_lib, tango_path = import_optional_tools(options=options, path_tango=path_tango, path_iupred=path_iupred)
 
     # get fasta file base name
     fasta_basename = Path(fasta_file).stem
@@ -280,7 +275,7 @@ def process_fasta_file(fasta_file: Union[str, Path], out_path: Union[str, Path],
     return all_scores
 
 
-def run_orfold(fasta_file: Union[str, Path], out_path: Union[str, Path], options: str="H", sample_size: Union[int,str]=None, gff_template: Union[str, Path]="", to_keep: bool=False):
+def run_orfold(fasta_file: Union[str, Path], out_path: Union[str, Path], options: str = "H", sample_size: Union[int, str] = None, gff_template: Union[str, Path] = "",to_keep: bool = False,path_tango: str = None, path_iupred: str = None  ):
     out_path = Path(out_path)
     out_path.mkdir(parents=True, exist_ok=True)
 
@@ -296,42 +291,34 @@ def run_orfold(fasta_file: Union[str, Path], out_path: Union[str, Path], options
 
 
 def run_orfold_containerized(parameters: arguments.argparse.Namespace):
+    # Vérifier que les chemins sont fournis
+    extra_bindings = {}
+    if parameters.path_tango:
+        extra_bindings[parameters.path_tango] = '/opt/tango'
+    if parameters.path_iupred:
+        extra_bindings[parameters.path_iupred] = '/opt/iupred'
 
-    # set list of flags related to input files
-    input_args = ["--faa"]
-    if parameters.gff:
-        input_args += ["--gff"]
-
-    # set external softwares paths
-    softwares = orfold_utils.read_config_file()
-    extra_bindings = {x:'/opt' for x in softwares.values()}
-
-    # set flag related to output path/file
-    output_arg = "--out"
-
-    # instantiate containerCLI handler
+    # Instantiate ContainerCLI
     cli = ContainerCLI(
-            input_args=input_args,
-            output_arg=output_arg,
-            args=parameters,
-            image_base=DOCKER_IMAGE,
-            prog="orfold",
-            container_type="docker" if parameters.docker else "singularity",
-            extra_bindings=extra_bindings,
-            dev_mode=parameters.dev,
-            package_binding={"orfmine": "/home/orfuser/orfmine/orfmine"}
-        )
+        input_args=["--faa"],
+        output_arg="--out",
+        args=parameters,
+        image_base=DOCKER_IMAGE,
+        prog="orfold",
+        container_type="docker" if parameters.docker else "singularity",
+        extra_bindings=extra_bindings,
+        dev_mode=parameters.dev,
+        package_binding={"orfmine": "/home/orfuser/orfmine/orfmine"}
+    )
 
     cli.show()
     if not parameters.dry_run:
         cli.run()
 
-
 def main():
     parameters = arguments.get_args()
 
     if parameters.docker or parameters.singularity:
-        parameters.is_container = True
         run_orfold_containerized(parameters=parameters)
     else:
         start_time = datetime.now()
@@ -345,7 +332,7 @@ def main():
             to_keep=parameters.keep,
         )
 
-        end_time = datetime.now()
+        end_time = datetime.now() 
         print('\nDuration: {}'.format(end_time - start_time))
 
 

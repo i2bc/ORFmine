@@ -1,0 +1,25 @@
+#numpy>=1.14
+biopython==1.68
+contourpy==1.3.0
+cutadapt==4.8
+DendroPy==4.5.2
+dnaio==1.2.0
+gffutils==0.13
+scipy==1.13.1
+seaborn==0.13.2
+matplotlib==3.9.2
+pandas==2.2.3
+lightgbm==4.5.0
+joblib==1.4.2
+CairoSVG==2.7.1
+pysam==0.22.1
+requests==2.32.3
+urllib3==1.26.20
+six==1.16.0
+snakemake==7.16.0
+ete3==3.1.3
+pyparsing==3.1.2
+setuptools==65.5.0
+multiqc==1.25.1
+PyQt5==5.15.11
+pyHCA @ git+https://github.com/T-B-F/pyHCA.git

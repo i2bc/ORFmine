@@ -251,16 +251,6 @@ def calculate_proportion_of_seq_aggregable(b_aggregation):
     return(round(count_agg_seg/len(b_aggregation),3))
     
 
-def read_config_file():
-    config_file = ROOT_PATH / 'softwares.ini'
-    config = configparser.ConfigParser()
-    config.read(str(config_file))
-
-    for key, value in config["EXTERNAL_SOFTWARE"].items():
-        config["EXTERNAL_SOFTWARE"][key] = value.strip('"')
-
-    return config["EXTERNAL_SOFTWARE"]
-
 
 def check_path(path: str="", software: str="iupred"):
     software_name = "IUPred2a" if software == "iupred" else "Tango"

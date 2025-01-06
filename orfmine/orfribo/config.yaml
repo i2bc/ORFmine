@@ -20,32 +20,32 @@ fastq: ""
 out: ""
 
 # Are the sequencing adapters already removed in fastq files ? True or False
-trimmed: "0" 
+trimmed: "" 
 
 # Adapter sequence (Example sequence for Illumina TruSeq™ single or CD index : "AGATCGGAAGAGCACACGTCTGAACTCCAGTCA")
 # Put "" if unknown, RiboDoc_BAM2Reads will try to find it for you
 adapter: ""
 
 # Minimum read length kept for ribosome profiling
-min_read_length: 25
+min_read_length: 
 
 # Maximum read length kept for ribosome profiling
-max_read_length: 35
+max_read_length: 
 
 # Elements to select during counting
-gff_feature: "CDS"
+gff_feature: ""
 
 
 # Minimum mean of in-frame reads in coding region to select specific read lengths
 mean_threshold: ""
-median_threshold: "70"
+median_threshold: ""
 
 # List of features to look for in the intergenic gff of the genome #modif = Non_coding 
-intergenic_features: "nc_intergenic"  
+intergenic_features: ""  
 
 
 #Number of multiple alignement (10 by default)
-multi_alignement : 10 
+multi_alignement :  
 
 # Maximum allowed RAM to use (Mb)
 ram: 2000
@@ -55,8 +55,8 @@ threads: 12
 
 
 # Mapping tool , choose "star" or "hisat2", "hisat2" is defined by default
-aligner: "star"
+aligner: ""
 
 
 # Introns length : If you want to disable this parameter, comment it (default : 3000 according to Scer.gff) 
-introns_length : 3000
+introns_length : 
