@@ -67,12 +67,6 @@ COPY ORFmine_env.yml /tmp/ORFmine_env.yml
 RUN conda env create -f /tmp/ORFmine_env.yml && \
     conda clean -afy
 
-# Make sure the environment is activated by default
-ENV CONDA_DEFAULT_ENV ORFmine_env
-ENV PATH /opt/conda/envs/ORFmine_env/bin:$PATH
-
-SHELL ["conda", "run", "-n", "ORFmine_env", "/bin/bash", "-c"]
-
 
 #################
 # 4th build stage - orfmine python dependencies
@@ -96,6 +90,7 @@ ENV PATH ${VIRTUAL_ENV}:${PATH}
 COPY requirements.txt .
 
 # Install the Python dependencies
+RUN pip3 install --no-cache-dir numpy
 RUN pip3 install --no-cache-dir -r requirements.txt
 
 
@@ -109,10 +104,17 @@ COPY orfmine ./orfmine
 COPY setup.py ./
 
 # create ini file for optional softwares related to orfold (iupred & tango)
-RUN printf "[EXTERNAL_SOFTWARE]\niupred = \"/opt/iupred2a\"\ntango = \"/opt/tango\"\n" > ./softwares.ini
+#RUN printf "[EXTERNAL_SOFTWARE]\niupred = \"/opt/iupred2a\"\ntango = \"/opt/tango\"\n" > ./softwares.ini
 
 # install ORFmine python libraries & dependencies 
 RUN pip3 install -e .
+
+
+
+# Activate Conda environment by default
+ENV CONDA_DEFAULT_ENV=ORFmine_env
+ENV PATH="/opt/conda/envs/ORFmine_env/bin:$PATH"
+
 
 # create /inputs and /outputs directories with relevant user permissions
 RUN mkdir /input /output && \
