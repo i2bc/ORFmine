@@ -14,6 +14,11 @@
   Example: `--options HIT` will estimate all three properties.  
   *(Default: H).*
 
+- `--path_tango` 
+   Path to tango executable file
+
+- `--path_iupred`
+   Path to iupred executable file
 ---
 
 ### **Optional**
@@ -40,3 +45,5 @@
 
 -  `--out `   
   Output directory (default: '.').
+  
+

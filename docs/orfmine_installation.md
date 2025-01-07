@@ -81,20 +81,20 @@ For Docker, make sure you have root permissions
 - **Docker**:  
 
 ```
-    $Package_name $Args --docker
+    $package_name $args --docker
 ```
 
 - **Singularity**:  
 
 ```
-    $Package_name $Args --singularity
+    $package_name $args --singularity
 ```
 
 ---
 
 ## Conda Environment Usage (Not recommanded)
 
-You can create a Conda environment using the `ORFmine_env.yml` file:  
+If you are using conda, you can create a Conda environment using the `ORFmine_env.yml` file:  
 
 ```
 conda env create -f ORFmine_env.yml

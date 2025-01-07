@@ -43,7 +43,7 @@ The following instruction estimates the fold potential, and the disorder and agg
 all amino acid sequences contained in the input fASTA file:
 
 ```{bash}
-orfold --faa sequences.fasta --options HIT
+orfold --faa sequences.fasta --options HIT --path_tango /path/to/executable/tango --path_iupred /path/to/executable/iupred
 ```
 
 
@@ -52,7 +52,7 @@ The user has to notice that **IUPred** and **Tango** provide additional informat
 to HCA but will slow down considerably ORFold for large datasets. 
 The next instruction only calculate the fold potential with HCA:
 ```{bash}
-orfold --faa sequences.fasta --options H
+orfold --faa sequences.fasta --options H --path_tango /path/to/executable/tango --path_iupred /path/to/executable/iupred
 ```
 
 ### Output:

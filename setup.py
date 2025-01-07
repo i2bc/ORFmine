@@ -10,7 +10,7 @@ import setuptools as st
 MIN_PY_VER = "3.9"
 
 REQUIRES = [
-      'biopython==1.84',
+      'biopython==1.68',
       'cairocffi==1.7.1',
       'cairosvg==2.7.1',
       'contourpy==1.3.0',
@@ -59,7 +59,6 @@ st.setup(
     install_requires=REQUIRES,
     entry_points={
         'console_scripts': [
-            'orftrack=orfmine.orftrack.orftrack:main',
             'orfget=orfmine.orftrack.scripts.ORFget:main',
             'gff2prot=orfmine.orftrack.scripts.gff2prot:main',
             'orfold=orfmine.orfold.orfold:main',

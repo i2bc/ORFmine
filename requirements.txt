@@ -1,4 +1,4 @@
-biopython==1.84
+biopython==1.68 
 DendroPy==4.5.2
 gffutils==0.13
 scipy==1.13.1

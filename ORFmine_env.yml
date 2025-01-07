@@ -631,7 +631,7 @@ dependencies:
   - zlib=1.2.13=h166bdaf_4
   - zstd=1.5.2=h6239696_4
   - pip:
-      - biopython==1.78
+      - biopython==1.68
       - cairosvg==2.7.0
       - contourpy==1.2.1
       - cutadapt==4.8
