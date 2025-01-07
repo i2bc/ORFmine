@@ -15,11 +15,40 @@ More information can be found in the ORFmine [documentation](https://i2bc.github
 
 ---
 
+
+
+## Requirements
+
+ORFmine requires several dependencies and external softwares. To simplify installation, we offer a Docker image providing the complete environment required to use all of the ORFmine tools.
+
+<details open>
+<summary><h4>Minimal requirements for a container usage (recommended)</h4></summary>
+To use the Docker image, you will need:
+
+- Python >= 3.9
+- ORFmine >= 2.0.0
+- Docker or Singularity
+</details>
+
+
+## Recommendation
+
+Before installing ORFmine, we strongly recommend to set up an Python isolated environment in order to avoid potential version conflicts between python libraries when working on different projects or different ORFmine versions.
+
+Click in the section below for a short illustration on how to use an Python isolated environment.
+
+<details style="margin-left: 32px">
+<summary>How to use an isolated environment (recommended)</summary>
+<br>
+<p>
+By using an isolated environment you will avoid potential version conflicts between python libraries when working on different projects. Some of the most popular tools to work with isolated python environments are [virtualenv](https://pypi.org/project/virtualenv/), [pyenv](https://pypi.org/project/pyenv/), [pipenv](https://pypi.org/project/pipenv/). 
+</p>
+
+
 ## Quick Installation Guide
 
 ### Recommended Setup: Isolated Python Environment
 
-To avoid library version conflicts, it’s recommended to install ORFmine in an isolated Python environment:
 
 ```bash
 python3.9 -m pip install --upgrade pip
@@ -27,33 +56,23 @@ python3.9 -m pip install virtualenv
 virtualenv orfmine_env
 source orfmine_env/bin/activate
 
-
-
-# ORFmine
-
-**ORFmine** is a comprehensive bioinformatics toolkit designed to facilitate the analysis of ORFeomes and ribosome profiling data. It supports multiple mapping tools, customizable pipelines, and containerized environments for seamless reproducibility.
-
----
-
-## Quick Installation Guide
-
-### Recommended Setup: Isolated Python Environment
-
-To avoid library version conflicts, it’s recommended to install ORFmine in an isolated Python environment:
-
-```bash
-python3.9 -m pip install --upgrade pip
-python3.9 -m pip install virtualenv
-virtualenv orfmine_env
-source orfmine_env/bin/activate
 ```
 
 To deactivate the environment:  
+
 ```bash
 deactivate
 ```
 
 ### Installation Options
+
+> :bell: **Note**
+ The ORFmine package must be installed locally even if you plan to use the Docker image. This is because ORFmine includes a feature that simplifies the Docker usage, eliminating the need for complex volume mounting commands.
+
+
+ORFmine can be accessed in different ways. Follow instructions described in option 1 or 2 if you're not interested in accessing/modifying the source code, otherwise prefer option 3. 
+
+
 
 #### 1. From GitHub Releases
 Download the latest release from [GitHub](https://github.com/i2bc/ORFmine/releases/latest) and install it:
