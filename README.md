@@ -4,91 +4,78 @@
   <img src="./docs/img/icons/ORFmine.png" width="80%"/>  
 </div>
 
-ORFmine is an open-source package that aims at extracting, annotating, and characterizing the sequence and structural properties of all Open Reading Frames (ORFs) of a genome, including coding as well as noncoding sequences, along with their translation activity. ORFmine consists of several independent programs that can be used together or independently:
-
-- <i>**ORFtrack** searches for all possible ORFs longer than 60 nucleotides in the six frames of an input genome, and annotate them according to a set of genomic features.</i>
-- <i>**ORFold** predicts the fold potential and the disorder and aggregation propensities of amino acid sequences.</i>
-- <i>**ORFribo** probes the ORFs translation activity based on Ribosome Profiling data (Ribo-Seq).</i>
-- <i>**ORFdate** estimates the ORFs evolutionary age based on phylostratigraphy information.</i>
-
-More information can be found in the ORFmine [documentation](https://i2bc.github.io/ORFmine/).
+**ORFmine** is an open-source package designed to extract, annotate, and characterize the sequence and structural properties of all Open Reading Frames (ORFs) of a genome, including coding and noncoding sequences, along with their translation activity.
 
 ---
 
+## Key Features
 
+ORFmine includes several independent programs that can be used together or separately:
 
-## Requirements
+- **ORFtrack**: Searches for all possible ORFs (>60 nucleotides) in the six reading frames of a genome and annotates them based on genomic features.
+- **ORFold**: Predicts the folding potential, disorder, and aggregation propensities of amino acid sequences.
+- **ORFribo**: Analyzes ORFs' translation activity using Ribosome Profiling data (Ribo-Seq).
+- **ORFdate**: Estimates the evolutionary age of ORFs using phylostratigraphy information.
 
-ORFmine requires several dependencies and external softwares. To simplify installation, we offer a Docker image providing the complete environment required to use all of the ORFmine tools.
+More information is available in the [official documentation](https://i2bc.github.io/ORFmine/).
 
-<details open>
-<summary><h4>Minimal requirements for a container usage (recommended)</h4></summary>
-To use the Docker image, you will need:
+---
 
-- Python >= 3.9
-- ORFmine >= 2.0.0
-- Docker or Singularity
-</details>
+## Installation
 
+### Requirements
 
-## Recommendation
+To use ORFmine, the following versions are recommended:
 
-Before installing ORFmine, we strongly recommend to set up an Python isolated environment in order to avoid potential version conflicts between python libraries when working on different projects or different ORFmine versions.
+- **Python** >= 3.9
+- **ORFmine** >= 2.0.0
+- **Docker** or **Singularity** (for containerized usage)
 
-Click in the section below for a short illustration on how to use an Python isolated environment.
+We recommend using an isolated Python environment to avoid version conflicts between libraries. See the section below for details.
 
-<details style="margin-left: 32px">
-<summary>How to use an isolated environment (recommended)</summary>
-<br>
-<p>
-By using an isolated environment you will avoid potential version conflicts between python libraries when working on different projects. Some of the most popular tools to work with isolated python environments are [virtualenv](https://pypi.org/project/virtualenv/), [pyenv](https://pypi.org/project/pyenv/), [pipenv](https://pypi.org/project/pipenv/). 
-</p>
+---
 
+### Setting Up an Isolated Python Environment (Recommended)
 
-## Quick Installation Guide
-
-### Recommended Setup: Isolated Python Environment
-
+To create an isolated environment:
 
 ```bash
 python3.9 -m pip install --upgrade pip
 python3.9 -m pip install virtualenv
 virtualenv orfmine_env
 source orfmine_env/bin/activate
-
 ```
 
-To deactivate the environment:  
+To deactivate the environment:
 
 ```bash
 deactivate
 ```
 
+---
+
 ### Installation Options
 
-> :bell: **Note**
- The ORFmine package must be installed locally even if you plan to use the Docker image. This is because ORFmine includes a feature that simplifies the Docker usage, eliminating the need for complex volume mounting commands.
+> **Note**: ORFmine must be installed locally even if you plan to use the Docker image to simplify its usage.
 
+#### 1. Install via GitHub Releases
 
-ORFmine can be accessed in different ways. Follow instructions described in option 1 or 2 if you're not interested in accessing/modifying the source code, otherwise prefer option 3. 
-
-
-
-#### 1. From GitHub Releases
-Download the latest release from [GitHub](https://github.com/i2bc/ORFmine/releases/latest) and install it:
+Download the latest release from [GitHub](https://github.com/i2bc/ORFmine/releases/latest):
 
 ```bash
 python3.9 -m pip install ORFmine-vx.x.x.zip
 ```
 
-#### 2. From GitHub Repository
+#### 2. Install from the GitHub Repository
+
 Install directly from the repository:
 
 ```bash
 python3.9 -m pip install -e git+https://github.com/i2bc/ORFmine.git@v3.0.0#egg=orfmine
 ```
 
-#### 3. From Local Repository
+#### 3. Local Installation (for source code modification)
+
 Clone the repository and install locally:
 
 ```bash
@@ -101,14 +88,16 @@ python3.9 -m pip install -e .
 
 ## Containerized Usage (Docker or Singularity)
 
-ORFmine is fully compatible with containerized environments. Use the Docker or Singularity options for hassle-free setup:
+To simplify setup, ORFmine is fully compatible with containerized environments.
 
-- **Docker**:  
+- **Docker**:
+
 ```bash
 $package_name $args --docker
 ```
 
-- **Singularity**:  
+- **Singularity**:
+
 ```bash
 $package_name $args --singularity
 ```
@@ -117,14 +106,14 @@ $package_name $args --singularity
 
 ## Documentation
 
-For detailed installation instructions, usage examples, and pipeline configurations, visit the full [ORFmine Documentation](https://orfmine-docs-link.com).
+For detailed installation instructions, usage examples, and pipeline configurations, visit the [full documentation](https://orfmine-docs-link.com).
 
 ---
 
 ## License and Citation
 
-**License**: ORFmine is licensed under the MIT License.  
-**Citation**: If you use ORFmine in your research, please cite:
+- **License**: ORFmine is distributed under the MIT License.
+- **Citation**: If you use ORFmine in your research, please cite the following works:
 
 > Papadopoulos, C., Chevrollier, N., Lopes, A. Exploring the peptide potential of genomes. Meth. Mol. Biol. (2022).  
 > Papadopoulos, C., et al. The Ribosome Profiling landscape of yeast reveals a high diversity in pervasive translation. bioRxiv (2023).
