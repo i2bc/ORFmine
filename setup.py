@@ -31,6 +31,7 @@ REQUIRES = [
       'snakemake==7.16.0',
       'multiqc==1.25.1',
       'DendroPy==4.5.2',
+      'PyQt5==5.15.11',
       'pyHCA @ git+https://github.com/T-B-F/pyHCA.git',
 ]
 
@@ -59,6 +60,7 @@ st.setup(
     install_requires=REQUIRES,
     entry_points={
         'console_scripts': [
+            'orftrack=orfmine.orftrack.orftrack:main',
             'orfget=orfmine.orftrack.scripts.ORFget:main',
             'gff2prot=orfmine.orftrack.scripts.gff2prot:main',
             'orfold=orfmine.orfold.orfold:main',
