@@ -7,7 +7,7 @@ ORFribo is very user-friendly and offers two configuration options:
 You can configure ORFribo directly via the command line using the following example:
 
 ```bash
-orfribo --fna examples/database/Scer.fna --gff examples/database/Scer.gff --gff-intergenic examples/database/mapping_orf_Scer.gff --fastq /data/work/I2BC/fadwa.elkhaddar/BIM/fastq/ --not-trimmed
+orfribo --fna examples/database/Scer.fna --gff examples/database/Scer.gff --gff-intergenic examples/database/mapping_orf_Scer.gff --fastq examples/fastq --not-trimmed
 ```
 
 Make sure to communicate if your data are trimmed or not, if they are trimmed, replace --not-trimmed by trimmed. 

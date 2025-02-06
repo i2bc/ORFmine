@@ -5,10 +5,10 @@ import os
 ROOT_PATH = Path(__file__).resolve().parent.parent
 
 
-IMAGE_TAGS = ["latest", "3.0.0"]
+IMAGE_TAGS = ["latest", "3.0.1"]
 
 # docker infos
-DOCKER_REPOSITORY = os.getenv("DOCKER_REPOSITORY", "lopesi2bc")
+DOCKER_REPOSITORY = os.getenv("DOCKER_REPOSITORY", "fadwa06")
 IMAGE_NAME = os.getenv("IMAGE_NAME", "orfmine")
 IMAGE_TAG = os.getenv("IMAGE_TAG", IMAGE_TAGS[-1])
 

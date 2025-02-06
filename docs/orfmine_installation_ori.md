@@ -33,8 +33,9 @@ Alternatively, ORFmine provides a Docker image for a fully configured environmen
 
 ## Installation Options
 
-ORFmine can be installed in several ways. Choose the option that best suits your needs: 
-It will install the last version of orfmine (3.0.2)
+ORFmine can be installed in several ways. Choose the option that best suits your needs:
+
+
 
 ### Option 1 : From Pypi (Recommanded): 
 
@@ -42,9 +43,26 @@ It will install the last version of orfmine (3.0.2)
     pip install orfmine 
 ```
 
+It will install the last version of orfmine (3.0.1)
 
-### Option 2: From a Local Repository
+### Option 2: From an Archive (No Git Required)
+1. Download the latest release archive from [here](https://github.com/i2bc/ORFmine/releases/latest).
+2. Install ORFmine:  
 
+```
+    python3.9 -m pip install --upgrade pip
+    python3.9 -m pip install ORFmine-vx.x.x.zip
+```
+
+### Option 3: From Version Control (Git)
+Install directly from the GitHub repository:  
+
+```
+   python3.9 -m pip install --upgrade pip
+   python3.9 -m pip install -e git+https://github.com/i2bc/ORFmine.git@v2.0.0#egg=orfmine
+```
+
+### Option 4: From a Local Repository
 1. Clone the ORFmine repository:  
 
 ```
@@ -65,15 +83,23 @@ It will install the last version of orfmine (3.0.2)
 
 ---
 
-**Note:** If you need to use ORFold, you must install the following tool:
+## Conda Environment Usage (Not recommanded)
+
+If you are using conda, you can create a Conda environment using the `ORFmine_env.yml` file:  
 
 ```
-   pip install git+https://github.com/T-B-F/pyHCA.git
+conda env create -f ORFmine_env.yml
 ```
+
+Activate the environment:  
+```
+conda activate ORFmine_env
+```
+
 
 ## Docker and Singularity Usage
 
-For containerized environments, ORFmine supports Docker and Singularity.
+For containerized environments, ORFmine supports Docker and Singularity:
 For Docker, make sure you have root permissions. 
 During the first execution of the tool's modules, it will take a bit more time to retrieve and configure the Docker/Singularity image.
 
@@ -87,40 +113,6 @@ During the first execution of the tool's modules, it will take a bit more time t
 
 ```
     $package_name $args --singularity
-```
-
-
-## Conda Usage (Not Recommanded)
-
-If you are not familiar with Docker or Singularity, you can create a Conda environment.
-
-1. Clone the ORFmine repository:  
-
-```
-    git clone https://github.com/i2bc/ORFmine.git
-```
-2. Navigate to the cloned directory:  
-
-```
-    cd ORFmine
-```
-
-3. Install ORFmine in editable mode:  
-
-```
-    python3 -m pip install --upgrade pip
-    python3 -m pip install -e .
-```
-4. Create Conda environement from yml file: 
-
-```
-conda env create -f ORFmine_env.yml
-```
-
-5. Activate the environment:  
-
-```
-conda activate ORFmine_env
 ```
 
 

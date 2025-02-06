@@ -10,7 +10,7 @@ import setuptools as st
 MIN_PY_VER = "3.9"
 
 REQUIRES = [
-      'biopython==1.68',
+      'biopython==1.79',
       'cairocffi==1.7.1',
       'cairosvg==2.7.1',
       'contourpy==1.3.0',
@@ -32,7 +32,8 @@ REQUIRES = [
       'multiqc==1.25.1',
       'DendroPy==4.5.2',
       'PyQt5==5.15.11',
-      'pyHCA @ git+https://github.com/T-B-F/pyHCA.git',
+      'pulp==2.7.0',
+      #'pyHCA @ git+https://github.com/T-B-F/pyHCA.git',
 ]
 
 
@@ -54,6 +55,7 @@ PACKAGES = [
 
 st.setup(
     name='orfmine',
+    version='3.0.4',
     python_requires=">={}".format(MIN_PY_VER),
     packages=PACKAGES,
     include_package_data=True,

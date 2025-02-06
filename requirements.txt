@@ -1,5 +1,5 @@
 #numpy>=1.14
-biopython==1.68
+biopython==1.79
 contourpy==1.3.0
 cutadapt==4.8
 DendroPy==4.5.2
@@ -22,4 +22,5 @@ pyparsing==3.1.2
 setuptools==65.5.0
 multiqc==1.25.1
 PyQt5==5.15.11
+pulp==2.7.0
 pyHCA @ git+https://github.com/T-B-F/pyHCA.git

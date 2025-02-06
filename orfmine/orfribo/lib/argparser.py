@@ -40,7 +40,6 @@ def get_parser():
     parser.add_argument("--min-read-length", help="Minimum read length for ribosome profiling", type=int, default=25)
     parser.add_argument("--max-read-length", help="Maximum read length for ribosome profiling", type=int, default=35)
     parser.add_argument("--gff-feature", help="Feature element to select during counting", default="CDS")
-    parser.add_argument("--gff-attribute", help="Attribute containing gene names in GFF", default="Name")
     parser.add_argument("--mean-threshold", help="Minimum mean of in-frame reads", type=float, default=70)
     parser.add_argument("--median-threshold", help="Minimum median of in-frame reads", type=float, default=70)
     parser.add_argument("--intergenic-features", help="List of features in the intergenic GFF", nargs="*", default=["nc_intergenic"])
@@ -63,6 +62,38 @@ def get_parser():
     parser = add_container_args(parser=parser)
 
     return parser
+
+
+
+DEFAULT_CONFIG = {
+    "fna": "",
+    "gff": "",
+    "gff_intergenic": "",
+    "fastq": "",
+    "project_name": "",
+    "out": ".",
+    "aligner": "hisat2",
+    "rna_to_exclude": "",
+    "adapter": "",
+    "min_read_length": 25,
+    "max_read_length": 35,
+    "gff_feature": "CDS",
+    "gff_attribute": "Name",
+    "mean_threshold": 70.0,
+    "median_threshold": 70.0,
+    "intergenic_features": ["nc_intergenic"],
+    "multi_alignement": 10,
+    "introns_length": 3000,
+    "ram": 2000,
+    "cores": 4,
+    "threads": 8,
+    "jobs": 4,
+    "preview": False,
+    "dag": False,
+    "forceall": False,
+    "debug": False,
+    "trimmed": None,  # Will be updated based on --trimmed and --not-trimmed
+}
 
 
 def get_provided_args(parser: argparse.ArgumentParser, args: argparse.Namespace, ignore_args: List=[]):
@@ -174,23 +205,11 @@ def load_config(args: argparse.Namespace):
     required_args = ["--fna", "--gff", "--gff-intergenic", "--fastq"]
     mutually_exclusive_args = [("--trimmed", "--not-trimmed")]
 
-    # get provided arguments into a dictionary
     provided_args = get_provided_args(parser=get_parser(), args=args)
-
-    # check that provided arguments contains mandatories one
     check_provided_args(provided_args=provided_args, required_args=required_args, mutually_exclusive=mutually_exclusive_args)
-    
-    # load default yaml config file
-    config = get_default_config()
 
-    # update default config with config file, if given
-    if args.config:
-        update_config_from_file(default_config=config, configfile=args.config)
-
-    # update default config with given command line args
+    config = DEFAULT_CONFIG.copy()
     config = update_config_from_args(provided_args=provided_args, config=config)
-
-    # check that mandatory arguments are given and valid
-    validate_required_args(config, required_args+["--trimmed"])
+    validate_required_args(config, required_args + ["--trimmed"])
 
     return config

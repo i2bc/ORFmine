@@ -18,13 +18,20 @@ a new GFF file containing the annotation of all the identified ORFs
 ### Running ORFtrack on a single chromosome or a subset of chromosomes
 
 ORFtrack can be launched on a single seqID (usually chromosome or contig indicated in the first 
-column of the inout GFF)(e.g. chromosome seqID: XXX) 
+column of the inout GFF)(e.g. chromosome I) 
 with the following instruction:
 
 
 ``` bash
-orftrack --fna genome.fasta --gff genome.gff  --chr chr_ID_XXXX
+orftrack --fna genome.fasta --gff genome.gff  --chr seqID
 ```
+
+in this example : 
+
+``` bash
+orftrack --fna genome.fasta --gff genome.gff  --chr I
+```
+
 This can be very useful if the user wants to run ORFtrack on several 
 CPUs. Also, it can be launched on a subset of seqIDs as follows:
 

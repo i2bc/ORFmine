@@ -77,11 +77,11 @@ FROM stage_3 as stage_4
 RUN adduser orfuser
 
 # go in /home
-WORKDIR /home/orfuser/orfmine
+WORKDIR /usr/orfuser/orfmine
 
 # create a virtual environment
 RUN python3.10 -m venv env-orfmine
-ENV VIRTUAL_ENV /home/orfuser/orfmine/env-orfmine/bin
+ENV VIRTUAL_ENV /usr/orfuser/orfmine/env-orfmine/bin
 
 # Make sure we use the virtualenv
 ENV PATH ${VIRTUAL_ENV}:${PATH}
@@ -99,30 +99,28 @@ RUN pip3 install --no-cache-dir -r requirements.txt
 #################
 FROM stage_4
 
+# go in /home
+WORKDIR /usr/orfuser/orfmine
+
 # add ORFmine main package and setup.py
 COPY orfmine ./orfmine
-COPY setup.py ./
-
-# create ini file for optional softwares related to orfold (iupred & tango)
-#RUN printf "[EXTERNAL_SOFTWARE]\niupred = \"/opt/iupred2a\"\ntango = \"/opt/tango\"\n" > ./softwares.ini
+COPY setup.py .
 
 # install ORFmine python libraries & dependencies 
 RUN pip3 install -e .
 
-
-
 # Activate Conda environment by default
 ENV CONDA_DEFAULT_ENV=ORFmine_env
-ENV PATH="/opt/conda/envs/ORFmine_env/bin:$PATH"
+ENV PATH="/opt/conda/envs/ORFmine_env/bin:/usr/orfuser/orfmine/env-orfmine/bin:$PATH"
 
-
-# create /inputs and /outputs directories with relevant user permissions
+# Create /input and /output directories with full permissions
 RUN mkdir /input /output && \
-    chown orfuser:orfuser /input && \ 
-    chown orfuser:orfuser /output && \
-    chmod 755 /input /output
+    chmod 777 /input /output && \
+    chown -R orfuser:orfuser /input /output && \
+    chmod -R 777 /output
+
 
 WORKDIR /input
 
-# log as user himself
-USER orfuser
+
+

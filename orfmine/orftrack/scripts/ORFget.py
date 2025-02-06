@@ -122,8 +122,8 @@ def get_args():
 def run_orfget_containerized(args):
     """Run ORFget in a containerized environment."""
     # Définition des arguments pour le conteneur
-    input_args = ["-fna", "-gff"]
-    output_arg = "-outdir"
+    input_args = ["--fna", "--gff"]
+    output_arg = "--outdir"
 
     # Configuration du CLI pour exécuter le conteneur
     cli = ContainerCLI(
@@ -444,7 +444,6 @@ if __name__ == "__main__":
         2. To make a function for correctly writing a new GFF file 
         3. To make a function that will get N features randomly 
 '''
-
 
 
 
