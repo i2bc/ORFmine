@@ -21,85 +21,141 @@ More information is available in the [official documentation](https://i2bc.githu
 
 ---
 
-## Installation
-
-### Requirements
+## Requirements
 
 To use ORFmine, the following versions are recommended:
 
 - **Python** >= 3.9
-- **ORFmine** >= 2.0.0
+- **ORFmine** >= 3.0.1
 - **Docker** or **Singularity** (for containerized usage)
 
 We recommend using an isolated Python environment to avoid version conflicts between libraries. See the section below for details.
 
----
-
-### Setting Up an Isolated Python Environment (Recommended)
-
-To create an isolated environment:
-
-```bash
-python3.9 -m pip install --upgrade pip
-python3.9 -m pip install virtualenv
-virtualenv orfmine_env
-source orfmine_env/bin/activate
-```
-
-To deactivate the environment:
-
-```bash
-deactivate
-```
 
 ---
 
-### Installation Options
+## Installation 
+
 
 > **Note**: ORFmine must be installed locally even if you plan to use the Docker image to simplify its usage.
 
-#### 1. Install via GitHub Releases
+### Using an Isolated Python Environment (Recommended)
 
-Download the latest release from [GitHub](https://github.com/i2bc/ORFmine/releases/latest):
+Setting up an isolated Python environment (python >= 3.9) prevents library version conflicts. Here’s how to create and use one with `virtualenv`:
 
-```bash
-python3.9 -m pip install ORFmine-vx.x.x.zip
+1. **Install virtualenv**:  
+
+```
+    python3.9 -m pip install --upgrade pip
+    python3.9 -m pip install virtualenv
 ```
 
-#### 2. Install from the GitHub Repository
+2. **Create and activate an isolated environment**:  
 
-Install directly from the repository:
-
-```bash
-python3.9 -m pip install -e git+https://github.com/i2bc/ORFmine.git@v3.0.0#egg=orfmine
+```
+    virtualenv orfmine_env
+    source orfmine_env/bin/activate
 ```
 
-#### 3. Local Installation (for source code modification)
+   To deactivate the environment:
+```
+   deactivate
+```
 
-Clone the repository and install locally:
+Alternatively, ORFmine provides a Docker image for a fully configured environment.
 
-```bash
-git clone https://github.com/i2bc/ORFmine.git
-cd ORFmine
-python3.9 -m pip install -e .
+---
+
+## Installation Options
+
+ORFmine can be installed in several ways. Choose the option that best suits your needs: 
+It will install the last version of orfmine 
+
+### Option 1 : From Pypi (Recommanded): 
+
+```
+    pip install orfmine 
+```
+
+
+### Option 2: From a Local Repository
+
+1. Clone the ORFmine repository:  
+
+```
+    git clone https://github.com/i2bc/ORFmine.git
+```
+2. Navigate to the cloned directory:  
+
+```
+    cd ORFmine
+```
+
+3. Install ORFmine in editable mode:  
+
+```
+    python3 -m pip install --upgrade pip
+    python3 -m pip install -e .
 ```
 
 ---
 
-## Containerized Usage (Docker or Singularity)
+**Note:** If you need to use ORFold, you must install the following tool:
 
-To simplify setup, ORFmine is fully compatible with containerized environments.
-
-- **Docker**:
-
-```bash
-$package_name $args --docker
+```
+   pip install git+https://github.com/T-B-F/pyHCA.git
 ```
 
-- **Singularity**:
+## Docker and Singularity Usage
 
-```bash
-$package_name $args --singularity
+For containerized environments, ORFmine supports Docker and Singularity.
+For Docker, make sure you have root permissions. 
+During the first execution of the tool's modules, it will take a bit more time to retrieve and configure the Docker/Singularity image.
+
+- **Docker**:  
+
+```
+    $package_name $args --docker
+```
+
+- **Singularity**:  
+
+```
+    $package_name $args --singularity
+```
+
+
+## Conda Usage (Not Recommanded)
+
+If you are not familiar with Docker or Singularity, you can create a Conda environment.
+
+1. Clone the ORFmine repository:  
+
+```
+    git clone https://github.com/i2bc/ORFmine.git
+```
+2. Navigate to the cloned directory:  
+
+```
+    cd ORFmine
+```
+
+3. Install ORFmine in editable mode:  
+
+```
+    python3 -m pip install --upgrade pip
+    python3 -m pip install -e .
+```
+4. Create Conda environement from yml file: 
+
+```
+conda env create -f ORFmine_env.yml
+```
+
+5. Activate the environment:  
+
+```
+conda activate ORFmine_env
 ```
 
 ---
