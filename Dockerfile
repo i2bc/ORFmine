@@ -118,9 +118,15 @@ RUN mkdir /input /output && \
     chmod 777 /input /output && \
     chown -R orfuser:orfuser /input /output && \
     chmod -R 777 /output
+<<<<<<< HEAD
+
+=======
+>>>>>>> 0896d80d8b5db67306de2d2ebabee880be0d1347
 
 
+<<<<<<< HEAD
+
+
+=======
 WORKDIR /input
-
-
-
+>>>>>>> 0896d80d8b5db67306de2d2ebabee880be0d1347
