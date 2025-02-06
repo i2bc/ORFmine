@@ -15,7 +15,7 @@ ORFmine is ORF-centered (i.e. ORFs defined from STOP-to-STOP), thus the ORFtrack
 If for example, for the dataset_XYZ for which the retained kmers were the 27mers, 28mers and 31mers, the user can pool all the count tables based on the mapping of the 27-, 28- and 31mers as follows:
 
 ``` python
-python3 /ORFmine/orfribo/RiboDoc_BAM2Reads/tools/Bam2Reads_function/concatenate.py -tables /workdir/orfribo/RESULTS/ORFribo/Bam2Reads_exome_output/dataset_XYZ_27/exome.25-35_reads.tab  /workdir/orfribo/RESULTS/ORFribo/Bam2Reads_exome_output/dataset_XYZ_28/exome.25-35_reads.tab  /workdir/orfribo/RESULTS/ORFribo/Bam2Reads_exome_output/dataset_XYZ_31/exome.25-35_reads.tab -outpath /workdir/orfribo/ -outname CDS_translation_XYZ.tab
+concatenate.py -tables /workdir/orfribo/RESULTS/ORFribo/Bam2Reads_exome_output/dataset_XYZ_27/exome.25-35_reads.tab  /workdir/orfribo/RESULTS/ORFribo/Bam2Reads_exome_output/dataset_XYZ_28/exome.25-35_reads.tab  /workdir/orfribo/RESULTS/ORFribo/Bam2Reads_exome_output/dataset_XYZ_31/exome.25-35_reads.tab -outpath /workdir/orfribo/ -outname CDS_translation_XYZ.tab
 ```
 
 The resulting table contains for each CDS, the numbers and frequencies of reads in its F0, F1 anf F2 frames.

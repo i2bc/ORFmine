@@ -34,7 +34,7 @@ Alternatively, ORFmine provides a Docker image for a fully configured environmen
 ## Installation Options
 
 ORFmine can be installed in several ways. Choose the option that best suits your needs: 
-It will install the last version of orfmine (3.0.2)
+It will install the last version of orfmine 
 
 ### Option 1 : From Pypi (Recommanded): 
 
