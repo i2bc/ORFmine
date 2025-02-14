@@ -6,7 +6,7 @@ Before installing ORFmine, it is strongly recommended to set up an isolated Pyth
 
 ### Using an Isolated Python Environment (Recommended)
 
-Setting up an isolated Python environment (python >= 3.9) prevents library version conflicts. Here’s how to create and use one with `virtualenv`:
+Setting up an isolated Python environment (python3.9 or python3.10) prevents library version conflicts. Here’s how to create and use one with `virtualenv`
 
 1. **Install virtualenv**:  
 
@@ -26,6 +26,21 @@ Setting up an isolated Python environment (python >= 3.9) prevents library versi
 ```
    deactivate
 ```
+
+N.B. : If you do not have permission to install Python 3.9 or Python 3.10 on your machine and you have Conda, you can create a Conda environment containing Python 3.9.
+
+
+```
+   conda create --name env_python3.9 python=3.9
+```
+
+   To activate the environement: 
+   
+
+```
+   conda activate env_python3.9 
+```
+
 
 Alternatively, ORFmine provides a Docker image for a fully configured environment.
 
@@ -76,6 +91,7 @@ It will install the last version of orfmine
 For containerized environments, ORFmine supports Docker and Singularity.
 For Docker, make sure you have root permissions. 
 During the first execution of the tool's modules, it will take a bit more time to retrieve and configure the Docker/Singularity image.
+
 
 - **Docker**:  
 

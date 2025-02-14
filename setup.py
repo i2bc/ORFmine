@@ -46,6 +46,7 @@ PACKAGES = [
     'orfmine.orfold.lib',
     'orfmine.orfold.scripts',
     'orfmine.orfdate',
+    'orfmine.orfdate.lib',
     'orfmine.orfribo',
     'orfmine.orfribo.lib',
     'orfmine.orfribo.scripts',
@@ -55,9 +56,10 @@ PACKAGES = [
 
 st.setup(
     name='orfmine',
-    version='3.0.4',
+    version='3.0.10',
     python_requires=">={}".format(MIN_PY_VER),
     packages=PACKAGES,
+    package_data={"orfmine.orfold": ["data/*.tab"],},
     include_package_data=True,
     install_requires=REQUIRES,
     entry_points={

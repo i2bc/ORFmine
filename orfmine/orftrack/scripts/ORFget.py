@@ -49,21 +49,21 @@ def get_args():
                         required=False, 
                         nargs="*",
                         default = ['all'],
-                        help="Annotation features to be considered (By definition is all)")
+                        help="Annotation features to be considered (By default is all)")
     parser.add_argument("--features_exclude",
                         type=str,
                         action='store',
                         required=False, 
                         nargs="*",
                         default = ["None"],
-                        help="Annotation features not to be considered (By definition is None)")
+                        help="Annotation features not to be considered (By default is None)")
     parser.add_argument("--chr_exclude",
                         type=str,
                         action='store',
                         required=False, 
                         nargs="?",
                         default = [],
-                        help="Chromosomes to be excluded (By definition is None)")
+                        help="Chromosomes to be excluded (By default is None)")
     parser.add_argument("--N",
                         type=int,
                         #action='store',
