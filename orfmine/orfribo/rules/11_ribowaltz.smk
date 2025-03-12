@@ -2,7 +2,8 @@
 rule riboWaltz_Exome:
     input:
         Exome_gtf = str(DATA_PROCESSING_PATH / "Exome" / ("Exome_elongated.exons_" +  Path(str(GFF_PATH)).stem + ".gtf")),
-        config= pkg_resources.resource_filename("orfribo", "config.yaml"),
+        #config= pkg_resources.resource_filename("orfribo", "config.yaml"),
+        #config=config.get("config", ""),
         bam_folder = str(RESULTS_PATH / "BAM" / "Exome" / "{sample}" / "{sample}.bam.bai")
     output:
         psite_table = str(DATA_PROCESSING_PATH / "RiboWaltz" / "{sample}" / "psite_offset.csv")
@@ -18,7 +19,7 @@ rule riboWaltz_Exome:
         max_length = MAX_READ_LENGTH
     shell:
         "touch {output.psite_table} ; "
-        "Rscript {periodicity_riboWaltz_exome} {input.config} {input.Exome_gtf} {params.bam_folder} {params.min_length} {params.max_length}  {params.ribo} ; "
+        "Rscript {periodicity_riboWaltz_exome} {input.Exome_gtf} {params.bam_folder} {params.min_length} {params.max_length}  {params.ribo} ; "
         "rm -f {OUT_BASE_PATH}/Rplots.pdf ; "
         "mkdir -p {params.psite_dir} ; "
         "cp {output.psite_table} {params.psite}"

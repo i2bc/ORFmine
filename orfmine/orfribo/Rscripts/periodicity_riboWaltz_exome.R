@@ -240,25 +240,25 @@ result = tryCatch({
   
   args <- commandArgs(trailingOnly=TRUE)
   
-  config <- args[1]
-  gtf_file <- args[2]
-  bam_folder <- args[3]
-  min_size <- args[4]
-  max_size <- args[5]
-  outdir <- args[6]
+#  config <- args[1]
+  gtf_file <- args[1]
+  bam_folder <- args[2]
+  min_size <- as.numeric(args[3])
+  max_size <- as.numeric(args[4])
+  outdir <- args[5]
   dir.create(file.path(outdir), showWarnings=F, recursive=TRUE)
   
   # Read config file
-  lines <- readLines(config)
-  params <- list()
-  for (line in lines) {
-    parts <- strsplit(line, ":")[[1]]
-    if (length(parts) == 2) {
-      key <- trimws(parts[1])
-      value <- trimws(parts[2])
-      params[[key]] <- value
-    }
-  }
+  #lines <- readLines(config)
+  #params <- list()
+  #for (line in lines) {
+  #  parts <- strsplit(line, ":")[[1]]
+  #  if (length(parts) == 2) {
+  #    key <- trimws(parts[1])
+  #    value <- trimws(parts[2])
+  #    params[[key]] <- value
+  #  }
+  #}
 
   # Creates annotation table by transcript names
   annotation_db <- riboWaltz::create_annotation(gtf_file)

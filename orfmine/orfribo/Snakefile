@@ -10,7 +10,31 @@ import time
 from orfmine.orfribo import __version__
 
 # set default config file (key:value pairs can be overriden with '--config key=value' in snakemake command)
-configfile: pkg_resources.resource_filename("orfribo", "config.yaml")
+#configfile: pkg_resources.resource_filename("orfribo", "config.yaml")
+
+# Check if `--config` is provided
+config_path = None
+if "--config" in sys.argv:
+    index = sys.argv.index("--config") + 1
+    if index < len(sys.argv):  # Ensure a file path was provided
+        config_path = os.path.abspath(sys.argv[index])
+
+# Otherwise, use `config.yaml` from orfribo if it exists
+if not config_path or not os.path.exists(config_path):
+    default_config = pkg_resources.resource_filename("orfribo", "config.yaml")
+    if os.path.exists(default_config):
+        print(f"Using default package config: {default_config}")
+        config_path = default_config
+    else:
+        print("Warning: No config file found. Running with command-line arguments only.")
+        config_path = None  # Allows Snakemake to run without a config file
+
+# Assign `configfile:` only if a config file is found
+if config_path:
+    configfile: config_path
+
+
+
 
 # get location of Rscript files
 RSCRIPTS_PATH = pkg_resources.resource_filename("orfribo", 'Rscripts')

@@ -18,12 +18,10 @@ echo "Maximum CPU used for the analysis : "$((${cpu_use}*2));
 
 used_memory="--resources mem_mb=${available_memory_mb}"
 
-# Supprimez la ligne suivante pour éviter la création d'un nouveau dossier
-# mkdir /workdir/orfribo/;
-
-# Modifiez les appels à Snakemake pour spécifier le répertoire de travail existant
+mkdir /workdir/orfribo/;
+# conda list;
 snakemake -s /ORFmine/orfribo/RiboDoc_BAM2Reads/Snakefile -j --dag -np --directory /workdir/orfribo/ --nolock | dot -Tsvg > /workdir/orfribo/dag_last-run.svg;
-#snakemake -s /ORFmine/orfribo/RiboDoc_BAM2Reads/Snakefile -j --dag -np --forceall --directory /workdir/orfribo/ --nolock | dot -Tsvg > /workdir/orfribo/dag_all.svg;
+snakemake -s /ORFmine/orfribo/RiboDoc_BAM2Reads/Snakefile -j --dag -np --forceall --directory /workdir/orfribo/ --nolock | dot -Tsvg > /workdir/orfribo/dag_all.svg;
 snakemake -s /ORFmine/orfribo/RiboDoc_BAM2Reads/Snakefile -j ${cpu_use} ${used_memory} --directory /workdir/orfribo/ -k --nolock;
 
 """
@@ -36,13 +34,12 @@ import time
 
 from orfmine import DOCKER_IMAGE
 from orfmine.utilities.container import ContainerCLI
-from orfmine.orfribo.lib import argparser
-
+from orfmine.orfribo.lib import argparser 
 
 def generate_dag_svg(snakefile, output_svg_path):
     import subprocess
 
-    cmd = (f"snakemake -s {snakefile} -j 5  --dag -np --forceall --nolock | dot -Tsvg > {output_svg_path}")
+    cmd = (f"snakemake -s {snakefile} -j --dag -np --forceall --nolock | dot -Tsvg > {output_svg_path}")
     try:
         subprocess.run(cmd, shell=True, check=True)
     except subprocess.CalledProcessError as e:
@@ -52,26 +49,25 @@ def generate_dag_svg(snakefile, output_svg_path):
 
 
 def set_outdir(config: dict, args: Namespace):
-    """Set root directory of orfribo results if not already set.
+    """Set root directory of orfribo results; it must be created here for container usage
 
     Args:
         config (dict): preset config dictionary
         args (Namespace): argparse.Namespace instance
     """
-    # Si le répertoire de sortie est déjà défini, ne rien faire
-    if config.get("out"):
-        return
+    # if outdir already defined, do nothing
+    if Path(config["out"]).stem:
+        return 
 
-    # Générer un nom de répertoire de sortie
+    # else generate an oudtir name
     suffix_date = time.strftime("%Y%m%d-%H%M%S") 
     outdir = f"orfribo_{suffix_date}"
     config["out"] = outdir
 
-    # Définir la valeur de args.out comme le nom du répertoire généré
+    # set args.out value as the generated outdir name
     args.out = outdir
-
-    # Créer le répertoire s'il n'existe pas déjà
     Path(outdir).mkdir(parents=True, exist_ok=True)
+
 
 def start_orfribo(args: Namespace, config: dict):
     # get the orfribo snakefile 
@@ -94,14 +90,13 @@ def start_orfribo(args: Namespace, config: dict):
         force_incomplete=True,
         cores=args.cores,
         debug=args.debug,
-        keepgoing=True,
         # omit_from="find_adapter_sequence"
     )
 
 
 def run_orfribo_containerized(args: Namespace):
     # load config file
-    config = argparser.load_config(args=args)
+    #config = argparser.load_config(args=args)
 
     # list of flags related to input files
     input_args = ["--fna", "--gff", "--gff-intergenic", "--fastq"]
@@ -142,10 +137,15 @@ def run_orfribo_locally(args: Namespace):
     # load config file. Config sequence setting: default config.yaml -> optional given config file -> provided arguments
     config = argparser.load_config(args=args)
     # exit()
+    #args = get_args()
 
     # set root directory of orfribo results
     set_outdir(config=config, args=args)
-    args.cores = 8
+
+    # if not exist, create empty file of ribosomic RNAs to exclude
+    #if not Path(config["rna_to_exclude"]).exists():
+    #    with open(Path(config["rna_to_exclude"]), "x") as _f:
+    #        pass
 
     # print config
     print(json.dumps(config, indent=2))
@@ -157,7 +157,6 @@ def run_orfribo_locally(args: Namespace):
 
 def main():
     args = argparser.get_args()
-
     if args.docker or args.singularity:
         run_orfribo_containerized(args=args)
     else:

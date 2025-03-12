@@ -3,10 +3,10 @@ import pkg_resources
 import sys
 from typing import List
 from yaml import safe_load as yaml_safe_load
-
+import os
 from orfmine.utilities.container import add_container_args
 
-
+""""""
 def get_args() -> argparse.Namespace:
     """Return command line parameters
 
@@ -17,11 +17,60 @@ def get_args() -> argparse.Namespace:
     args = parser.parse_args()
 
     if args.config:
-        args.config = { x.split("=")[0]:x.split("=")[1] for x in args.config }
-
-    args.ram = args.ram * 1000
+        config_path = os.path.abspath(args.config)  # Convert relative paths to absolute
+        if not os.path.exists(config_path):
+            print(f"Error: Config file '{config_path}' not found!")
+            exit(1)
     
+        with open(config_path, "r") as f:
+            yaml_config = yaml_safe_load(f)
+    
+    # Inject YAML values into args only if not already provided via CLI
+        for key, value in yaml_config.items():
+            if not hasattr(args, key) or getattr(args, key) in [None, "", []]:  
+               setattr(args, key, value)
+""""""
+
+def get_args() -> argparse.Namespace:
+    """Return command line parameters.
+
+    Returns:
+        argparse.Namespace: command line parameters
+    """
+    parser = get_parser()
+    args = parser.parse_args()
+
+    # Vérifier si --config est fourni
+    if args.config:
+        config_path = os.path.abspath(args.config)  # Convertit le chemin en absolu
+
+        # Vérifie si le fichier existe et affiche une erreur claire si ce n'est pas le cas
+        if not os.path.isfile(config_path):
+            print(f"Error: Config file '{config_path}' not found! Make sure the path is correct.")
+            sys.exit(1)
+
+        # Charger la configuration depuis config.yaml
+        with open(config_path, "r") as f:
+            yaml_config = yaml_safe_load(f)
+
+        # Injecter les valeurs du fichier YAML dans args, sans écraser les valeurs CLI
+        for key, value in yaml_config.items():
+            if not hasattr(args, key) or getattr(args, key) in [None, "", []]:
+                setattr(args, key, value)
+
+    # Vérifier si les arguments obligatoires sont fournis si --config est absent
+    else:
+        required_args = ["fna", "gff", "gff_intergenic", "fastq"]
+        missing_args = [arg for arg in required_args if not getattr(args, arg)]
+        
+        if missing_args:
+            print(f"Error: Missing required arguments: {', '.join(missing_args)}")
+            print("You must either provide these arguments manually or use --config config.yaml.")
+            sys.exit(1)
+
     return args
+
+
 
 
 def get_parser():
@@ -55,7 +104,7 @@ def get_parser():
     parser.add_argument("--debug", action="store_true", default=False, help="Allow to debug rules with e.g. PDB. This flag allows to set breakpoints in run blocks.")
 
 
-    trim_group = parser.add_mutually_exclusive_group(required=True)
+    trim_group = parser.add_mutually_exclusive_group(required=False)
     trim_group.add_argument("--trimmed", action='store_true', help="Flag indicating that the sequence adapters are already removed.")
     trim_group.add_argument("--not-trimmed", action='store_true', help="Flag indicating that the sequence adapters are not removed.")
 
@@ -63,37 +112,6 @@ def get_parser():
 
     return parser
 
-
-
-DEFAULT_CONFIG = {
-    "fna": "",
-    "gff": "",
-    "gff_intergenic": "",
-    "fastq": "",
-    "project_name": "",
-    "out": ".",
-    "aligner": "hisat2",
-    "rna_to_exclude": "",
-    "adapter": "",
-    "min_read_length": 25,
-    "max_read_length": 35,
-    "gff_feature": "CDS",
-    "gff_attribute": "Name",
-    "mean_threshold": 70.0,
-    "median_threshold": 70.0,
-    "intergenic_features": ["nc_intergenic"],
-    "multi_alignement": 10,
-    "introns_length": 3000,
-    "ram": 2000,
-    "cores": 4,
-    "threads": 8,
-    "jobs": 4,
-    "preview": False,
-    "dag": False,
-    "forceall": False,
-    "debug": False,
-    "trimmed": None,  # Will be updated based on --trimmed and --not-trimmed
-}
 
 
 def get_provided_args(parser: argparse.ArgumentParser, args: argparse.Namespace, ignore_args: List=[]):
@@ -205,11 +223,29 @@ def load_config(args: argparse.Namespace):
     required_args = ["--fna", "--gff", "--gff-intergenic", "--fastq"]
     mutually_exclusive_args = [("--trimmed", "--not-trimmed")]
 
+    # get provided arguments into a dictionary
     provided_args = get_provided_args(parser=get_parser(), args=args)
-    check_provided_args(provided_args=provided_args, required_args=required_args, mutually_exclusive=mutually_exclusive_args)
 
-    config = DEFAULT_CONFIG.copy()
+    # check that provided arguments contains mandatories one
+    #check_provided_args(provided_args=provided_args, required_args=required_args, mutually_exclusive=mutually_exclusive_args)
+    if not provided_args and not args.config:
+         check_provided_args(provided_args=provided_args, required_args=required_args, mutually_exclusive=mutually_exclusive_args)
+
+    # load default yaml config file
+    #config = get_default_config()
+    config = {}    
+
+
+    # update default config with config file, if given
+    if args.config:
+        update_config_from_file(default_config=config, configfile=args.config)
+
+    # update default config with given command line args
     config = update_config_from_args(provided_args=provided_args, config=config)
-    validate_required_args(config, required_args + ["--trimmed"])
+
+    # check that mandatory arguments are given and valid
+    #validate_required_args(config, required_args+["--trimmed"])
+    if "trimmed" not in config and not args.config:  
+         validate_required_args(config, required_args + ["--trimmed"])
 
     return config
