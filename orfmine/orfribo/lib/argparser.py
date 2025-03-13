@@ -6,30 +6,12 @@ from yaml import safe_load as yaml_safe_load
 import os
 from orfmine.utilities.container import add_container_args
 
-""""""
-def get_args() -> argparse.Namespace:
-    """Return command line parameters
 
-    Returns:
-        argparse.Namespace: command line parameters
-    """
-    parser = get_parser()
-    args = parser.parse_args()
 
-    if args.config:
-        config_path = os.path.abspath(args.config)  # Convert relative paths to absolute
-        if not os.path.exists(config_path):
-            print(f"Error: Config file '{config_path}' not found!")
-            exit(1)
-    
-        with open(config_path, "r") as f:
-            yaml_config = yaml_safe_load(f)
-    
-    # Inject YAML values into args only if not already provided via CLI
-        for key, value in yaml_config.items():
-            if not hasattr(args, key) or getattr(args, key) in [None, "", []]:  
-               setattr(args, key, value)
-""""""
+
+
+
+
 
 def get_args() -> argparse.Namespace:
     """Return command line parameters.
@@ -40,11 +22,11 @@ def get_args() -> argparse.Namespace:
     parser = get_parser()
     args = parser.parse_args()
 
-    # Vérifier si --config est fourni
-    if args.config:
-        config_path = os.path.abspath(args.config)  # Convertit le chemin en absolu
 
-        # Vérifie si le fichier existe et affiche une erreur claire si ce n'est pas le cas
+    if args.config:
+        config_path = os.path.abspath(args.config)  
+
+        
         if not os.path.isfile(config_path):
             print(f"Error: Config file '{config_path}' not found! Make sure the path is correct.")
             sys.exit(1)
