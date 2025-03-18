@@ -153,7 +153,7 @@ all_targets = [
     expand(str(DATA_PROCESSING_PATH / "Bam2Reads_Exome" / "{sample}" / "{sample}_{length}" / ("Exome_{length}_reads.stats")), sample=SAMPLES, length=LENGTHS),
     expand(str(DATA_PROCESSING_PATH / "Selected_length" / "{sample}" / "Selected_length.txt"), sample=SAMPLES),
     str(RESULTS_PATH / "Genome" / f"all_samples_Genome{FRAG_LENGTH_L}.mean{ORFSTATS_THRESHOLD_MEAN}_median{ORFSTATS_THRESHOLD_MEDIAN}_reads_concatenated.tab"),
-    str(RESULTS_PATH / "report_analysis.txt")
+    str(RESULTS_PATH / (PROJECT_NAME + "_report_analysis.txt"))
 ]
 
 

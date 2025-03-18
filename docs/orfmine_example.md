@@ -127,10 +127,12 @@ In addition to the score table, ORFold has generated a new gff file containing f
 ORFplot enables the visualization of the distribution of the fold
 potential of the amino acid sequences potentially encoded in noncoding ORFs along with the one of a reference dataset
 of globular proteins taken from Mészáros et al. [2]. It takes as input the table generatd by ORFold that must be located in the /workdir/orfold/ directory of the container.
+When running orfplot inside a Singularity container, you must set the QT_QPA_PLATFORM=offscreen environment variable to avoid Qt-related errors, while this step is not required when using Docker.
 
 ```bash
-orfplot --tab workdir/orfold/mapping_orf_Scer_nc.tab --labels  "Yeast noncoding ORFs" --singularity
+ QT_QPA_PLATFORM=offscreen orfplot --tab workdir/orfold/mapping_orf_Scer_nc.tab --labels  "Yeast noncoding ORFs" --singularity
 ```
+ 
 
 The output graphic is generated in output directory (see
 [here](./Plot_orfold.md) for other examples of use of ORFplot). Each

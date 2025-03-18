@@ -1,5 +1,5 @@
 # Name for the experiment (optional)
-project_name: ""
+project_name: "project"
 
 # Path to the genome/transcriptome fasta file to align on (required)
 fna: ""

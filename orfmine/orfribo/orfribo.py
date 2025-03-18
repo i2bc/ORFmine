@@ -96,7 +96,7 @@ def start_orfribo(args: Namespace, config: dict):
 
 def run_orfribo_containerized(args: Namespace):
     # load config file
-    #config = argparser.load_config(args=args)
+    config = argparser.load_config(args=args)
 
     # list of flags related to input files
     input_args = ["--fna", "--gff", "--gff-intergenic", "--fastq"]
