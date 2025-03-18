@@ -2,22 +2,22 @@
 project_name: ""
 
 # Path to the genome/transcriptome fasta file to align on (required)
-fna: "/data/work/I2BC/fadwa.elkhaddar/BIM/orfmine_tutorial/ORFmine/examples/database/Scer.fna"
+fna: ""
 
 # Path to the reference annotation file  (required)
-gff: "/data/work/I2BC/fadwa.elkhaddar/BIM/orfmine_tutorial/ORFmine/examples/database/Scer.gff"
+gff: ""
 
 # Path to the GFF annotation mapping file from orftrack (required)
-gff_intergenic: "/data/work/I2BC/fadwa.elkhaddar/BIM/orfmine_tutorial/ORFmine/examples/database/mapping_orf_Scer.gff"
+gff_intergenic: ""
 
 # Fasta file with sequences you don't want to consider. (optional)
-rna_to_exclude: "/data/work/I2BC/fadwa.elkhaddar/BIM/orfmine_tutorial/ORFmine/examples/database/Scer_rRNA.fa"
+rna_to_exclude: ""
 
 # Path of the directory containing your .fastq.gz file(s) (required)
-fastq: "/data/work/I2BC/fadwa.elkhaddar/BIM/fastq/"
+fastq: ""
 
 # set base directory location for orfribo outputs (optional - default='./orfribo_%datetime')
-out: "test2"
+out: ""
 
 # Are the sequencing adapters already removed in fastq files ? True or False
 trimmed: "0" 
@@ -59,4 +59,4 @@ aligner: "hisat2"
 
 
 # Introns length : If you want to disable this parameter, comment it (default : 3000 according to Scer.gff) 
-introns_length : 
+introns_length : 3000 

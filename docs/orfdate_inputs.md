@@ -8,4 +8,3 @@ ORFdate takes as input files:
 * the fasta files containing all the amino acid sequences of the focal and its neighboring species.
 
 
-All these files must be stored directly or in a subdirectory of the /database/ directory of the container (see [here](./orfmine_quickstart.md#prepare-your-folders) for more details on the preparation of the folders of the container).

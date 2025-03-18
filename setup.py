@@ -56,10 +56,14 @@ PACKAGES = [
 
 st.setup(
     name='orfmine',
-    version='3.0.10',
+    version='3.0.11',
     python_requires=">={}".format(MIN_PY_VER),
     packages=PACKAGES,
-    package_data={"orfmine.orfold": ["data/*.tab"],},
+    package_data={
+        "orfmine.orfribo": ["config.yaml", "Snakefile", "Rscripts/*"],
+        "orfmine.orfold": ["data/*.tab"],
+        "orfmine.utilities": ["data/*"],
+    },
     include_package_data=True,
     install_requires=REQUIRES,
     entry_points={

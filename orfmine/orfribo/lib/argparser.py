@@ -9,10 +9,6 @@ from orfmine.utilities.container import add_container_args
 
 
 
-
-
-
-
 def get_args() -> argparse.Namespace:
     """Return command line parameters.
 
@@ -59,26 +55,26 @@ def get_parser():
     parser = argparse.ArgumentParser(description='Run ORFribo pipeline.')
 
     parser.add_argument("-c", "--config", help="Path to a YAML configuration file for ORFribo.")
-    parser.add_argument("--fna", help="Path to the genome/transcriptome fasta file")
-    parser.add_argument("--gff", help="Path to the GFF annotation file")
-    parser.add_argument("--gff-intergenic", help="Path to the GFF annotation mapping file")
-    parser.add_argument("--fastq", help="Path to the directory containing .fastq.gz files")
-    parser.add_argument("--project-name", help="Name for the experiment", default="")
-    parser.add_argument("--out", type=str, help="Base directory location for orfribo outputs", default=".")
-    parser.add_argument("--aligner", type=str, help="Choose your alignement tool : star or hisat2", default="hisat2")
-    parser.add_argument("--rna-to-exclude", "-X", help="Path to a fasta file with nucleotide sequences to exclude", default="")
-    parser.add_argument("--adapter", help="Adapter sequence (e.g. 'AGATCGGAAGAGCACACGTCT')", type=str, default="")
-    parser.add_argument("--min-read-length", help="Minimum read length for ribosome profiling", type=int, default=25)
-    parser.add_argument("--max-read-length", help="Maximum read length for ribosome profiling", type=int, default=35)
-    parser.add_argument("--gff-feature", help="Feature element to select during counting", default="CDS")
-    parser.add_argument("--mean-threshold", help="Minimum mean of in-frame reads", type=float, default=70)
-    parser.add_argument("--median-threshold", help="Minimum median of in-frame reads", type=float, default=70)
-    parser.add_argument("--intergenic-features", help="List of features in the intergenic GFF", nargs="*", default=["nc_intergenic"])
+    parser.add_argument("--fna", help="Path to the genome/transcriptome fasta file (Required)")
+    parser.add_argument("--gff", help="Path to the GFF annotation file (Required)")
+    parser.add_argument("--gff-intergenic", help="Path to the GFF annotation mapping file (Required)")
+    parser.add_argument("--fastq", help="Path to the directory containing .fastq.gz files (Required)")
+    parser.add_argument("--project-name", help="Name for the experiment (Required)", default="")
+    parser.add_argument("--out", type=str, help="Base directory location for orfribo outputs. Default : './orfribo_datetime'", default=".")
+    parser.add_argument("--aligner", type=str, help="Choose your alignement tool : star or hisat2. Default : hisat2", default="hisat2")
+    parser.add_argument("--rna-to-exclude", "-X", help="Path to a fasta file with nucleotide sequences to exclude (Optionnal)", default="")
+    parser.add_argument("--adapter", help="Adapter sequence (e.g. 'AGATCGGAAGAGCACACGTCT'), if unkown, RiboDoc will try to find it for you", type=str, default="")
+    parser.add_argument("--min-read-length", help="Minimum read length for ribosome profiling. Default : 25", type=int, default=25)
+    parser.add_argument("--max-read-length", help="Maximum read length for ribosome profiling. Default : 35", type=int, default=35)
+    parser.add_argument("--gff-feature", help="Feature element to select during counting. Default : CDS", default="CDS")
+    parser.add_argument("--mean-threshold", help="Minimum mean of in-frame reads. Default : '' ", type=float, default=70)
+    parser.add_argument("--median-threshold", help="Minimum median of in-frame reads. Default: 70", type=float, default=70)
+    parser.add_argument("--intergenic-features", help="List of features in the intergenic GFF. Default : ['nc_intergenic']", nargs="*", default=["nc_intergenic"])
     parser.add_argument("--multi_alignement", type=int, help="The maximum number of allowed multiple alignments for each read", default=10)
-    parser.add_argument("--introns_length", type=int, help = "Intron length, applicable only when using STAR as the aligner")
-    parser.add_argument("--ram", help="Maximum allowed RAM to use (Mb). Defaults to 2000).", type=int, default=2000)
-    parser.add_argument("--cores", help="Number of provided cores. Defaults to 1.", type=int, default=1)
-    parser.add_argument("--threads", help="Maximum number of threads to use", type=int, default=3)
+    parser.add_argument("--introns_length", type=int, help = "Intron length, applicable only when using STAR as the aligner. Default : 3000")
+    parser.add_argument("--ram", help="Maximum allowed RAM to use (Mb). Defaults: 2000.", type=int, default=2000)
+    parser.add_argument("--cores", help="Number of provided cores. Defaults to 3.", type=int, default=1)
+    parser.add_argument("--threads", help="Maximum number of threads to use. Default : 3", type=int, default=3)
     parser.add_argument("-j", "--jobs", type=int, default=1, help="Use at most N CPU cluster/cloud jobs in parallel. For local execution this is an alias for --cores. (default: 1)")
     parser.add_argument("-P", "--preview", action='store_true', default=False, help="Only dry-run the workflow (default False)")
     parser.add_argument('--dag', action='store_true', default=False, help='Generate a DAG image of the worfklow ("dag.svg")')
@@ -231,3 +227,4 @@ def load_config(args: argparse.Namespace):
          validate_required_args(config, required_args + ["--trimmed"])
 
     return config
+

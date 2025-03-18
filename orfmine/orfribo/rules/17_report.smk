@@ -7,13 +7,13 @@ if MAPPING_TOOL == "hisat2":
               log_exome_hisat2= expand(str(LOGS_PATH / "Mapping" / "Exome" / "Hisat2" / "{sample}_hisat2_mapping.log"), sample=SAMPLES),
               log_genome_hisat2 = expand(str(LOGS_PATH / "Mapping" / "Genome" / "Hisat2" / "{sample}_hisat2_mapping.log"), sample=SAMPLES),
               log_genome_bowtie2 = expand(str(LOGS_PATH / "Mapping" / "Genome" / "Bowtie2" / "{sample}_bowtie2_mapping.log"), sample=SAMPLES),
-
+              
         params :
               log_filtred_unwanted_seq = expand(str(LOGS_PATH /  "Mapping" / "Mapping_Unwanted_Sequence_And_Filtering" / "{sample}_Mapping_Unwanted_Sequence_And_Filtering.log"), sample=SAMPLES),
-              exclude = RNA_TO_EXCLUDE_PATH        
-
+              exclude = RNA_TO_EXCLUDE_PATH,        
+              project_name = PROJECT_NAME
         output:
-            str(RESULTS_PATH / "report_analysis.txt")
+            str(RESULTS_PATH / f"{params.project_name}_report_analysis.txt")
         shell:
             """
             if [ -f "{params.exclude}" ]; then
@@ -36,10 +36,10 @@ if MAPPING_TOOL == "star":
               log_genome_bowtie2 = expand(str(LOGS_PATH / "Mapping" / "Genome" / "Star"/ "Results" / "{sample}" /"Genome_{sample}_bowtie2_star_mapping.txt"), sample=SAMPLES)
         params :
               log_filtred_unwanted_seq = expand(str(LOGS_PATH /  "Mapping" / "Mapping_Unwanted_Sequence_And_Filtering" / "{sample}_Mapping_Unwanted_Sequence_And_Filtering.log"), sample=SAMPLES),
-              exclude = RNA_TO_EXCLUDE_PATH        
-
+              exclude = RNA_TO_EXCLUDE_PATH,
+              project_name = PROJECT_NAME        
         output:
-            str(RESULTS_PATH / "report_analysis.txt")
+            str(RESULTS_PATH / f"{params.project_name}_report_analysis.txt")
         shell:
             """
             if [ -f "{params.exclude}" ]; then

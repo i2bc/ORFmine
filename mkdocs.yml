@@ -36,10 +36,12 @@ nav:
         - How it works: How_it_works_orfribo.md
       - Usage:
         - Inputs: orfribo_inputs.md
-        - Basic run ORFribo: Run_orfribo.md
-        - ORFribo Parameters: parameters_orfribo.md
+        - Run ORFribo: Run_orfribo.md
         - Advanced run ORFribo: run_orfribo_advanced.md
         - Outputs: orfribo_outputs.md
+      - Extra Utilities: 
+        - CDS Periodicity Plot: periodicity_plots.md
+        - Triangle Plot: triangle_plot.md
     - ORFdate:
       - ORFdate presentation:
         - Objectives: orfdate_objectives.md

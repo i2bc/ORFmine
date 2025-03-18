@@ -170,7 +170,7 @@ of the chromosomes of the yeast genome
 
 
 ### Preparing the config.yaml file
-ORFribo is very easy to handle and only needs a configuration file to be edited before running it or use the command line. The latter named *config.yaml* contains the parameters that can be adjusted by the user. The full description of this file is available [here](./orfribo_configuration.md). For this example, a pre-filled configuration file is present is the ORFmine/examples/workdir/ directory.
+ORFribo is very easy to handle and only needs a configuration file to be edited before running it or use the command line. The latter named *config.yaml* contains the parameters that can be adjusted by the user. The full description of this file is available [here](./Run_orfribo.md). For this example, a pre-filled configuration file is present is the ORFmine/examples/workdir/ directory.
 
 
 
@@ -190,7 +190,7 @@ Be careful to have enough memory on your computer/cluster using the parameter **
 ### Main outputs
 
 
-ORFribo generates many intermediate files that can be useful for further analysis. Their description is available [here](./orfribo_outputs.md). The main output is the table named all_samples_genome.mean70_median70_reads_concatenated.tab that summarizes the results for each ORF of interest (e.g. nb and fractions of F0, F1 and F2 reads). An example of this output table can be found in the examples.zip archive in the ORFmine/examples/workdir/orfribo/RESULTS/Bam2Reads_genome_output/ directory. A full description of the summary table can be found [here](./orfribo_outputs.md#main-outable-table).
+ORFribo generates many intermediate files that can be useful for further analysis. Their description is available [here](./orfribo_outputs.md). The main output is the table named all_samples_genome.mean70_median70_reads_concatenated.tab that summarizes the results for each ORF of interest (e.g. nb and fractions of F0, F1 and F2 reads). An example of this output table can be found in the examples.zip archive in the ORFmine/examples/workdir/orfribo/RESULTS/Bam2Reads_genome_output/ directory. A full description of the summary table can be found [here](./orfribo_outputs.md).
 
 
 

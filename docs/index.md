@@ -34,7 +34,7 @@ and characterizing the sequence and structural properties of
 all Open Reading Frames (ORFs) of a genome (including coding and
 noncoding sequences) along with their translation activity. ORFmine consists of several independent programs,
 [**ORFtrack**](#anchor-orftrack), [**ORFold**](#anchor-orfold), [**ORFribo**](#anchor-orfribo), and [**ORFdate**](#anchor-orfdate), that can be used together or independently
-(see [here](./orfmine_quickstart.md) for an example of
+(see [here](./orfmine_example.md) for an example of
 application).
 
 <div id="img-orfmine" style="text-align:center;">
