@@ -8,7 +8,7 @@
     <title>ORFtrack parameters - ORFmine Documentation</title>
     <link rel="stylesheet" href="css/theme.css" />
     <link rel="stylesheet" href="css/theme_extra.css" />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
         <link href="css/extra.css" rel="stylesheet" />
     
       <script>
@@ -18,12 +18,11 @@
         var mkdocs_page_url = null;
       </script>
     
-    <script src="js/jquery-3.6.0.min.js" defer></script>
     <!--[if lt IE 9]>
       <script src="js/html5shiv.min.js"></script>
     <![endif]-->
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
-      <script>hljs.initHighlightingOnLoad();</script> 
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
 </head>
 
 <body class="wy-body-for-nav" role="document">
@@ -35,7 +34,7 @@
           <a href="index.html" class="icon icon-home"> ORFmine Documentation
         </a><div role="search">
   <form id ="rtd-search-form" class="wy-form" action="./search.html" method="get">
-      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
   </form>
 </div>
       </div>
@@ -49,8 +48,6 @@
               <ul>
                   <li class="toctree-l1"><a class="reference internal" href="orfmine_installation.html">Installation</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="orfmine_quickstart.html">Quick start</a>
-                  </li>
                   <li class="toctree-l1"><a class="reference internal" href="orfmine_example.html">Running example</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="orfmine_citations.html">Citations</a>
@@ -58,7 +55,7 @@
               </ul>
               <p class="caption"><span class="caption-text">ORFtrack</span></p>
               <ul class="current">
-                  <li class="toctree-l1"><a class="reference internal" href="#">ORFtrack presentation</a>
+                  <li class="toctree-l1"><a class="reference internal" >ORFtrack presentation</a>
     <ul>
                 <li class="toctree-l2"><a class="reference internal" href="orftrack_description.html">Aims and general description</a>
                 </li>
@@ -72,7 +69,7 @@
                 </li>
     </ul>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="#">Usage</a>
+                  <li class="toctree-l1"><a class="reference internal" >Usage</a>
     <ul>
                 <li class="toctree-l2"><a class="reference internal" href="orftrack_input.html">Inputs</a>
                 </li>
@@ -82,10 +79,14 @@
                 </li>
     </ul>
                   </li>
-                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Parameters</a>
+                  <li class="toctree-l1 current"><a class="reference internal current" >Parameters</a>
     <ul class="current">
-                <li class="toctree-l2 current"><a class="reference internal current" href="orftrack_param.html">ORFtrack parameters</a>
+                <li class="toctree-l2 current"><a class="reference internal current" href="#">ORFtrack parameters</a>
     <ul class="current">
+    <li class="toctree-l3"><a class="reference internal" href="#mandatory">Mandatory</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#optional">Optional</a>
+    </li>
     </ul>
                 </li>
                 <li class="toctree-l2"><a class="reference internal" href="orfget_param.html">ORFget parameters</a>
@@ -95,7 +96,7 @@
               </ul>
               <p class="caption"><span class="caption-text">ORFold</span></p>
               <ul>
-                  <li class="toctree-l1"><a class="reference internal" href="#">ORFold presentation</a>
+                  <li class="toctree-l1"><a class="reference internal" >ORFold presentation</a>
     <ul>
                 <li class="toctree-l2"><a class="reference internal" href="Objective_orfold.html">Objective</a>
                 </li>
@@ -103,7 +104,7 @@
                 </li>
     </ul>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="#">Usage</a>
+                  <li class="toctree-l1"><a class="reference internal" >Usage</a>
     <ul>
                 <li class="toctree-l2"><a class="reference internal" href="Run_orfold.html">Basic run ORFold</a>
                 </li>
@@ -113,7 +114,7 @@
                 </li>
     </ul>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="#">Parameters</a>
+                  <li class="toctree-l1"><a class="reference internal" >Parameters</a>
     <ul>
                 <li class="toctree-l2"><a class="reference internal" href="parameters_orfold.html">ORFold parameters</a>
                 </li>
@@ -124,7 +125,7 @@
               </ul>
               <p class="caption"><span class="caption-text">ORFribo</span></p>
               <ul>
-                  <li class="toctree-l1"><a class="reference internal" href="#">ORFribo presentation</a>
+                  <li class="toctree-l1"><a class="reference internal" >ORFribo presentation</a>
     <ul>
                 <li class="toctree-l2"><a class="reference internal" href="orfribo_objectives.html">Objectives</a>
                 </li>
@@ -132,24 +133,30 @@
                 </li>
     </ul>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="#">Usage</a>
+                  <li class="toctree-l1"><a class="reference internal" >Usage</a>
     <ul>
                 <li class="toctree-l2"><a class="reference internal" href="orfribo_inputs.html">Inputs</a>
                 </li>
-                <li class="toctree-l2"><a class="reference internal" href="orfribo_configuration.html">ORFribo configuration</a>
+                <li class="toctree-l2"><a class="reference internal" href="Run_orfribo.html">Run ORFribo</a>
                 </li>
-                <li class="toctree-l2"><a class="reference internal" href="orfribo_run.html">Basic run ORFribo</a>
-                </li>
-                <li class="toctree-l2"><a class="reference internal" href="orfribo_advanced.html">Advanced run ORFribo</a>
+                <li class="toctree-l2"><a class="reference internal" href="run_orfribo_advanced.html">Advanced run ORFribo</a>
                 </li>
                 <li class="toctree-l2"><a class="reference internal" href="orfribo_outputs.html">Outputs</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >Extra Utilities</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="periodicity_plots.html">CDS Periodicity Plot</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="triangle_plot.html">Triangle Plot</a>
                 </li>
     </ul>
                   </li>
               </ul>
               <p class="caption"><span class="caption-text">ORFdate</span></p>
               <ul>
-                  <li class="toctree-l1"><a class="reference internal" href="#">ORFdate presentation</a>
+                  <li class="toctree-l1"><a class="reference internal" >ORFdate presentation</a>
     <ul>
                 <li class="toctree-l2"><a class="reference internal" href="orfdate_objectives.html">Objectives</a>
                 </li>
@@ -157,7 +164,7 @@
                 </li>
     </ul>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="#">Usage</a>
+                  <li class="toctree-l1"><a class="reference internal" >Usage</a>
     <ul>
                 <li class="toctree-l2"><a class="reference internal" href="orfdate_inputs.html">Inputs</a>
                 </li>
@@ -183,10 +190,10 @@
       <div class="wy-nav-content">
         <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
-    <li><a href="index.html" class="icon icon-home" alt="Docs"></a> &raquo;</li>
-          <li>ORFtrack &raquo;</li>
-          <li>Parameters &raquo;</li>
-      <li>ORFtrack parameters</li>
+    <li><a href="index.html" class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">ORFtrack</li>
+          <li class="breadcrumb-item">Parameters</li>
+      <li class="breadcrumb-item active">ORFtrack parameters</li>
     <li class="wy-breadcrumbs-aside">
     </li>
   </ul>
@@ -195,61 +202,88 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                <h2 id="orftrack-parameters">ORFtrack parameters<a class="headerlink" href="#orftrack-parameters" title="Permanent link">#</a></h2>
-<p><b>Mandatory</b></p>
-<p><code>-fna</code>                 nucleotide fasta file of the genome whose ORFs are to annotate</p>
-<p><code>-gff</code>                  gff annotation file</p>
-<p><b>Optional</b></p>
-<p><code>-h, --help</code>            shows the help and exits</p>
-<p><code>--show-types</code>       prints all genomic features annotated in the input gff file</p>
-<p><code>--show-chrs</code>          prints all the seqID (usually corresponding to chromosome or contig ID) present in the input gff file</p>
-<p><code>-chr</code>                  list of seqID to be treated by ORFtrack (i.e. column #1 
-                        of the gff file - generally chromosome or contig ID). 
-                        ID must be separated by a space: -chr NC_001148.4 NC_001139.3 <br />
-In this case, ORFtrack will not treat the entire genome, but
-the following seqID NC_001148.4 NC_001139.3. We recommend using this option 
-when dealing with large genomes in order to distribute the calculations on 
-several CPUs (one per (subset of) seqID).</p>
-<p><code>-orf_len</code>  Minimal number of nucleotides between two 
-  consecutive STOP codons to define an ORF (default: 60 nucleotides) 
-(see the <a href="orftrack_orfdef.html">ORF definition section</a> for more details).</p>
-<p><code>-co_ovp</code>  Minimal fraction of the ORF length that overlaps a genomic feature
- to annotate the ORF as overlapping it 
- (default: 0.70). (see the <a href="orftrack_overlap.html">Overlap section</a> for more details).</p>
-<p><code>-types_only</code> Genomic feature(s) considered for the annotation step ('CDS' is
-                        included by default). If there are several genomic features
-  to be considered, they must be given separated by a space. Noncoding ORFs are annotated as
-intergenic (when they do not overlap any feature) or overlapping (when 
-  they overlap a given genomic feature). The "overlapping" status 
-directly derives from the genomic features considered for the annotation
-step. For example, if the user specifies with the "types_only" option, the features
-"tRNA" and "rRNA" (CDS are included by default), all ORFs that overlap another
-  genomic feature (i.e. different from tRNA, rRNA, or CDS) will be annotated as 
-  noncoding intergenic ORFs. If no genomic feature is indicated, noncoding ORFs that overlap 
-  any genomic feature annotated in the original gff file will be annotated 
- as noncoding ORF overlapping the corresponding genomic feature. Nevertheless,
-the resulting ORFs can be treated specifically (grouped according to their annotation
-  for example) with ORFget afterwards
-  (see the <a href="orfget_run.html">ORFget section</a> for more details).</p>
-<p><code>-types_except</code>   Genomic feature(s) not to be considered for the annotation step 
-                        ('gene' and 'exon' not considered by default). If there are several genomic features
-  to be considered, they must be given separated by a space. Noncoding ORFs are annotated as
-intergenic (when they do not overlap any feature) or overlapping (when 
-  they overlap a given genomic feature). The "overlapping" status 
-directly derives from the genomic features considered for the annotation
-step. For example, when specifying with the "types_except" option, 
-  the features "telomer" and "centromer" ('gene' and 'exon' not considered by 
-  default), if an ORF overlaps a "telomer", "centromer", "gene" and/or "exon", 
-the overlap will not be considered and the ORF will be annotated as intergenic or 
-  overalapping another genomic feature if there is another genomic feature 
-in the same region (e.g. an ORF that overlaps at the same time a gene and a 
-  tRNA will be annotated as overlapping a tRNA since the gene is not considered
-  for the ORF annotation). If no genomic feature is indicated, noncoding ORFs that overlap 
-  any genomic feature annotated in the original gff file will be annotated 
- as noncoding ORF overlapping the corresponding genomic feature. Nevertheless,
-the resulting ORFs can be treated specifically (grouped according to their annotation
-  for example) with ORFget afterwards
-  (see the <a href="orfget_run.html">ORFget section</a> for more details).</p>
+                <h2 id="orftrack-parameters">ORFtrack Parameters<a class="headerlink" href="#orftrack-parameters" title="Permanent link">#</a></h2>
+<h3 id="mandatory"><strong>Mandatory</strong><a class="headerlink" href="#mandatory" title="Permanent link">#</a></h3>
+<ul>
+<li>
+<p><code>--fna</code><br />
+  Nucleotide FASTA file of the genome whose ORFs are to annotate.</p>
+</li>
+<li>
+<p><code>--gff</code><br />
+  GFF annotation file.</p>
+</li>
+</ul>
+<hr />
+<h3 id="optional"><strong>Optional</strong><a class="headerlink" href="#optional" title="Permanent link">#</a></h3>
+<ul>
+<li>
+<p><code>-h, --help</code><br />
+  Shows the help and exits.</p>
+</li>
+<li>
+<p><code>--codon-table</code><br />
+  Codon table ID to be used for the considered chromosomes.<br />
+  The ID must be consistent with the NCBI codon table IDs (see<br />
+<a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Utils/wprintgc.cgi">NCBI Codon Tables</a>).<br />
+<em>(Default: The standard codon table, ID = 1).</em></p>
+</li>
+<li>
+<p><code>--chr</code><br />
+  List of seqID to be treated by ORFtrack (i.e., column #1 of the GFF file, generally chromosome or contig ID).<br />
+  IDs must be separated by a space:<br />
+<code>--chr NC_001148.4 NC_001139.3</code><br />
+  In this case, ORFtrack will not treat the entire genome but only the specified seqIDs.<br />
+<strong>Recommendation</strong>: Use this option for large genomes to distribute calculations across multiple CPUs.</p>
+</li>
+<li>
+<p><code>--chr-exclude</code><br />
+  List of seqID(s) to exclude from processing.<br />
+<em>(Default: None).</em></p>
+</li>
+<li>
+<p><code>--types_only</code><br />
+  Genomic feature(s) considered for the annotation step (<code>CDS</code> is included by default).<br />
+  If multiple genomic features are considered, they must be separated by spaces.<br />
+  Noncoding ORFs are annotated as intergenic (if they do not overlap any feature) or overlapping (if they overlap a given genomic feature).<br />
+<em>(See the <a href="orfget_run.html">ORFget section</a> for more details).</em></p>
+</li>
+<li>
+<p><code>--types_except</code><br />
+  Genomic feature(s) excluded from the annotation step (<code>gene</code> and <code>exon</code> are excluded by default).<br />
+  If multiple genomic features are excluded, they must be separated by spaces.<br />
+  Noncoding ORFs will be annotated as intergenic or overlapping another feature not listed here.<br />
+<em>(See the <a href="orfget_run.html">ORFget section</a> for more details).</em></p>
+</li>
+<li>
+<p><code>--orf_len</code><br />
+  Minimal number of nucleotides between two consecutive STOP codons to define an ORF.<br />
+<em>(Default: 60 nucleotides).</em><br />
+<em>(See the <a href="orftrack_orfdef.html">ORF definition section</a> for more details).</em></p>
+</li>
+<li>
+<p><code>--co_ovp</code><br />
+  Minimal fraction of the ORF length that overlaps a genomic feature to annotate the ORF as overlapping it.<br />
+<em>(Default: 70%).</em><br />
+<em>(See the <a href="orftrack_overlap.html">Overlap section</a> for more details).</em></p>
+</li>
+<li>
+<p><code>-out</code><br />
+  Output directory.</p>
+</li>
+<li>
+<p><code>--show-types</code><br />
+  Prints all genomic features annotated in the input GFF file.</p>
+</li>
+<li>
+<p><code>--show-chrs</code><br />
+  Prints all the seqIDs (usually corresponding to chromosome or contig IDs) present in the input GFF file.</p>
+</li>
+<li>
+<p><code>--ofasta</code><br />
+  Writes amino acid and nucleotide FASTA files for ORFs.</p>
+</li>
+</ul>
               
             </div>
           </div><footer>
@@ -285,15 +319,16 @@ the resulting ORFs can be treated specifically (grouped according to their annot
     
   </span>
 </div>
-    <script>var base_url = '.';</script>
-    <script src="js/theme_extra.js" defer></script>
-    <script src="js/theme.js" defer></script>
-      <script src="js/extra.js" defer></script>
-      <script src="search/main.js" defer></script>
-    <script defer>
-        window.onload = function () {
+    <script src="js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = ".";</script>
+    <script src="js/theme_extra.js"></script>
+    <script src="js/theme.js"></script>
+      <script src="js/extra.js"></script>
+      <script src="search/main.js"></script>
+    <script>
+        jQuery(function () {
             SphinxRtdTheme.Navigation.enable(true);
-        };
+        });
     </script>
 
 </body>

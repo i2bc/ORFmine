@@ -8,7 +8,7 @@
     <title>ORFget parameters - ORFmine Documentation</title>
     <link rel="stylesheet" href="css/theme.css" />
     <link rel="stylesheet" href="css/theme_extra.css" />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
         <link href="css/extra.css" rel="stylesheet" />
     
       <script>
@@ -18,12 +18,11 @@
         var mkdocs_page_url = null;
       </script>
     
-    <script src="js/jquery-3.6.0.min.js" defer></script>
     <!--[if lt IE 9]>
       <script src="js/html5shiv.min.js"></script>
     <![endif]-->
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
-      <script>hljs.initHighlightingOnLoad();</script> 
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
 </head>
 
 <body class="wy-body-for-nav" role="document">
@@ -35,7 +34,7 @@
           <a href="index.html" class="icon icon-home"> ORFmine Documentation
         </a><div role="search">
   <form id ="rtd-search-form" class="wy-form" action="./search.html" method="get">
-      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
   </form>
 </div>
       </div>
@@ -49,8 +48,6 @@
               <ul>
                   <li class="toctree-l1"><a class="reference internal" href="orfmine_installation.html">Installation</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="orfmine_quickstart.html">Quick start</a>
-                  </li>
                   <li class="toctree-l1"><a class="reference internal" href="orfmine_example.html">Running example</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="orfmine_citations.html">Citations</a>
@@ -58,7 +55,7 @@
               </ul>
               <p class="caption"><span class="caption-text">ORFtrack</span></p>
               <ul class="current">
-                  <li class="toctree-l1"><a class="reference internal" href="#">ORFtrack presentation</a>
+                  <li class="toctree-l1"><a class="reference internal" >ORFtrack presentation</a>
     <ul>
                 <li class="toctree-l2"><a class="reference internal" href="orftrack_description.html">Aims and general description</a>
                 </li>
@@ -72,7 +69,7 @@
                 </li>
     </ul>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="#">Usage</a>
+                  <li class="toctree-l1"><a class="reference internal" >Usage</a>
     <ul>
                 <li class="toctree-l2"><a class="reference internal" href="orftrack_input.html">Inputs</a>
                 </li>
@@ -82,12 +79,16 @@
                 </li>
     </ul>
                   </li>
-                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Parameters</a>
+                  <li class="toctree-l1 current"><a class="reference internal current" >Parameters</a>
     <ul class="current">
                 <li class="toctree-l2"><a class="reference internal" href="orftrack_param.html">ORFtrack parameters</a>
                 </li>
-                <li class="toctree-l2 current"><a class="reference internal current" href="orfget_param.html">ORFget parameters</a>
+                <li class="toctree-l2 current"><a class="reference internal current" href="#">ORFget parameters</a>
     <ul class="current">
+    <li class="toctree-l3"><a class="reference internal" href="#mandatory">Mandatory</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#optional">Optional</a>
+    </li>
     </ul>
                 </li>
     </ul>
@@ -95,7 +96,7 @@
               </ul>
               <p class="caption"><span class="caption-text">ORFold</span></p>
               <ul>
-                  <li class="toctree-l1"><a class="reference internal" href="#">ORFold presentation</a>
+                  <li class="toctree-l1"><a class="reference internal" >ORFold presentation</a>
     <ul>
                 <li class="toctree-l2"><a class="reference internal" href="Objective_orfold.html">Objective</a>
                 </li>
@@ -103,7 +104,7 @@
                 </li>
     </ul>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="#">Usage</a>
+                  <li class="toctree-l1"><a class="reference internal" >Usage</a>
     <ul>
                 <li class="toctree-l2"><a class="reference internal" href="Run_orfold.html">Basic run ORFold</a>
                 </li>
@@ -113,7 +114,7 @@
                 </li>
     </ul>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="#">Parameters</a>
+                  <li class="toctree-l1"><a class="reference internal" >Parameters</a>
     <ul>
                 <li class="toctree-l2"><a class="reference internal" href="parameters_orfold.html">ORFold parameters</a>
                 </li>
@@ -124,7 +125,7 @@
               </ul>
               <p class="caption"><span class="caption-text">ORFribo</span></p>
               <ul>
-                  <li class="toctree-l1"><a class="reference internal" href="#">ORFribo presentation</a>
+                  <li class="toctree-l1"><a class="reference internal" >ORFribo presentation</a>
     <ul>
                 <li class="toctree-l2"><a class="reference internal" href="orfribo_objectives.html">Objectives</a>
                 </li>
@@ -132,24 +133,30 @@
                 </li>
     </ul>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="#">Usage</a>
+                  <li class="toctree-l1"><a class="reference internal" >Usage</a>
     <ul>
                 <li class="toctree-l2"><a class="reference internal" href="orfribo_inputs.html">Inputs</a>
                 </li>
-                <li class="toctree-l2"><a class="reference internal" href="orfribo_configuration.html">ORFribo configuration</a>
+                <li class="toctree-l2"><a class="reference internal" href="Run_orfribo.html">Run ORFribo</a>
                 </li>
-                <li class="toctree-l2"><a class="reference internal" href="orfribo_run.html">Basic run ORFribo</a>
-                </li>
-                <li class="toctree-l2"><a class="reference internal" href="orfribo_advanced.html">Advanced run ORFribo</a>
+                <li class="toctree-l2"><a class="reference internal" href="run_orfribo_advanced.html">Advanced run ORFribo</a>
                 </li>
                 <li class="toctree-l2"><a class="reference internal" href="orfribo_outputs.html">Outputs</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >Extra Utilities</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="periodicity_plots.html">CDS Periodicity Plot</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="triangle_plot.html">Triangle Plot</a>
                 </li>
     </ul>
                   </li>
               </ul>
               <p class="caption"><span class="caption-text">ORFdate</span></p>
               <ul>
-                  <li class="toctree-l1"><a class="reference internal" href="#">ORFdate presentation</a>
+                  <li class="toctree-l1"><a class="reference internal" >ORFdate presentation</a>
     <ul>
                 <li class="toctree-l2"><a class="reference internal" href="orfdate_objectives.html">Objectives</a>
                 </li>
@@ -157,7 +164,7 @@
                 </li>
     </ul>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="#">Usage</a>
+                  <li class="toctree-l1"><a class="reference internal" >Usage</a>
     <ul>
                 <li class="toctree-l2"><a class="reference internal" href="orfdate_inputs.html">Inputs</a>
                 </li>
@@ -183,10 +190,10 @@
       <div class="wy-nav-content">
         <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
-    <li><a href="index.html" class="icon icon-home" alt="Docs"></a> &raquo;</li>
-          <li>ORFtrack &raquo;</li>
-          <li>Parameters &raquo;</li>
-      <li>ORFget parameters</li>
+    <li><a href="index.html" class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">ORFtrack</li>
+          <li class="breadcrumb-item">Parameters</li>
+      <li class="breadcrumb-item active">ORFget parameters</li>
     <li class="wy-breadcrumbs-aside">
     </li>
   </ul>
@@ -195,30 +202,71 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                <h2 id="orfget-parameters">ORFget parameters<a class="headerlink" href="#orfget-parameters" title="Permanent link">#</a></h2>
-<p><b>Mandatory</b></p>
-<p><code>-fna</code>                 nucleotide fasta file of the genome whose ORFs are to extract</p>
-<p><code>-gff</code>                  gff annotation file</p>
-<p><b>Optional</b></p>
-<p><code>-h, --help</code>           shows this help message and exits</p>
-<p><code>-features_include</code>  genomic features or annotation patterns 
-                           to be searched for the ORF selection.
-ORFs whose annotations match the entered patterns or genomic features 
-are written in the output fasta file. (default: all genomic features present in 
-  the input gff, consequently, all annotated ORFs will be written in the output
-gff file)(see the <a href="orfget_run.html">ORFget section</a> for more details).</p>
-<p><code>-features_exclude</code>  genomic features or annotation patterns 
-                           to be searched for the ORF selection.
-ORFs whose annotations match the entered patterns or genomic features 
-are not written in the output fasta file. (default: None, consequently, 
-  all annotated ORFs will be written in the output gff file)(see the
-  <a href="orfget_run.html">ORFget section</a> for more details).</p>
-<p><code>-chr_exclude</code>  to exclude a (or a subset of) seqID(s) for the ORF
-extraction and writing - the ORFs belonging to this seqID (usually a chromosome
-  or a contig) will not be written in the output fasta file no matter their
-  annotation category (default: None). </p>
-<p><code>-N</code>       number of ORFs randomly selected for the writing according
-to their genomic feature or pattern.</p>
+                <h2 id="orfget-parameters">ORFget Parameters<a class="headerlink" href="#orfget-parameters" title="Permanent link">#</a></h2>
+<h3 id="mandatory"><strong>Mandatory</strong><a class="headerlink" href="#mandatory" title="Permanent link">#</a></h3>
+<ul>
+<li>
+<p><code>--fna</code><br />
+  Nucleotide FASTA file of the genome whose ORFs are to be extracted.</p>
+</li>
+<li>
+<p><code>--gff</code><br />
+  GFF annotation file.</p>
+</li>
+<li>
+<p><code>--outdir</code><br />
+  Root name of the output FASTA.</p>
+</li>
+</ul>
+<hr />
+<h3 id="optional"><strong>Optional</strong><a class="headerlink" href="#optional" title="Permanent link">#</a></h3>
+<ul>
+<li>
+<p><code>-h, --help</code><br />
+  Shows this help message and exits.</p>
+</li>
+<li>
+<p><code>--outname</code><br />
+  Output basename of the generated FASTA file(s).<br />
+<em>(default: Automatically built from the GFF filename and requested features).</em></p>
+</li>
+<li>
+<p><code>--features_include</code><br />
+  Genomic features or annotation patterns to be searched for ORF selection.<br />
+  ORFs whose annotations match the entered patterns or genomic features are written in the output FASTA file.<br />
+<em>(default: All genomic features present in the input GFF, consequently all annotated ORFs will be written in the output GFF file).</em><br />
+<em>(See the <a href="orfget_run.html">ORFget section</a> for more details).</em></p>
+</li>
+<li>
+<p><code>--features_exclude</code><br />
+  Genomic features or annotation patterns to be searched for ORF exclusion.<br />
+  ORFs whose annotations match the entered patterns or genomic features are not written in the output FASTA file.<br />
+<em>(default: None, consequently all annotated ORFs will be written in the output GFF file).</em><br />
+<em>(See the <a href="orfget_run.html">ORFget section</a> for more details).</em></p>
+</li>
+<li>
+<p><code>--chr_exclude</code><br />
+  To exclude a (or a subset of) seqID(s) from the ORF extraction.<br />
+  ORFs belonging to these seqIDs (usually chromosomes or contigs) will not be written in the output FASTA file.<br />
+<em>(default: None).</em></p>
+</li>
+<li>
+<p><code>--N</code><br />
+  Number of ORFs randomly selected for writing, according to their genomic feature or pattern.</p>
+</li>
+<li>
+<p><code>--type</code><br />
+  Sequences type of output (<code>prot</code> <em>(default)</em> / <code>nucl</code> / <code>both</code>).</p>
+</li>
+<li>
+<p><code>--check</code><br />
+  DO NOT write sequences that DO NOT finish with a STOP codon.</p>
+</li>
+<li>
+<p><code>--elongate</code><br />
+  Number of nucleotides to elongate towards 5' &amp; 3' UTR.</p>
+</li>
+</ul>
               
             </div>
           </div><footer>
@@ -254,15 +302,16 @@ to their genomic feature or pattern.</p>
     
   </span>
 </div>
-    <script>var base_url = '.';</script>
-    <script src="js/theme_extra.js" defer></script>
-    <script src="js/theme.js" defer></script>
-      <script src="js/extra.js" defer></script>
-      <script src="search/main.js" defer></script>
-    <script defer>
-        window.onload = function () {
+    <script src="js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = ".";</script>
+    <script src="js/theme_extra.js"></script>
+    <script src="js/theme.js"></script>
+      <script src="js/extra.js"></script>
+      <script src="search/main.js"></script>
+    <script>
+        jQuery(function () {
             SphinxRtdTheme.Navigation.enable(true);
-        };
+        });
     </script>
 
 </body>

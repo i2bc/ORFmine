@@ -8,7 +8,7 @@
     <title>ORF extraction with ORFget - ORFmine Documentation</title>
     <link rel="stylesheet" href="css/theme.css" />
     <link rel="stylesheet" href="css/theme_extra.css" />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
         <link href="css/extra.css" rel="stylesheet" />
     
       <script>
@@ -18,12 +18,11 @@
         var mkdocs_page_url = null;
       </script>
     
-    <script src="js/jquery-3.6.0.min.js" defer></script>
     <!--[if lt IE 9]>
       <script src="js/html5shiv.min.js"></script>
     <![endif]-->
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
-      <script>hljs.initHighlightingOnLoad();</script> 
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
 </head>
 
 <body class="wy-body-for-nav" role="document">
@@ -35,7 +34,7 @@
           <a href="index.html" class="icon icon-home"> ORFmine Documentation
         </a><div role="search">
   <form id ="rtd-search-form" class="wy-form" action="./search.html" method="get">
-      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
   </form>
 </div>
       </div>
@@ -49,8 +48,6 @@
               <ul>
                   <li class="toctree-l1"><a class="reference internal" href="orfmine_installation.html">Installation</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="orfmine_quickstart.html">Quick start</a>
-                  </li>
                   <li class="toctree-l1"><a class="reference internal" href="orfmine_example.html">Running example</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="orfmine_citations.html">Citations</a>
@@ -58,7 +55,7 @@
               </ul>
               <p class="caption"><span class="caption-text">ORFtrack</span></p>
               <ul class="current">
-                  <li class="toctree-l1"><a class="reference internal" href="#">ORFtrack presentation</a>
+                  <li class="toctree-l1"><a class="reference internal" >ORFtrack presentation</a>
     <ul>
                 <li class="toctree-l2"><a class="reference internal" href="orftrack_description.html">Aims and general description</a>
                 </li>
@@ -72,13 +69,13 @@
                 </li>
     </ul>
                   </li>
-                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Usage</a>
+                  <li class="toctree-l1 current"><a class="reference internal current" >Usage</a>
     <ul class="current">
                 <li class="toctree-l2"><a class="reference internal" href="orftrack_input.html">Inputs</a>
                 </li>
                 <li class="toctree-l2"><a class="reference internal" href="orftrack_run.html">ORF annotation with ORFtrack</a>
                 </li>
-                <li class="toctree-l2 current"><a class="reference internal current" href="orfget_run.html">ORF extraction with ORFget</a>
+                <li class="toctree-l2 current"><a class="reference internal current" href="#">ORF extraction with ORFget</a>
     <ul class="current">
     <li class="toctree-l3"><a class="reference internal" href="#extraction-of-the-sequences-of-all-the-orfs-of-a-gff-file">Extraction of the sequences of all the ORFs of a GFF file</a>
     </li>
@@ -96,7 +93,7 @@
                 </li>
     </ul>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="#">Parameters</a>
+                  <li class="toctree-l1"><a class="reference internal" >Parameters</a>
     <ul>
                 <li class="toctree-l2"><a class="reference internal" href="orftrack_param.html">ORFtrack parameters</a>
                 </li>
@@ -107,7 +104,7 @@
               </ul>
               <p class="caption"><span class="caption-text">ORFold</span></p>
               <ul>
-                  <li class="toctree-l1"><a class="reference internal" href="#">ORFold presentation</a>
+                  <li class="toctree-l1"><a class="reference internal" >ORFold presentation</a>
     <ul>
                 <li class="toctree-l2"><a class="reference internal" href="Objective_orfold.html">Objective</a>
                 </li>
@@ -115,7 +112,7 @@
                 </li>
     </ul>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="#">Usage</a>
+                  <li class="toctree-l1"><a class="reference internal" >Usage</a>
     <ul>
                 <li class="toctree-l2"><a class="reference internal" href="Run_orfold.html">Basic run ORFold</a>
                 </li>
@@ -125,7 +122,7 @@
                 </li>
     </ul>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="#">Parameters</a>
+                  <li class="toctree-l1"><a class="reference internal" >Parameters</a>
     <ul>
                 <li class="toctree-l2"><a class="reference internal" href="parameters_orfold.html">ORFold parameters</a>
                 </li>
@@ -136,7 +133,7 @@
               </ul>
               <p class="caption"><span class="caption-text">ORFribo</span></p>
               <ul>
-                  <li class="toctree-l1"><a class="reference internal" href="#">ORFribo presentation</a>
+                  <li class="toctree-l1"><a class="reference internal" >ORFribo presentation</a>
     <ul>
                 <li class="toctree-l2"><a class="reference internal" href="orfribo_objectives.html">Objectives</a>
                 </li>
@@ -144,24 +141,30 @@
                 </li>
     </ul>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="#">Usage</a>
+                  <li class="toctree-l1"><a class="reference internal" >Usage</a>
     <ul>
                 <li class="toctree-l2"><a class="reference internal" href="orfribo_inputs.html">Inputs</a>
                 </li>
-                <li class="toctree-l2"><a class="reference internal" href="orfribo_configuration.html">ORFribo configuration</a>
+                <li class="toctree-l2"><a class="reference internal" href="Run_orfribo.html">Run ORFribo</a>
                 </li>
-                <li class="toctree-l2"><a class="reference internal" href="orfribo_run.html">Basic run ORFribo</a>
-                </li>
-                <li class="toctree-l2"><a class="reference internal" href="orfribo_advanced.html">Advanced run ORFribo</a>
+                <li class="toctree-l2"><a class="reference internal" href="run_orfribo_advanced.html">Advanced run ORFribo</a>
                 </li>
                 <li class="toctree-l2"><a class="reference internal" href="orfribo_outputs.html">Outputs</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >Extra Utilities</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="periodicity_plots.html">CDS Periodicity Plot</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="triangle_plot.html">Triangle Plot</a>
                 </li>
     </ul>
                   </li>
               </ul>
               <p class="caption"><span class="caption-text">ORFdate</span></p>
               <ul>
-                  <li class="toctree-l1"><a class="reference internal" href="#">ORFdate presentation</a>
+                  <li class="toctree-l1"><a class="reference internal" >ORFdate presentation</a>
     <ul>
                 <li class="toctree-l2"><a class="reference internal" href="orfdate_objectives.html">Objectives</a>
                 </li>
@@ -169,7 +172,7 @@
                 </li>
     </ul>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="#">Usage</a>
+                  <li class="toctree-l1"><a class="reference internal" >Usage</a>
     <ul>
                 <li class="toctree-l2"><a class="reference internal" href="orfdate_inputs.html">Inputs</a>
                 </li>
@@ -195,10 +198,10 @@
       <div class="wy-nav-content">
         <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
-    <li><a href="index.html" class="icon icon-home" alt="Docs"></a> &raquo;</li>
-          <li>ORFtrack &raquo;</li>
-          <li>Usage &raquo;</li>
-      <li>ORF extraction with ORFget</li>
+    <li><a href="index.html" class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">ORFtrack</li>
+          <li class="breadcrumb-item">Usage</li>
+      <li class="breadcrumb-item active">ORF extraction with ORFget</li>
     <li class="wy-breadcrumbs-aside">
     </li>
   </ul>
@@ -217,14 +220,14 @@ patterns, thereby allowing different levels of annotation in a
 very easy fashion.</p>
 <p>ORFget has two principal options:</p>
 <ul>
-<li><code>-features_include</code>: list of motifs that will be used to define the 
-  ORFs that will be included in the fasta 
+<li><code>--features_include</code>: list of motifs that will be used to define the 
+  ORFs that will be included in the FASTA 
   output. The sequences whose annotations include these patterns will 
-  be retained in the output fasta file </li>
-<li><code>-features_exclude</code>: list of motifs that will be used to define the 
-  ORFs that will be excluded in the fasta 
+  be retained in the output FASTA file </li>
+<li><code>--features_exclude</code>: list of motifs that will be used to define the 
+  ORFs that will be excluded in the FASTA 
   output. The sequences whose annotations include these patterns 
-  will not be written in the output fasta file</li>
+  will not be written in the output FASTA file</li>
 </ul>
 <p>The searched patterns can be specific (for a finer selection) or more general.<br><br></p>
 <div class="admonition note">
@@ -232,7 +235,7 @@ very easy fashion.</p>
         Note
     </p>
     <p class="last">
-For example, the motif <b>"nc"</b> which refers to all NonCoding ORFs appears in the features: <b>nc</b>_intergenic, <b>nc</b>_ovp_same-mRNA, <b>nc</b>_ovp_opp-mRNA and <b>nc</b>_ovp_same-tRNA.
+For example, the motif <b>"nc"</b> appears in the features: <b>nc</b>_intergenic, <b>nc</b>_ovp_same-mRNA, <b>nc</b>_ovp_opp-mRNA and <b>nc</b>_ovp_same-tRNA.
 As a result, the option <code>-feature_include nc</code> will keep all the four
 feature categories. 
 <br><br>
@@ -265,49 +268,38 @@ etc...
 </div>
 <p>Here are presented some examples of selection of ORFs with ORFget.</p>
 <h3 id="extraction-of-the-sequences-of-all-the-orfs-of-a-gff-file">Extraction of the sequences of all the ORFs of a GFF file<a class="headerlink" href="#extraction-of-the-sequences-of-all-the-orfs-of-a-gff-file" title="Permanent link">#</a></h3>
-<p>The following command writes the amino acid sequences of all the ORFs 
- of the gff file annotated by ORFtrack. </p>
-<pre><code class="language-python">orfget -fna /database/genome.fasta -gff /database/mapping_orf_genome.gff
+<p>The following command writes the amino acid sequences of all ORFs 
+annotated in the input GFF file.</p>
+<pre><code class="language-python">orfget --fna genome.fasta --gff mapping_orf_genome.gff --singularity 
 </code></pre>
-<p>ORFget generates a fasta file containing all the corresponding amino acid
-sequences. The output fasta file is written in the /database/ directory of the container.</p>
-<div class="admonition note">
-    <p class="first admonition-title">
-        Note
-    </p>
-    <p class="last">
-It can also handle gff files that were not generated by ORFtrack but in this case the user must be sure of the feature names to be indicated if using the -feature_include/exclude options. In this case, the features must correspond to those indicated in the 3rd column of the input gff file.
-</p>
-</div>
-
+<p>ORFget generates a FASTA file containing all the corresponding amino acid
+sequences. </p>
 <h3 id="extraction-of-the-sequences-of-all-noncoding-orfs-identified-with-orftrack">Extraction of the sequences of all noncoding ORFs identified with ORFtrack<a class="headerlink" href="#extraction-of-the-sequences-of-all-noncoding-orfs-identified-with-orftrack" title="Permanent link">#</a></h3>
 <p>The following commands, each enable the user to write the 
 amino acid sequences of all noncoding 
 ORFs no matter their status (i.e. intergenic or overlapping)
 (see <a href="orftrack_annotation.html">here</a> for a description of all ORF categories).</p>
-<pre><code class="language-bash">orfget -fna /database/genome.fasta -gff /database/mapping_orf_genome.gff -features_include nc
+<pre><code class="language-bash">orfget --fna genome.fasta --gff mapping_orf_genome.gff --features_include nc --singularity 
 </code></pre>
 <p>or </p>
-<pre><code class="language-bash">orfget -fna /database/genome.fasta -gff /database/mapping_orf_genome.gff -features_include nc_intergenic nc_ovp
+<pre><code class="language-bash">orfget --fna genome.fasta --gff mapping_orf_genome.gff --features_include nc_intergenic nc_ovp --singularity 
 </code></pre>
 <p>or</p>
-<pre><code class="language-bash">orfget -fna /database/genome.fasta -gff /database/mapping_orf_genome.gff -features_exclude c_CDS
+<pre><code class="language-bash">orfget --fna genome.fasta --gff mapping_orf_genome.gff --features_exclude c_CDS  --singularity 
 </code></pre>
-<p>The output fasta file is written in the /database/ directory of the container and renamed based on the gff file rootname and the include features.</p>
 <h3 id="extraction-of-the-sequences-of-a-specific-subset-of-orfs-according-to-their-annotation">Extraction of the sequences of a specific subset of ORFs according to their annotation<a class="headerlink" href="#extraction-of-the-sequences-of-a-specific-subset-of-orfs-according-to-their-annotation" title="Permanent link">#</a></h3>
 <p>The following instruction writes the amino acid sequences of the ORFs
-which overlap CDSs on the same, or on the opposite strand.</p>
-<pre><code class="language-python">orfget -fna /database/genome.fasta -gff /database/mapping_orf_genome.gff -features_include nc_ovp_same-CDS nc_ovp_opp-CDS
+which overlap with CDS on the same, or on the opposite strand.</p>
+<pre><code class="language-bash">orfget --fna genome.fasta --gff mapping_orf_genome.gff --features_include nc_ovp_same-CDS nc_ovp_opp-CDS  --singularity 
 </code></pre>
 <p>Notice that using the argument "features_exclude" assumes that the selection 
 operates on all genomic features except those that are excluded. 
 Consequently, if the user wants to select all noncoding sequences
-except those overlapping CDSs, mRNAs, tRNAs, and rRNAs, he/she must 
+except those overlapping CDS, mRNAs, tRNAs, and rRNAs, he must 
 exclude the coding ORFs (c_CDS) as well. Otherwise, they will be
 kept.</p>
-<pre><code class="language-python">orfget -fna genome.fasta -gff mapping_orf_genome.gff -features_exclude c_CDS nc_same_ovp-tRNA nc_same_ovp-rRNA nc_opp_ovp-mRNA nc_opp_ovp-tRNA nc_opp_ovp-rRNA nc_opp_ovp-mRNA  
+<pre><code class="language-bash">orfget --fna genome.fasta --gff mapping_orf_genome.gff --features_exclude c_CDS nc_same_ovp-tRNA nc_same_ovp-rRNA nc_opp_ovp-mRNA nc_opp_ovp-tRNA nc_opp_ovp-rRNA nc_opp_ovp-mRNA  --singularity 
 </code></pre>
-<p>The output fasta file is written in the /database/ directory of the container and renamed based on the gff file rootname and the include features.</p>
 <h3 id="extraction-of-the-sequences-of-a-random-subset-of-orfs">Extraction of the sequences of a random subset of ORFs<a class="headerlink" href="#extraction-of-the-sequences-of-a-random-subset-of-orfs" title="Permanent link">#</a></h3>
 <p>Sometimes, for computational time or storage reasons, the user does 
 not want to deal with all the ORFs of a specific category. ORFget
@@ -315,22 +307,22 @@ can provide the user with a subset of N (to be defined by the user)
 randomly selected ORFs from a specific ORF category. The last instruction
 writes the sequences of 10000 randomly selected noncoding 
 intergenic ORFs.</p>
-<pre><code class="language-python">orfget -fna /database/genome.fasta -gff /database/mapping_orf_genome.gff -features_include nc_intergenic -n 10000
+<pre><code class="language-python">orfget --fna genome.fasta --gff mapping_orf_genome.gff --features_include nc_intergenic -n 10000  --singularity 
 </code></pre>
 <h3 id="reconstruction-of-protein-sequences">Reconstruction of protein sequences<a class="headerlink" href="#reconstruction-of-protein-sequences" title="Permanent link">#</a></h3>
 <p>In addition, ORFget enables the reconstruction of all protein 
-sequences of a genome (including all isoforms) according to their 
-definition in the original gff file. The following instruction
-writes all the resulting sequences in a fasta file. Please note that in this case, the input gff file is the initial one, not the one generated by ORFtrack which is ORF-centered and that contains C_CDS ORFs instead of the exact CDSs (i.e. ATG-STOP including isoforms) as indicated in the original gff file.</p>
-<pre><code class="language-python">orfget -fna /database/genome.fasta -gff /database/genome.gff -features_include CDS
+sequences of a genome (i.e. all isoforms) according to their 
+definition in the original GFF file. The following instruction
+writes all the resulting sequences in a FASTA file.</p>
+<pre><code class="language-python">orfget --fna genome.fasta --gff genome.gff --features_include CDS  --singularity 
 </code></pre>
 <h3 id="writing-amino-acid-or-nucleotide-sequences">Writing amino acid or nucleotide sequences<a class="headerlink" href="#writing-amino-acid-or-nucleotide-sequences" title="Permanent link">#</a></h3>
 <p>By default, ORFget will generate the amino acid sequences of the 
-desired ORFs in a fasta file 
+desired ORFs in a FASTA file 
 with the extension <strong>.pfasta</strong>. If the user wishes to generate the nucleotide
-or even both nucleotide and amino acids sequences, he/she must use the 
+or even both nucleotide and amino acids sequences, he must use the 
 option
-<code>-type nucl</code> and <code>-type both</code>, respectively.</p>
+<code>--type nucl</code> and <code>--type both</code>, respectively.</p>
               
             </div>
           </div><footer>
@@ -366,15 +358,16 @@ option
     
   </span>
 </div>
-    <script>var base_url = '.';</script>
-    <script src="js/theme_extra.js" defer></script>
-    <script src="js/theme.js" defer></script>
-      <script src="js/extra.js" defer></script>
-      <script src="search/main.js" defer></script>
-    <script defer>
-        window.onload = function () {
+    <script src="js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = ".";</script>
+    <script src="js/theme_extra.js"></script>
+    <script src="js/theme.js"></script>
+      <script src="js/extra.js"></script>
+      <script src="search/main.js"></script>
+    <script>
+        jQuery(function () {
             SphinxRtdTheme.Navigation.enable(true);
-        };
+        });
     </script>
 
 </body>

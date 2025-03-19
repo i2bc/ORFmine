@@ -8,7 +8,7 @@
     <title>Basic run ORFold - ORFmine Documentation</title>
     <link rel="stylesheet" href="css/theme.css" />
     <link rel="stylesheet" href="css/theme_extra.css" />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
         <link href="css/extra.css" rel="stylesheet" />
     
       <script>
@@ -18,12 +18,11 @@
         var mkdocs_page_url = null;
       </script>
     
-    <script src="js/jquery-3.6.0.min.js" defer></script>
     <!--[if lt IE 9]>
       <script src="js/html5shiv.min.js"></script>
     <![endif]-->
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
-      <script>hljs.initHighlightingOnLoad();</script> 
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
 </head>
 
 <body class="wy-body-for-nav" role="document">
@@ -35,7 +34,7 @@
           <a href="index.html" class="icon icon-home"> ORFmine Documentation
         </a><div role="search">
   <form id ="rtd-search-form" class="wy-form" action="./search.html" method="get">
-      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
   </form>
 </div>
       </div>
@@ -49,8 +48,6 @@
               <ul>
                   <li class="toctree-l1"><a class="reference internal" href="orfmine_installation.html">Installation</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="orfmine_quickstart.html">Quick start</a>
-                  </li>
                   <li class="toctree-l1"><a class="reference internal" href="orfmine_example.html">Running example</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="orfmine_citations.html">Citations</a>
@@ -58,7 +55,7 @@
               </ul>
               <p class="caption"><span class="caption-text">ORFtrack</span></p>
               <ul>
-                  <li class="toctree-l1"><a class="reference internal" href="#">ORFtrack presentation</a>
+                  <li class="toctree-l1"><a class="reference internal" >ORFtrack presentation</a>
     <ul>
                 <li class="toctree-l2"><a class="reference internal" href="orftrack_description.html">Aims and general description</a>
                 </li>
@@ -72,7 +69,7 @@
                 </li>
     </ul>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="#">Usage</a>
+                  <li class="toctree-l1"><a class="reference internal" >Usage</a>
     <ul>
                 <li class="toctree-l2"><a class="reference internal" href="orftrack_input.html">Inputs</a>
                 </li>
@@ -82,7 +79,7 @@
                 </li>
     </ul>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="#">Parameters</a>
+                  <li class="toctree-l1"><a class="reference internal" >Parameters</a>
     <ul>
                 <li class="toctree-l2"><a class="reference internal" href="orftrack_param.html">ORFtrack parameters</a>
                 </li>
@@ -93,7 +90,7 @@
               </ul>
               <p class="caption"><span class="caption-text">ORFold</span></p>
               <ul class="current">
-                  <li class="toctree-l1"><a class="reference internal" href="#">ORFold presentation</a>
+                  <li class="toctree-l1"><a class="reference internal" >ORFold presentation</a>
     <ul>
                 <li class="toctree-l2"><a class="reference internal" href="Objective_orfold.html">Objective</a>
                 </li>
@@ -101,9 +98,9 @@
                 </li>
     </ul>
                   </li>
-                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Usage</a>
+                  <li class="toctree-l1 current"><a class="reference internal current" >Usage</a>
     <ul class="current">
-                <li class="toctree-l2 current"><a class="reference internal current" href="Run_orfold.html">Basic run ORFold</a>
+                <li class="toctree-l2 current"><a class="reference internal current" href="#">Basic run ORFold</a>
     <ul class="current">
     <li class="toctree-l3"><a class="reference internal" href="#inputs">Inputs</a>
     </li>
@@ -121,7 +118,7 @@
                 </li>
     </ul>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="#">Parameters</a>
+                  <li class="toctree-l1"><a class="reference internal" >Parameters</a>
     <ul>
                 <li class="toctree-l2"><a class="reference internal" href="parameters_orfold.html">ORFold parameters</a>
                 </li>
@@ -132,7 +129,7 @@
               </ul>
               <p class="caption"><span class="caption-text">ORFribo</span></p>
               <ul>
-                  <li class="toctree-l1"><a class="reference internal" href="#">ORFribo presentation</a>
+                  <li class="toctree-l1"><a class="reference internal" >ORFribo presentation</a>
     <ul>
                 <li class="toctree-l2"><a class="reference internal" href="orfribo_objectives.html">Objectives</a>
                 </li>
@@ -140,24 +137,30 @@
                 </li>
     </ul>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="#">Usage</a>
+                  <li class="toctree-l1"><a class="reference internal" >Usage</a>
     <ul>
                 <li class="toctree-l2"><a class="reference internal" href="orfribo_inputs.html">Inputs</a>
                 </li>
-                <li class="toctree-l2"><a class="reference internal" href="orfribo_configuration.html">ORFribo configuration</a>
+                <li class="toctree-l2"><a class="reference internal" href="Run_orfribo.html">Run ORFribo</a>
                 </li>
-                <li class="toctree-l2"><a class="reference internal" href="orfribo_run.html">Basic run ORFribo</a>
-                </li>
-                <li class="toctree-l2"><a class="reference internal" href="orfribo_advanced.html">Advanced run ORFribo</a>
+                <li class="toctree-l2"><a class="reference internal" href="run_orfribo_advanced.html">Advanced run ORFribo</a>
                 </li>
                 <li class="toctree-l2"><a class="reference internal" href="orfribo_outputs.html">Outputs</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >Extra Utilities</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="periodicity_plots.html">CDS Periodicity Plot</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="triangle_plot.html">Triangle Plot</a>
                 </li>
     </ul>
                   </li>
               </ul>
               <p class="caption"><span class="caption-text">ORFdate</span></p>
               <ul>
-                  <li class="toctree-l1"><a class="reference internal" href="#">ORFdate presentation</a>
+                  <li class="toctree-l1"><a class="reference internal" >ORFdate presentation</a>
     <ul>
                 <li class="toctree-l2"><a class="reference internal" href="orfdate_objectives.html">Objectives</a>
                 </li>
@@ -165,7 +168,7 @@
                 </li>
     </ul>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="#">Usage</a>
+                  <li class="toctree-l1"><a class="reference internal" >Usage</a>
     <ul>
                 <li class="toctree-l2"><a class="reference internal" href="orfdate_inputs.html">Inputs</a>
                 </li>
@@ -191,10 +194,10 @@
       <div class="wy-nav-content">
         <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
-    <li><a href="index.html" class="icon icon-home" alt="Docs"></a> &raquo;</li>
-          <li>ORFold &raquo;</li>
-          <li>Usage &raquo;</li>
-      <li>Basic run ORFold</li>
+    <li><a href="index.html" class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">ORFold</li>
+          <li class="breadcrumb-item">Usage</li>
+      <li class="breadcrumb-item active">Basic run ORFold</li>
     <li class="wy-breadcrumbs-aside">
     </li>
   </ul>
@@ -205,11 +208,11 @@
               
                 <h2 id="running-orfold">Running ORFold:<a class="headerlink" href="#running-orfold" title="Permanent link">#</a></h2>
 <h3 id="inputs">Inputs<a class="headerlink" href="#inputs" title="Permanent link">#</a></h3>
-<p>Basically, ORFold requires only a fasta file containing the amino acid sequences 
-to treat (given with the <strong>-fna</strong> label). ORFold can handle several fasta files at the same
+<p>Basically, ORFold requires only a FASTA file containing the amino acid sequences 
+to treat (given with the <strong>--faa</strong> label). ORFold can handle several FASTA files at the same
 time. In this case, it will treat them independently and will generate as many 
-outputs as entered fasta files. The inputs must be stored in a local directory that will be linked to the /database/ directory of the container (see <a href="orfmine_quickstart.html#prepare-your-folders">here</a> for more details). The following commands assume the user run ORFold in the container and all necessary inputs are stored in the /database/ folder of the container.</p>
-<p>fasta file example:</p>
+outputs as entered FASTA files.</p>
+<p>FASTA file example:</p>
 <pre><code>&gt;aminoacid_sequence_1
 AGNVCFGGRTYMPDFDGMSCVNWQERT
 &gt;aminoacid_sequence_2
@@ -219,7 +222,7 @@ MPDFMPCNVSDRTEEEPMSPARTYDFGHKLCVSDFTPMLKKPERT
 <p>By default, ORFold only estimates the fold potential of the input sequences. 
 The disorder and aggregation propensities can be however calculated as well.
 The user can specify which calculation methods are to be launched with 
-the <strong>-options</strong> argument. </p>
+the <strong>--options</strong> argument. </p>
 <p>Each method used by ORFold is referred by its initial: </p>
 <pre>
    HCA     : H
@@ -228,32 +231,32 @@ the <strong>-options</strong> argument. </p>
 </pre>
 
 <p>The user must specify the combination of methods he wants to apply
-on the input sequences giving their initials with the <strong>-options</strong> argument
-without any space: <code>-options HIT</code> for running the 3 programs or <code>-options HT</code> 
+on the input sequences giving their initials with the <strong>--options</strong> argument
+without any space: <code>--options HIT</code> for running the 3 programs or <code>--options HT</code> 
 if the user wants to run only HCA and Tango for example. 
 The order of the letters has no importance, 
-<code>-options HIT</code> and <code>-options THI</code> will lead to the same result.</p>
+<code>--options HIT</code> and <code>--options THI</code> will lead to the same result.</p>
 <h3 id="basic-run">Basic run<a class="headerlink" href="#basic-run" title="Permanent link">#</a></h3>
 <p>The following instruction estimates the fold potential, and the disorder and aggregation propensities of
 all amino acid sequences contained in the input fASTA file:</p>
-<pre><code bash="bash">orfold -faa /database/sequences.fasta -options HIT
+<pre><code bash="bash">orfold --faa sequences.fasta --options HIT --path_tango /path/to/executable/tango --path_iupred /path/to/executable/iupred --singularity 
 </code></pre>
 <p>The user has to notice that <strong>IUPred</strong> and <strong>Tango</strong> provide additional information
 to HCA but will slow down considerably ORFold for large datasets. 
 The next instruction only calculate the fold potential with HCA:</p>
-<pre><code bash="bash">orfold -fna /database/sequences.fasta -options H
+<pre><code bash="bash">orfold --faa sequences.fasta --options H --singularity 
 </code></pre>
 <h3 id="output">Output:<a class="headerlink" href="#output" title="Permanent link">#</a></h3>
 <p>ORFold produces a table (fasta_rootname.tab) that contains for each input sequence,
 the computed values (separated by tabulations) according to the user request (fold potential, and/or disorder and/or 
-aggregation propensities). The output(s) is/are stored in the /workdir/orfold/ directory of the container.</p>
-<p>Output file example with <code>-options HIT</code> (fold potential, disorder and aggregation
+aggregation propensities).</p>
+<p>Output file example with <code>--options HIT</code> (fold potential, disorder and aggregation
  propensities estimated from HCA, IUPred and Tango, see <a href="How_it_works_orfold.html">here</a> for more details):</p>
 <pre><code>Seq_ID                  HCA     Disord  Aggreg
 aminoacid_sequence_1    1.340   0.000   0.230   
 aminoacid_sequence_2    -0.230  0.120   0.012   
 </code></pre>
-<p>Output file example with <code>-options H</code> (fold potential estimated with HCA, see <a href="How_it_works_orfold.html">here</a> for more details):</p>
+<p>Output file example with <code>--options H</code> (fold potential estimated with HCA, see <a href="How_it_works_orfold.html">here</a> for more details):</p>
 <pre><code>Seq_ID                  HCA     Disord  Aggreg
 aminoacid_sequence_1    1.340   nan     nan
 aminoacid_sequence_2    -0.230  nan     nan
@@ -293,15 +296,16 @@ aminoacid_sequence_2    -0.230  nan     nan
     
   </span>
 </div>
-    <script>var base_url = '.';</script>
-    <script src="js/theme_extra.js" defer></script>
-    <script src="js/theme.js" defer></script>
-      <script src="js/extra.js" defer></script>
-      <script src="search/main.js" defer></script>
-    <script defer>
-        window.onload = function () {
+    <script src="js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = ".";</script>
+    <script src="js/theme_extra.js"></script>
+    <script src="js/theme.js"></script>
+      <script src="js/extra.js"></script>
+      <script src="search/main.js"></script>
+    <script>
+        jQuery(function () {
             SphinxRtdTheme.Navigation.enable(true);
-        };
+        });
     </script>
 
 </body>
