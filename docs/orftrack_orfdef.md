@@ -22,7 +22,7 @@ STOP codons). The following instruction extracts all ORFs of at least
 
 
 ``` bash
-orftrack --fna genome.fasta --gff genome.gff --orf_len 300 
+orftrack --fna genome.fasta --gff genome.gff --orf_len 300 --singularity
 ```
 
 

@@ -8,7 +8,7 @@ ORFribo is very user-friendly. You can configure ORFribo directly via the comman
 You can configure ORFribo directly via the command line using the following example:
 
 ```bash
-orfribo --fna examples/database/Scer.fna --gff examples/database/Scer.gff --gff-intergenic examples/database/mapping_orf_Scer.gff --fastq examples/fastq --not-trimmed
+orfribo --fna examples/database/Scer.fna --gff examples/database/Scer.gff --gff-intergenic examples/database/mapping_orf_Scer.gff --fastq examples/fastq --out ORFribo --not-trimmed --singularity 
 ```
 
 Make sure to communicate if your data are trimmed or not, if they are trimmed, replace --not-trimmed by trimmed. 
@@ -146,7 +146,9 @@ The selection of specific kmer sizes will depend on the thresholds provided by t
 
 #### Example: 
 
-``` orfribo --fna reference.fa --gff annotation.gff --gff-intergenic intergenic.gff --fastq data/ --project-name project1 --not-trimmed --aligner star --min-read-length 25 --max-read-length 35 --cores 4 --ram 8000 --singularity```
+```bash
+orfribo --fna reference.fa --gff annotation.gff --gff-intergenic intergenic.gff --fastq data/ --project-name project1 --not-trimmed --aligner star --out ORFribo --min-read-length 25 --max-read-length 35 --cores 4 --ram 8000 --singularity
+```
 
 
 

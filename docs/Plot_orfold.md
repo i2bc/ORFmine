@@ -25,14 +25,14 @@ as the table files.
 
 	
 ```{bash}
-orfplot --tab sequences_Y.tab sequences_X.tab sequences_Z.tab
+ QT_QPA_PLATFORM=offscreen orfplot --tab sequences_Y.tab sequences_X.tab sequences_Z.tab --singularity 
 ```
 
 This example will generate the HCA score distributions of the sequences 
 stored in the sequences_Y.tab, sequences_X.tab and sequences_Z.tab files. 
 The resulting legend will be sequences_Y, sequences_X, and sequences_Z respectively. 
 
-	orfplot --tab sequences_Y.tab sequences_X.tab sequences_Z.tab --labels Noncoding Coding Translated
+	 QT_QPA_PLATFORM=offscreen orfplot --tab sequences_Y.tab sequences_X.tab sequences_Z.tab --labels Noncoding Coding Translated --singularity 
 
 This example will generate the HCA score distributions of the sequences 
 stored in the sequences_Y.tab, sequences_X.tab and sequences_Z.tab files.
@@ -49,7 +49,7 @@ wishes to use multiple words in the legend labels (ie Noncoding sequences -
 Homo sapiens , Coding sequences - Homo sapiens, Translated sequences - 
 Homo sapiens) they must be enclosed in double quotes. 
 ```{}
-	orfplot --tab sequences_Y.tab sequences_X.tab sequences_Z.tab --labels "Noncoding sequences - Homo sapiens" "Coding sequences - Homo sapiens" "Translated sequences - Homo sapiens"
+	 QT_QPA_PLATFORM=offscreen orfplot --tab sequences_Y.tab sequences_X.tab sequences_Z.tab --labels "Noncoding sequences - Homo sapiens" "Coding sequences - Homo sapiens" "Translated sequences - Homo sapiens"  --singularity
 ```
     </p>
 </div>

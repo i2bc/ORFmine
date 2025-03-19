@@ -19,6 +19,6 @@ as overlapping a given genomic feature if the latter covers at least
 
 
 ``` bash
-orftrack --fna genome.fasta --gff genome.gff --co-ovp 90 
+orftrack --fna genome.fasta --gff genome.gff --co-ovp 90 --singularity
 ```
 

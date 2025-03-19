@@ -67,7 +67,7 @@ annotated in the input GFF file.
 
 
 ``` python
-orfget --fna genome.fasta --gff mapping_orf_genome.gff
+orfget --fna genome.fasta --gff mapping_orf_genome.gff --singularity 
 ```
 ORFget generates a FASTA file containing all the corresponding amino acid
 sequences. 
@@ -82,15 +82,15 @@ ORFs no matter their status (i.e. intergenic or overlapping)
 (see [here](./orftrack_annotation.md) for a description of all ORF categories).
 
 ``` bash
-orfget --fna genome.fasta --gff mapping_orf_genome.gff --features_include nc
+orfget --fna genome.fasta --gff mapping_orf_genome.gff --features_include nc --singularity 
 ```
 or 
 ``` bash
-orfget --fna genome.fasta --gff mapping_orf_genome.gff --features_include nc_intergenic nc_ovp
+orfget --fna genome.fasta --gff mapping_orf_genome.gff --features_include nc_intergenic nc_ovp --singularity 
 ```
 or
 ``` bash
-orfget --fna genome.fasta --gff mapping_orf_genome.gff --features_exclude c_CDS
+orfget --fna genome.fasta --gff mapping_orf_genome.gff --features_exclude c_CDS  --singularity 
 ```
 
 ### Extraction of the sequences of a specific subset of ORFs according to their annotation
@@ -99,7 +99,7 @@ The following instruction writes the amino acid sequences of the ORFs
 which overlap with CDS on the same, or on the opposite strand.
 
 ``` bash
-orfget --fna genome.fasta --gff mapping_orf_genome.gff --features_include nc_ovp_same-CDS nc_ovp_opp-CDS
+orfget --fna genome.fasta --gff mapping_orf_genome.gff --features_include nc_ovp_same-CDS nc_ovp_opp-CDS  --singularity 
 ```
 
 
@@ -112,7 +112,7 @@ kept.
 
 
 ``` bash
-orfget --fna genome.fasta --gff mapping_orf_genome.gff --features_exclude c_CDS nc_same_ovp-tRNA nc_same_ovp-rRNA nc_opp_ovp-mRNA nc_opp_ovp-tRNA nc_opp_ovp-rRNA nc_opp_ovp-mRNA  
+orfget --fna genome.fasta --gff mapping_orf_genome.gff --features_exclude c_CDS nc_same_ovp-tRNA nc_same_ovp-rRNA nc_opp_ovp-mRNA nc_opp_ovp-tRNA nc_opp_ovp-rRNA nc_opp_ovp-mRNA  --singularity 
 ```
 
 ### Extraction of the sequences of a random subset of ORFs 
@@ -126,7 +126,7 @@ intergenic ORFs.
 
 
 ``` python
-orfget --fna genome.fasta --gff mapping_orf_genome.gff --features_include nc_intergenic -n 10000
+orfget --fna genome.fasta --gff mapping_orf_genome.gff --features_include nc_intergenic -n 10000  --singularity 
 ```
 
 ### Reconstruction of protein sequences
@@ -137,7 +137,7 @@ writes all the resulting sequences in a FASTA file.
 
 
 ``` python
-orfget --fna genome.fasta --gff genome.gff --features_include CDS
+orfget --fna genome.fasta --gff genome.gff --features_include CDS  --singularity 
 ```
 
 ### Writing amino acid or nucleotide sequences

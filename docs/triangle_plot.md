@@ -1,7 +1,7 @@
-#  Triangle Plot for Ribosome Profilinf Data
+#  Triangle Plot for Ribosome Profiling Data
 
 ## **Overview**  
-This script is an additional tool for **ORFribo** that visualizes periodicity and translation efficiency in ribosome profiling data.  
+This script is an additional tool for **ORFribo** located in the **Extra_Scripts** directory on **Github**. It visualizes periodicity and translation efficiency in ribosome profiling data.  
 It generates a **triangle plot** that helps analyze in-frame and out-of-frame ribosome occupancy across coding sequences (CDS).
 
 
@@ -39,3 +39,5 @@ Parameters:
 Rscript triangle_plot.R data.csv output.pdf HCA "darkblue" "lightgrey" "darkred"
 ```
 
+
+<img src="img/mapping/HCA.png" alt="My Image" width="3000">
