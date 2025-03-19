@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="img/favicon.ico" />
+    <title>Installation - ORFmine Documentation</title>
+    <link rel="stylesheet" href="css/theme.css" />
+    <link rel="stylesheet" href="css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="css/extra.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Installation";
+        var mkdocs_page_input_path = "orfmine_installation.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="index.html" class="icon icon-home"> ORFmine Documentation
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="./search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="index.html">Home</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">ORFmine</span></p>
+              <ul class="current">
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Installation</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#requirements">Requirements</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#using-an-isolated-python-environment-recommended">Using an Isolated Python Environment (Recommended)</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#installation-options">Installation Options</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#option-1-from-pypi-recommanded">Option 1 : From Pypi (Recommanded):</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#option-2-from-a-local-repository">Option 2: From a Local Repository</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#docker-and-singularity-usage">Docker and Singularity Usage</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#conda-usage-not-recommanded">Conda Usage (Not Recommanded)</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#license">License</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#citation">Citation</a>
+    </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="orfmine_example.html">Running example</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="orfmine_citations.html">Citations</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">ORFtrack</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" >ORFtrack presentation</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="orftrack_description.html">Aims and general description</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="orftrack_orfdef.html">ORF definition</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="orftrack_annotation.html">ORF annotation</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="orftrack_overlap.html">Overlap definition</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="orftrack_orf_extraction.html">ORF extraction</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >Usage</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="orftrack_input.html">Inputs</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="orftrack_run.html">ORF annotation with ORFtrack</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="orfget_run.html">ORF extraction with ORFget</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >Parameters</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="orftrack_param.html">ORFtrack parameters</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="orfget_param.html">ORFget parameters</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">ORFold</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" >ORFold presentation</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="Objective_orfold.html">Objective</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="How_it_works_orfold.html">How it works?</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >Usage</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="Run_orfold.html">Basic run ORFold</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="Plot_orfold.html">Plots with ORFplot</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="Run_orfold_advanced.html">Advanced run ORFold</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >Parameters</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="parameters_orfold.html">ORFold parameters</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="parameters_orfplot.html">ORFplot parameters</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">ORFribo</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" >ORFribo presentation</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="orfribo_objectives.html">Objectives</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="How_it_works_orfribo.html">How it works</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >Usage</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="orfribo_inputs.html">Inputs</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="Run_orfribo.html">Basic run ORFribo</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="parameters_orfribo.html">ORFribo Parameters</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="run_orfribo_advanced.html">Advanced run ORFribo</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="orfribo_outputs.html">Outputs</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">ORFdate</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" >ORFdate presentation</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="orfdate_objectives.html">Objectives</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="How_it_works_orfdate.html">How it works</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >Usage</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="orfdate_inputs.html">Inputs</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="orfdate_run.html">Run</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="orfdate_outputs.html">Outputs</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="orfdate_parameters.html">Parameters</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">ORFmine Documentation</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html" class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">ORFmine</li>
+      <li class="breadcrumb-item active">Installation</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="orfmine-installation-guide">ORFmine Installation Guide<a class="headerlink" href="#orfmine-installation-guide" title="Permanent link">#</a></h1>
+<h2 id="requirements">Requirements<a class="headerlink" href="#requirements" title="Permanent link">#</a></h2>
+<p>Before installing ORFmine, it is strongly recommended to set up an isolated Python environment to avoid potential library version conflicts across different projects.</p>
+<h3 id="using-an-isolated-python-environment-recommended">Using an Isolated Python Environment (Recommended)<a class="headerlink" href="#using-an-isolated-python-environment-recommended" title="Permanent link">#</a></h3>
+<p>Setting up an isolated Python environment (python &gt;= 3.9) prevents library version conflicts. Here’s how to create and use one with <code>virtualenv</code>:</p>
+<ol>
+<li><strong>Install virtualenv</strong>:  </li>
+</ol>
+<pre><code>    python3.9 -m pip install --upgrade pip
+    python3.9 -m pip install virtualenv
+</code></pre>
+<ol>
+<li><strong>Create and activate an isolated environment</strong>:  </li>
+</ol>
+<pre><code>    virtualenv orfmine_env
+    source orfmine_env/bin/activate
+</code></pre>
+<p>To deactivate the environment:</p>
+<pre><code>   deactivate
+</code></pre>
+<p>Alternatively, ORFmine provides a Docker image for a fully configured environment.</p>
+<hr />
+<h2 id="installation-options">Installation Options<a class="headerlink" href="#installation-options" title="Permanent link">#</a></h2>
+<p>ORFmine can be installed in several ways. Choose the option that best suits your needs: 
+It will install the last version of orfmine </p>
+<h3 id="option-1-from-pypi-recommanded">Option 1 : From Pypi (Recommanded):<a class="headerlink" href="#option-1-from-pypi-recommanded" title="Permanent link">#</a></h3>
+<pre><code>    pip install orfmine 
+</code></pre>
+<h3 id="option-2-from-a-local-repository">Option 2: From a Local Repository<a class="headerlink" href="#option-2-from-a-local-repository" title="Permanent link">#</a></h3>
+<ol>
+<li>Clone the ORFmine repository:  </li>
+</ol>
+<pre><code>    git clone https://github.com/i2bc/ORFmine.git
+</code></pre>
+<ol>
+<li>Navigate to the cloned directory:  </li>
+</ol>
+<pre><code>    cd ORFmine
+</code></pre>
+<ol>
+<li>Install ORFmine in editable mode:  </li>
+</ol>
+<pre><code>    python3 -m pip install --upgrade pip
+    python3 -m pip install -e .
+</code></pre>
+<hr />
+<p><strong>Note:</strong> If you need to use ORFold, you must install the following tool:</p>
+<pre><code>   pip install git+https://github.com/T-B-F/pyHCA.git
+</code></pre>
+<h2 id="docker-and-singularity-usage">Docker and Singularity Usage<a class="headerlink" href="#docker-and-singularity-usage" title="Permanent link">#</a></h2>
+<p>For containerized environments, ORFmine supports Docker and Singularity.
+For Docker, make sure you have root permissions. 
+During the first execution of the tool's modules, it will take a bit more time to retrieve and configure the Docker/Singularity image.</p>
+<ul>
+<li><strong>Docker</strong>:  </li>
+</ul>
+<pre><code>    $package_name $args --docker
+</code></pre>
+<ul>
+<li><strong>Singularity</strong>:  </li>
+</ul>
+<pre><code>    $package_name $args --singularity
+</code></pre>
+<h2 id="conda-usage-not-recommanded">Conda Usage (Not Recommanded)<a class="headerlink" href="#conda-usage-not-recommanded" title="Permanent link">#</a></h2>
+<p>If you are not familiar with Docker or Singularity, you can create a Conda environment.</p>
+<ol>
+<li>Clone the ORFmine repository:  </li>
+</ol>
+<pre><code>    git clone https://github.com/i2bc/ORFmine.git
+</code></pre>
+<ol>
+<li>Navigate to the cloned directory:  </li>
+</ol>
+<pre><code>    cd ORFmine
+</code></pre>
+<ol>
+<li>Install ORFmine in editable mode:  </li>
+</ol>
+<pre><code>    python3 -m pip install --upgrade pip
+    python3 -m pip install -e .
+</code></pre>
+<ol>
+<li>Create Conda environement from yml file: </li>
+</ol>
+<pre><code>conda env create -f ORFmine_env.yml
+</code></pre>
+<ol>
+<li>Activate the environment:  </li>
+</ol>
+<pre><code>conda activate ORFmine_env
+</code></pre>
+<hr />
+<h2 id="license">License<a class="headerlink" href="#license" title="Permanent link">#</a></h2>
+<p>ORFmine is licensed under the MIT License. For more details, see the <a href="https://github.com/i2bc/ORFmine/blob/ORFmine_complete/LICENSE.md">LICENSE file</a>.</p>
+<hr />
+<h2 id="citation">Citation<a class="headerlink" href="#citation" title="Permanent link">#</a></h2>
+<p>If you use ORFmine in your research, please cite the following papers:</p>
+<blockquote>
+<p>Papadopoulos, C., Chevrollier, N., Lopes, A. Exploring the peptide potential of genomes. Meth. Mol. Biol. (2022)<br />
+Papadopoulos, C., Arbes, H., Chevrollier, N., Blanchet, S., Cornu, D., Roginski, P., Rabier, C., Atia, S., Lespinet, O., Namy, O., Lopes, A. The Ribosome Profiling landscape of yeast reveals a high diversity in pervasive translation. bioRxiv (2023)</p>
+</blockquote>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="index.html" class="btn btn-neutral float-left" title="Home"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="orfmine_example.html" class="btn btn-neutral float-right" title="Running example">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="index.html" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="orfmine_example.html" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = ".";</script>
+    <script src="js/theme_extra.js"></script>
+    <script src="js/theme.js"></script>
+      <script src="js/extra.js"></script>
+      <script src="search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

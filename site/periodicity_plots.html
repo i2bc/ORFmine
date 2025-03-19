@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="img/favicon.ico" />
+    <title>CDS Periodicity Plot - ORFmine Documentation</title>
+    <link rel="stylesheet" href="css/theme.css" />
+    <link rel="stylesheet" href="css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="css/extra.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "CDS Periodicity Plot";
+        var mkdocs_page_input_path = "periodicity_plots.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="index.html" class="icon icon-home"> ORFmine Documentation
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="./search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="index.html">Home</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">ORFmine</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="orfmine_installation.html">Installation</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="orfmine_example.html">Running example</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="orfmine_citations.html">Citations</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">ORFtrack</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" >ORFtrack presentation</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="orftrack_description.html">Aims and general description</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="orftrack_orfdef.html">ORF definition</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="orftrack_annotation.html">ORF annotation</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="orftrack_overlap.html">Overlap definition</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="orftrack_orf_extraction.html">ORF extraction</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >Usage</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="orftrack_input.html">Inputs</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="orftrack_run.html">ORF annotation with ORFtrack</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="orfget_run.html">ORF extraction with ORFget</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >Parameters</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="orftrack_param.html">ORFtrack parameters</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="orfget_param.html">ORFget parameters</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">ORFold</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" >ORFold presentation</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="Objective_orfold.html">Objective</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="How_it_works_orfold.html">How it works?</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >Usage</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="Run_orfold.html">Basic run ORFold</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="Plot_orfold.html">Plots with ORFplot</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="Run_orfold_advanced.html">Advanced run ORFold</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >Parameters</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="parameters_orfold.html">ORFold parameters</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="parameters_orfplot.html">ORFplot parameters</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">ORFribo</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" >ORFribo presentation</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="orfribo_objectives.html">Objectives</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="How_it_works_orfribo.html">How it works</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >Usage</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="orfribo_inputs.html">Inputs</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="Run_orfribo.html">Run ORFribo</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="run_orfribo_advanced.html">Advanced run ORFribo</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="orfribo_outputs.html">Outputs</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" >Extra Utilities</a>
+    <ul class="current">
+                <li class="toctree-l2 current"><a class="reference internal current" href="#">CDS Periodicity Plot</a>
+    <ul class="current">
+    <li class="toctree-l3"><a class="reference internal" href="#overview">Overview</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#installation-requirements">Installation Requirements</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#usage">Usage</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#1-individual-mode-single-file">1. Individual Mode (Single File)</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#2-processing-multiple-cds-from-a-file">2. Processing multiple CDS from a File</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#output">Output</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#example">Example :</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#1-individual-mode-single-file_1">1. Individual Mode (Single File):</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#2-multiple-files">2. Multiple files :</a>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="triangle_plot.html">Triangle Plot</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">ORFdate</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" >ORFdate presentation</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="orfdate_objectives.html">Objectives</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="How_it_works_orfdate.html">How it works</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >Usage</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="orfdate_inputs.html">Inputs</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="orfdate_run.html">Run</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="orfdate_outputs.html">Outputs</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="orfdate_parameters.html">Parameters</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">ORFmine Documentation</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html" class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">ORFribo</li>
+          <li class="breadcrumb-item">Extra Utilities</li>
+      <li class="breadcrumb-item active">CDS Periodicity Plot</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="cds-periodicity-plot-utility">CDS Periodicity Plot Utility<a class="headerlink" href="#cds-periodicity-plot-utility" title="Permanent link">#</a></h1>
+<h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">#</a></h2>
+<p>This script is an additional tool for <strong>ORFribo</strong>, located in the <strong>Extra_Scripts</strong> directory on <strong>Github</strong>. It visualizes peridicity in ribosome profiling data. It generates bar plots showing in-frame and out-of-frame ribosome occupancy across coding sequences (CDS).</p>
+<h2 id="installation-requirements">Installation Requirements<a class="headerlink" href="#installation-requirements" title="Permanent link">#</a></h2>
+<p>Before running the script, ensure that the following Python packages are installed. </p>
+<p><strong>Note</strong>: This script cannot be executed inside a container because the package versions are not compatible with the script.</p>
+<pre><code class="language-bash">pip install matplotlib pandas numpy
+</code></pre>
+<h2 id="usage">Usage<a class="headerlink" href="#usage" title="Permanent link">#</a></h2>
+<h3 id="1-individual-mode-single-file"><strong>1. Individual Mode (Single File)</strong><a class="headerlink" href="#1-individual-mode-single-file" title="Permanent link">#</a></h3>
+<p>To generate a periodicity plot from a single <code>.tab</code> file:</p>
+<pre><code class="language-bash">python metagenome_plotting.py --individual --tab path/to/file.tab --cds_name CDS001
+</code></pre>
+<p>Parameters:</p>
+<p><code>--individual</code> : Enables individual mode.</p>
+<p><code>--tab</code> : Path to the Exome_XX_periodicity_all.tab  <strong>.tab</strong> file.</p>
+<p><code>--cds_name</code> : Name of the CDS to analyze.</p>
+<h3 id="2-processing-multiple-cds-from-a-file">2. Processing multiple CDS from a File<a class="headerlink" href="#2-processing-multiple-cds-from-a-file" title="Permanent link">#</a></h3>
+<p>If you have multiple <em>.tab</em> and multiple CDS names in a text file, use: </p>
+<pre><code class="language-bash">python metagenome_plotting.py --pooled --directory path/to/directory --cds_file cds_list.txt 
+</code></pre>
+<p>Parameters:</p>
+<p><code>--cds_file</code> : Path to a text file containaing one CDS name per line.</p>
+<p><code>--pooled</code> : Enables pooled mode to process multiple files.</p>
+<p><code>--directory</code>:  Path to the directory containing multiple Exome_XX_periodicity_all.tab <strong>.tab</strong> files.</p>
+<h2 id="output">Output<a class="headerlink" href="#output" title="Permanent link">#</a></h2>
+<p>The script generates <strong>bar plots</strong> where:  </p>
+<ul>
+<li><strong>Orange bars</strong>: In-frame reads (P0).  </li>
+<li><strong>Blue bars</strong>: Out-of-frame reads (P1 &amp; P2).  </li>
+</ul>
+<p>The plot is saved as a <code>.png</code> file with the <strong>CDS name</strong>.</p>
+<h2 id="example">Example :<a class="headerlink" href="#example" title="Permanent link">#</a></h2>
+<h3 id="1-individual-mode-single-file_1">1. Individual Mode (Single File):<a class="headerlink" href="#1-individual-mode-single-file_1" title="Permanent link">#</a></h3>
+<pre><code class="language-bash">python3 metagenome_plotting.py --individual --tab Exome_28_periodicity_all.tab --cds_name YNL046W 
+
+-------
+
+Individual mode selected...
+Looking for: CDS:YNL046W_CDS
+Processing file: Exome_28_periodicity_all.tab
+Plot saved to YNL046W.png
+
+
+</code></pre>
+<p><img src="img/mapping/YNL046W.png" alt="My Image" width="3000"></p>
+<h3 id="2-multiple-files">2. Multiple files :<a class="headerlink" href="#2-multiple-files" title="Permanent link">#</a></h3>
+<pre><code class="language-bash">python3 metagenome_plotting.py --pooled --directory Tabs/ --cds_file cds.txt --nb_cds 20
+
+
+
+-------
+Pooled mode selected...
+Looking for: CDS:YLL048C_CDS
+Processing file: Tabs/Exome_30_periodicity_all.tab
+Processing file: Tabs/Exome_29_periodicity_all.tab
+Processing file: Tabs/Exome_28_periodicity_all.tab
+Plot saved to YLL048C_pooled.png
+Looking for: CDS:YNL046W_CDS
+Processing file: Tabs/Exome_30_periodicity_all.tab
+Processing file: Tabs/Exome_29_periodicity_all.tab
+Processing file: Tabs/Exome_28_periodicity_all.tab
+Plot saved to YNL046W_pooled.png
+
+</code></pre>
+<p><code>--nb_cds 20</code>: argument limits the number of CDS processed by the script.</p>
+<p><code>cds.txt</code>: file containaing one CDS name per line: </p>
+<pre><code class="language-bash">YLL048C
+YNL046W
+</code></pre>
+<p><strong>YLL048C_pooled.png</strong> </p>
+<p><img src="img/mapping/YLL048C_pooled.png" alt="My Image" width="3000"></p>
+<p><strong>YNL046W_pooled.png</strong></p>
+<p><img src="img/mapping/YNL046W_pooled.png" alt="My Image" width="3000"></p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="orfribo_outputs.html" class="btn btn-neutral float-left" title="Outputs"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="triangle_plot.html" class="btn btn-neutral float-right" title="Triangle Plot">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="orfribo_outputs.html" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="triangle_plot.html" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = ".";</script>
+    <script src="js/theme_extra.js"></script>
+    <script src="js/theme.js"></script>
+      <script src="js/extra.js"></script>
+      <script src="search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
