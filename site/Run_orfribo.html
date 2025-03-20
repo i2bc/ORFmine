@@ -139,8 +139,6 @@
         <ul>
     <li class="toctree-l4"><a class="reference internal" href="#mandatory-arguments">Mandatory arguments</a>
     </li>
-    <li class="toctree-l4"><a class="reference internal" href="#output-cofiguration">Output cofiguration</a>
-    </li>
     <li class="toctree-l4"><a class="reference internal" href="#pipeline-option-selection">Pipeline Option Selection</a>
     </li>
     <li class="toctree-l4"><a class="reference internal" href="#read-length-kmers-configuration">Read Length (Kmers) Configuration</a>
@@ -251,9 +249,8 @@ By Default, ORFribo will consider your data as not-trimmed. </p>
 <p><code>--trimmed</code>            Flag indicating that the sequence adapters are already removed.</p>
 <p><code>--not-trimmed</code>         Flag indicating that the sequence adapters are not removed.</p>
 <p><code>--docker</code>              Flag used to run computations on a docker container.</p>
-<p><code>--singularity</code>        Flag used to run computations on a singularity container </p>
-<h4 id="output-cofiguration">Output cofiguration<a class="headerlink" href="#output-cofiguration" title="Permanent link">#</a></h4>
-<p><code>--out</code>             Base directory location for orfribo outputs. Default : './orfribo_datetime'</p>
+<p><code>--singularity</code>        Flag used to run computations on a singularity container  </p>
+<p><code>--out</code>             Base directory location for orfribo outputs.</p>
 <h4 id="pipeline-option-selection">Pipeline Option Selection<a class="headerlink" href="#pipeline-option-selection" title="Permanent link">#</a></h4>
 <ul>
 <li><strong>Are Sequencing Adapters Removed?</strong></li>
@@ -284,7 +281,7 @@ By Default, ORFribo will consider your data as not-trimmed. </p>
 <p>(List of ORF categories for which you want to investigate the translation activity (Step3). The ORF categories listed here must correspond to those provided by ORFtrack in the 3rd column of the output gff file (the ORF categories identified in your input genome can also be found in the summary.log of ORFtrack). Examples of these two files can be found in the ORFmine/examples/database/ directory as maping_orf_Scer.gff or summary.log files. By default, ORFribo will probe the translation activity of all intergenic ORFs which are referred to as "nc_intergenic" (see here for more details on the ORF categories and annotation process). If you want to also probe that of noncoding ORFs lying in the alternative frames of CDSs on the same strand for example, you must add the "nc_ovp_same-CDS" flag separated by a space as follows: "nc_intergenic nc_ovp_same-CDS".)</p>
 <p><code>--intergenic-features</code>  List of features in the intergenic GFF. Default : ['nc_intergenic']</p>
 <h4 id="alignement-configuration">Alignement configuration<a class="headerlink" href="#alignement-configuration" title="Permanent link">#</a></h4>
-<p><code>--multi_alignement</code> The maximum number of allowed multiple alignments for each read</p>
+<p><code>--multi_alignement</code> The maximum number of allowed multiple alignments for each read. Default : 10</p>
 <p><code>--introns_length</code> Intron length, applicable only when using STAR as the aligner. Default : 3000. This parameter defines the maximum intron length allowed during the mapping process. If STAR is used as the aligner, this corresponds to the <code>--alignIntronMax</code> option in STAR, which specifies the maximum intron size that STAR will consider during alignment. </p>
 <h4 id="computational-resource-allocation">Computational Resource Allocation<a class="headerlink" href="#computational-resource-allocation" title="Permanent link">#</a></h4>
 <p><code>--ram</code>              Maximum allowed RAM to use (Mb). Defaults: 2000.</p>

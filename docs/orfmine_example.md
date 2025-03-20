@@ -22,12 +22,12 @@ mkdir ~/orfmine_tutorial
 cd orfmine_tutorial
 
 # download the example archive if not already done
-wget http://bim.i2bc.paris-saclay.fr/anne-lopes/ORFmine_examples/ORFmine_examples.zip
+wget https://zenodo.org/records/15056381/files/ORFmine.zip?download=1
 
 # otherwise, if you have already downloaded the example archive, place it in the orfmine_tutorial/ directory
 
 # untar the archive
-unzip ORFmine_examples.zip
+unzip ORFmine.zip
 
 # go into the example directory 
 cd ORFmine/examples
@@ -127,7 +127,14 @@ In addition to the score table, ORFold has generated a new gff file containing f
 ORFplot enables the visualization of the distribution of the fold
 potential of the amino acid sequences potentially encoded in noncoding ORFs along with the one of a reference dataset
 of globular proteins taken from Mészáros et al. [2]. It takes as input the table generatd by ORFold that must be located in the /workdir/orfold/ directory of the container.
-When running orfplot inside a Singularity container, you must set the QT_QPA_PLATFORM=offscreen environment variable to avoid Qt-related errors, while this step is not required when using Docker.
+
+```bash
+ orfplot --tab workdir/orfold/mapping_orf_Scer_nc.tab --labels  "Yeast noncoding ORFs" --singularity
+```
+
+
+When running orfplot inside a Singularity container, sometimes you must set the QT_QPA_PLATFORM=offscreen environment variable to avoid Qt-related errors, while this step is not required when using Docker.
+
 
 ```bash
  QT_QPA_PLATFORM=offscreen orfplot --tab workdir/orfold/mapping_orf_Scer_nc.tab --labels  "Yeast noncoding ORFs" --singularity
@@ -170,18 +177,12 @@ of the chromosomes of the yeast genome
 * mapping_orf_Scer.gff: the gff file containing all the ORFs detected by ORFtrack and including the nc_intergenic ORFs for which we want to estimate the translation activity. It therefore involves that you have previously generated this file [as presented here](#annotation-and-extraction-of-orfs-with-orftrack)
 * Scer_rRNA.fa: A fasta file with the sequences that we want to remove from the mapping step, here rRNA sequences
 
-
-### Preparing the config.yaml file
-ORFribo is very easy to handle and only needs a configuration file to be edited before running it or use the command line. The latter named *config.yaml* contains the parameters that can be adjusted by the user. The full description of this file is available [here](./Run_orfribo.md). For this example, a pre-filled configuration file is present is the ORFmine/examples/workdir/ directory.
-
-
-
 ### Running ORFribo
 
 
 ORFribo is launched like this:
 ``` bash
-orfribo --fna database/Scer.fna --gff database/Scer.gff --gff-intergenic database/mapping_orf_Scer.gff --fastq fastq/ --not-trimmed --singularity 
+orfribo --fna database/Scer.fna --gff database/Scer.gff --gff-intergenic database/mapping_orf_Scer.gff --fastq fastq/ --rna-to-exclude database/Scer_rRNA.fa --out ORFribo --trimmed --singularity  
 
 ```
 
@@ -192,7 +193,7 @@ Be careful to have enough memory on your computer/cluster using the parameter **
 ### Main outputs
 
 
-ORFribo generates many intermediate files that can be useful for further analysis. Their description is available [here](./orfribo_outputs.md). The main output is the table named all_samples_genome.mean70_median70_reads_concatenated.tab that summarizes the results for each ORF of interest (e.g. nb and fractions of F0, F1 and F2 reads). An example of this output table can be found in the examples.zip archive in the ORFmine/examples/workdir/orfribo/RESULTS/Bam2Reads_genome_output/ directory. A full description of the summary table can be found [here](./orfribo_outputs.md).
+ORFribo generates many intermediate files that can be useful for further analysis. Their description is available [here](./orfribo_outputs.md). The main output is the table named all_samples_genome.mean_median70_reads_concatenated.tab that summarizes the results for each ORF of interest (e.g. nb and fractions of F0, F1 and F2 reads). An example of this output table can be found in the examples.zip archive in the ORFmine/examples/ORFribo/RESULTS/Genome directory. A full description of the summary table can be found [here](./orfribo_outputs.md).
 
 
 
