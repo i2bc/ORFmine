@@ -218,12 +218,13 @@ are the root names of the input table files.
 However, the user can write his own names in the legend 
 with the <strong>--labels</strong> option. The names must be given in the same order 
 as the table files. </p>
-<pre><code bash="bash"> QT_QPA_PLATFORM=offscreen orfplot --tab sequences_Y.tab sequences_X.tab sequences_Z.tab --singularity 
+<p>When running orfplot inside a Singularity container, sometimes you must set the QT_QPA_PLATFORM=offscreen environment variable to avoid Qt-related errors, while this step is not required when using Dock&gt;</p>
+<pre><code bash="bash">orfplot --tab sequences_Y.tab sequences_X.tab sequences_Z.tab --singularity 
 </code></pre>
 <p>This example will generate the HCA score distributions of the sequences 
 stored in the sequences_Y.tab, sequences_X.tab and sequences_Z.tab files. 
 The resulting legend will be sequences_Y, sequences_X, and sequences_Z respectively. </p>
-<pre><code> QT_QPA_PLATFORM=offscreen orfplot --tab sequences_Y.tab sequences_X.tab sequences_Z.tab --labels Noncoding Coding Translated --singularity
+<pre><code class="language-bash">orfplot --tab sequences_Y.tab sequences_X.tab sequences_Z.tab --labels Noncoding Coding Translated --singularity 
 </code></pre>
 <p>This example will generate the HCA score distributions of the sequences 
 stored in the sequences_Y.tab, sequences_X.tab and sequences_Z.tab files.
@@ -239,7 +240,7 @@ wishes to use multiple words in the legend labels (ie Noncoding sequences -
 Homo sapiens , Coding sequences - Homo sapiens, Translated sequences - 
 Homo sapiens) they must be enclosed in double quotes. 
 
-<pre><code>     QT_QPA_PLATFORM=offscreen orfplot --tab sequences_Y.tab sequences_X.tab sequences_Z.tab --labels &quot;Noncoding sequences - Homo sapiens&quot; &quot;Coding sequences - Homo sapiens&quot; &quot;Translated sequences - Homo sapiens&quot;  --singularity
+<pre><code>     orfplot --tab sequences_Y.tab sequences_X.tab sequences_Z.tab --labels &quot;Noncoding sequences - Homo sapiens&quot; &quot;Coding sequences - Homo sapiens&quot; &quot;Translated sequences - Homo sapiens&quot;  --singularity
 </code></pre>
 
     </p>
