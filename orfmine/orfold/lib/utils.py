@@ -278,13 +278,7 @@ def check_path(path: str="", software: str="iupred"):
 
         return is_valid, error_message
 
-    if not path:
-        error_message = """Sorry, no path has been given in {}...
-        """.format(str(ROOT_PATH / 'softwares.ini'))
-        is_valid = False
-
-        return is_valid, error_message
-
+   
     # get expected source files according to the software and platform
     if sys.platform not in exec_sources["iupred"]:
         source_files = exec_sources[software]["linux"]

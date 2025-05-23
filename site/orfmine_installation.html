@@ -49,8 +49,12 @@
                   <li class="toctree-l1 current"><a class="reference internal current" href="#">Installation</a>
     <ul class="current">
     <li class="toctree-l2"><a class="reference internal" href="#requirements">Requirements</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#python-setup">Python Setup</a>
         <ul>
-    <li class="toctree-l3"><a class="reference internal" href="#using-an-isolated-python-environment-recommended">Using an Isolated Python Environment (Recommended)</a>
+    <li class="toctree-l3"><a class="reference internal" href="#option-a-using-virtualenv">Option A – Using virtualenv</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#option-b-using-conda">Option B – Using Conda</a>
     </li>
         </ul>
     </li>
@@ -62,9 +66,7 @@
     </li>
         </ul>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#docker-and-singularity-usage">Docker and Singularity Usage</a>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#conda-usage-not-recommanded">Conda Usage (Not Recommanded)</a>
+    <li class="toctree-l2"><a class="reference internal" href="#docker-and-singularity-build">Docker and Singularity build</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#license">License</a>
     </li>
@@ -219,41 +221,55 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                <h1 id="orfmine-installation-guide">ORFmine Installation Guide<a class="headerlink" href="#orfmine-installation-guide" title="Permanent link">#</a></h1>
-<h2 id="requirements">Requirements<a class="headerlink" href="#requirements" title="Permanent link">#</a></h2>
-<p>Before installing ORFmine, it is strongly recommended to set up an isolated Python environment to avoid potential library version conflicts across different projects.</p>
-<h3 id="using-an-isolated-python-environment-recommended">Using an Isolated Python Environment (Recommended)<a class="headerlink" href="#using-an-isolated-python-environment-recommended" title="Permanent link">#</a></h3>
-<p>Setting up an isolated Python environment (python3.9 or python3.10) prevents library version conflicts. Here’s how to create and use one with <code>virtualenv</code></p>
-<ol>
-<li><strong>Install virtualenv</strong>:  </li>
-</ol>
-<pre><code>    python3.9 -m pip install --upgrade pip
-    python3.9 -m pip install virtualenv
-</code></pre>
-<ol>
-<li><strong>Create and activate an isolated environment</strong>:  </li>
-</ol>
-<pre><code>    virtualenv orfmine_env
-    source orfmine_env/bin/activate
-</code></pre>
-<p>To deactivate the environment:</p>
-<pre><code>   deactivate
-</code></pre>
-<p>N.B. : If you do not have permission to install Python 3.9 or Python 3.10 on your machine and you have Conda, you can create a Conda environment containing Python 3.9.</p>
-<pre><code>   conda create --name env_python3.9 python=3.9
-</code></pre>
-<p>To activate the environement: </p>
-<pre><code>   conda activate env_python3.9 
-</code></pre>
-<p>Alternatively, ORFmine provides a Docker image for a fully configured environment.</p>
+                <h1 id="orfmine-installation-guide">ORFmine - Installation Guide<a class="headerlink" href="#orfmine-installation-guide" title="Permanent link">#</a></h1>
+<p>A comprehensive guide to installing and running ORFmine.</p>
 <hr />
-<h2 id="installation-options">Installation Options<a class="headerlink" href="#installation-options" title="Permanent link">#</a></h2>
+<h3 id="requirements">Requirements<a class="headerlink" href="#requirements" title="Permanent link">#</a></h3>
+<p>To get started, you will need:</p>
+<ul>
+<li>Python 3.9 (or 3.10)</li>
+<li>pip</li>
+<li>Either Docker <strong>or</strong> Singularity (Apptainer)</li>
+</ul>
+<hr />
+<h3 id="python-setup">Python Setup<a class="headerlink" href="#python-setup" title="Permanent link">#</a></h3>
+<p>Check if Python 3.9 or 3.10 is already available on your system.</p>
+<ul>
+<li>
+<p><strong>Already installed ?</strong> Go to <a href="#installation-options">Installation Options</a></p>
+</li>
+<li>
+<p><strong>Not installed ?</strong> follow one of the options below to create isolated python environment. </p>
+</li>
+</ul>
+<h4 id="option-a-using-virtualenv">Option A – Using virtualenv<a class="headerlink" href="#option-a-using-virtualenv" title="Permanent link">#</a></h4>
+<pre><code class="language-bash">   python3.9 -m pip install --upgrade pip
+   python3.9 -m pip install virtualenv
+
+   # Create environment
+   virtualenv env-3.9
+
+   # Activate python environment 
+   source env-3.9/bin/activate
+
+   # To deactivate the environment:
+   deactivate
+</code></pre>
+<h4 id="option-b-using-conda">Option B – Using Conda<a class="headerlink" href="#option-b-using-conda" title="Permanent link">#</a></h4>
+<pre><code class="language-bash">   # Create conda environment
+   conda create --name env_python3.9 python=3.9
+
+   # To activate the environement: 
+   conda activate env_python3.9 
+</code></pre>
+<hr />
+<h3 id="installation-options">Installation Options<a class="headerlink" href="#installation-options" title="Permanent link">#</a></h3>
 <p>ORFmine can be installed in several ways. Choose the option that best suits your needs: 
 It will install the last version of orfmine </p>
-<h3 id="option-1-from-pypi-recommanded">Option 1 : From Pypi (Recommanded):<a class="headerlink" href="#option-1-from-pypi-recommanded" title="Permanent link">#</a></h3>
+<h4 id="option-1-from-pypi-recommanded">Option 1 : From Pypi (Recommanded):<a class="headerlink" href="#option-1-from-pypi-recommanded" title="Permanent link">#</a></h4>
 <pre><code>    pip install orfmine 
 </code></pre>
-<h3 id="option-2-from-a-local-repository">Option 2: From a Local Repository<a class="headerlink" href="#option-2-from-a-local-repository" title="Permanent link">#</a></h3>
+<h4 id="option-2-from-a-local-repository">Option 2: From a Local Repository<a class="headerlink" href="#option-2-from-a-local-repository" title="Permanent link">#</a></h4>
 <ol>
 <li>Clone the ORFmine repository:  </li>
 </ol>
@@ -271,50 +287,25 @@ It will install the last version of orfmine </p>
     python3 -m pip install -e .
 </code></pre>
 <hr />
-<p><strong>Note:</strong> If you need to use ORFold, you must install the following tool:</p>
+<p><strong>ORFmine relies on a suite of external tools in addition to its core Python scripts.
+The commands above only install the Python components and a few dependencies. To ensure full functionality, including access to all required third-party software, you must complete the installation using the containerized environment provided (via Docker or Singularity). This guarantees a fully configured, portable, and reproducible setup.<a href="#docker-and-singularity-build">Docker and Singularity build</a></strong></p>
+<hr />
+<p><strong>Note:</strong>  Regardless of the installation method you choose, you must install the following tool to use ORFold:</p>
 <pre><code>   pip install git+https://github.com/T-B-F/pyHCA.git
 </code></pre>
-<h2 id="docker-and-singularity-usage">Docker and Singularity Usage<a class="headerlink" href="#docker-and-singularity-usage" title="Permanent link">#</a></h2>
+<h2 id="docker-and-singularity-build">Docker and Singularity build<a class="headerlink" href="#docker-and-singularity-build" title="Permanent link">#</a></h2>
 <p>For containerized environments, ORFmine supports Docker and Singularity.
-For Docker, make sure you have root permissions. 
-During the first execution of the tool's modules, it will take a bit more time to retrieve and configure the Docker/Singularity image.</p>
+Make sure to have docker or singularity installed in your machine before building the image. 
+For Docker, make sure you have root permissions. </p>
 <ul>
 <li><strong>Docker</strong>:  </li>
 </ul>
-<pre><code>    $package_name $args --docker
+<pre><code>    docker pull fadwa06/orfmine:3.0.1
 </code></pre>
 <ul>
-<li><strong>Singularity</strong>:  </li>
+<li><strong>Singularity (or Apptainer)</strong>:  </li>
 </ul>
-<pre><code>    $package_name $args --singularity
-</code></pre>
-<h2 id="conda-usage-not-recommanded">Conda Usage (Not Recommanded)<a class="headerlink" href="#conda-usage-not-recommanded" title="Permanent link">#</a></h2>
-<p>If you are not familiar with Docker or Singularity, you can create a Conda environment.</p>
-<ol>
-<li>Clone the ORFmine repository:  </li>
-</ol>
-<pre><code>    git clone https://github.com/i2bc/ORFmine.git
-</code></pre>
-<ol>
-<li>Navigate to the cloned directory:  </li>
-</ol>
-<pre><code>    cd ORFmine
-</code></pre>
-<ol>
-<li>Install ORFmine in editable mode:  </li>
-</ol>
-<pre><code>    python3 -m pip install --upgrade pip
-    python3 -m pip install -e .
-</code></pre>
-<ol>
-<li>Create Conda environement from yml file: </li>
-</ol>
-<pre><code>conda env create -f ORFmine_env.yml
-</code></pre>
-<ol>
-<li>Activate the environment:  </li>
-</ol>
-<pre><code>conda activate ORFmine_env
+<pre><code>   singularity build orfmine_latest.sif docker://fadwa06/orfmine:3.0.1
 </code></pre>
 <hr />
 <h2 id="license">License<a class="headerlink" href="#license" title="Permanent link">#</a></h2>

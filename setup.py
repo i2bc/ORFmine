@@ -56,7 +56,7 @@ PACKAGES = [
 
 st.setup(
     name='orfmine',
-    version='3.0.14',
+    version='3.0.17',
     python_requires=">={}".format(MIN_PY_VER),
     packages=PACKAGES,
     package_data={

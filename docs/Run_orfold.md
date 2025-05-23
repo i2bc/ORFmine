@@ -43,7 +43,7 @@ The following instruction estimates the fold potential, and the disorder and agg
 all amino acid sequences contained in the input fASTA file:
 
 ```{bash}
-orfold --faa sequences.fasta --options HIT --path_tango /path/to/executable/tango --path_iupred /path/to/executable/iupred --singularity 
+orfold --faa sequences.fasta --options HIT --path_tango /path/to/executable/tango --path_iupred /path/iupred/directory --singularity 
 ```
 
 

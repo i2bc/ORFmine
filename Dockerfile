@@ -20,20 +20,26 @@ RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
 
 #################
-# 2nd build stage - R 
+# 2nd build stage - R installation (sans apt-key)
 #################
 FROM stage_1 as stage_2
 
-# Add R repository
+# Installer R depuis le dépôt CRAN avec méthode sécurisée
 RUN apt-get update && \
-    apt-get install -y software-properties-common dirmngr --no-install-recommends && \
-    apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9 && \
-    add-apt-repository "deb https://cloud.r-project.org/bin/linux/ubuntu $(lsb_release -cs)-cran40/" && \
+    apt-get install -y --no-install-recommends \
+        software-properties-common \
+        curl \
+        gnupg \
+        ca-certificates && \
+    mkdir -p /etc/apt/keyrings && \
+    curl -fsSL https://cloud.r-project.org/bin/linux/ubuntu/marutter_pubkey.asc | \
+        gpg --dearmor -o /etc/apt/keyrings/cran.gpg && \
+    echo "deb [signed-by=/etc/apt/keyrings/cran.gpg] https://cloud.r-project.org/bin/linux/ubuntu $(lsb_release -cs)-cran40/" \
+        > /etc/apt/sources.list.d/cran.list && \
     apt-get update && \
-    apt-get install -y r-base && \
+    apt-get install -y --no-install-recommends r-base && \
     apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
-    
+    rm -rf /var/lib/apt/lists/*    
 
 #################
 # 3rd build stage - Conda environment setup + STAR installation
@@ -121,6 +127,5 @@ RUN mkdir /input /output && \
 
 
 WORKDIR /input
-
 
 

@@ -23,20 +23,16 @@ However, the user can write his own names in the legend
 with the **--labels** option. The names must be given in the same order 
 as the table files. 
 
-When running orfplot inside a Singularity container, sometimes you must set the QT_QPA_PLATFORM=offscreen environment variable to avoid Qt-related errors, while this step is not required when using Dock>
-
 	
 ```{bash}
-orfplot --tab sequences_Y.tab sequences_X.tab sequences_Z.tab --singularity 
+ QT_QPA_PLATFORM=offscreen orfplot --tab sequences_Y.tab sequences_X.tab sequences_Z.tab --singularity 
 ```
 
 This example will generate the HCA score distributions of the sequences 
 stored in the sequences_Y.tab, sequences_X.tab and sequences_Z.tab files. 
 The resulting legend will be sequences_Y, sequences_X, and sequences_Z respectively. 
 
-```bash
-orfplot --tab sequences_Y.tab sequences_X.tab sequences_Z.tab --labels Noncoding Coding Translated --singularity 
-```
+	 QT_QPA_PLATFORM=offscreen orfplot --tab sequences_Y.tab sequences_X.tab sequences_Z.tab --labels Noncoding Coding Translated --singularity 
 
 This example will generate the HCA score distributions of the sequences 
 stored in the sequences_Y.tab, sequences_X.tab and sequences_Z.tab files.
@@ -53,7 +49,7 @@ wishes to use multiple words in the legend labels (ie Noncoding sequences -
 Homo sapiens , Coding sequences - Homo sapiens, Translated sequences - 
 Homo sapiens) they must be enclosed in double quotes. 
 ```{}
-	 orfplot --tab sequences_Y.tab sequences_X.tab sequences_Z.tab --labels "Noncoding sequences - Homo sapiens" "Coding sequences - Homo sapiens" "Translated sequences - Homo sapiens"  --singularity
+	 QT_QPA_PLATFORM=offscreen orfplot --tab sequences_Y.tab sequences_X.tab sequences_Z.tab --labels "Noncoding sequences - Homo sapiens" "Coding sequences - Homo sapiens" "Translated sequences - Homo sapiens"  --singularity
 ```
     </p>
 </div>

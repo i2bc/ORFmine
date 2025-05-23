@@ -283,7 +283,7 @@ def run_orfold(fasta_file: Union[str, Path], out_path: Union[str, Path], options
     make_tmp_directories(out_path=out_path, to_keep=to_keep)
 
     # process fasta file
-    all_scores = process_fasta_file(fasta_file=fasta_file, out_path=out_path, options=options, sample_size=sample_size, to_keep=to_keep)
+    all_scores = process_fasta_file(fasta_file=fasta_file, out_path=out_path, options=options, sample_size=sample_size, to_keep=to_keep, path_tango=path_tango, path_iupred=path_iupred)
 
     # annotate gff if required
     if gff_template:
@@ -330,6 +330,8 @@ def main():
             gff_template=parameters.gff,
             sample_size=parameters.sample,
             to_keep=parameters.keep,
+            path_tango=parameters.path_tango,
+            path_iupred=parameters.path_iupred
         )
 
         end_time = datetime.now() 
@@ -337,6 +339,8 @@ def main():
 
 
 if __name__ == "__main__":
+    print("DEBUG path_iupred:", parameters.path_iupred)
+    print("DEBUG path_tango:", parameters.path_tango)
     main()
 
 

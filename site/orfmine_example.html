@@ -260,8 +260,7 @@ unzip ORFmine.zip
 cd ORFmine/examples
 
 </code></pre>
-<p>After following this procedure, you could juste copy/paste all of the commands below to test them directly. We suppose you're using singularity, if you are using docker, replace <code>--singularity</code> par <code>--docker</code>.<br />
-<strong>If you are running the tool for the first time using Singularity, it may take some time initially to generate the image.</strong></p>
+<p><strong>Important: All ORFmine commands must include either <code>--singularity</code> or <code>--docker</code>, depending on your setup.These flags ensure that ORFmine executes those tools through the appropriate container.</strong></p>
 <p><a name="ORF_annot"></a></p>
 <h2 id="annotation-and-extraction-of-orfs-with-orftrack">Annotation and extraction of ORFs with ORFtrack<a class="headerlink" href="#annotation-and-extraction-of-orfs-with-orftrack" title="Permanent link">#</a></h2>
 <h3 id="annotation-of-orfs">Annotation of ORFs<a class="headerlink" href="#annotation-of-orfs" title="Permanent link">#</a></h3>
@@ -269,15 +268,14 @@ cd ORFmine/examples
 The following command runs ORFtrack on the complete genome of <em>Saccharomyces cerevisiae</em> (<em>Scer</em>) available in the ORFmine/examples folder:</p>
 <pre><code class="language-bash">orftrack --fna database/Scer.fna --gff database/Scer.gff --singularity
 </code></pre>
-<p>ORFtrack generates a novel gff file mapping_orf_Scer.gff that contains the annotations of all the identified ORFs (see <a href="orftrack_annotation.html">here</a> for more details on the annotation process). The output file is located in /database/. But you can define your output directory using the parameter <strong>--out</strong>. Indeed, all the ORFtrack and ORFget outputs are stored in /database/ since they might constitute the inputs of the other ORFmine programs. A copy of the output can be found in the
-ORFmine/examples/database/ folder). Please note that ORFtrack also generates a summary.log file that lists all the ORF categories it has identified.</p>
+<p>ORFtrack generates a novel gff file mapping_orf_Scer.gff that contains the annotations of all the identified ORFs (see <a href="orftrack_annotation.html">here</a> for more details on the annotation process). A copy of the output can be found in the (ORFmine/examples/database/ folder). Please note that ORFtrack also generates a summary.log file that lists all the ORF categories it has identified.</p>
 <h3 id="extraction-of-the-sequences-of-noncoding-orfs-in-a-fasta-format">Extraction of the sequences of noncoding ORFs in a fasta format<a class="headerlink" href="#extraction-of-the-sequences-of-noncoding-orfs-in-a-fasta-format" title="Permanent link">#</a></h3>
-<p>The amino acid sequences of all annotated ORFs or specific subsets of ORFs (i.e. only noncoding intergenic ORFs for example) can be extracted and written in a fasta file with ORFget, a tool provided with ORFtrack. The following instruction writes the amino acid sequences of all yeast noncoding ORFs (including noncoding intergenic ORFs and those that overlap with a genomic feature). ORFget therefore needs the genome sequence (nucleotides) from which the ORF sequences will be extracted and translated into amino acids and the ORFtrack output gff file with the annotations and coordinates of all the identified ORFs. The "<strong>-features_include</strong>"  option indicates the features to be matched in the names of the ORFs that we want to extract. In this case, we are interested in all noncoding ORFs (i.e. all ORFs containing the flag "nc" - see <a href="orftrack_annotation.html">here</a> for more details on the annotation rules of the ORFs), so we indicate it to ORFget through the "<strong>-features_include nc</strong>" option (see <a href="orfget_run.html">here</a> for more examples).</p>
+<p>The amino acid sequences of all annotated ORFs or specific subsets of ORFs (i.e. only noncoding intergenic ORFs for example) can be extracted and written in a fasta file with ORFget, a tool provided with ORFtrack. The following instruction writes the amino acid sequences of all yeast noncoding ORFs (including noncoding intergenic ORFs and those that overlap with a genomic feature). ORFget therefore needs the genome sequence (nucleotides) from which the ORF sequences will be extracted and translated into amino acids and the ORFtrack output gff file with the annotations and coordinates of all the identified ORFs. The "<strong>--features_include</strong>"  option indicates the features to be matched in the names of the ORFs that we want to extract. In this case, we are interested in all noncoding ORFs (i.e. all ORFs containing the flag "nc" - see <a href="orftrack_annotation.html">here</a> for more details on the annotation rules of the ORFs), so we indicate it to ORFget through the "<strong>--features_include nc</strong>" option (see <a href="orfget_run.html">here</a> for more examples).</p>
 <pre><code class="language-bash">orfget --fna database/Scer.fna --gff database/mapping_orf_Scer.gff --features_include nc --singularity
 </code></pre>
 <p>ORFget produces a fasta file (mapping_orf_Scer_nc.pfasta) containing the amino acid sequences
 of all noncoding ORFs annotated by ORFtrack (see <a href="orfget_run.html">here</a> for more examples
-on the use of ORFget). The output is a fasta file is stored the current directory or in the defined directory using <strong>-out</strong> based on the gff file rootname and the include features. The user can also extract the nucleotide sequences through the "-type" option (-type nucl) or both amino acid and nucleotide sequences (-type both).</p>
+on the use of ORFget). The output is a fasta file is stored the current directory or in the defined directory using <strong>--out</strong> based on the gff file rootname and the include features. The user can also extract the nucleotide sequences through the "--type" option (--type nucl) or both amino acid and nucleotide sequences (--type both).</p>
 <h3 id="extraction-of-the-sequences-of-the-cdss-of-yeast-in-a-fasta-format">Extraction of the sequences of the CDSs of <em>yeast</em> in a fasta format<a class="headerlink" href="#extraction-of-the-sequences-of-the-cdss-of-yeast-in-a-fasta-format" title="Permanent link">#</a></h3>
 <p>In addition, ORFget enables the reconstruction of all coding
 sequences (CDSs) of the input genome (in this examlpe, Scer) according to their annotation in the <strong>original</strong>
@@ -291,7 +289,8 @@ gff file. When different isoforms are described, it will generate all of them ac
 <h3 id="running-orfold">Running ORFold<a class="headerlink" href="#running-orfold" title="Permanent link">#</a></h3>
 <p>ORFold only needs a fasta file containing the amino acid
 sequences to characterize. In the following example, ORFold will estimate the
-foldability and the disorder and aggregation propensities, all the amino acid sequences potentially encoded in the noncoding ORFs of yeast. </p>
+foldability and the disorder and aggregation propensities, all the amino acid sequences potentially encoded in the noncoding ORFs of yeast. 
+ORFold doesn't require </p>
 <pre><code class="language-bash">orfold --faa database/mapping_orf_Scer_nc.pfasta  --options H --singularity 
 </code></pre>
 <p>with <strong>--options</strong> H to indicate that we want to estimate the foldability (H for HCA). </p>

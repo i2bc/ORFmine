@@ -575,7 +575,6 @@ dependencies:
   - snakemake=7.16.0=hdfd78af_0
   - snakemake-minimal=7.16.0=pyhdfd78af_0
   - sqlite=3.37.0=h9cd32fc_0
-  - star=2.5.2b=0
   - statsmodels=0.13.2=py310hde88566_0
   - stone=3.3.1=pyhd8ed1ab_0
   - stopit=1.1.2=py_0

@@ -50,10 +50,12 @@ orfribo -h
   
    `--docker`              Flag used to run computations on a docker container.
   
-  `--singularity`        Flag used to run computations on a singularity container  
+  `--singularity`        Flag used to run computations on a singularity container 
+  
 
-  `--out`             Base directory location for orfribo outputs.
+#### Output cofiguration 
 
+  `--out`             Base directory location for orfribo outputs. Default : './orfribo_datetime'
   
   
 #### Pipeline Option Selection
@@ -109,7 +111,7 @@ The selection of specific kmer sizes will depend on the thresholds provided by t
 
 #### Alignement configuration 
 
-  ` --multi_alignement` The maximum number of allowed multiple alignments for each read. Default : 10
+  ` --multi_alignement` The maximum number of allowed multiple alignments for each read
   
   `--introns_length` Intron length, applicable only when using STAR as the aligner. Default : 3000. This parameter defines the maximum intron length allowed during the mapping process. If STAR is used as the aligner, this corresponds to the `--alignIntronMax` option in STAR, which specifies the maximum intron size that STAR will consider during alignment. 
 

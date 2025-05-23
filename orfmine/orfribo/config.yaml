@@ -17,7 +17,7 @@ rna_to_exclude: ""
 fastq: ""
 
 # set base directory location for orfribo outputs (optional - default='./orfribo_%datetime')
-out: ""
+out: "ORFribo"
 
 # Are the sequencing adapters already removed in fastq files ? True or False
 trimmed: "0" 
