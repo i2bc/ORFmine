@@ -135,7 +135,7 @@ For Docker, make sure you have root permissions.
 
 ## Documentation
 
-For detailed installation instructions, usage examples, and pipeline configurations, visit the [full documentation](https://orfmine-docs-link.com).
+For detailed installation instructions, usage examples, and pipeline configurations, visit the [official documentation](https://i2bc.github.io/ORFmine/).
 
 ---
 
